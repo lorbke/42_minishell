@@ -1,0 +1,37 @@
+ 
+
+----------approach-------------
+
+- learn how the shell works
+- what is the frame of minishell, what is included and what not
+	- look at the tester
+	- look at allowed functions
+
+
+
+---------functions---------------
+
+- readline
+	read a line from stdin
+- rl_clear_history
+	clears history list
+- rl_on_new_line
+	Tell the update functions that we have moved onto a new (empty) line, usually after outputting a newline.
+- rl_replace_line
+	Replace the contents of rl_line_buffer with text. The point and mark are preserved, if possible. If clear_undo is non-zero, the undo list associated with the current line is cleared.
+- rl_redisplay
+	Change what’s displayed on the screen to reflect the current contents of rl_line_buffer.
+- add_history
+	adds a line to history
+
+
+
+----------logic-------------
+
+- parser 
+	- lexical analyser takes input and puts it together into tokens
+	- processes tokens according to grammar and stores them in the command table
+- executor
+- shell subsystems
+	- environment variables
+	- wildcards
