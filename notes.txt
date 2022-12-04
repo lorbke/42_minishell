@@ -3,54 +3,7 @@
 
 detailed list: https://docs.google.com/spreadsheets/d/e/2PACX-1vT4i9G61JSd0ertOLZsAsqvcUH_Dag3FZ5ERm26vLdXnKcJ-NtZctL4mmMCGp1SATtZvCKPbXUsTg5G/pubhtml
 
-checkmark ✓x: approach of solving problem is known
-double checkmark ✓✓: place in general structure of project is known
 
-	General:
-xx	- command history
-		- readline functions
-✓x	• Search and launch the right executable (based on the PATH variable or using a
-	relative or an absolute path).
-xx	• Not use more than one global variable. Think about it. You will have to explain
-	its purpose.
-
-	Special characters:
-xx	• Not interpret unclosed quotes or special characters which are not required by the
-	subject such as \ (backslash) or ; (semicolon).
-xx	• Handle ’ (single quote) which should prevent the shell from interpreting the metacharacters in the quoted sequence.
-xx	• Handle " (double quote) which should prevent the shell from interpreting the metacharacters in the quoted sequence except for $ (dollar sign).
-✓x	• Implement pipes (| character).
-
-	Redirections:
-✓x	◦ < should redirect input.
-✓x	◦ > should redirect output.
-✓x	◦ << should be given a delimiter (heredoc)
-✓x	◦ >> should redirect output in append mode.
-
-	Variables:
-xx	• Handle environment variables ($ followed by a sequence of characters) which
-	should expand to their values.
-xx	• Handle $? which should expand to the exit status of the most recently executed
-	foreground pipeline.
-
-	Signals:
-xx	• Handle ctrl-C, ctrl-D and ctrl-\ which should behave like in bash.
-xx	◦ ctrl-C displays a new prompt on a new line.
-xx	◦ ctrl-D exits the shell.
-xx	◦ ctrl-\ does nothing.
-
-	Builtins:
-x✓	◦ echo with option -n
-x✓	◦ cd with only a relative or absolute path
-x✓	◦ pwd with no options
-x✓	◦ export with no options
-x✓	◦ unset with no options
-x✓	◦ env with no options or arguments
-x✓	◦ exit with no options
-
-	Bonus:
-xx	• && and || with parenthesis for priorities.
-xx	• Wildcards * should work for the current working directory.
 
 ----------approach-------------
 
