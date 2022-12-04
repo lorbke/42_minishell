@@ -7,7 +7,9 @@ detailed list: https://docs.google.com/spreadsheets/d/e/2PACX-1vT4i9G61JSd0ertOL
 
 ----------approach-------------
 
-
+- understand last two requirements' logic
+- structure the requirements into a project structure oriented toward the actual bash shell
+- implement the structure step by step while making sure the implemented bit works exactly like bash by testing and reading shell manual
 
 
 ----------logic-------------
