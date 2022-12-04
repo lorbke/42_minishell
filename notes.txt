@@ -1,11 +1,14 @@
  
 ----------requirements----------
 
+detailed list: https://docs.google.com/spreadsheets/d/e/2PACX-1vT4i9G61JSd0ertOLZsAsqvcUH_Dag3FZ5ERm26vLdXnKcJ-NtZctL4mmMCGp1SATtZvCKPbXUsTg5G/pubhtml
+
 checkmark ✓x: approach of solving problem is known
 double checkmark ✓✓: place in general structure of project is known
 
 	General:
-xx	• Have a working history.
+xx	- command history
+		- readline functions
 ✓x	• Search and launch the right executable (based on the PATH variable or using a
 	relative or an absolute path).
 xx	• Not use more than one global variable. Think about it. You will have to explain
