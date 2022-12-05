@@ -1,4 +1,8 @@
- 
+
+
+
+
+
 ----------requirements----------
 
 detailed list: https://docs.google.com/spreadsheets/d/e/2PACX-1vT4i9G61JSd0ertOLZsAsqvcUH_Dag3FZ5ERm26vLdXnKcJ-NtZctL4mmMCGp1SATtZvCKPbXUsTg5G/pubhtml
@@ -13,6 +17,24 @@ detailed list: https://docs.google.com/spreadsheets/d/e/2PACX-1vT4i9G61JSd0ertOL
 
 
 ----------logic-------------
+
+---lexical analysis
+	- basic unit = word
+	- words are separated by metacharacters, (tab, space)
+		- other special characters: double/single quotation mark, &&/||, /, pipe, >>/<</>/<, ($)?)
+	- will "tokenize" these units according to grammar rules into a list structure
+	- will identifiy tokens based on context and store ident in list
+		- what identification categories are there?
+	- context-dependent analysis
+		- categorizes words according to token type
+	--> passes list to parser to be assembled into statements and commands
+
+	---bash grammar
+		- posix standard
+		- aliases are identified in the lexer (must not necessarily be handled)
+
+
+
 
 - parser 
 	- lexical analyser takes input and puts it together into tokens
