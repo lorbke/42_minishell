@@ -18,20 +18,29 @@ detailed list: https://docs.google.com/spreadsheets/d/e/2PACX-1vT4i9G61JSd0ertOL
 
 ----------logic-------------
 
+structure flowchart: https://lucid.app/lucidspark/6b5a618b-0bb7-4dbb-bef9-ecfa5268be38/edit?invitationId=inv_e9f761d2-aae8-446b-a770-ca45b661721d#
+
+---WORD_DESC is a data struct used to pass information from one stage to next
+
+
 ---lexical analysis
 	- basic unit = word
 	- words are separated by metacharacters, (tab, space)
 		- other special characters: double/single quotation mark, &&/||, /, pipe, >>/<</>/<, ($)?)
 	- will "tokenize" these units according to grammar rules into a list structure
 	- will identifiy tokens based on context and store ident in list
-		- what identification categories are there?
+		- what identification categories are there? >> see bash source code repo, parser.h
+		- identifiers/flags are stored as macros that represent a bit in an integer. The token list will contain an integer to represent all possible flags 
 	- context-dependent analysis
 		- categorizes words according to token type
 	--> passes list to parser to be assembled into statements and commands
-
 	---bash grammar
 		- posix standard
 		- aliases are identified in the lexer (must not necessarily be handled)
+
+---expander
+	- the word expansion loop resembles a pipeline: each iteration a possible expansion based on the flags is performed
+		- this is important, since replication of bash's behaviour is the goal. The expansion therefore should happen in the same order as the original. This means that the flags also have to represent the same bits.
 
 
 
