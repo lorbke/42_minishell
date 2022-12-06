@@ -20,7 +20,21 @@ detailed list: https://docs.google.com/spreadsheets/d/e/2PACX-1vT4i9G61JSd0ertOL
 
 structure flowchart: https://lucid.app/lucidspark/6b5a618b-0bb7-4dbb-bef9-ecfa5268be38/edit?invitationId=inv_e9f761d2-aae8-446b-a770-ca45b661721d#
 
+
+---token types
+	–Control operators (|, ||) 
+	–Redirection operators (, >>) 
+	–Reserved words (while, if) 
+	–Assignment tokens (foo=bar) 
+	–Word tokens (everything else)
+
+
 ---WORD_DESC is a data struct used to pass information from one stage to next
+
+
+---Parser return data structure
+	- parse tree?
+	- redirections are removed from command line and stored in a separate list??
 
 
 ---lexical analysis
@@ -43,12 +57,7 @@ structure flowchart: https://lucid.app/lucidspark/6b5a618b-0bb7-4dbb-bef9-ecfa52
 		- this is important, since replication of bash's behaviour is the goal. The expansion therefore should happen in the same order as the original. This means that the flags also have to represent the same bits.
 
 
+------debugging-------
 
-
-- parser 
-	- lexical analyser takes input and puts it together into tokens
-	- processes tokens according to grammar and stores them in the command table
-- executor
-- shell subsystems
-	- environment variables
-	- wildcards
+- its sensible to replicate the bash debug behaviour
+	- bash debugs using a DEBUG macro, just like pfuchs minishell does
