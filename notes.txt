@@ -20,22 +20,45 @@ detailed list: https://docs.google.com/spreadsheets/d/e/2PACX-1vT4i9G61JSd0ertOL
 
 structure flowchart: https://lucid.app/lucidspark/6b5a618b-0bb7-4dbb-bef9-ecfa5268be38/edit?invitationId=inv_e9f761d2-aae8-446b-a770-ca45b661721d#
 
+---whats a .y file and is it sensible to use it when parsing?
 
----token types
+---signal handler
+	- where?
+
+---environment variables
+	- export?
+	- passing to subshell?
+
+---subshells
+	- why?
+		- parallel computation
+		- isolation of effects (such as changing envs)
+	- when is it created?
+		- in the executor
+	- how does it handle an already determined input (prompt skip)?
+
+---Parse tree (dependency-based-parse-tree) https://en.wikipedia.org/wiki/Parse_tree
+	- example in structure flowchart
+	- tokens are parsed left-to-right, tokens have a precedence
+	- when a token with a higher precedence than the one before appears, a rotation is performed (recursive pointer swap)
+	- how are parenthesis represented in the tree?
+		- everything in parenthesis is handled in a subshell, return value of subshell is represented as a token in the main tree
+	- how are quotation marks represented in the tree?
+		- these are already handled in the token list, everything in between quotes is a single token
+	- how is precedence determined?
+		- determined by the grammar
+		- other parts of grammar are handled by simple if statements in the executor (e.g. &&-operator will stop execution after one element is true)
+	- how is the tree structured exactly, so that the executor can execute in the correct order?
+		- left-right recursion has to lead to the correct order, with special cases such as commands that are put first in the command table assembled by the executor
+
+(---token types
 	–Control operators (|, ||) 
-	–Redirection operators (, >>) 
+	–Redirection operators (>, >>) 
 	–Reserved words (while, if) 
 	–Assignment tokens (foo=bar) 
-	–Word tokens (everything else)
-
+	–Word tokens (everything else))
 
 ---WORD_DESC is a data struct used to pass information from one stage to next
-
-
----Parser return data structure
-	- parse tree?
-	- redirections are removed from command line and stored in a separate list??
-
 
 ---lexical analysis
 	- basic unit = word
@@ -50,9 +73,9 @@ structure flowchart: https://lucid.app/lucidspark/6b5a618b-0bb7-4dbb-bef9-ecfa52
 	--> passes list to parser to be assembled into statements and commands
 	---bash grammar
 		- posix standard
-		- aliases are identified in the lexer (must not necessarily be handled)
 
 ---expander
+	- expansion happens immediately before execution, iteratively for every single execution (because logical operands can change expansion output in between executions)
 	- the word expansion loop resembles a pipeline: each iteration a possible expansion based on the flags is performed
 		- this is important, since replication of bash's behaviour is the goal. The expansion therefore should happen in the same order as the original. This means that the flags also have to represent the same bits.
 
