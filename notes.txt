@@ -1,5 +1,15 @@
 
+----------TO DO---------------
 
+---include tester in the directory
+
+---proper file structure?
+	- no includes folder
+
+---doxygen for documentation
+
+---debugger
+	- debug functions for every module that track whats going on
 
 
 
@@ -9,33 +19,43 @@ detailed list: https://docs.google.com/spreadsheets/d/e/2PACX-1vT4i9G61JSd0ertOL
 
 
 
-----------approach-------------
-
-- understand last two requirements' logic
-- structure the requirements into a project structure oriented toward the actual bash shell
-- implement the structure step by step while making sure the implemented bit works exactly like bash by testing and reading shell manual
-
-
 ----------logic-------------
 
 structure flowchart: https://lucid.app/lucidspark/6b5a618b-0bb7-4dbb-bef9-ecfa5268be38/edit?invitationId=inv_e9f761d2-aae8-446b-a770-ca45b661721d#
 
----whats a .y file and is it sensible to use it when parsing?
+---specifics of error handling?
+	- most of the syntax will be handled by execve
+	- properly structure during implementation, so that returning to main and freeing is as simple as possible
 
----signal handler
-	- where?
+---heredoc
+	- where
+		- heredoc input is opened in the executor (relatively similar to subshell, input will be gathered from the heredoc, which is then added to the parse tree)
+	- https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_02
+
+---signals
+	- basically a bunch of non-static functions providing functionality for creating and changing signal handling, which has to be integrated into every relevant loop (prompt loop and heredoc loop)
+	- signals = keys being pressed, signal handler = function that is called upon pressing
+	- real shell seems to use trap to change how signals are handled during runtime
+	- heredoc only edge case?
 
 ---environment variables
-	- export?
+	- initialized from the environment
+	- extern?
+		- will import global variable from another file
 	- passing to subshell?
+		- copied and then passed as a parameter?
 
 ---subshells
+	- tcgetattr, tcsetattr, isatty seem to be important here
 	- why?
 		- parallel computation
 		- isolation of effects (such as changing envs)
 	- when is it created?
 		- in the executor
+		- copying of envs
+		- specific parameters when started 
 	- how does it handle an already determined input (prompt skip)?
+		- non-interactive shell
 
 ---Parse tree (dependency-based-parse-tree) https://en.wikipedia.org/wiki/Parse_tree
 	- example in structure flowchart
