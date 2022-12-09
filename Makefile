@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2022/12/09 18:11:52 by lorbke           ###   ########.fr        #
+#    Updated: 2022/12/09 21:59:12 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ FLAGS = #-Wall -Wextra -Werror
 
 # path macros
 LIB_PATH = lib
-RDLNE = readline
+RDLN_PATH = readline
 LFT_PATH = $(LIB_PATH)/libft
 LFT_INC = $(LFT_PATH)/includes
 INC = includes
@@ -41,7 +41,7 @@ default: makedir all
 # file targets
 ${NAME}: $(OBJ)
 	@make -C $(LFT_PATH)
-	${CC} ${FLAGS} $(OBJ) -L$(LFT_PATH) -lft -l$(RDLNE) -o ${NAME}
+	${CC} ${FLAGS} $(OBJ) -L$(LFT_PATH) -lft -l$(RDLN_PATH) -o ${NAME}
 	@echo "make: minishell success!"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c

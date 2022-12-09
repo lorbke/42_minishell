@@ -1,0 +1,6 @@
+{
+	"files.associations": {
+		"signals.h": "c",
+		"signal.h": "c"
+	}
+}

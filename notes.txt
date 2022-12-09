@@ -1,14 +1,19 @@
 
 ----------TO DO---------------
 
----include tester in the directory
+- readline does not properly work in bash, because i have exported the readline libs and incs only in zsh, what should I do about it?
 
----proper file structure?
+- autocompletion with tab
+	- rl_replace_line will be helpful here
+
+- include tester in the directory
+
+- proper file structure?
 	- no includes folder
 
----doxygen for documentation
+- doxygen for documentation
 
----debugger
+- debugger
 	- debug functions for every module that track whats going on
 
 
