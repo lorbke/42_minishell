@@ -1,4 +1,7 @@
+.vscode
 demo-minishell
 a.out
 minishell
 obj
+lib/libft/libft.a
+lib/libft/obj

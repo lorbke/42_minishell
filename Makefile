@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2022/12/09 21:59:12 by lorbke           ###   ########.fr        #
+#    Updated: 2022/12/10 15:41:31 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,12 +24,12 @@ LIB_PATH = lib
 RDLN_PATH = readline
 LFT_PATH = $(LIB_PATH)/libft
 LFT_INC = $(LFT_PATH)/includes
-INC = includes
+INC = src
 SRC_PATH = src
 OBJ_PATH = obj
 
 # src and obj files macros
-SRC = minishell.c
+SRC = minishell.c signal.c
 OBJ = $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 
 # archive macros
