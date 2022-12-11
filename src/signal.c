@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:37:35 by lorbke            #+#    #+#             */
-/*   Updated: 2022/12/10 18:41:52 by lorbke           ###   ########.fr       */
+/*   Updated: 2022/12/12 00:21:57 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@ static void	handle_ctrlc(int signal)
 	rl_replace_line("", 0); // will replace the line buffer with nothing, but won't change what's on the terminal
 	rl_redisplay(); // will display the line buffer on the terminal
 
+	
+	return ;
+}
+
+static void	handle_ctrlbs(int signal)
+{
+	
 	return ;
 }
 
@@ -27,4 +34,5 @@ static void	handle_ctrlc(int signal)
 void	ms_init_signals(void)
 {
 	signal(SIGINT, handle_ctrlc);
+	signal(SIGQUIT, handle_ctrlbs);
 }

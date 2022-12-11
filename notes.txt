@@ -16,7 +16,7 @@
 - debugger
 	- debug functions for every module that track whats going on
 
-
+- subshell for every pipe!!
 
 ----------requirements----------
 
