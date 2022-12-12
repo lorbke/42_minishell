@@ -6,18 +6,12 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2022/12/12 00:32:28 by lorbke           ###   ########.fr       */
+/*   Updated: 2022/12/12 16:41:25 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Free this 
-	line;
-	rl_clear_history();
-*/
-
-// unclear if EXIT check is needed, or if this can be done with termios
 /* Read-Eval-Print-Loop. */
 void	ms_rep_loop(void)
 {
@@ -26,59 +20,40 @@ void	ms_rep_loop(void)
 	while (1)
 	{
 		line = readline(PROMPT);
-		if (!line) // print exit
+		if (!line) // exit buildin will be added later
 			break ;
-		if (ft_strncmp(line, EXIT, sizeof(EXIT)) == 0)
+		if (ft_strncmp(line, "exit", 5) == 0) // exit buildin will be added later
 			break ;
-		if (*line)
-		{
-			add_history(line);
-			write(1, "Input: ", 7);
-			write(1, line, ft_strlen(line));
-			write(1, "\n", 1);
-		}
+		add_history(line);
+		free(line);
 	}
+	rl_clear_history();
 }
 
-/* Debug function to print the terminal settings. */
-void	print_termios(struct termios *termios)
-{
-	printf("termios:\n");
-	printf("	input mode: %lx\n", termios->c_iflag);
-	printf("	output mode: %lx\n", termios->c_oflag);
-	printf("	control mode: %lx\n", termios->c_cflag);
-	printf("	local mode: %lx\n", termios->c_lflag);
-	printf("	control characters: %hhu\n", termios->c_cc[VQUIT]);
-	printf("	input speed: %lu\n", termios->c_ispeed);
-	printf("	output speed: %lu\n", termios->c_ospeed);
-}
-
-/* Initializes the terminal settings. */
-int	init_termios(void)
+/* Initializes the terminal settings according to mode. */
+int	init_termios(bool mode)
 {
 	struct termios	term_set;
 
 	if (tcgetattr(STDIN_FILENO, &term_set) == -1)
 		return (ERROR);
-
-	term_set.c_lflag &= ~ECHOCTL; // this will prevent ^C from being printed (bitwise NOT)
-
+	if (mode)
+		term_set.c_lflag &= ~ECHOCTL; // this will prevent ^C from being printed (bitwise NOT)
+	else
+		term_set.c_lflag |= ECHOCTL; // restore ^C printing
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &term_set) == -1) // TCSANOW: change attributes immediately
 		return (ERROR);
+	debug_print_termios(&term_set);
 	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-
-	if ((init_termios() == ERROR))
+	if (init_termios(true) == ERROR)
 		return (EXIT_FAILURE);
-
 	ms_init_signals();
-	// check if stdin is a terminal
-	if (isatty(STDIN_FILENO))
+	if (isatty(STDIN_FILENO)) // check if stdin is a terminal
 		ms_rep_loop();
-		// else put input directly from STDIN to parser, executer etc
-
+	// else put input directly from STDIN to parser, executer etc
 	return (EXIT_SUCCESS);
 }

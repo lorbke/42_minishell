@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2022/12/10 15:41:31 by lorbke           ###   ########.fr        #
+#    Updated: 2022/12/12 17:02:48 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ NAME = minishell
 CC = cc
 AR = ar rcs
 RM = rm -f
-FLAGS = #-Wall -Wextra -Werror
+CFLAGS = #-Wall -Wextra -Werror
 
 # path macros
 LIB_PATH = lib
@@ -29,7 +29,7 @@ SRC_PATH = src
 OBJ_PATH = obj
 
 # src and obj files macros
-SRC = minishell.c signal.c
+SRC = minishell.c signal.c debugging.c
 OBJ = $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 
 # archive macros
@@ -41,11 +41,11 @@ default: makedir all
 # file targets
 ${NAME}: $(OBJ)
 	@make -C $(LFT_PATH)
-	${CC} ${FLAGS} $(OBJ) -L$(LFT_PATH) -lft -l$(RDLN_PATH) -o ${NAME}
+	${CC} ${CFLAGS} $(OBJ) -L$(LFT_PATH) -lft -l$(RDLN_PATH) -o ${NAME}
 	@echo "make: minishell success!"
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
-	${CC} ${FLAGS} -I$(INC) -I$(LFT_INC) -c $< -o $@ 
+	${CC} ${CFLAGS} -I$(INC) -I$(LFT_INC) -c $< -o $@ 
 
 # phony targets
 all: ${NAME}
@@ -61,5 +61,8 @@ fclean: clean
 	cd $(LFT_PATH) && $(MAKE) fclean
 
 re: fclean makedir all
+
+debug: CFLAGS += -O0 -DDEBUG -g
+debug: makedir all
 
 .PHONY: all clean fclean re

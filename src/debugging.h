@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   debug.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/10 15:39:03 by lorbke            #+#    #+#             */
-/*   Updated: 2022/12/12 16:58:52 by lorbke           ###   ########.fr       */
+/*   Created: 2022/12/12 15:32:55 by lorbke            #+#    #+#             */
+/*   Updated: 2022/12/12 16:41:21 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef MS_DEBUG_H
+# define MS_DEBUG_H
 
-# include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <stdbool.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include "libft.h"
-# include <signal.h>
-# include <termios.h>
+#include <termios.h>
 
-# include "debugging.h"
+# ifdef DEBUG
+#  define DEBUG_MS 1
+# else
+#  define DEBUG_MS 0
+# endif
 
-# define ERROR -1
-# define PROMPT "minishell> "
-
-void	ms_init_signals(void);
+void	debug_print_termios(struct termios *termios);
 
 #endif
