@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 16:44:01 by lorbke            #+#    #+#             */
-/*   Updated: 2022/11/24 01:00:06 by lorbke           ###   ########.fr       */
+/*   Updated: 2022/12/14 15:30:33 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ int		ft_strtoi(const char *str, const char **endptr, int base);
 int		ft_isspace(int c);
 int		ft_safeadd(int a, int b);
 int		ft_safemult(int a, int b);
+char	*ft_strsep(char **stringp, const char *delim);
 
 #endif

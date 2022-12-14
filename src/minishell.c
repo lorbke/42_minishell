@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2022/12/12 16:41:25 by lorbke           ###   ########.fr       */
+/*   Updated: 2022/12/14 15:29:43 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ int	main(int argc, char **argv, char **envp)
 	if (init_termios(true) == ERROR)
 		return (EXIT_FAILURE);
 	ms_init_signals();
+
+	char *sep = "\\/:;=-";
+	char *test = "test/test2/test3";
+	ft_strsep(&test, sep);
 	if (isatty(STDIN_FILENO)) // check if stdin is a terminal
 		ms_rep_loop();
 	// else put input directly from STDIN to parser, executer etc

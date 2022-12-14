@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2022/12/13 16:59:43 by lorbke           ###   ########.fr       */
+/*   Updated: 2022/12/14 17:47:28 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,90 +15,59 @@
 #include <stdlib.h>
 #include "lib/libft/includes/libft.h"
 
-static char	*set_stringp(char **stringp, char *start, char *end)
-{
-	*start = '\0';
-	start = *stringp;
-	*stringp = end;
-	return (start);
-}
+// quotes single tokens or big token?
 
-char	*ft_strsep(char **stringp, const char *delim)
-{
-	char	*start;
-	char	*end;
-	int		j;
+// 1. get next token
+// 2. quote identifier
+// 	- if token contains quote, get next token until quote is closed
+// 	- lots of quote edge cases
+// 3. check for other special characters
+// 	- heredoc
+// 	- redirection and append
+// 	- pipe
+// 	- operator
+// 	- word
+// 4. insert node into AST
+// (5. check for syntax errors)
+// 6. repeat until EOF
 
-	if (!*stringp || !delim)
-		return (NULL);
-	start = *stringp;
-	if (!**stringp)
-	{
-		*stringp = NULL;
-		return (start);
-	}
-	while (*start)
-	{
-		j = 0;
-		while (delim[j])
-		{
-			if (*start == delim[j])
-				return (set_stringp(stringp, start, start + 1));
-			j++;
-		}
-		start++;
-	}
-	if (start != *stringp)
-		return (set_stringp(stringp, start, start + 1));
-	return (start);
+typedef struct s_token
+{
+	char			*token;
+	unsigned int	desc;
+	void			*a;
+	void			*b;
+}	t_token;
+
+void	add_token(t_token *token)
+{
+	t_token	*new;
+
+	new = malloc(sizeof(t_token));
+	token->a = new;
 }
 
 int	main(void)
 {
-     char *sep = "\\/:;=-";
-	 char *test;
-	 char *test2;
+	char	*sep = "\\/:;=-";
+	char	*test;
+	t_token	*head;
+	t_token	*current;
 
-	 test = malloc(100);
-	 test2 = malloc(100);
-     strcpy(test, "::;This;is.a:test:of=the/string\\tokenizer-function.:;;");
-     strcpy(test2, "::;This;is.a:test:of=the/string\\tokenizer-function.:;;");
-
-
-     printf("%s\n", strsep(&test, sep));
-     printf("%s\n", strsep(&test, sep));
-     printf("%s\n", strsep(&test, sep));
-     printf("%s\n", strsep(&test, sep));
-     printf("%s\n", strsep(&test, sep));
-     printf("%s\n", strsep(&test, sep));
-     printf("%s\n", strsep(&test, sep));
-     printf("%s\n", strsep(&test, sep));
-     printf("%s\n", strsep(&test, sep));
-     printf("%s\n", strsep(&test, sep));
-     printf("%s\n", strsep(&test, sep));
-     printf("%s\n", strsep(&test, sep));
-     printf("%s\n", strsep(&test, sep));
-	 printf("stringp: %s\n", test);
-	 printf("-\n-\n");
-     printf("%s\n", ft_strsep(&test2, sep));
-     printf("%s\n", ft_strsep(&test2, sep));
-     printf("%s\n", ft_strsep(&test2, sep));
-     printf("%s\n", ft_strsep(&test2, sep));
-     printf("%s\n", ft_strsep(&test2, sep));
-     printf("%s\n", ft_strsep(&test2, sep));
-     printf("%s\n", ft_strsep(&test2, sep));
-     printf("%s\n", ft_strsep(&test2, sep));
-     printf("%s\n", ft_strsep(&test2, sep));
-     printf("%s\n", ft_strsep(&test2, sep));
-     printf("%s\n", ft_strsep(&test2, sep));
-     printf("%s\n", ft_strsep(&test2, sep));
-     printf("%s\n", ft_strsep(&test2, sep));
-	 printf("stringp: %s\n", test2);
-    //  printf("%s\n", strsep(test, sep));
-    //  printf("%s\n", strsep(test, sep));
-    //  printf("%s\n", strsep(test, sep));
-    //  printf("%s\n", strsep(test, sep));
-    //  printf("%s\n", test[1]);
-
-  return 0;
+	test = malloc(100);
+	strcpy(test, "This\\is:a;test-string==");
+	head = malloc(sizeof(t_token));
+	current = head;
+	while (test)
+	{
+		add_token(current);
+		current = current->a;
+		current->token = strsep(&test, sep);
+	}
+	while (head)
+	{
+		printf("%s->", head->token);
+		head = head->a;
+	}
+	return 0;
 }
