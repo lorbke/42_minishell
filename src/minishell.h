@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:39:03 by lorbke            #+#    #+#             */
-/*   Updated: 2022/12/12 16:58:52 by lorbke           ###   ########.fr       */
+/*   Updated: 2022/12/15 18:49:36 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include "debugging.h"
 
 # define ERROR -1
-# define PROMPT "minishell> "
+# define PROMPT "minishell 👽 "
 
 void	ms_init_signals(void);
 
