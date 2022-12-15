@@ -6,11 +6,11 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:26:56 by lorbke            #+#    #+#             */
-/*   Updated: 2022/12/15 15:24:19 by lorbke           ###   ########.fr       */
+/*   Updated: 2022/12/15 15:33:23 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdlib.h>
 
 static char	*set_stringp(char **stringp, char *start, char *end)
 {
