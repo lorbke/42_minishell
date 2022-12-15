@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 16:12:35 by lorbke            #+#    #+#             */
-/*   Updated: 2022/11/07 18:22:14 by lorbke           ###   ########.fr       */
+/*   Updated: 2022/12/15 15:24:59 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static int	get_base(const char *str, int base, int i)
 function will handle overflows and underflows as well as 
 invalid input through errno. 
 The variable endptr allows to easily index multiple numbers 
-in the same string.*/
+in the same string. */
 int	ft_strtoi(const char *str, const char **endptr, int base)
 {
 	int	i;

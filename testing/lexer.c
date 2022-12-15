@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2022/12/14 17:47:28 by lorbke           ###   ########.fr       */
+/*   Updated: 2022/12/15 15:16:04 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	main(void)
 	{
 		add_token(current);
 		current = current->a;
-		current->token = strsep(&test, sep);
+		current->token = ft_strsep(&test, sep);
 	}
 	while (head)
 	{
