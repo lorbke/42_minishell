@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2022/12/16 20:01:11 by lorbke           ###   ########.fr       */
+/*   Updated: 2022/12/19 01:16:49 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ t_token	*create_token(char *word)
 	new = malloc(sizeof(t_token));
 	new->word = word;
 	new->desc = 100;
+	new->a = NULL;
+	new->b = NULL;
 	return (new);
 }
 
@@ -87,29 +89,79 @@ unsigned int	desc_word(char *word)
 
 void	print_ast(t_token *head)
 {
+	t_token	*temp;
+	int		width_a;
+	int		width_b;
+
+	// temp = head->a;
+	// temp = temp->b;
+	// temp = temp->b;
+	// printf("%s", temp->word);
+	temp = create_token(NULL);
+	width_a = 60;
+	width_b = 5;
+	printf("\n");
 	while (head)
 	{
-		printf("%s->", head->word);
+		if (head && head->word)
+			printf("%*s", width_a, head->word);
+		if (temp && temp->word)
+			printf("%*s", width_b, temp->word);
+		printf("\n");
+		temp = head->b;
 		head = head->a;
+		width_a -= 5;
+		width_b += 5;
 	}
+	printf("\n");
 }
 
-t_token	*parse_recursive(char *word, unsigned int desc, char *input, char *sep)
+// t_token	*parse_recursive(char *input, char *seps)
+// {
+// 	t_token	*token;
+// 	t_token	*next;
+// 	t_token	*temp;
+
+// 	token = create_token(ft_strsep(&input, seps));
+// 	if (!token->word)
+// 		return (NULL);
+// 	token->desc = desc_word(token->word);
+// 	next = parse_recursive(input, seps);
+// 	if (next && next->desc > token->desc)
+// 	{
+// 		token->a = next->a;
+// 		next->a = token;
+// 		return (next);
+// 	}
+// 	if (token->a)
+// 		token->b = next;
+// 	else
+// 		token->a = next;
+// 	return (token);
+// }
+
+t_token	*parse_recursive(t_token *head, char *input, char *seps)
 {
 	t_token	*token;
 	t_token	*next;
+	t_token	*temp;
 
-	token = NULL;
-	if (word)
+	token = create_token(ft_strsep(&input, seps));
+	if (!token->word)
+		return (NULL);
+	token->desc = desc_word(token->word);
+	next = parse_recursive(head, input, seps);
+	while (head)
 	{
-		token = create_token(word);
-		token->desc = desc_word(word);
-		if (token->desc > desc)
-			return (token);
-		next = parse_recursive(ft_strsep(&input, sep), token->desc, input, sep);
-		token->a = next;
+		if (token->desc > head->desc)
+		{
+			token->a = head->a;
+			temp->a = token;
+		}
+		temp = head;
+		head = head->a;
 	}
-	return (token);
+	return (NULL);
 }
 
 int	main(void)
@@ -121,7 +173,7 @@ int	main(void)
 	input = malloc(100);
 	strcpy(input, "ls	-l -a |\necho\rhello");
 	head = create_token("[HEAD]");
-	head->a = parse_recursive(ft_strsep(&input, seps), 0, input, seps);
+	parse_recursive(head, input, seps);
 	print_ast(head);
 	return (0);
 }
