@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2022/12/19 01:16:49 by lorbke           ###   ########.fr       */
+/*   Updated: 2022/12/20 19:39:32 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,32 +87,47 @@ unsigned int	desc_word(char *word)
 	return (0);
 }
 
+void	simple_print_ast(t_token *head)
+{
+	printf("%s->", head->word);
+	head = head->a;
+	printf("%s->", head->word);
+	head = head->a;
+	printf("%s->", head->word);
+	head = head->a;
+	printf("%s->", head->word);
+	head = head->a;
+	printf("%s->", head->word);
+	head = head->a;
+	printf("%s->", head->word);
+	head = head->a;
+	printf("%s->", head->word);
+	head = head->a;
+	printf("%s->", head->word);
+}
+
 void	print_ast(t_token *head)
 {
 	t_token	*temp;
 	int		width_a;
 	int		width_b;
 
-	// temp = head->a;
-	// temp = temp->b;
-	// temp = temp->b;
-	// printf("%s", temp->word);
 	temp = create_token(NULL);
 	width_a = 60;
 	width_b = 5;
 	printf("\n");
-	while (head)
-	{
-		if (head && head->word)
-			printf("%*s", width_a, head->word);
-		if (temp && temp->word)
-			printf("%*s", width_b, temp->word);
-		printf("\n");
-		temp = head->b;
-		head = head->a;
-		width_a -= 5;
-		width_b += 5;
-	}
+	// while (head)
+	// {
+	// 	if (head && head->word)
+	// 		printf("%*s", width_a, head->word);
+	// 	if (temp && temp->word)
+	// 		printf("%*s", width_b, temp->word);
+	// 	printf("\n");
+	// 	temp = head->b;
+	// 	head = head->a;
+	// 	width_a -= 5;
+	// 	width_b += 5;
+	// }
 	printf("\n");
 }
 
@@ -140,28 +155,51 @@ void	print_ast(t_token *head)
 // 	return (token);
 // }
 
-t_token	*parse_recursive(t_token *head, char *input, char *seps)
+// t_token	*parse_recursive(t_token *head, char *input, char *seps)
+// {
+// 	t_token	*token;
+// 	t_token	*next;
+// 	t_token	*temp;
+
+// 	token = create_token(ft_strsep(&input, seps));
+// 	if (!token->word)
+// 		return (NULL);
+// 	token->desc = desc_word(token->word);
+// 	next = parse_recursive(head, input, seps);
+// 	while (head)
+// 	{
+// 		if (token->desc > head->desc)
+// 		{
+// 			token->a = head->a;
+// 			temp->a = token;
+// 		}
+// 		temp = head;
+// 		head = head->a;
+// 	}
+// 	return (NULL);
+// }
+
+t_token	*parse_recursive(t_token *previous, char *input, char *seps)
 {
 	t_token	*token;
-	t_token	*next;
 	t_token	*temp;
 
 	token = create_token(ft_strsep(&input, seps));
 	if (!token->word)
 		return (NULL);
 	token->desc = desc_word(token->word);
-	next = parse_recursive(head, input, seps);
-	while (head)
+	previous->a = token;
+	temp = parse_recursive(token, input, seps);
+	if (!temp)
+		return (token);
+	if (temp && temp->desc <= previous->desc)
 	{
-		if (token->desc > head->desc)
-		{
-			token->a = head->a;
-			temp->a = token;
-		}
-		temp = head;
-		head = head->a;
+		previous->a = temp;
+		temp->a = token;
 	}
-	return (NULL);
+	else
+		return (temp);
+	return (token);
 }
 
 int	main(void)
@@ -174,6 +212,7 @@ int	main(void)
 	strcpy(input, "ls	-l -a |\necho\rhello");
 	head = create_token("[HEAD]");
 	parse_recursive(head, input, seps);
-	print_ast(head);
+	simple_print_ast(head);
+	// print_ast(head);
 	return (0);
 }
