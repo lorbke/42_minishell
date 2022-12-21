@@ -1,6 +1,16 @@
 
 #include "parser.h"
 
+void	print_token_stack(t_elem *head)
+{
+	while (head)
+	{
+		printf("%s->", head->word);
+		head = head->next;
+	}
+	printf("\n");
+}
+
 void	simple_print_ast(t_token *head)
 {
 	printf("%s->", head->word);

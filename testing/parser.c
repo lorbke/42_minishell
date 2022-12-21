@@ -36,12 +36,11 @@ int	main(void)
 {
 	char	*input;
 	char	*seps = " \t\n\r";
-	t_token	*head;
+	t_elem	*head;
 
 	input = malloc(100);
 	strcpy(input, "ls	-l -a |\necho\rhello");
-	head = create_token("[HEAD]");
-	simple_print_ast(head);
-	// print_ast(head);
+	head = create_input_stack(input, seps);
+	print_token_stack(head);
 	return (0);
 }

@@ -20,9 +20,20 @@ typedef struct s_token
 	void			*b;
 }	t_token;
 
+typedef struct s_elem
+{
+	char	*word;
+	void	*next;
+}	t_elem;
+
+char			*ft_strsep(char **stringp, const char *delim);
+
+t_elem			*create_input_stack(char *input, char *seps);
 t_token			*create_token(char *word);
 unsigned int	desc_word(char *word);
+
 void			simple_print_ast(t_token *head);
 void			print_ast(t_token *head);
+void			print_token_stack(t_elem *head);
 
 #endif
