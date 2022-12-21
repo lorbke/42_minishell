@@ -109,3 +109,37 @@ structure flowchart: https://lucid.app/lucidspark/6b5a618b-0bb7-4dbb-bef9-ecfa52
 
 - its sensible to replicate the bash debug behaviour
 	- bash debugs using a DEBUG macro, just like pfuchs minishell does
+
+
+-------PARSER----------
+
+- recursive descent parser
+
+production rules: 
+(source: https://stackoverflow.com/questions/71769632/making-a-shell-grammar-for-a-recursive-descent-parser)
+	<complete_cmd> ::=  <and_or> <newline>
+	<and_or>       ::=  <pipeline> { ('&&' | '||') <pipeline> }        
+	<pipeline>     ::=  <command> { '|' <command> }
+	<command>      ::=  <simple_cmd> | '(' <and_or> ')'
+	<simple_cmd>   ::=  { <redirect> } <word> { ( <redirect> | <word> ) }
+	<redirect>     ::=  ( '<' | '>' | '<<' | '>>' ) <word>
+
+approach: 
+	1. create function for each production rule
+	2. manipulate the tree accordingly in the functions
+
+example:
+	echo hi | wc -l > out 
+	complete_cmd
+		and_or
+			pipeline
+				command
+					simple_cmd
+						word -> echo
+						word -> hi
+				command
+					simple_cmd
+						word -> wc
+						word -> -l
+					redirect -> >
+						word -> out
