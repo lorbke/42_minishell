@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2022/12/20 19:39:32 by lorbke           ###   ########.fr       */
+/*   Updated: 2022/12/21 19:58:47 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,45 @@
 #include <string.h>
 #include <stdlib.h>
 
+/* This is a recursive descent (RD) parser, as opposed to bash's yacc
+look-ahead left-to-right (LALR) parser. The RD parser was choosen because it
+is a solution that is more interesting to me and because the current
+implementation of the bash parser seems to be a relict of the past and even
+bash's maintainers argue that it has weaknesses. */
+
 // quotes single tokens or big token?
 // merge identification and insertion?
 // backlink to parent node for the ast?
-/* LR ascend parser
 
-	1. get token from input stack
-	2. identify token
-	3. if precedence lower than current token, append based on current token type
-	4. if precedence higher than current token, return up the stack until precedence is lower
+/* RD parser
+	production rules: 
+	(source: https://stackoverflow.com/questions/71769632/making-a-shell-grammar-for-a-recursive-descent-parser)
+		<complete_cmd> ::=  <and_or> <newline>
+		<and_or>       ::=  <pipeline> { ('&&' | '||') <pipeline> }        
+		<pipeline>     ::=  <command> { '|' <command> }
+		<command>      ::=  <simple_cmd> | '(' <and_or> ')'
+		<simple_cmd>   ::=  { <redirect> } <word> { ( <redirect> | <word> ) }
+		<redirect>     ::=  ( '<' | '>' | '<<' | '>>' ) <word>
 
-	- how to handle left and right appending?
-		-> left and right part of recursive function
+	approach: 
+		1. create function for each production rule
+		2. manipulate the tree accordingly in the functions
 
-	pseudo code:
-		fn asdf(token)
-			next_token = asdf(next_token)
-			if (asdf(next_token)->presc > token->presc)
-				return ()
-			else
-				token->right = asdf(next_token)
-
-		fn basdf(word)
-			token = create_token(word)
-			if (token->word)
-				token->a = basdf(strsep)
+	example:
+		echo hi | wc -l > out 
+		complete_cmd
+			and_or
+				pipeline
+					command
+						simple_cmd
+							word -> echo
+							word -> hi
+					command
+						simple_cmd
+							word -> wc
+							word -> -l
+						redirect -> >
+							word -> out
 */
 
 // 1. get next token
