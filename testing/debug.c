@@ -13,21 +13,9 @@ void	print_token_stack(t_elem *head)
 
 void	simple_print_ast(t_token *head)
 {
-	printf("%s->", head->word);
+	printf("'%s'->", head->word);
 	head = head->a;
-	printf("%s->", head->word);
-	head = head->a;
-	printf("%s->", head->word);
-	head = head->a;
-	printf("%s->", head->word);
-	head = head->a;
-	printf("%s->", head->word);
-	head = head->a;
-	printf("%s->", head->word);
-	head = head->a;
-	printf("%s->", head->word);
-	head = head->a;
-	printf("%s->", head->word);
+	printf("'%s'->", head->word);
 }
 
 void	print_ast(t_token *head)
@@ -40,17 +28,17 @@ void	print_ast(t_token *head)
 	width_a = 60;
 	width_b = 5;
 	printf("\n");
-	// while (head)
-	// {
-	// 	if (head && head->word)
-	// 		printf("%*s", width_a, head->word);
-	// 	if (temp && temp->word)
-	// 		printf("%*s", width_b, temp->word);
-	// 	printf("\n");
-	// 	temp = head->b;
-	// 	head = head->a;
-	// 	width_a -= 5;
-	// 	width_b += 5;
-	// }
+	while (head)
+	{
+		if (head && head->word)
+			printf("%*s", width_a, head->word);
+		if (temp && temp->word)
+			printf("%*s", width_b, temp->word);
+		printf("\n");
+		temp = head->b;
+		head = head->a;
+		width_a -= 5;
+		width_b += 5;
+	}
 	printf("\n");
 }

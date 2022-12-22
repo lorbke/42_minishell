@@ -33,6 +33,10 @@ t_token	*create_token(char *word)
 
 unsigned int	desc_word(char *word)
 {
+	if (*word == '<')
+		return (4);
+	if (*word == '>')
+		return (3);
 	if (*word == '|')
 		return (2);
 	if (*word != '\0')

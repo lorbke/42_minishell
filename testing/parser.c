@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// quotes single tokens or big token?
 // merge identification and insertion?
-// backlink to parent node for the ast?
+// more efficient way to tokenize + parse?
+// sintax error implemetation!
 
 // 1. get next token
 // 2. quote identifier
@@ -29,3 +29,29 @@
 // 6. repeat until EOF
 
 #include "parser.h"
+
+t_token *redirect(t_elem *stack)
+{
+	t_token *new;
+	t_token *temp;
+
+	new = create_token(stack->word);
+	temp = new;
+	temp->desc = desc_word(temp->word);
+	stack = stack->next;
+	temp->a = create_token(stack->word);
+	temp = temp->a;
+	temp->desc = desc_word(temp->word);
+	return (new);
+}
+
+t_token	*simple_cmd(t_elem *top)
+{
+	t_token	*new;
+	t_token	*temp;
+
+	if (top->word == '>') // weird handling
+		new = redirect(top);
+	
+	return (redirect(top));
+}
