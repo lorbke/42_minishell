@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2022/12/21 19:58:47 by lorbke           ###   ########.fr       */
+/*   Updated: 2022/12/22 18:28:32 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // merge identification and insertion?
 // more efficient way to tokenize + parse?
-// sintax error implemetation!
+// syntax error implemetation!
+// if statements early in the functions or at the end?
+
 
 // 1. get next token
 // 2. quote identifier
@@ -30,28 +32,41 @@
 
 #include "parser.h"
 
-t_token *redirect(t_elem *stack)
+// double pointer to also update the original pointer in the calling function and reduce the stack
+t_token *redirect(char **stack, char *seps)
 {
-	t_token *new;
-	t_token *temp;
+	t_token	*new;
 
-	new = create_token(stack->word);
-	temp = new;
-	temp->desc = desc_word(temp->word);
-	stack = stack->next;
-	temp->a = create_token(stack->word);
-	temp = temp->a;
-	temp->desc = desc_word(temp->word);
+	new = create_token(ft_strsep(stack, seps));
+	new->a = create_token(ft_strsep(stack, seps));
+	// if new->a->word != REDIRECT -> syntax error
 	return (new);
 }
 
-t_token	*simple_cmd(t_elem *top)
+t_token	*simple_cmd(char *stack, char *seps)
 {
 	t_token	*new;
 	t_token	*temp;
 
-	if (top->word == '>') // weird handling
-		new = redirect(top);
-	
-	return (redirect(top));
+	if (*stack == '<') // proper peek function necessary
+	{
+		new = redirect(&stack, seps);
+		new->b = create_token(ft_strsep(&stack, seps));
+	}
+	if (*stack == '>')
+	{
+		temp = new->b;
+		new->b = redirect(&stack, seps);
+		new->b->b = temp;
+	}
+	else
+	{
+		temp = new->b;
+		while (temp->desc == 1)
+		{
+			temp->a = create_token(ft_strsep(&stack, seps));
+			temp = temp->a;
+		}
+	}
+	return (new);
 }

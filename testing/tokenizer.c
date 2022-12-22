@@ -1,6 +1,9 @@
 
 #include "parser.h"
 
+// maybe by using just a single pointer to the peek function and then calling ft_strsep in there, dirty solution though.
+// char *peek_stack(char *stack, char *seps)
+
 t_elem *create_input_stack(char *input, char *seps)
 {
 	t_elem	*head;
@@ -25,7 +28,8 @@ t_token	*create_token(char *word)
 
 	new = malloc(sizeof(t_token));
 	new->word = word;
-	new->desc = 100;
+	if (word)
+		new->desc = desc_word(word);
 	new->a = NULL;
 	new->b = NULL;
 	return (new);

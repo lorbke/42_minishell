@@ -16,8 +16,8 @@ typedef struct s_token
 {
 	char			*word;
 	unsigned int	desc;
-	void			*a;
-	void			*b;
+	struct s_token	*a;
+	struct s_token	*b;
 }	t_token;
 
 typedef struct s_elem

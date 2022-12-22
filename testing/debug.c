@@ -14,6 +14,14 @@ void	print_token_stack(t_elem *head)
 void	simple_print_ast(t_token *head)
 {
 	printf("'%s'->", head->word);
+	head = head->b;
+	printf("'%s'->", head->word);
+	head = head->a;
+	printf("'%s'->", head->word);
+	head = head->a;
+	printf("'%s'->", head->word);
+	head = head->a;
+	printf("'%s'->", head->word);
 	head = head->a;
 	printf("'%s'->", head->word);
 }
