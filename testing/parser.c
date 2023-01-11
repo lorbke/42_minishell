@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/11 22:04:45 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/12 00:50:02 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ static t_ast	*rule_simple_command(t_stack **tokstack)
 
 	head = &temp;
 	temp = NULL;
+	temp2 = NULL;
 	redir_in = rule_redirect(tokstack);
 	word = rule_word(tokstack);
 	redir_out = rule_redirect(tokstack);
@@ -100,9 +101,10 @@ static t_ast	*rule_simple_command(t_stack **tokstack)
 		temp->left = redir_out;
 		temp2 = temp->left;
 	}
-	if (word)
+	if (word && temp2)
 		temp2->left = word;
-	write(1, "x", 1);
+	else if (word)
+		temp = word;
 	return (*head);
 }
 

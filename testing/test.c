@@ -26,7 +26,7 @@ int	main(int argc, char *argv[])
 	char	*seps = " \t\n\r";
 
 	input = malloc(sizeof(char) * 100);
-	strcpy(input, "< in cat > out");
+	strcpy(input, "< in cat");
 	test_parser(input);
 	return (0);
 }
