@@ -7,7 +7,7 @@ OBJ_PATH = obj
 SRC = $(wildcard *.c)
 OBJ = $(addprefix $(OBJ_PATH)/,$(patsubst %.c,%.o,$(SRC)))
 
-CC = gcc
+CC = gcc -g
 
 all: makedir $(NAME)
 

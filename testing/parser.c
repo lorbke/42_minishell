@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2022/12/22 18:28:32 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/11 22:04:45 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,41 +32,84 @@
 
 #include "parser.h"
 
-// double pointer to also update the original pointer in the calling function and reduce the stack
-t_token *redirect(char **stack, char *seps)
-{
-	t_token	*new;
+// every function gets the stack as input and returns a sub-ast that is then connected to the main ast
 
-	new = create_token(ft_strsep(stack, seps));
-	new->a = create_token(ft_strsep(stack, seps));
-	// if new->a->word != REDIRECT -> syntax error
+// due to easier usage and because the additional memory and run time are negligible, 
+// the token stack will be represented by a token_list instead of just a string
+
+// how to handle syntax errors?
+
+static t_ast	*create_ast_node(t_token	*token)
+{
+	t_ast	*new;
+
+	if (!token)
+		return (NULL);
+	new = malloc(sizeof(t_ast));
+	new->token = token;
+	new->left = NULL;
+	new->right = NULL;
 	return (new);
 }
 
-t_token	*simple_cmd(char *stack, char *seps)
+static t_ast	*rule_word(t_stack **tokstack)
 {
-	t_token	*new;
-	t_token	*temp;
+	t_ast	*head;
 
-	if (*stack == '<') // proper peek function necessary
+	head = create_ast_node((*tokstack)->token);
+	if (head)
+		*tokstack = (*tokstack)->next;
+	return (head);
+}
+
+static t_ast	*rule_redirect(t_stack **tokstack)
+{
+	t_ast	*head;
+
+	if (!*tokstack)
+		return (NULL);
+	if ((*tokstack)->token->desc == 3 || (*tokstack)->token->desc == 4)
 	{
-		new = redirect(&stack, seps);
-		new->b = create_token(ft_strsep(&stack, seps));
+		head = create_ast_node((*tokstack)->token);
+		*tokstack = (*tokstack)->next;
+		head->right = create_ast_node((*tokstack)->token);
+		*tokstack = (*tokstack)->next;
+		return (head);
 	}
-	if (*stack == '>')
+	return (NULL);
+}
+
+static t_ast	*rule_simple_command(t_stack **tokstack)
+{
+	t_ast	**head;
+	t_ast	*temp;
+	t_ast	*temp2;
+	t_ast	*redir_in;
+	t_ast	*word;
+	t_ast	*redir_out;
+
+	head = &temp;
+	temp = NULL;
+	redir_in = rule_redirect(tokstack);
+	word = rule_word(tokstack);
+	redir_out = rule_redirect(tokstack);
+	if (redir_in)
+		temp = redir_in;
+	if (redir_out)
 	{
-		temp = new->b;
-		new->b = redirect(&stack, seps);
-		new->b->b = temp;
+		temp->left = redir_out;
+		temp2 = temp->left;
 	}
-	else
-	{
-		temp = new->b;
-		while (temp->desc == 1)
-		{
-			temp->a = create_token(ft_strsep(&stack, seps));
-			temp = temp->a;
-		}
-	}
-	return (new);
+	if (word)
+		temp2->left = word;
+	write(1, "x", 1);
+	return (*head);
+}
+
+t_ast	*parse(t_stack	*tokstack)
+{
+	t_ast	*ast;
+
+	ast = rule_simple_command(&tokstack);
+	return (ast);
 }

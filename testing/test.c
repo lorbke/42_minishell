@@ -1,16 +1,32 @@
 
 #include "parser.h"
 
-t_token *redirect(char *stack, char *seps);
-t_token	*simple_cmd(char *stack, char *seps);
+// tokenizer test
+void	test_tokenizer(char *input, char *seps)
+{
+	t_stack	*tokstack;
 
-int	main(void)
+	tokstack = str_to_token_stack(input, seps);
+	print_token_stack(tokstack);
+}
+
+void	test_parser(char *input)
+{
+	t_stack	*tokstack;
+	t_ast	*ast;
+
+	tokstack = str_to_token_stack(input, " \t\n\r");
+	ast = parse(tokstack);
+	print_ast(ast, 0);
+}
+
+int	main(int argc, char *argv[])
 {
 	char	*input;
 	char	*seps = " \t\n\r";
 
-	input = malloc(100);
-	strcpy(input, "< in cat -l -a -b");
-	simple_print_ast(simple_cmd(input, seps));
+	input = malloc(sizeof(char) * 100);
+	strcpy(input, "< in cat > out");
+	test_parser(input);
 	return (0);
 }

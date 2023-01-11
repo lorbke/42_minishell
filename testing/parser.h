@@ -16,24 +16,30 @@ typedef struct s_token
 {
 	char			*word;
 	unsigned int	desc;
-	struct s_token	*a;
-	struct s_token	*b;
 }	t_token;
 
-typedef struct s_elem
+typedef struct s_ast
 {
-	char	*word;
-	void	*next;
-}	t_elem;
+	t_token			*token;
+	struct s_ast	*left;
+	struct s_ast	*right;
+}	t_ast;
+
+typedef struct s_stack
+{
+	t_token			*token;
+	struct s_stack	*next;
+}	t_stack;
 
 char			*ft_strsep(char **stringp, const char *delim);
 
-t_elem			*create_input_stack(char *input, char *seps);
-t_token			*create_token(char *word);
-unsigned int	desc_word(char *word);
+t_stack			*str_to_token_stack(char *str, char *seps);
 
-void			simple_print_ast(t_token *head);
-void			print_ast(t_token *head);
-void			print_token_stack(t_elem *head);
+void			print_token_stack(t_stack *head);
+void			print_ast(t_ast *ast, int width);
+// void			simple_print_ast(t_token *head);
+// void			print_ast(t_token *head);
+
+t_ast			*parse(t_stack	*toklist);
 
 #endif
