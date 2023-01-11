@@ -115,14 +115,22 @@ structure flowchart: https://lucid.app/lucidspark/6b5a618b-0bb7-4dbb-bef9-ecfa52
 
 - recursive descent parser
 
-production rules: 
+(backus-naur-form (BNF) is a metasyntax notation, used to describe the syntax of a programming language)
+BNF production rules: 
 (source: https://stackoverflow.com/questions/71769632/making-a-shell-grammar-for-a-recursive-descent-parser)
 	<complete_cmd> ::=  <and_or> <newline>
 	<and_or>       ::=  <pipeline> { ('&&' | '||') <pipeline> }        
 	<pipeline>     ::=  <command> { '|' <command> }
 	<command>      ::=  <simple_cmd> | '(' <and_or> ')'
-	<simple_cmd>   ::=  { <redirect> } <word> { ( <redirect> | <word> ) }
+	<simple_cmd>   ::=  { <redirect> } { <word> } { ( <redirect> | <word> ) }
 	<redirect>     ::=  ( '<' | '>' | '<<' | '>>' ) <word>
+
+
+redirect
+	- indirection <
+		- file always on right side
+	- outdirection >
+		- file always on right side
 
 approach: 
 	1. create function for each production rule
@@ -142,4 +150,13 @@ example:
 						word -> wc
 						word -> -l
 					redirect -> >
-						word -> out
+					word -> out
+
+
+
+		in
+
+	<
+			out
+		>
+			cat
