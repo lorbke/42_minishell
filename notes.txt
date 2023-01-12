@@ -160,3 +160,24 @@ example:
 			out
 		>
 			cat
+
+
+--------EXECUTOR--------
+
+param: std_out
+-------------
+token = >
+fd_file = file
+fd_in = next_func
+-------------
+return:
+
+param: fd_file
+-------------
+token = |
+fd_pipe[0] = pipe
+fd_pipe[1] = next_func
+
+-------------
+return: 
+
