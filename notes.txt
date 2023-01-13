@@ -164,20 +164,18 @@ example:
 
 --------EXECUTOR--------
 
-param: std_out
--------------
-token = >
-fd_file = file
-fd_in = next_func
--------------
-return:
+- function for every token type
+- every ast section contains at least one command
+- the command (and its arguments) are returned up the call stack
 
-param: fd_file
--------------
-token = |
-fd_pipe[0] = pipe
-fd_pipe[1] = next_func
+pseudo code:
+fn	exec_pipe()
+	in = func_exec[get_token_type(left)](left)
+	out = func_exec[get_token_type(right)](right)
+	pipe(in, out)
+	execve(in)
+	return (out)
 
--------------
-return: 
 
+- problem: the pipe out fd is not passed to the next command
+- if instead the fd is returned, the problem is that the called function doesnt know the fd of the redirect file
