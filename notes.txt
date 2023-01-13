@@ -179,3 +179,7 @@ fn	exec_pipe()
 
 - problem: the pipe out fd is not passed to the next command
 - if instead the fd is returned, the problem is that the called function doesnt know the fd of the redirect file
+
+
+possible solution:
+	- return a command table containing the command and the in fd
