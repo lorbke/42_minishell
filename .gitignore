@@ -6,3 +6,5 @@ obj
 lib/libft/libft.a
 lib/libft/obj
 test
+in
+out
