@@ -1,6 +1,6 @@
 
 
-NAME = testing
+NAME = test
 
 OBJ_PATH = obj
 

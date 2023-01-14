@@ -6,29 +6,9 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/14 15:29:37 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/14 18:52:27 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// merge identification and insertion?
-// more efficient way to tokenize + parse?
-// syntax error implemetation!
-// if statements early in the functions or at the end?
-
-
-// 1. get next token
-// 2. quote identifier
-// 	- if token contains quote, get next token until quote is closed
-// 	- lots of quote edge cases
-// 3. check for other special characters
-// 	- heredoc
-// 	- redirection and append
-// 	- pipe
-// 	- operator
-// 	- word
-// 4. insert node into AST
-// (5. check for syntax errors)
-// 6. repeat until EOF
 
 #include "parser.h"
 
@@ -38,6 +18,9 @@
 // the token stack will be represented by a token_list instead of just a string
 
 // how to handle syntax errors?
+// = anywhere, where the grammar was not matched, e.g. simple_cmd without word
+
+// free the tokstack after parsing
 
 static t_ast	*create_ast_node(t_token	*token)
 {
@@ -56,7 +39,7 @@ static t_ast	*rule_word(t_stack **tokstack)
 {
 	t_ast	*head;
 
-	if (!*tokstack || (*tokstack)->token->desc != 1)
+	if (!*tokstack || (*tokstack)->token->desc != TOKEN_WORD)
 		return (NULL);
 	head = create_ast_node((*tokstack)->token);
 	*tokstack = (*tokstack)->next;
@@ -69,7 +52,8 @@ static t_ast	*rule_redirect(t_stack **tokstack)
 	t_ast	*head;
 
 	if (!*tokstack
-		|| ((*tokstack)->token->desc != 3 && (*tokstack)->token->desc != 4))
+		|| ((*tokstack)->token->desc != TOKEN_REDIR_IN
+			&& (*tokstack)->token->desc != TOKEN_REDIR_OUT))
 		return (NULL);
 	head = create_ast_node((*tokstack)->token);
 	*tokstack = (*tokstack)->next;

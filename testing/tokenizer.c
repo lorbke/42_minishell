@@ -6,23 +6,32 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/14 15:57:02 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/14 17:47:08 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static unsigned int	desc_word(char *word)
+// where to handle token specific errors like only one &, unnmatched quotes, etc.?
+static int	desc_word(char *word)
 {
-	if (*word == '<')
-		return (4);
-	if (*word == '>')
-		return (3);
 	if (*word == '|')
-		return (2);
-	if (*word != '\0')
-		return (1);
-	return (0);
+		return (TOKEN_PIPE);
+	else if (*word == '<')
+		return (TOKEN_REDIR_IN);
+	else if (*word == '>')
+		return (TOKEN_REDIR_OUT);
+	else if (*word == '\'')
+		return (TOKEN_SQUOTE);
+	else if (*word == '"')
+		return (TOKEN_DQUOTE);
+	else if (*word == '(')
+		return (TOKEN_SUBSHELL);
+	else if (*word == '&' && *(word + 1) == '&')
+		return (TOKEN_AND);
+	else if (*word == '|' && *(word + 1) == '|')
+		return (TOKEN_OR);
+	return (TOKEN_WORD);
 }
 
 static t_token	*create_token(char *word)

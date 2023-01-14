@@ -1,3 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/14 17:22:41 by lorbke            #+#    #+#             */
+/*   Updated: 2023/01/14 17:23:33 by lorbke           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* This is a recursive descent (RD) parser, as opposed to original bash's yacc
+look-ahead left-to-right (LALR) parser. The RD parser was choosen because it
+is a solution that is more interesting to me and because the current
+implementation of the bash parser seems to be a relict of the past and even
+bash's maintainers argue that it has weaknesses. */
+
 #ifndef PARSER_H
 #define PARSER_H
 
@@ -6,11 +24,23 @@
 # include <string.h>
 # include <stdlib.h>
 
-/* This is a recursive descent (RD) parser, as opposed to original bash's yacc
-look-ahead left-to-right (LALR) parser. The RD parser was choosen because it
-is a solution that is more interesting to me and because the current
-implementation of the bash parser seems to be a relict of the past and even
-bash's maintainers argue that it has weaknesses. */
+/* I have decided to use this format for the token identifiers instead of a 
+bitmask like in the original bash. I don't see the benefits of a bitmask here,
+since no memory can be saved due to each token having its own separate 
+ident variable. 
+Also, this format is useful for calling token-specific functions out of an array
+of function pointers that is sorted according to the token ident numbers. */
+# define TOKEN_WORD 0
+# define TOKEN_PIPE 1
+# define TOKEN_REDIR_IN 2
+# define TOKEN_REDIR_OUT 3
+# define TOKEN_REDIR_APPEND 4
+# define TOKEN_REDIR_HEREDOC 5
+# define TOKEN_SQUOTE 6
+# define TOKEN_DQUOTE 7
+# define TOKEN_SUBSHELL 8
+# define TOKEN_AND 9
+# define TOKEN_OR 10
 
 typedef struct s_token
 {
