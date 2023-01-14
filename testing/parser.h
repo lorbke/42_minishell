@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 17:22:41 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/14 17:23:33 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/14 23:33:46 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,13 @@ typedef struct s_stack
 	struct s_stack	*next;
 }	t_stack;
 
-char			*ft_strsep(char **stringp, const char *delim);
+char			*ms_ft_strsep(
+					char **stringp, const char *delim, const char *ignore);
 
-t_stack			*str_to_tokstack(char *str, char *seps);
+t_stack			*str_to_tokstack(char *str, char *seps, char *esc);
 
 void			print_tokstack(t_stack *head);
 void			print_ast(t_ast *ast, int width);
-// void			simple_print_ast(t_token *head);
-// void			print_ast(t_token *head);
 
 t_ast			*parse(t_stack	*toklist);
 

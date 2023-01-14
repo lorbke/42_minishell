@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:19 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/14 17:52:11 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/14 22:35:17 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,22 @@
 
 void	print_tokstack(t_stack *head)
 {
+	t_stack	*temp;
+
+	temp = head;
 	printf(GREEN "\n=========Token Stack=========\n" RESET);
+	printf("stack: ");
 	while (head)
 	{
 		printf("[ %s ]->", head->token->word);
 		head = head->next;
+	}
+	printf("\n");
+	printf("ident: ");
+	while (temp)
+	{
+		printf("[ %*u ]->", strlen(temp->token->word), temp->token->desc);
+		temp = temp->next;
 	}
 	printf("\n");
 }

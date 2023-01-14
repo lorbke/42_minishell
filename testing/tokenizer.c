@@ -6,14 +6,14 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/14 17:47:08 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/15 00:45:51 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
 // where to handle token specific errors like only one &, unnmatched quotes, etc.?
-static int	desc_word(char *word)
+static unsigned int	desc_word(char *word)
 {
 	if (*word == '|')
 		return (TOKEN_PIPE);
@@ -22,9 +22,9 @@ static int	desc_word(char *word)
 	else if (*word == '>')
 		return (TOKEN_REDIR_OUT);
 	else if (*word == '\'')
-		return (TOKEN_SQUOTE);
+		return (TOKEN_WORD);
 	else if (*word == '"')
-		return (TOKEN_DQUOTE);
+		return (TOKEN_WORD);
 	else if (*word == '(')
 		return (TOKEN_SUBSHELL);
 	else if (*word == '&' && *(word + 1) == '&')
@@ -55,18 +55,19 @@ static t_stack	*create_list_node(t_token *token)
 	return (new);
 }
 
-t_stack	*str_to_tokstack(char *str, char *seps)
+t_stack	*str_to_tokstack(char *str, char *seps, char *esc)
 {
 	t_stack	*head;
 	t_stack	*temp;
 
 	if (!*str || !str)
 		return (NULL);
-	head = create_list_node(create_token(ft_strsep(&str, seps)));
+	head = create_list_node(create_token(ms_ft_strsep(&str, seps, esc)));
 	temp = head;
 	while (*str)
 	{
-		temp->next = create_list_node(create_token(ft_strsep(&str, seps)));
+		temp->next
+			= create_list_node(create_token(ms_ft_strsep(&str, seps, esc)));
 		temp = temp->next;
 	}
 	temp->next = NULL;
