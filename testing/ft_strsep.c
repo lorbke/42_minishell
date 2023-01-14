@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:26:56 by lorbke            #+#    #+#             */
-/*   Updated: 2022/12/15 15:33:23 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/14 16:15:04 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,6 @@ char	*ft_strsep(char **stringp, const char *delim)
 		start++;
 	}
 	if (start != *stringp)
-		return (set_stringp(stringp, start, start + 1));
+		return (set_stringp(stringp, start, start));
 	return (start);
 }
