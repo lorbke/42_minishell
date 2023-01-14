@@ -124,6 +124,7 @@ BNF production rules:
 	<command>      ::=  <simple_cmd> | '(' <and_or> ')'
 	<simple_cmd>   ::=  { <redirect> } { <word> } { ( <redirect> | <word> ) }
 	<redirect>     ::=  ( '<' | '>' | '<<' | '>>' ) <word>
+	<word>         ::=  ( any character except whitespace, metacharacters, or redirection operators ) { <word> }
 
 
 redirect
@@ -168,18 +169,25 @@ example:
 - every ast section contains at least one command
 - the command (and its arguments) are returned up the call stack
 
-pseudo code:
-fn	exec_pipe()
-	in = func_exec[get_token_type(left)](left)
-	out = func_exec[get_token_type(right)](right)
-	pipe(in, out)
-	execve(in)
-	return (out)
-
-
 - problem: the pipe out fd is not passed to the next command
 - if instead the fd is returned, the problem is that the called function doesnt know the fd of the redirect file
 
 
 possible solution:
-	- return a command table containing the command and the in fd
+	- return a command table containing the command and the in-fd
+	- the command table of calling function is passed to the called function
+
+
+pseudo code:
+	struct cmd_table
+		ast *cmd
+		int in_fd
+		int out_fd
+
+	fn exec_pipe(ast, return_cmd_table)
+		struct cmd_table
+		func_exec[get_type(ast->left)](ast->left, &cmd_table)
+		pipe(in_fd, out_fd)
+		exec(cmd_table->cmd, in_fd, out_fd)
+		return_cmd_table->in_fd = out_fd
+		return_cmd_table->cmd = ast->right
