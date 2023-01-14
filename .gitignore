@@ -5,3 +5,4 @@ minishell
 obj
 lib/libft/libft.a
 lib/libft/obj
+test
