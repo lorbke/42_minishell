@@ -33,9 +33,9 @@ typedef struct s_stack
 
 char			*ft_strsep(char **stringp, const char *delim);
 
-t_stack			*str_to_token_stack(char *str, char *seps);
+t_stack			*str_to_tokstack(char *str, char *seps);
 
-void			print_token_stack(t_stack *head);
+void			print_tokstack(t_stack *head);
 void			print_ast(t_ast *ast, int width);
 // void			simple_print_ast(t_token *head);
 // void			print_ast(t_token *head);

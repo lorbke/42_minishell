@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/12 15:06:03 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/14 15:29:37 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,11 @@ static t_ast	*rule_word(t_stack **tokstack)
 {
 	t_ast	*head;
 
+	if (!*tokstack || (*tokstack)->token->desc != 1)
+		return (NULL);
 	head = create_ast_node((*tokstack)->token);
-	if (head)
-		*tokstack = (*tokstack)->next;
+	*tokstack = (*tokstack)->next;
+	head->left = rule_word(tokstack);
 	return (head);
 }
 
@@ -66,20 +68,17 @@ static t_ast	*rule_redirect(t_stack **tokstack)
 {
 	t_ast	*head;
 
-	if (!*tokstack)
+	if (!*tokstack
+		|| ((*tokstack)->token->desc != 3 && (*tokstack)->token->desc != 4))
 		return (NULL);
-	if ((*tokstack)->token->desc == 3 || (*tokstack)->token->desc == 4)
-	{
-		head = create_ast_node((*tokstack)->token);
-		*tokstack = (*tokstack)->next;
-		head->right = create_ast_node((*tokstack)->token);
-		*tokstack = (*tokstack)->next;
-		return (head);
-	}
-	return (NULL);
+	head = create_ast_node((*tokstack)->token);
+	*tokstack = (*tokstack)->next;
+	head->right = create_ast_node((*tokstack)->token);
+	*tokstack = (*tokstack)->next;
+	return (head);
 }
 
-static t_ast	*rule_simple_command(t_stack **tokstack)
+static t_ast	*rule_simple_cmd(t_stack **tokstack)
 {
 	t_ast	*head;
 	t_ast	*redir_in;
@@ -109,6 +108,6 @@ t_ast	*parse(t_stack	*tokstack)
 {
 	t_ast	*ast;
 
-	ast = rule_simple_command(&tokstack);
+	ast = rule_simple_cmd(&tokstack);
 	return (ast);
 }

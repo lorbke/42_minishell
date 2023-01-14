@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/14 15:14:19 by lorbke            #+#    #+#             */
+/*   Updated: 2023/01/14 16:13:09 by lorbke           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "parser.h"
 
@@ -19,12 +30,12 @@
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
-void	print_token_stack(t_stack *head)
+void	print_tokstack(t_stack *head)
 {
 	printf(GREEN "\n=========Token Stack=========\n" RESET);
 	while (head)
 	{
-		printf("`%s`->", head->token->word);
+		printf("[ %s ]->", head->token->word);
 		head = head->next;
 	}
 	printf("\n");

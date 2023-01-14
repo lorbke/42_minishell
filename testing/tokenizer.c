@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/11 20:26:40 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/14 15:57:02 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static t_stack	*create_list_node(t_token *token)
 	return (new);
 }
 
-t_stack	*str_to_token_stack(char *str, char *seps)
+t_stack	*str_to_tokstack(char *str, char *seps)
 {
 	t_stack	*head;
 	t_stack	*temp;
