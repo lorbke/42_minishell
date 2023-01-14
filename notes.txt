@@ -191,3 +191,31 @@ pseudo code:
 		exec(cmd_table->cmd, in_fd, out_fd)
 		return_cmd_table->in_fd = out_fd
 		return_cmd_table->cmd = ast->right
+
+
+
+
+
+
+
+
+
+-------TOKENIZER-------
+
+Grammar:
+
+	double quotes
+		- everything in between is a single token
+		- single quotes inside double quotes are ignored
+		- variable recognition and expansion
+		- intra-word quotation: if quote is connected to a token, the token is part of the quote-token
+			- intra-word quotation does not work on variables
+		- quote-token is tried to be executed if it is in place of a command
+
+	single quotes
+		- everything in between is a single token
+		- double quotes inside single quotes are ignored
+		- no varaible recognition or expansion
+		- intra-word quotation: if quote is connected to a token, the token is part of the quote-token
+			- intra-word quotation does not work on variables
+		- quote-token is tried to be executed if it is in place of a command
