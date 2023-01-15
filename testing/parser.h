@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 17:22:41 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/14 23:33:46 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/15 01:05:53 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ implementation of the bash parser seems to be a relict of the past and even
 bash's maintainers argue that it has weaknesses. */
 
 #ifndef PARSER_H
-#define PARSER_H
+# define PARSER_H
 
 # include <unistd.h>
 # include <stdio.h>
@@ -61,6 +61,7 @@ typedef struct s_stack
 	struct s_stack	*next;
 }	t_stack;
 
+// function is overly complicated and parenthesis logic is inconsistent
 char			*ms_ft_strsep(
 					char **stringp, const char *delim, const char *ignore);
 

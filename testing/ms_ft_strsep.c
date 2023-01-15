@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:26:56 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/14 23:31:45 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/15 01:04:26 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static char	*ignore_delims(char *stringp, const char *ignore)
 
 	start = stringp;
 	esc = ft_strchr(ignore, *start);
+	if (esc && *esc == '(')
+		esc++;
 	if (esc)
 	{
 		start++;

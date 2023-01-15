@@ -6,13 +6,14 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/15 00:45:51 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/15 00:59:35 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
 // where to handle token specific errors like only one &, unnmatched quotes, etc.?
+// subshell and quotes are not identified properly
 static unsigned int	desc_word(char *word)
 {
 	if (*word == '|')
@@ -26,7 +27,7 @@ static unsigned int	desc_word(char *word)
 	else if (*word == '"')
 		return (TOKEN_WORD);
 	else if (*word == '(')
-		return (TOKEN_SUBSHELL);
+		return (TOKEN_WORD);
 	else if (*word == '&' && *(word + 1) == '&')
 		return (TOKEN_AND);
 	else if (*word == '|' && *(word + 1) == '|')
