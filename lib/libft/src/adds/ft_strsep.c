@@ -49,6 +49,6 @@ char	*ft_strsep(char **stringp, const char *delim)
 		start++;
 	}
 	if (start != *stringp)
-		return (set_stringp(stringp, start, start + 1));
+		return (set_stringp(stringp, start, start));
 	return (start);
 }
