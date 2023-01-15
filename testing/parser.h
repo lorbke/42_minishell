@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 17:22:41 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/15 01:05:53 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/16 00:07:19 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ bash's maintainers argue that it has weaknesses. */
 # include <stdio.h>
 # include <string.h>
 # include <stdlib.h>
+# include <stdbool.h>
 
 /* I have decided to use this format for the token identifiers instead of a 
-bitmask like in the original bash. I don't see the benefits of a bitmask here,
-since no memory can be saved due to each token having its own separate 
-ident variable. 
+bitmask like in the original bash. The benefits of a bitmask only apply if a
+token can have multiple properties, which is not the case here.
 Also, this format is useful for calling token-specific functions out of an array
-of function pointers that is sorted according to the token ident numbers. */
+of function pointers that is arranged according to the token ident numbers. */
 # define TOKEN_WORD 0
 # define TOKEN_PIPE 1
 # define TOKEN_REDIR_IN 2
 # define TOKEN_REDIR_OUT 3
-# define TOKEN_REDIR_APPEND 4
-# define TOKEN_REDIR_HEREDOC 5
+# define TOKEN_REDIR_HEREDOC 4
+# define TOKEN_REDIR_APPEND 5
 # define TOKEN_SQUOTE 6
 # define TOKEN_DQUOTE 7
 # define TOKEN_SUBSHELL 8

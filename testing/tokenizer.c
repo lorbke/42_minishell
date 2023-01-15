@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/15 00:59:35 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/15 15:14:35 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static unsigned int	desc_word(char *word)
 	else if (*word == '"')
 		return (TOKEN_WORD);
 	else if (*word == '(')
-		return (TOKEN_WORD);
+		return (TOKEN_SUBSHELL);
 	else if (*word == '&' && *(word + 1) == '&')
 		return (TOKEN_AND);
 	else if (*word == '|' && *(word + 1) == '|')

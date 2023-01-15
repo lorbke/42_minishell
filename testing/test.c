@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:25 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/15 01:04:43 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/15 22:26:35 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 #define CASE_1 "< in"
 #define CASE_2 "echo"
 #define CASE_3 "echo hello ha"
-#define CASE_4 "> out"
-#define CASE_5 "echo hi > out"
-#define CASE_6 "< in > out"
-#define CASE_7 "< in echo hi hi > out"
+#define CASE_4 "echo hi > out"
+#define CASE_5 "< in > out"
+#define CASE_6 "< in echo hi hi > out"
+#define CASE_7 "< in1 < in2 < in3 echo hi hi > out1 > out2 > out4 hello hello"
 #define CASE_8 "echo \"hi       hi\" hi"
 #define CASE_9 "ec\"ho\" hi"
 #define CASE_10 "ec\"ho \" hi"
@@ -76,6 +76,7 @@ static void	case_tokenizer(char **tests, char *seps, char *esc)
 	int		i;
 
 	input = malloc(sizeof(char) * 100);
+	i = 0;
 	while (tests[i])
 	{
 		strcpy(input, tests[i]);
@@ -83,6 +84,7 @@ static void	case_tokenizer(char **tests, char *seps, char *esc)
 		printf(YELLOW "CASE %d\n\n" RESET, i);
 		i++;
 	}
+	free(input);
 }
 
 static void	case_parser(char **tests, char *seps, char *esc)
@@ -91,6 +93,7 @@ static void	case_parser(char **tests, char *seps, char *esc)
 	int		i;
 
 	input = malloc(sizeof(char) * 100);
+	i = 0;
 	while (tests[i])
 	{
 		strcpy(input, tests[i]);
@@ -98,6 +101,7 @@ static void	case_parser(char **tests, char *seps, char *esc)
 		printf(YELLOW "CASE %d\n\n" RESET, i);
 		i++;
 	}
+	free(input);
 }
 
 static char	**init_tests(void)
@@ -143,7 +147,6 @@ int	main(int argc, char *argv[])
 	{
 		case_tokenizer(tests, seps, esc);
 		printf("\n\n\n");
-		tests = init_tests();
 		case_parser(tests, seps, esc);
 	}
 	else if (!strncmp(argv[1], "tokenizer\0", 10))
@@ -152,5 +155,6 @@ int	main(int argc, char *argv[])
 		case_parser(tests, seps, esc);
 	else
 		printf("usage: ./test [ all | tokenizer | parser ]\n");
+	free(tests);
 	return (0);
 }
