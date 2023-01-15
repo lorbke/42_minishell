@@ -169,6 +169,13 @@ example:
 
 --------EXECUTOR--------
 
+
+-----simple_cmd
+	- all redirection files are opened, including heredocs
+	- only the last indirection/heredoc is used to be passed to the command
+	- output is only redirected in the last outdirection file
+	- if there is an outdirection and a pipe afterwards, the file is used as output and the pipe remains empty
+
 - function for every token type
 - every ast section contains at least one command
 - the command (and its arguments) are returned up the call stack
@@ -222,7 +229,7 @@ Grammar:
 		
 		
 
-
+SUBSHELL
 - parenthesis always have to encompass a logically self-sufficient part of the input
 
 - in the ast, any rule can be replaced by a subshell?
@@ -237,12 +244,15 @@ Grammar:
 
 
 
+simple_cmd
+	- while loop that checks if the next token is a word or a redirect, then sorts it into the correct place in the ast
+		- problem: in and outdirect differentiation (has to be done anyway)
+	- three separate lists for words, out- and indirections
+	- at the end they are packed together
 
+	- problem: how to handle the redirections?
+		- more flags for the redirect functions?
+	
 
-
-- create_ast function that takes a pointer to the rule function and multiple or single as an argument
-- also an append_ast function that takes a pointer to the ast that should be appended to the end of an ast
-
-- do single and multiple differentiation in the rule functions
-	- advantage: different handling of words and everything else
-
+	- there can be multiple indirections, but only from existing files
+		- there can be multiple outdirections, but only to existing files
