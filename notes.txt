@@ -127,6 +127,10 @@ BNF production rules:
 	<word_list>    ::=  <word> { <word> }
 	<word>         ::=  ( any character except whitespace, metacharacters, or redirection operators )
 
+{} = 0 or more
+() = 1
+| = or
+<> = reference to another production rule
 
 redirect
 	- indirection <
@@ -134,7 +138,7 @@ redirect
 	- outdirection >
 		- file always on right side
 
-approach: 
+approach:
 	1. create function for each production rule
 	2. manipulate the tree accordingly in the functions
 
