@@ -204,18 +204,11 @@ pseudo code:
 
 Grammar:
 
-	double quotes
-		- everything in between is a single token
-		- single quotes inside double quotes are ignored
-		- variable recognition and expansion
-		- intra-word quotation: if quote is connected to a token, the token is part of the quote-token
-			- intra-word quotation does not work on variables
-		- quote-token is tried to be executed if it is in place of a command
-
-	single quotes
-		- everything in between is a single token
-		- double quotes inside single quotes are ignored
-		- no varaible recognition or expansion
+	quotes
+		- everything in between is a single token and considered a word (so it can be a command or a variable)
+		- double quotes inside single quotes are ignored, including other type of quotes
+		- no variable recognition or expansion for single quotes
+		- variable recognition and expansion for double quotes
 		- intra-word quotation: if quote is connected to a token, the token is part of the quote-token
 			- intra-word quotation does not work on variables
 		- quote-token is tried to be executed if it is in place of a command
