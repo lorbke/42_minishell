@@ -124,7 +124,6 @@ BNF production rules:
 	<command>      ::=  <simple_cmd> | '(' <and_or> ')'
 	<simple_cmd>   ::=  { <redirect> } { <word> } { ( <redirect> | <word> ) }
 	<redirect>     ::=  ( '<' | '>' | '<<' | '>>' ) <word>
-	<word_list>    ::=  <word> { <word> }
 	<word>         ::=  ( any character except whitespace, metacharacters, or redirection operators )
 
 {} = 0 or more
