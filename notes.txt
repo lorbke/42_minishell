@@ -183,31 +183,19 @@ example:
 - problem: the pipe out fd is not passed to the next command
 - if instead the fd is returned, the problem is that the called function doesnt know the fd of the redirect file
 
+--------executor solution:
+	- every function returns a command table
+	
+	- a redirect calling function will overwrite the tables' in/out descriptor with its file and pass the table to its own calling function
+	
+	- a pipe calling function will create a pipe, and assigns the pipes write end to the out descriptor of the table if it is null, then executes the table's command and assembles a new table with the right-hand command of the pipe that is then passed to its own calling function
+	
+	- the initial calling function of the whole executor will therefore also be passed a command table, which it executes to complete execution
 
-possible solution:
-	- return a command table containing the command and the in-fd
-	- the command table of calling function is passed to the called function
-
-
-pseudo code:
-	struct cmd_table
-		ast *cmd
-		int in_fd
-		int out_fd
-
-	fn exec_pipe(ast, return_cmd_table)
-		struct cmd_table
-		func_exec[get_type(ast->left)](ast->left, &cmd_table)
-		pipe(in_fd, out_fd)
-		exec(cmd_table->cmd, in_fd, out_fd)
-		return_cmd_table->in_fd = out_fd
-		return_cmd_table->cmd = ast->right
-
-
-
-
-
-
+	remaining question:
+		- a command in a command table can either be an actual command or a subshell?
+		- during execution, the process is forked and either directly executes or first goes through the parser again to parse the subshell?
+		- what is the output of a subshell? -> it has normal fds, just like regular commands, therefore this whole approach should work
 
 
 
