@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 17:22:41 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/16 00:59:04 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/16 14:02:02 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,23 @@ bash's maintainers argue that it has weaknesses. */
 # include <stdlib.h>
 # include <stdbool.h>
 
+// wildcards and variables are identified as words and not handled in the parser
 /* I have decided to use this format for the token identifiers instead of a 
 bitmask like in the original bash. The benefits of a bitmask only apply if a
 token can have multiple properties, which is not the case here.
 Also, this format is useful for calling token-specific functions out of an array
 of function pointers that is arranged according to the token ident numbers. */
-# define TOKEN_WORD 0
-# define TOKEN_PIPE 1
-# define TOKEN_REDIR_IN 2
-# define TOKEN_REDIR_OUT 3
-# define TOKEN_REDIR_HEREDOC 4
-# define TOKEN_REDIR_APPEND 5
-# define TOKEN_SQUOTE 6
-# define TOKEN_DQUOTE 7
-# define TOKEN_SUBSHELL 8
-# define TOKEN_AND 9
-# define TOKEN_OR 10
+# define TOK_WORD 0
+# define TOK_PIPE 1
+# define TOK_REDIR_IN 2
+# define TOK_REDIR_OUT 3
+# define TOK_REDIR_HEREDOC 4
+# define TOK_REDIR_APPEND 5
+# define TOK_SQUOTE 6
+# define TOK_DQUOTE 7
+# define TOK_SUBSHELL 8
+# define TOK_AND 9
+# define TOK_OR 10
 
 typedef struct s_token
 {
@@ -71,5 +72,12 @@ void			print_tokstack(t_stack *head);
 void			print_ast(t_ast *ast, int width);
 
 t_ast			*parse(t_stack	*toklist);
+
+//rules
+t_ast			*rule_simple_cmd(t_stack **tokstack);
+
+// utils
+t_ast			*create_ast_node(t_token	*token);
+t_ast			*append_ast(t_ast *main, t_ast *append);
 
 #endif
