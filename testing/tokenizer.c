@@ -6,43 +6,44 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/15 15:14:35 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/16 18:01:57 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
 // where to handle token specific errors like only one &, unnmatched quotes, etc.?
-// subshell and quotes are not identified properly
+// quotes are not identified properly - do they have to be identified?
 static unsigned int	desc_word(char *word)
 {
 	if (*word == '|')
-		return (TOKEN_PIPE);
+		return (TOK_PIPE);
 	else if (*word == '<')
-		return (TOKEN_REDIR_IN);
+		return (TOK_REDIR_IN);
 	else if (*word == '>')
-		return (TOKEN_REDIR_OUT);
+		return (TOK_REDIR_OUT);
 	else if (*word == '\'')
-		return (TOKEN_WORD);
+		return (TOK_WORD);
 	else if (*word == '"')
-		return (TOKEN_WORD);
+		return (TOK_WORD);
 	else if (*word == '(')
-		return (TOKEN_SUBSHELL);
+		return (TOK_SUBSHELL);
 	else if (*word == '&' && *(word + 1) == '&')
-		return (TOKEN_AND);
+		return (TOK_AND);
 	else if (*word == '|' && *(word + 1) == '|')
-		return (TOKEN_OR);
-	return (TOKEN_WORD);
+		return (TOK_OR);
+	return (TOK_WORD);
 }
 
 static t_token	*create_token(char *word)
 {
 	t_token	*new;
 
+	if (!word || !*word)
+		return (NULL);
 	new = malloc(sizeof(t_token));
 	new->word = word;
-	if (word)
-		new->desc = desc_word(word);
+	new->desc = desc_word(word);
 	return (new);
 }
 
@@ -50,12 +51,15 @@ static t_stack	*create_list_node(t_token *token)
 {
 	t_stack	*new;
 
+	if (!token)
+		return (NULL);
 	new = malloc(sizeof(t_stack));
 	new->token = token;
 	new->next = NULL;
 	return (new);
 }
 
+// ugly code, fix?
 t_stack	*str_to_tokstack(char *str, char *seps, char *esc)
 {
 	t_stack	*head;
@@ -63,13 +67,22 @@ t_stack	*str_to_tokstack(char *str, char *seps, char *esc)
 
 	if (!*str || !str)
 		return (NULL);
-	head = create_list_node(create_token(ms_ft_strsep(&str, seps, esc)));
+	head = NULL;
+	while (*str)
+	{
+		head = create_list_node(create_token(ms_ft_strsep(&str, seps, esc)));
+		if (head)
+			break ;
+	}
+	if (!head)
+		return (NULL);
 	temp = head;
 	while (*str)
 	{
 		temp->next
 			= create_list_node(create_token(ms_ft_strsep(&str, seps, esc)));
-		temp = temp->next;
+		if (temp->next)
+			temp = temp->next;
 	}
 	temp->next = NULL;
 	return (head);
