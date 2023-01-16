@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:25 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/16 17:57:40 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/16 18:30:58 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 #define CASE_8 "ec\"'h'o\" hi"
 #define CASE_9 "echo \'hi       hi\' hi"
 #define CASE_10 "ec\'\"h\"o\' hi"
-#define CASE_11 " echo 42 | cat -e"
+#define CASE_11 " echo   	  42 | cat -e   "
 #define CASE_12 "echo test | cat -e | cat -e | cat -e | cat -e | cat -e"
 #define CASE_13 "| echo"
 #define CASE_14 "echo |"
