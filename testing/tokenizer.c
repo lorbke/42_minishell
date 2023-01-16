@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/16 18:01:57 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/16 18:47:58 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // quotes are not identified properly - do they have to be identified?
 static unsigned int	desc_word(char *word)
 {
-	if (*word == '|')
+	if (*word == '|' && *(word + 1) != '|')
 		return (TOK_PIPE);
 	else if (*word == '<')
 		return (TOK_REDIR_IN);

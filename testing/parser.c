@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/16 18:40:16 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/16 18:43:17 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@
 
 // free the tokstack after parsing
 
-
 t_ast	*parse(t_stack	*tokstack)
 {
 	t_ast	*ast;
 
-	ast = rule_pipe(&tokstack);
+	ast = rule_pipeline(&tokstack);
 	return (ast);
 }
