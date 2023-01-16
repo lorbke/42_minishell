@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 17:22:41 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/16 14:02:02 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/16 18:39:08 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ t_ast			*parse(t_stack	*toklist);
 
 //rules
 t_ast			*rule_simple_cmd(t_stack **tokstack);
+t_ast			*rule_comp_cmd(t_stack **tokstack);
+t_ast			*rule_pipe(t_stack **tokstack);
 
 // utils
 t_ast			*create_ast_node(t_token	*token);
