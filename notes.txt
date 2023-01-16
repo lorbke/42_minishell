@@ -119,9 +119,9 @@ structure flowchart: https://lucid.app/lucidspark/6b5a618b-0bb7-4dbb-bef9-ecfa52
 BNF production rules: 
 (source: https://stackoverflow.com/questions/71769632/making-a-shell-grammar-for-a-recursive-descent-parser)
 	<complete_cmd> ::=  <and_or> <newline>
-	<and_or>       ::=  <pipeline> { ('&&' | '||') <pipeline> }        
+	<and_or>       ::=  <pipeline> { ('&&' | '||') <pipeline> }
 	<pipeline>     ::=  <command> { '|' <command> }
-	<command>      ::=  <simple_cmd> | '(' <and_or> ')'
+	<command>      ::=  ( <simple_cmd> | '(' <and_or> ')' )
 	<simple_cmd>   ::=  { ( <redirect> | <word> ) }
 	<redirect>     ::=  ( '<' | '>' | '<<' | '>>' ) <word>
 	<word>         ::=  ( any character except whitespace, metacharacters, or redirection operators )
@@ -191,6 +191,8 @@ example:
 	- a pipe calling function will create a pipe, and assigns the pipes write end to the out descriptor of the table if it is null, then executes the table's command and assembles a new table with the right-hand command of the pipe that is then passed to its own calling function
 	
 	- the initial calling function of the whole executor will therefore also be passed a command table, which it executes to complete execution
+
+	- in the function that actually executes, variables are expanded and then quotes are removed
 
 	remaining question:
 		- a command in a command table can either be an actual command or a subshell?
