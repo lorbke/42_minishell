@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:25 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/15 22:26:35 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/16 17:57:40 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,20 @@
 #define CASE_1 "< in"
 #define CASE_2 "echo"
 #define CASE_3 "echo hello ha"
-#define CASE_4 "echo hi > out"
-#define CASE_5 "< in > out"
-#define CASE_6 "< in echo hi hi > out"
-#define CASE_7 "< in1 < in2 < in3 echo hi hi > out1 > out2 > out4 hello hello"
-#define CASE_8 "echo \"hi       hi\" hi"
-#define CASE_9 "ec\"ho\" hi"
-#define CASE_10 "ec\"ho \" hi"
-#define CASE_11 "ec\"'h'o\" hi"
-#define CASE_12 "echo \'hi       hi\' hi"
-#define CASE_13 "ec\'ho\' hi"
-#define CASE_14 "ec\'\"h\"o\' hi"
-#define CASE_15 "ec\'ho hi"
-#define CASE_16 "(echo hi)"
-#define CASE_17 "echo (hi hi)"
+#define CASE_4 "< in echo hi hi > out"
+#define CASE_5 "< in1 < in2 < in3 echo hi hi > out1 > out2 > out4 hello hello"
+#define CASE_6 "echo \"hi       hi\" hi"
+#define CASE_7 "ec\"ho\" hi"
+#define CASE_8 "ec\"'h'o\" hi"
+#define CASE_9 "echo \'hi       hi\' hi"
+#define CASE_10 "ec\'\"h\"o\' hi"
+#define CASE_11 " echo 42 | cat -e"
+#define CASE_12 "echo test | cat -e | cat -e | cat -e | cat -e | cat -e"
+#define CASE_13 "| echo"
+#define CASE_14 "echo |"
+#define CASE_15 " | "
+#define CASE_16 "|"
+#define CASE_17 "echo | cat -e | > out"
 
 // colors
 #define RESET   "\033[0m"
