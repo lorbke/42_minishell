@@ -118,19 +118,19 @@ structure flowchart: https://lucid.app/lucidspark/6b5a618b-0bb7-4dbb-bef9-ecfa52
 (backus-naur-form (BNF) is a metasyntax notation, used to describe the syntax of a programming language)
 BNF production rules: 
 (source: https://stackoverflow.com/questions/71769632/making-a-shell-grammar-for-a-recursive-descent-parser)
-	<complete_cmd> ::=  <and_or> <newline>
-	<and_or>       ::=  <pipeline> { ('&&' | '||') <pipeline> }
-	<pipeline>     ::=  <command> { '|' <command> }
-	<command>      ::=  ( <simple_cmd> | <and_or> )
-	<simple_cmd>   ::=  { ( <redirect> | <word> ) }
-	<redirect>     ::=  ( '<' | '>' | '<<' | '>>' ) <word>
-	<word>         ::=  ( any character except whitespace, metacharacters, or redirection operators )
+	<all>        ::=  <and_or> <newline>
+	<and_or>     ::=  <pipeline> { ('&&' | '||') <pipeline> }
+	<pipeline>   ::=  <command> { '|' <command> }
+	<comp_cmd>   ::=  ( <simple_cmd> | <and_or> )
+	<simple_cmd> ::=  { ( <redirect> | <word> ) }
+	<redirect>   ::=  ( '<' | '>' | '<<' | '>>' ) <word>
+	<word>       ::=  ( any character except whitespace, metacharacters, or redirection operators )
 {} = 0 or more
 () = 1 of the options
  | = or
 <> = reference to another production rule
 
-	- quotes and parentheses (subshells) are not reflected by the grammar
+	- quotes and parentheses (subshells) are not reflected by the grammar because they can appear anywhere
 
 redirect
 	- indirection <
@@ -248,3 +248,19 @@ simple_cmd
 
 	- there can be multiple indirections, but only from existing files
 		- there can be multiple outdirections, but only to existing files
+
+
+
+
+
+
+----------ERROR HANDLING----------
+
+Parser
+	- how to handle syntax errors?
+		- seperate syntax module that iterates over the ast or the token list and checks for syntax errors
+		- another approach would be to return NULL if a syntax error is encountered and handle it in the main parser function by saying "parse error near 'token'" where token is the next token in the stack
+
+	- what errors are there?
+		- syntax errors
+		- parsing errors
