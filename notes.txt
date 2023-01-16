@@ -121,7 +121,7 @@ BNF production rules:
 	<complete_cmd> ::=  <and_or> <newline>
 	<and_or>       ::=  <pipeline> { ('&&' | '||') <pipeline> }
 	<pipeline>     ::=  <command> { '|' <command> }
-	<command>      ::=  ( <simple_cmd> | '(' <and_or> ')' )
+	<command>      ::=  ( <simple_cmd> | <and_or> )
 	<simple_cmd>   ::=  { ( <redirect> | <word> ) }
 	<redirect>     ::=  ( '<' | '>' | '<<' | '>>' ) <word>
 	<word>         ::=  ( any character except whitespace, metacharacters, or redirection operators )
