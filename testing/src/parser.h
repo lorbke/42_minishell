@@ -6,12 +6,12 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 17:22:41 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/17 17:47:25 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/17 17:48:33 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* This is a recursive descent (RD) parser, as opposed to original bash's yacc
-look-ahead left-to-right (LALR) parser. The RD parser was choosen because it
+look-ahead left-to-right (LALR) parser. The RD parser was chosen because it
 is a solution that is more interesting to me and because the current
 implementation of the bash parser seems to be a relict of the past and even
 bash's maintainers argue that it has weaknesses. */
@@ -32,7 +32,7 @@ bitmask like in the original bash. The benefits of a bitmask only apply if a
 token can have multiple properties, which isn't the case in this implementation.
 Also, this format is useful for calling token-specific functions out of an array
 of function pointers that is arranged according to the token ident numbers,
-which will be useful during execution. */
+which will be useful during the execution phase. */
 # define TOK_WORD 0
 # define TOK_PIPE 1
 # define TOK_REDIR_IN 2

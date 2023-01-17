@@ -4,8 +4,8 @@ NAME = test
 
 OBJ_PATH = obj
 
-SRC = $(wildcard *.c)
-OBJ = $(addprefix $(OBJ_PATH)/,$(patsubst %.c,%.o,$(SRC)))
+SRC = $(wildcard src/*.c)
+OBJ = $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 
 CC = cc -g
 
@@ -14,7 +14,7 @@ all: makedir $(NAME)
 $(NAME): $(OBJ)
 	$(CC) $(OBJ) -o $(NAME)
 
-$(OBJ_PATH)/%.o: %.c
+$(OBJ_PATH)/%.o: src/%.c
 	$(CC) -c $< -o $@
 
 makedir:
