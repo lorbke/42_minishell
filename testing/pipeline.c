@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:38:26 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/16 18:42:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/17 15:41:00 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static t_ast	*get_right(t_stack **tokstack)
 {
 	t_ast	*head;
-	t_ast	*new;
+	t_ast	*next_pipe;
 
 	if (!*tokstack || (*tokstack)->token->desc != TOK_PIPE)
 		return (NULL);
@@ -24,11 +24,10 @@ static t_ast	*get_right(t_stack **tokstack)
 	head->right = rule_comp_cmd(tokstack);
 	if (!head->right)
 		return (head);
-	new = get_right(tokstack);
-	if (!new)
+	next_pipe = get_right(tokstack);
+	if (!next_pipe)
 		return (head);
-	new->left = head;
-	head = new;
+	head = left_append_ast(next_pipe, head);
 	return (head);
 }
 
@@ -43,8 +42,6 @@ t_ast	*rule_pipeline(t_stack **tokstack)
 	right = get_right(tokstack);
 	if (!right)
 		return (left);
-	if (!right->right)
-		return (NULL);
-	right = append_ast(right, left);
+	right = left_append_ast(right, left);
 	return (right);
 }

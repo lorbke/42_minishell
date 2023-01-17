@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:25 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/16 18:48:33 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/17 15:41:27 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@
 #define CASE_9 "echo \'hi       hi\' hi"
 #define CASE_10 "ec\'\"h\"o\' hi"
 #define CASE_11 " echo   	  42 | cat -e"
-#define CASE_12 "echo test | cat -e | cat -e | cat -e | cat -e | cat -e"
+#define CASE_12 "echo test | start -e | cat -e | cat -e | cat -e | end -e"
 #define CASE_13 "| echo"
-#define CASE_14 "echo |"
+#define CASE_14 "echo |" // incomplete pipe case
 #define CASE_15 " | "
 #define CASE_16 "|"
-#define CASE_17 "echo | cat -e | > out"
+#define CASE_17 "echo | cat -e | cat -e > out"
 
 // colors
 #define RESET   "\033[0m"
@@ -66,8 +66,13 @@ static void	test_parser(char *input, char *seps, char *esc)
 	t_ast	*ast;
 
 	tokstack = str_to_tokstack(input, seps, esc);
-	ast = parse(tokstack);
+	ast = parse(&tokstack);
 	print_ast(ast, 0);
+	print_tokstack(tokstack);
+	if (tokstack)
+		printf(BLUE "minishell: syntax error near unexpected token `%s'\n" RESET, tokstack->token->word);
+	else
+		printf(BLUE "minishell: syntax valid!\n" RESET);
 }
 
 static void	case_tokenizer(char **tests, char *seps, char *esc)

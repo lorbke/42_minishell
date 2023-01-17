@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:53:34 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/16 14:58:56 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/17 14:47:46 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ static t_ast	*connect_simple_cmd(
 	if (words)
 		head = words;
 	if (redirs_in)
-		head = append_ast(redirs_in, head);
+		head = left_append_ast(redirs_in, head);
 	if (redirs_out)
-		head = append_ast(redirs_out, head);
+		head = left_append_ast(redirs_out, head);
 	return (head);
 }
 
@@ -89,11 +89,11 @@ t_ast	*rule_simple_cmd(t_stack **tokstack)
 	{
 		if (*tokstack && ((*tokstack)->token->desc == TOK_REDIR_IN
 				|| (*tokstack)->token->desc == TOK_REDIR_HEREDOC))
-			redirs_in = append_ast(rule_redirect(tokstack), redirs_in);
-		words = append_ast(words, rule_word(tokstack));
+			redirs_in = left_append_ast(rule_redirect(tokstack), redirs_in);
+		words = left_append_ast(words, rule_word(tokstack));
 		if (*tokstack && ((*tokstack)->token->desc == TOK_REDIR_OUT
 				|| (*tokstack)->token->desc == TOK_REDIR_APPEND))
-			redirs_out = append_ast(rule_redirect(tokstack), redirs_out);
+			redirs_out = left_append_ast(rule_redirect(tokstack), redirs_out);
 	}
 	return (connect_simple_cmd(redirs_in, words, redirs_out));
 }

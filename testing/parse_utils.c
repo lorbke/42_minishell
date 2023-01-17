@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 12:30:50 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/16 12:32:35 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/17 14:47:15 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_ast	*create_ast_node(t_token	*token)
 	return (new);
 }
 
-t_ast	*append_ast(t_ast *main, t_ast *append)
+t_ast	*left_append_ast(t_ast *main, t_ast *append)
 {
 	t_ast	*temp;
 
