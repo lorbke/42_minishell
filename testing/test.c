@@ -6,14 +6,14 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:25 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/17 15:41:27 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/17 15:59:20 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
 // test cases
-#define CASE_COUNT 18
+#define CASE_COUNT 25
 #define CASE_0 ""
 #define CASE_1 "< in"
 #define CASE_2 "echo"
@@ -31,7 +31,14 @@
 #define CASE_14 "echo |" // incomplete pipe case
 #define CASE_15 " | "
 #define CASE_16 "|"
-#define CASE_17 "echo | cat -e | cat -e > out"
+#define CASE_17 "echo 1 && echo 2"
+#define CASE_18 "echo 1 || echo 2"
+#define CASE_19 "echo 1 && echo 2 && echo 3"
+#define CASE_20 "echo 1 || echo 2 | echo 3"
+#define CASE_21 "echo 1 | echo 2 && echo 3"
+#define CASE_22 "echo 1 | echo 2 || echo 3 | echo 4"
+#define CASE_23 "echo ||"
+#define CASE_24 " || "
 
 // colors
 #define RESET   "\033[0m"
@@ -132,7 +139,14 @@ static char	**init_tests(void)
 	tests[15] = CASE_15;
 	tests[16] = CASE_16;
 	tests[17] = CASE_17;
-	tests[18] = NULL;
+	tests[18] = CASE_18;
+	tests[19] = CASE_19;
+	tests[20] = CASE_20;
+	tests[21] = CASE_21;
+	tests[22] = CASE_22;
+	tests[23] = CASE_23;
+	tests[24] = CASE_24;
+	tests[25] = NULL;
 	return (tests);
 }
 
