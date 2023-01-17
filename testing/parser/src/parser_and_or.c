@@ -32,7 +32,7 @@ static t_ast	*get_right(t_stack **tokstack)
 	next_pipe = get_right(tokstack);
 	if (!next_pipe)
 		return (head);
-	head = left_append_ast(next_pipe, head);
+	head = append_left_ast(next_pipe, head);
 	return (head);
 }
 
@@ -52,6 +52,6 @@ t_ast	*rule_and_or(t_stack **tokstack)
 	right = get_right(tokstack);
 	if (!right)
 		return (left);
-	right = left_append_ast(right, left);
+	right = append_left_ast(right, left);
 	return (right);
 }

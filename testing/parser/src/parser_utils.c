@@ -29,7 +29,7 @@ t_ast	*create_ast_node(t_token	*token)
 	return (new);
 }
 
-t_ast	*left_append_ast(t_ast *main, t_ast *append)
+t_ast	*append_left_ast(t_ast *main, t_ast *append)
 {
 	t_ast	*temp;
 
