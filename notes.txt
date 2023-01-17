@@ -177,6 +177,12 @@ example:
 	- output is only redirected in the last outdirection file
 	- if there is an outdirection and a pipe afterwards, the file is used as output and the pipe remains empty
 
+
+-----pipeline
+	- should right-hand incomplete pipes be handled?
+		- actual bash will let you type in a command in that case
+		- easy to implement
+
 - function for every token type
 - every ast section contains at least one command
 - the command (and its arguments) are returned up the call stack
