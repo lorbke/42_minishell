@@ -2,7 +2,6 @@
 
 NAME = test
 
-
 LEXER_PATH = lexer
 PARSER_PATH = parser
 DEBUGGER_PATH = debugger
@@ -16,6 +15,7 @@ INC_PARSER = $(PARSER_PATH)
 INC_DEBUGGER = $(DEBUGGER_PATH)
 
 VPATH = $(SRC_PATH) $(LEXER_PATH)/src $(PARSER_PATH)/src $(DEBUGGER_PATH)/src
+
 SRC = $(wildcard */*.c) $(wildcard */*/*.c)
 OBJ = $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 
