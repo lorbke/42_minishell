@@ -171,17 +171,22 @@ example:
 --------EXECUTOR--------
 
 
------simple_cmd
-	- all redirection files are opened, including heredocs
-	- only the last indirection/heredoc is used to be passed to the command
-	- output is only redirected in the last outdirection file
-	- if there is an outdirection and a pipe afterwards, the file is used as output and the pipe remains empty
+-----edge cases
+	- simple_cmd
+		- all redirection files are opened, including heredocs
+		- only the last indirection/heredoc is used to be passed to the command
+		- output is only redirected in the last outdirection file
+		- if there is an outdirection and a pipe afterwards, the file is used as output and the pipe remains empty
 
+	- pipeline
+		- should right-hand incomplete pipes be handled?
+			- actual bash will let you type in a command in that case
+			- easy to implement
 
------pipeline
-	- should right-hand incomplete pipes be handled?
-		- actual bash will let you type in a command in that case
-		- easy to implement
+	- and_or
+		- should the right-hand incomplete and/or be handled?
+			- actual bash will let you type in a command in that case
+			- easy to implement
 
 - function for every token type
 - every ast section contains at least one command
