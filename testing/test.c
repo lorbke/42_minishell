@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:25 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/17 15:59:20 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/17 17:42:06 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,30 @@
 // test cases
 #define CASE_COUNT 25
 #define CASE_0 ""
-#define CASE_1 "< in"
-#define CASE_2 "echo"
-#define CASE_3 "echo hello ha"
-#define CASE_4 "< in echo hi hi > out"
-#define CASE_5 "< in1 < in2 < in3 echo hi hi > out1 > out2 > out4 hello hello"
-#define CASE_6 "echo \"hi       hi\" hi"
-#define CASE_7 "ec\"ho\" hi"
-#define CASE_8 "ec\"'h'o\" hi"
-#define CASE_9 "echo \'hi       hi\' hi"
-#define CASE_10 "ec\'\"h\"o\' hi"
-#define CASE_11 " echo   	  42 | cat -e"
-#define CASE_12 "echo test | start -e | cat -e | cat -e | cat -e | end -e"
-#define CASE_13 "| echo"
-#define CASE_14 "echo |" // incomplete pipe case
-#define CASE_15 " | "
-#define CASE_16 "|"
-#define CASE_17 "echo 1 && echo 2"
-#define CASE_18 "echo 1 || echo 2"
-#define CASE_19 "echo 1 && echo 2 && echo 3"
-#define CASE_20 "echo 1 || echo 2 | echo 3"
-#define CASE_21 "echo 1 | echo 2 && echo 3"
-#define CASE_22 "echo 1 | echo 2 || echo 3 | echo 4"
-#define CASE_23 "echo ||"
-#define CASE_24 " || "
+#define CASE_1 "< in\n"
+#define CASE_2 "echo\n"
+#define CASE_3 "echo hello ha\n"
+#define CASE_4 "< in echo hi hi > out\n"
+#define CASE_5 "< in1 < in2 < in3 echo hi hi > out1 > out2 > out4 hello hello\n"
+#define CASE_6 "echo \"hi       hi\" hi\n"
+#define CASE_7 "ec\"ho\" hi\n"
+#define CASE_8 "ec\"'h'o\" hi\n"
+#define CASE_9 "echo \'hi       hi\' hi\n"
+#define CASE_10 "ec\'\"h\"o\' hi\n"
+#define CASE_11 " echo   	  42 | cat -e\n"
+#define CASE_12 "echo test | start -e | cat -e | cat -e | cat -e | end -e\n"
+#define CASE_13 "| echo\n"
+#define CASE_14 "echo |\n" // incomplete pipe case
+#define CASE_15 " | \n"
+#define CASE_16 "|\n"
+#define CASE_17 "echo 1 && echo 2\n"
+#define CASE_18 "echo 1 || echo 2\n"
+#define CASE_19 "echo 1 && echo 2 && echo 3\n"
+#define CASE_20 "echo 1 || echo 2 | echo 3\n"
+#define CASE_21 "echo 1 | echo 2 && echo 3\n"
+#define CASE_22 "echo 1 | echo 2 || echo 3 | echo 4\n"
+#define CASE_23 "echo ||\n"
+#define CASE_24 " || \n"
 
 // colors
 #define RESET   "\033[0m"
@@ -77,9 +77,9 @@ static void	test_parser(char *input, char *seps, char *esc)
 	print_ast(ast, 0);
 	print_tokstack(tokstack);
 	if (tokstack)
-		printf(BLUE "minishell: syntax error near unexpected token `%s'\n" RESET, tokstack->token->word);
+		printf(RED "minishell: syntax error near unexpected token `%s'\n" RESET, tokstack->token->word);
 	else
-		printf(BLUE "minishell: syntax valid!\n" RESET);
+		printf(GREEN "minishell: syntax valid!\n" RESET);
 }
 
 static void	case_tokenizer(char **tests, char *seps, char *esc)

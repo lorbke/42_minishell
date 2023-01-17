@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:19 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/14 22:35:17 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/17 17:42:13 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	print_tokstack(t_stack *head)
 	t_stack	*temp;
 
 	temp = head;
-	printf(GREEN "\n=========Token Stack=========\n" RESET);
+	printf(BLUE "\n=========Token Stack=========\n" RESET);
 	printf("stack: ");
 	while (head)
 	{
@@ -55,7 +55,7 @@ void	print_tokstack(t_stack *head)
 void	print_ast(t_ast *ast, int width)
 {
 	if (!width)
-		printf(GREEN "\n=========Abstract Syntax Tree=========\n" RESET);
+		printf(BLUE "\n=========Abstract Syntax Tree=========\n" RESET);
 	if (!ast)
 		return ;
 	print_ast(ast->right, width + 7);

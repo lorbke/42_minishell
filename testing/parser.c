@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/17 15:52:02 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/17 17:41:13 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,27 @@
 
 // free the tokstack after parsing
 
+// rule_all was skipped because identifying a newline is probably not needed and will be treated as a delim during tokenization
+
+static void	free_tokstack(t_stack *tokstack)
+{
+	t_stack	*temp;
+
+	while (tokstack->next)
+	{
+		temp = tokstack;
+		tokstack = tokstack->next;
+		free(tokstack);
+	}
+}
+
 t_ast	*parse(t_stack	**tokstack)
 {
 	t_ast	*ast;
+	t_stack	*temp;
 
+	temp = *tokstack;
 	ast = rule_and_or(tokstack);
+	// free_tokstack(temp);
 	return (ast);
 }

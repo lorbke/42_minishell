@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 17:22:41 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/17 15:21:02 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/17 17:47:25 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,20 @@ bash's maintainers argue that it has weaknesses. */
 #ifndef PARSER_H
 # define PARSER_H
 
-# include <unistd.h>
-# include <stdio.h>
+# include <stdio.h> // printf
 # include <string.h>
-# include <stdlib.h>
-# include <stdbool.h>
+# include <stdlib.h> // malloc, free
+# include <stdbool.h> // bool, true, false
 
+//
 // wildcards and variables are identified as words and not handled in the parser
+//
 /* I have decided to use this format for the token identifiers instead of a 
 bitmask like in the original bash. The benefits of a bitmask only apply if a
-token can have multiple properties, which is not the case here.
+token can have multiple properties, which isn't the case in this implementation.
 Also, this format is useful for calling token-specific functions out of an array
-of function pointers that is arranged according to the token ident numbers. */
+of function pointers that is arranged according to the token ident numbers,
+which will be useful during execution. */
 # define TOK_WORD 0
 # define TOK_PIPE 1
 # define TOK_REDIR_IN 2
