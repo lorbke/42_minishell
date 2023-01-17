@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_and_or.c                                    :+:      :+:    :+:   */
+/*   parser_pipeline.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 18:43:53 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/17 18:23:10 by lorbke           ###   ########.fr       */
+/*   Created: 2023/01/16 18:38:26 by lorbke            #+#    #+#             */
+/*   Updated: 2023/01/17 20:24:25 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_private.h" // main header
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token, t_stack, TOK_* macros
+#include <stdlib.h> // NULL
 
 static t_ast	*get_right(t_stack **tokstack)
 {
 	t_ast	*head;
 	t_ast	*next_pipe;
 
-	if (!*tokstack
-		|| ((*tokstack)->token->desc != TOK_AND
-			&& (*tokstack)->token->desc != TOK_OR))
+	if (!*tokstack || (*tokstack)->token->desc != TOK_PIPE)
 		return (NULL);
 	head = create_ast_node((*tokstack)->token);
 	*tokstack = (*tokstack)->next;
-	head->right = rule_pipeline(tokstack);
+	head->right = rule_comp_cmd(tokstack);
 	if (!head->right)
 		return (head);
 	next_pipe = get_right(tokstack);
@@ -35,19 +34,14 @@ static t_ast	*get_right(t_stack **tokstack)
 	return (head);
 }
 
-t_ast	*rule_and_or(t_stack **tokstack)
+t_ast	*rule_pipeline(t_stack **tokstack)
 {
 	t_ast	*left;
 	t_ast	*right;
-	t_ast	*new;
 
-	left = rule_pipeline(tokstack);
+	left = rule_comp_cmd(tokstack);
 	if (!left)
 		return (NULL);
-	if (!*tokstack
-		|| ((*tokstack)->token->desc != TOK_AND
-			&& (*tokstack)->token->desc != TOK_OR))
-		return (left);
 	right = get_right(tokstack);
 	if (!right)
 		return (left);

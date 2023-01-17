@@ -6,12 +6,15 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:31:22 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/17 18:41:29 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/17 20:31:46 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEBUGGER_PRIVATE_H
 # define DEBUGGER_PRIVATE_H
+
+# include "lexer.h" // t_token, t_stack
+# include "parser.h" // t_ast
 
 // colors for printf
 # define RESET       "\033[0m"

@@ -6,11 +6,17 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:25 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/17 17:42:06 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/17 20:37:39 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "debugger.h"
 #include "parser.h"
+#include "lexer.h"
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdlib.h>
 
 // test cases
 #define CASE_COUNT 25
@@ -40,49 +46,26 @@
 #define CASE_23 "echo ||\n"
 #define CASE_24 " || \n"
 
-// colors
-#define RESET   "\033[0m"
-#define BLACK   "\033[30m"      /* Black */
-#define RED     "\033[31m"      /* Red */
-#define GREEN   "\033[32m"      /* Green */
-#define YELLOW  "\033[33m"      /* Yellow */
-#define BLUE    "\033[34m"      /* Blue */
-#define MAGENTA "\033[35m"      /* Magenta */
-#define CYAN    "\033[36m"      /* Cyan */
-#define WHITE   "\033[37m"      /* White */
-#define BOLDBLACK   "\033[1m\033[30m"      /* Bold Black */
-#define BOLDRED     "\033[1m\033[31m"      /* Bold Red */
-#define BOLDGREEN   "\033[1m\033[32m"      /* Bold Green */
-#define BOLDYELLOW  "\033[1m\033[33m"      /* Bold Yellow */
-#define BOLDBLUE    "\033[1m\033[34m"      /* Bold Blue */
-#define BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
-#define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
-#define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
+// colors for printf
+# define RESET       "\033[0m"
+# define BLACK       "\033[30m"        /* Black */
+# define RED         "\033[31m"        /* Red */
+# define GREEN       "\033[32m"        /* Green */
+# define YELLOW      "\033[33m"        /* Yellow */
+# define BLUE        "\033[34m"        /* Blue */
+# define MAGENTA     "\033[35m"        /* Magenta */
+# define CYAN        "\033[36m"        /* Cyan */
+# define WHITE       "\033[37m"        /* White */
+# define BOLDBLACK   "\033[1m\033[30m" /* Bold Black */
+# define BOLDRED     "\033[1m\033[31m" /* Bold Red */
+# define BOLDGREEN   "\033[1m\033[32m" /* Bold Green */
+# define BOLDYELLOW  "\033[1m\033[33m" /* Bold Yellow */
+# define BOLDBLUE    "\033[1m\033[34m" /* Bold Blue */
+# define BOLDMAGENTA "\033[1m\033[35m" /* Bold Magenta */
+# define BOLDCYAN    "\033[1m\033[36m" /* Bold Cyan */
+# define BOLDWHITE   "\033[1m\033[37m" /* Bold White */
 
-static void	test_tokenizer(char *input, char *seps, char *esc)
-{
-	t_stack	*tokstack;
-
-	tokstack = str_to_tokstack(input, seps, esc);
-	print_tokstack(tokstack);
-}
-
-static void	test_parser(char *input, char *seps, char *esc)
-{
-	t_stack	*tokstack;
-	t_ast	*ast;
-
-	tokstack = str_to_tokstack(input, seps, esc);
-	ast = parse(&tokstack);
-	print_ast(ast, 0);
-	print_tokstack(tokstack);
-	if (tokstack)
-		printf(RED "minishell: syntax error near unexpected token `%s'\n" RESET, tokstack->token->word);
-	else
-		printf(GREEN "minishell: syntax valid!\n" RESET);
-}
-
-static void	case_tokenizer(char **tests, char *seps, char *esc)
+static void	case_lexer(char **tests, char *seps, char *esc)
 {
 	char	*input;
 	int		i;
@@ -92,7 +75,7 @@ static void	case_tokenizer(char **tests, char *seps, char *esc)
 	while (tests[i])
 	{
 		strcpy(input, tests[i]);
-		test_tokenizer(input, seps, esc);
+		debug_lexer(input, seps, esc);
 		printf(YELLOW "CASE %d\n\n" RESET, i);
 		i++;
 	}
@@ -109,7 +92,7 @@ static void	case_parser(char **tests, char *seps, char *esc)
 	while (tests[i])
 	{
 		strcpy(input, tests[i]);
-		test_parser(input, seps, esc);
+		debug_parser(input, seps, esc);
 		printf(YELLOW "CASE %d\n\n" RESET, i);
 		i++;
 	}
@@ -158,22 +141,22 @@ int	main(int argc, char *argv[])
 
 	if (argc != 2)
 	{
-		printf("usage: ./test [ all | tokenizer | parser ]\n");
+		printf("usage: ./test [ all | lexer | parser ]\n");
 		return (0);
 	}
 	tests = init_tests();
 	if (!strncmp(argv[1], "all\0", 4))
 	{
-		case_tokenizer(tests, seps, esc);
+		case_lexer(tests, seps, esc);
 		printf("\n\n\n");
 		case_parser(tests, seps, esc);
 	}
-	else if (!strncmp(argv[1], "tokenizer\0", 10))
-		case_tokenizer(tests, seps, esc);
+	else if (!strncmp(argv[1], "lexer\0", 10))
+		case_lexer(tests, seps, esc);
 	else if (!strncmp(argv[1], "parser\0", 7))
 		case_parser(tests, seps, esc);
 	else
-		printf("usage: ./test [ all | tokenizer | parser ]\n");
+		printf("usage: ./test [ all | lexer | parser ]\n");
 	free(tests);
 	return (0);
 }

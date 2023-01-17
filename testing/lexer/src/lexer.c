@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/16 18:47:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/17 19:52:47 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "lexer.h"
+#include "lexer_private.h" // lexer_ft_strsep
+#include <stdlib.h> // for NULL
 
 // where to handle token specific errors like only one &, unnmatched quotes, etc.?
 // quotes are not identified properly - do they have to be identified?
@@ -60,7 +62,7 @@ static t_stack	*create_list_node(t_token *token)
 }
 
 // ugly code, fix?
-t_stack	*str_to_tokstack(char *str, char *seps, char *esc)
+t_stack	*lexer_str_to_tokstack(char *str, char *seps, char *esc)
 {
 	t_stack	*head;
 	t_stack	*temp;
@@ -70,7 +72,7 @@ t_stack	*str_to_tokstack(char *str, char *seps, char *esc)
 	head = NULL;
 	while (*str)
 	{
-		head = create_list_node(create_token(ms_ft_strsep(&str, seps, esc)));
+		head = create_list_node(create_token(lexer_ft_strsep(&str, seps, esc)));
 		if (head)
 			break ;
 	}
@@ -80,7 +82,7 @@ t_stack	*str_to_tokstack(char *str, char *seps, char *esc)
 	while (*str)
 	{
 		temp->next
-			= create_list_node(create_token(ms_ft_strsep(&str, seps, esc)));
+			= create_list_node(create_token(lexer_ft_strsep(&str, seps, esc)));
 		if (temp->next)
 			temp = temp->next;
 	}

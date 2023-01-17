@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_private.h                                    :+:      :+:    :+:   */
+/*   lexer_ft_strchr.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 18:15:38 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/17 18:26:12 by lorbke           ###   ########.fr       */
+/*   Created: 2022/03/25 14:50:12 by lorbke            #+#    #+#             */
+/*   Updated: 2023/01/17 19:00:19 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_PRIVATE_H
-# define LEXER_PRIVATE_H
+#include <unistd.h>
 
-// TODO: change overly complicated and ugly handling of parentheses
-char	*lexer_ft_strsep(char **stringp, const char *delim, const char *ignore);
+char	*lexer_ft_strchr(const char *s, int c)
+{
+	int	i;
 
-#endif
+	i = 0;
+	while (s[i] != 0)
+	{
+		if (s[i] == (char)c)
+			return (&((char *)s)[i]);
+		i++;
+	}
+	if (c == 0)
+		return (&((char *)s)[i]);
+	return (NULL);
+}

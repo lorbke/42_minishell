@@ -1,16 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   simple_command.c                                   :+:      :+:    :+:   */
+/*   parser_simple_command.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:53:34 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/17 14:47:46 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/17 20:25:02 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "parser_private.h" // main header
+#include "parser.h" // t_ast
+#include "lexer.h" // t_token, t_stack, TOK_* macros
+#include <stdlib.h> // NULL
+#include <stdbool.h> // bool, true, false
 
 static bool	is_word(t_stack *token)
 {

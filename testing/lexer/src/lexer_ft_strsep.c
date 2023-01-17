@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_ft_strsep.c                                     :+:      :+:    :+:   */
+/*   lexer_ft_strsep.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:26:56 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/15 01:04:26 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/17 19:55:44 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
-char	*ft_strchr(const char *s, int c);
+#include "lexer_private.h"
+#include <stdlib.h> // for NULL
 
 static char	*set_stringp(char **stringp, char *start, char *end)
 {
@@ -28,7 +27,7 @@ static char	*ignore_delims(char *stringp, const char *ignore)
 	char	*start;
 
 	start = stringp;
-	esc = ft_strchr(ignore, *start);
+	esc = lexer_ft_strchr(ignore, *start);
 	if (esc && *esc == '(')
 		esc++;
 	if (esc)
@@ -51,7 +50,7 @@ the function to ignore delims until that specific char is encountered again.*/
 replacing the first occurence of a delim char with \0, returning the thereby
 created substring and moving the stringp pointer to the next character after
 the found delim char. */
-char	*ms_ft_strsep(char **stringp, const char *delim, const char *ignore)
+char	*lexer_ft_strsep(char **stringp, const char *delim, const char *ignore)
 {
 	char	*start;
 	int		j;

@@ -1,16 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 12:30:50 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/17 14:47:15 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/17 20:25:16 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "parser_private.h" // main header
+#include "parser.h" // t_ast
+#include "lexer.h" // t_token, t_stack, TOK_* macros
+#include <stdlib.h> // NULL
+#include <stdbool.h> // bool, true, false
 
 t_ast	*create_ast_node(t_token	*token)
 {

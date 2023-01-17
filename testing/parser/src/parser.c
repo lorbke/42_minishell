@@ -6,13 +6,14 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/17 18:23:22 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/17 20:24:14 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_private.h" // main header
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token, t_stack, TOK_* macros
+#include <stdlib.h> // free
 
 // every function gets the stack as input and returns a sub-ast that is then connected to the main ast
 
