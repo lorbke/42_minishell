@@ -6,11 +6,24 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2022/12/15 18:57:11 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/18 16:51:35 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell.h" // macros
+#include "lexer.h" // lexer_str_to_tokstack
+#include "parser.h" // parser_tokstack_to_ast
+
+void	process_command(char *command)
+{
+	t_stack	*tokstack;
+
+	tokstack = lexer_str_to_tokstack(command, CMD_SEPS, CMD_ESCS);
+	if (tokstack)
+	{
+		parser_tokstack_to_ast(&tokstack);
+	}
+}
 
 /* Read-Eval-Print-Loop. */
 void	ms_rep_loop(void)
@@ -25,14 +38,17 @@ void	ms_rep_loop(void)
 		if (ft_strncmp(line, "exit", 5) == 0) // exit buildin will be added later
 			break ;
 		if (*line)
+		{
 			add_history(line);
+			process_command(line);
+		}
 		free(line);
 	}
 	rl_clear_history();
 }
 
 /* Initializes the terminal settings according to mode. */
-int	init_termios(bool mode)
+static int	init_termios(bool mode)
 {
 	struct termios	term_set;
 

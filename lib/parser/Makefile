@@ -5,16 +5,15 @@
 #                                                     +:+ +:+         +:+      #
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/11/12 16:30:49 by lorbke            #+#    #+#              #
-#    Updated: 2023/01/18 15:45:22 by lorbke           ###   ########.fr        #
+#    Created: 2023/01/18 13:54:25 by lorbke            #+#    #+#              #
+#    Updated: 2023/01/18 16:48:23 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# SHELL macro
 SHELL := /bin/bash
 
 # name macro
-NAME := libft.a
+NAME := libparser.a
 
 # command macros
 CC := cc
@@ -23,39 +22,41 @@ RM := rm -f
 ADD_FLAGS := #-g -fsanitize=address,undefined
 FLAGS := -Wall -Wextra -Werror
 
+# header macros
+LEXER_INC := ../lexer
+
 # src and obj files macros
-SRC_PATH := src
 OBJ_PATH := obj
-SRC := $(wildcard $(SRC_PATH)/*.c) $(wildcard $(SRC_PATH)/*/*.c)
+SRC_PATH := src
+SRC := $(wildcard $(SRC_PATH)/*.c)
 OBJ := $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 
-# VPATH macro
-VPATH := $(SRC_PATH) $(SRC_PATH)/adds $(SRC_PATH)/ft_printf \
-$(SRC_PATH)/ft_vector $(SRC_PATH)/standard
+# VPATH
+VPATH := $(SRC_PATH)
 
 # default rule
 default: makedir all
 
 # file targets
 $(NAME): $(OBJ)
-	$(AR) $(NAME) $(OBJ)
-	@echo "make: libft success!"
+		$(AR) $(NAME) $(OBJ)
+		@echo "make: parser success!"
 
 $(OBJ_PATH)/%.o: %.c
-	$(CC) $(FLAGS) $(ADD_FLAGS) -c $< -o $@
+		$(CC) $(FLAGS) $(ADD_FLAGS) -I$(LEXER_INC) -c $< -o $@
 
 # phony targets
-all: $(NAME)
+all: ${NAME}
 
 makedir:
-	@mkdir -p $(OBJ_PATH)
+		@mkdir -p $(OBJ_PATH)
 
 clean:
-	@echo "libft: "
-	$(RM) -r $(OBJ_PATH)
+		@echo "parser: "
+		$(RM) -r $(OBJ_PATH)
 
 fclean: clean
-	$(RM) $(NAME)
+		$(RM) $(NAME)
 
 re: fclean makedir all
 

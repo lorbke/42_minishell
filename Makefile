@@ -6,59 +6,75 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2022/12/12 17:02:48 by lorbke           ###   ########.fr        #
+#    Updated: 2023/01/18 16:46:03 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+# SHELL macro
+SHELL := /bin/bash
+
 # name macros
-NAME = minishell
+NAME := minishell
 
 # command macros
-CC = cc
-AR = ar rcs
-RM = rm -f
-CFLAGS = #-Wall -Wextra -Werror
+CC := cc
+AR := ar rcs
+RM := rm -f
+CFLAGS := #-Wall -Wextra -Werror
 
-# path macros
-LIB_PATH = lib
-RDLN_PATH = readline
-LFT_PATH = $(LIB_PATH)/libft
-LFT_INC = $(LFT_PATH)/includes
-INC = src
-SRC_PATH = src
-OBJ_PATH = obj
+# library macros
+LIB_PATH := lib
+LFT_PATH := $(LIB_PATH)/libft
+LFT_LIB := ft
+LFT_LINK := -L$(LFT_PATH) -l$(LFT_LIB)
+LEXER_PATH := $(LIB_PATH)/lexer
+LEXER_LIB := lexer
+LEXER_LINK := -L$(LEXER_PATH) -l$(LEXER_LIB)
+PARSER_PATH := $(LIB_PATH)/parser
+PARSER_LIB := parser
+PARSER_LINK := -L$(PARSER_PATH) -l$(PARSER_LIB)
+RDLN_LIB := readline
 
 # src and obj files macros
-SRC = minishell.c signal.c debugging.c
-OBJ = $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
+SRC_PATH := src
+OBJ_PATH := obj
+SRC := debugging.c minishell.c signal.c
+OBJ := $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 
-# archive macros
-LFT_AR = libft.a
+# VPATH
+VPATH := $(SRC_PATH)
 
 # default target
 default: makedir all
 
 # file targets
-${NAME}: $(OBJ)
-	@make -C $(LFT_PATH)
-	${CC} ${CFLAGS} $(OBJ) -L$(LFT_PATH) -lft -l$(RDLN_PATH) -o ${NAME}
+$(NAME): libraries $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) -l$(RDLN_LIB) -o $(NAME)
 	@echo "make: minishell success!"
 
-$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
-	${CC} ${CFLAGS} -I$(INC) -I$(LFT_INC) -c $< -o $@ 
+libraries:
+	@$(MAKE) -C $(LFT_PATH)
+	@$(MAKE) -C $(LEXER_PATH)
+	@$(MAKE) -C $(PARSER_PATH)
+
+$(OBJ_PATH)/%.o: %.c
+	$(CC) $(CFLAGS) -I$(LFT_PATH) -I$(LEXER_PATH) -I$(PARSER_PATH) -c $< -o $@ 
 
 # phony targets
-all: ${NAME}
+all: $(NAME)
 
 makedir:
 	@mkdir -p $(OBJ_PATH)
 
 clean:
-	${RM} -r $(OBJ_PATH)
+	@echo "minishell: "
+	$(RM) -r $(OBJ_PATH)
 
 fclean: clean
-	${RM} ${NAME}
-	cd $(LFT_PATH) && $(MAKE) fclean
+	$(RM) $(NAME)
+	@cd $(LFT_PATH) && $(MAKE) fclean
+	@cd $(LEXER_PATH) && $(MAKE) fclean
+	@cd $(PARSER_PATH) && $(MAKE) fclean
 
 re: fclean makedir all
 

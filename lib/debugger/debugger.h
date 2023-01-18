@@ -1,36 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   debugger.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/10 15:39:03 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/18 16:00:41 by lorbke           ###   ########.fr       */
+/*   Created: 2023/01/17 18:34:24 by lorbke            #+#    #+#             */
+/*   Updated: 2023/01/17 20:37:08 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef DEBUGGER_H
+# define DEBUGGER_H
 
-# include <unistd.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <stdbool.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include "libft.h"
-# include <signal.h>
-# include <termios.h>
-
-# include "debugging.h"
-
-# define ERROR -1
-# define PROMPT "shinimell 👽 "
-
-# define CMD_SEPS " \t\n\r"
-# define CMD_ESCS "\'\"()"
-
-void	ms_init_signals(void);
+void	debug_parser(char *input, char *seps, char *esc);
+void	debug_lexer(char *input, char *seps, char *esc);
 
 #endif
