@@ -6,11 +6,14 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:37:35 by lorbke            #+#    #+#             */
-/*   Updated: 2022/12/12 15:21:52 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/18 17:00:58 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <signal.h> // signal
+#include <stdio.h> // FILE type
+#include <readline/readline.h> // readline functions
+#include <unistd.h> // write
 
 /* This is bad practice, calling readline functions inside a signal handler
 can cause undefined behavior (see signal-safety). 

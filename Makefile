@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/01/18 16:46:03 by lorbke           ###   ########.fr        #
+#    Updated: 2023/01/18 17:08:26 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,11 +38,11 @@ RDLN_LIB := readline
 # src and obj files macros
 SRC_PATH := src
 OBJ_PATH := obj
-SRC := debugging.c minishell.c signal.c
+SRC := $(wildcard $(SRC_PATH)/*.c) $(wildcard $(SRC_PATH)/*/*.c)
 OBJ := $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 
 # VPATH
-VPATH := $(SRC_PATH)
+VPATH := $(SRC_PATH) $(SRC_PATH)/debugger
 
 # default target
 default: makedir all

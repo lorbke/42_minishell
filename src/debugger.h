@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   debugger.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/10 15:39:03 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/18 16:53:45 by lorbke           ###   ########.fr       */
+/*   Created: 2023/01/17 18:34:24 by lorbke            #+#    #+#             */
+/*   Updated: 2023/01/18 17:07:15 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef DEBUGGER_H
+# define DEBUGGER_H
 
-# define ERROR -1
-# define PROMPT "shinimell 👽 "
-
-# define CMD_SEPS " \t\n\r"
-# define CMD_ESCS "\'\"()"
-
-void	ms_init_signals(void);
+void	debug_parser(t_ast *ast, t_stack *tokstack);
+void	debug_lexer(t_stack *tokstack);
 
 #endif
