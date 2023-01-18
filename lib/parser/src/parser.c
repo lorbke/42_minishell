@@ -20,14 +20,16 @@
 // due to easier usage and because the additional memory and run time are negligible, 
 // the token stack will be represented by a token_list instead of just a string
 
-// rule_all was skipped because identifying a newline is probably not needed and will be treated as a delim during tokenization
+// rule_all was skipped
+// newline implementation still needed
+
+// subshell handling still incorrect
+// quote handling also probably incorrect
 
 t_ast	*parser_tokstack_to_ast(t_stack	**tokstack)
 {
 	t_ast	*ast;
-	t_stack	*temp;
 
-	temp = *tokstack;
 	ast = rule_and_or(tokstack);
 	return (ast);
 }
