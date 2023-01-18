@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:43:53 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/17 20:24:08 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/18 13:26:56 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,6 @@ t_ast	*rule_and_or(t_stack **tokstack)
 	left = rule_pipeline(tokstack);
 	if (!left)
 		return (NULL);
-	if (!*tokstack
-		|| ((*tokstack)->token->desc != TOK_AND
-			&& (*tokstack)->token->desc != TOK_OR))
-		return (left);
 	right = get_right(tokstack);
 	if (!right)
 		return (left);
