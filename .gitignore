@@ -5,6 +5,10 @@ minishell
 obj
 lib/libft/libft.a
 lib/libft/obj
+lib/parser/libparser.a
+lib/parser/obj
+lib/lexer/liblexer.a
+lib/lexer/obj
 test
 in
 out
