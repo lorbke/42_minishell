@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/01/18 17:08:26 by lorbke           ###   ########.fr        #
+#    Updated: 2023/01/20 17:27:44 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,19 +52,19 @@ $(NAME): libraries $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) -l$(RDLN_LIB) -o $(NAME)
 	@echo "make: minishell success!"
 
-libraries:
-	@$(MAKE) -C $(LFT_PATH)
-	@$(MAKE) -C $(LEXER_PATH)
-	@$(MAKE) -C $(PARSER_PATH)
-
 $(OBJ_PATH)/%.o: %.c
-	$(CC) $(CFLAGS) -I$(LFT_PATH) -I$(LEXER_PATH) -I$(PARSER_PATH) -c $< -o $@ 
+	$(CC) $(CFLAGS) -I$(LFT_PATH) -I$(LEXER_PATH) -I$(PARSER_PATH) -c $< -o $@
 
 # phony targets
 all: $(NAME)
 
 makedir:
 	@mkdir -p $(OBJ_PATH)
+
+libraries:
+	@$(MAKE) -C $(LFT_PATH)
+	@$(MAKE) -C $(LEXER_PATH)
+	@$(MAKE) -C $(PARSER_PATH)
 
 clean:
 	@echo "minishell: "
@@ -79,6 +79,6 @@ fclean: clean
 re: fclean makedir all
 
 debug: CFLAGS += -O0 -DDEBUG -g
-debug: makedir all
+debug: clean default
 
 .PHONY: all clean fclean re

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/18 17:06:43 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/20 17:35:59 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "lexer.h" // lexer_str_to_tokstack
 #include "parser.h" // parser_tokstack_to_ast
 #include "debugger.h" // debug
-#include "debugging.h" // debug
 #include "libft.h" // ft_strncmp
 #include <termios.h> // termios functions and struct
 #include <unistd.h> // file descriptor macros
@@ -27,13 +26,17 @@ void	process_command(char *command)
 {
 	t_stack	*tokstack;
 	t_ast	*ast;
+	int		i;
 
 	tokstack = lexer_str_to_tokstack(command, CMD_SEPS, CMD_ESCS);
-	debug_lexer(tokstack);
+	printf("debug: %d\n", DEBUG);
+	if (DEBUG)
+		debug_lexer(tokstack);
 	if (tokstack)
 	{
 		ast = parser_tokstack_to_ast(&tokstack);
-		debug_parser(ast, tokstack);
+		if (DEBUG)
+			debug_parser(ast, tokstack);
 	}
 }
 
