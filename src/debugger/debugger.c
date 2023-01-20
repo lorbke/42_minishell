@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:19 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/20 17:35:10 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/20 17:38:37 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,26 +54,29 @@ void	print_ast(t_ast *ast, int width)
 /* Debug function to print the terminal settings. */
 void	debug_print_termios(struct termios *termios)
 {
-	if (DEBUG)
-	{
-		printf("termios:\n");
-		printf("	input mode: %lx\n", termios->c_iflag);
-		printf("	output mode: %lx\n", termios->c_oflag);
-		printf("	control mode: %lx\n", termios->c_cflag);
-		printf("	local mode: %lx\n", termios->c_lflag);
-		printf("	control characters: %hhu\n", termios->c_cc[VQUIT]);
-		printf("	input speed: %lu\n", termios->c_ispeed);
-		printf("	output speed: %lu\n", termios->c_ospeed);
-	}
+	if (!DEBUG)
+		return ;
+	printf("termios:\n");
+	printf("	input mode: %lx\n", termios->c_iflag);
+	printf("	output mode: %lx\n", termios->c_oflag);
+	printf("	control mode: %lx\n", termios->c_cflag);
+	printf("	local mode: %lx\n", termios->c_lflag);
+	printf("	control characters: %hhu\n", termios->c_cc[VQUIT]);
+	printf("	input speed: %lu\n", termios->c_ispeed);
+	printf("	output speed: %lu\n", termios->c_ospeed);
 }
 
 void	debug_lexer(t_stack *tokstack)
 {
+	if (!DEBUG)
+		return ;
 	print_tokstack(tokstack);
 }
 
 void	debug_parser(t_ast *ast, t_stack *tokstack)
 {
+	if (!DEBUG)
+		return ;
 	print_ast(ast, 0);
 	if (tokstack)
 		printf(RED "minishell: syntax error near unexpected token `%s'\n" RESET, tokstack->token->word);

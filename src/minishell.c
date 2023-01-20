@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/20 17:35:59 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/20 17:37:59 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,11 @@ void	process_command(char *command)
 	int		i;
 
 	tokstack = lexer_str_to_tokstack(command, CMD_SEPS, CMD_ESCS);
-	printf("debug: %d\n", DEBUG);
-	if (DEBUG)
-		debug_lexer(tokstack);
+	debug_lexer(tokstack);
 	if (tokstack)
 	{
 		ast = parser_tokstack_to_ast(&tokstack);
-		if (DEBUG)
-			debug_parser(ast, tokstack);
+		debug_parser(ast, tokstack);
 	}
 }
 
