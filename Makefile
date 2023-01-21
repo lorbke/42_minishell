@@ -90,7 +90,7 @@ test:
 	@$(MAKE) -C $(LFT_PATH)
 	@$(MAKE) -C $(LEXER_PATH)
 	@$(MAKE) -C $(PARSER_PATH)
-	$(CC) -O0 -DDEBUG -g $(SRC_PATH)/test.c $(SRC_PATH)/debugger/debugger.c -I$(LFT_PATH) \
+	$(CC) -O0 -DDEBUG -g tester.c $(SRC_PATH)/debugger/debugger.c -I$(SRC_PATH) -I$(LFT_PATH) \
 	-I$(LEXER_PATH) -I$(PARSER_PATH) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) -l$(RDLN_LIB) -o test
 
 .PHONY: all clean fclean re
