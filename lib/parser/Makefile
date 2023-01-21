@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/18 13:54:25 by lorbke            #+#    #+#              #
-#    Updated: 2023/01/21 18:33:03 by lorbke           ###   ########.fr        #
+#    Updated: 2023/01/21 18:38:40 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ VPATH := $(SRC_PATH)
 
 # file targets
 $(NAME): $(OBJ_PATH) $(OBJ)
+	@echo -e -n "$(BLUE)Creating: parser library: $(RESET)"
 	$(AR) $(NAME) $(OBJ)
 	@echo -e "$(GREEN)make: parser success!$(RESET)"
 

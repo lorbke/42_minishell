@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/12 16:30:49 by lorbke            #+#    #+#              #
-#    Updated: 2023/01/21 18:32:54 by lorbke           ###   ########.fr        #
+#    Updated: 2023/01/21 18:38:47 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ $(SRC_PATH)/ft_vector $(SRC_PATH)/standard
 
 # file targets
 $(NAME): $(OBJ_PATH) $(OBJ)
+	@echo -e -n "$(BLUE)Creating: libft library: $(RESET)"
 	$(AR) $(NAME) $(OBJ)
 	@echo -e "$(GREEN)make: libft success!$(RESET)"
 

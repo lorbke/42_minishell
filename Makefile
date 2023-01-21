@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/01/21 18:32:07 by lorbke           ###   ########.fr        #
+#    Updated: 2023/01/21 18:38:51 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ $(NAME): $(OBJ_PATH) $(OBJ)
 	@$(MAKE) -C $(LFT_PATH)
 	@$(MAKE) -C $(LEXER_PATH)
 	@$(MAKE) -C $(PARSER_PATH)
-	@echo -e -n "$(BLUE)Executable: $(RESET)"
+	@echo -e -n "$(BLUE)Creating: minishell executable: $(RESET)"
 	$(CC) $(CFLAGS) $(OBJ) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) -l$(RDLN_LIB) -o $(NAME)
 	@echo -e "$(GREEN)make: minishell success!$(RESET)"
 
