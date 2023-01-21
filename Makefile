@@ -6,12 +6,17 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/01/20 17:27:44 by lorbke           ###   ########.fr        #
+#    Updated: 2023/01/21 18:20:32 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # SHELL macro
 SHELL := /bin/bash
+
+# colors
+RED := \033[0;31m
+GREEN := \033[0;32m
+RESET := \033[0m
 
 # name macros
 NAME := minishell
@@ -44,41 +49,37 @@ OBJ := $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 # VPATH
 VPATH := $(SRC_PATH) $(SRC_PATH)/debugger
 
-# default target
-default: makedir all
-
 # file targets
-$(NAME): libraries $(OBJ)
+$(NAME): $(OBJ_PATH) $(OBJ)
+	@$(MAKE) -C $(LFT_PATH)
+	@$(MAKE) -C $(LEXER_PATH)
+	@$(MAKE) -C $(PARSER_PATH)
 	$(CC) $(CFLAGS) $(OBJ) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) -l$(RDLN_LIB) -o $(NAME)
-	@echo "make: minishell success!"
+	@echo -e "$(GREEN)make: minishell success!$(RESET)"
 
-$(OBJ_PATH)/%.o: %.c
+$(OBJ_PATH):
+	@mkdir -p $(OBJ_PATH)
+
+$(OBJ_PATH)/%.o: %.c Makefile $(SRC_PATH)/minishell.h $(SRC_PATH)/debugger.h
 	$(CC) $(CFLAGS) -I$(LFT_PATH) -I$(LEXER_PATH) -I$(PARSER_PATH) -c $< -o $@
 
 # phony targets
 all: $(NAME)
 
-makedir:
-	@mkdir -p $(OBJ_PATH)
-
-libraries:
-	@$(MAKE) -C $(LFT_PATH)
-	@$(MAKE) -C $(LEXER_PATH)
-	@$(MAKE) -C $(PARSER_PATH)
-
 clean:
-	@echo "minishell: "
 	$(RM) -r $(OBJ_PATH)
 
 fclean: clean
-	$(RM) $(NAME)
 	@cd $(LFT_PATH) && $(MAKE) fclean
 	@cd $(LEXER_PATH) && $(MAKE) fclean
 	@cd $(PARSER_PATH) && $(MAKE) fclean
+	$(RM) $(NAME)
+	@echo -e "$(RED)make: minishell cleaned!$(RESET)"
 
-re: fclean makedir all
+re: fclean all
 
 debug: CFLAGS += -O0 -DDEBUG -g
-debug: clean default
+debug: clean all
+	@$(MAKE) clean
 
 .PHONY: all clean fclean re

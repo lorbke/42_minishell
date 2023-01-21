@@ -6,12 +6,17 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/12 16:30:49 by lorbke            #+#    #+#              #
-#    Updated: 2023/01/18 15:45:22 by lorbke           ###   ########.fr        #
+#    Updated: 2023/01/21 18:20:01 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # SHELL macro
 SHELL := /bin/bash
+
+# colors
+RED := \033[0;31m
+GREEN := \033[0;32m
+RESET := \033[0m
 
 # name macro
 NAME := libft.a
@@ -33,13 +38,13 @@ OBJ := $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 VPATH := $(SRC_PATH) $(SRC_PATH)/adds $(SRC_PATH)/ft_printf \
 $(SRC_PATH)/ft_vector $(SRC_PATH)/standard
 
-# default rule
-default: makedir all
-
 # file targets
-$(NAME): $(OBJ)
+$(NAME): $(OBJ_PATH) $(OBJ)
 	$(AR) $(NAME) $(OBJ)
-	@echo "make: libft success!"
+	@echo -e "$(GREEN)make: libft success!$(RESET)"
+
+$(OBJ_PATH):
+	@mkdir -p $(OBJ_PATH)
 
 $(OBJ_PATH)/%.o: %.c
 	$(CC) $(FLAGS) $(ADD_FLAGS) -c $< -o $@
@@ -47,16 +52,13 @@ $(OBJ_PATH)/%.o: %.c
 # phony targets
 all: $(NAME)
 
-makedir:
-	@mkdir -p $(OBJ_PATH)
-
 clean:
-	@echo "libft: "
 	$(RM) -r $(OBJ_PATH)
 
 fclean: clean
 	$(RM) $(NAME)
+	@echo -e "$(RED)make: libft cleaned!$(RESET)"
 
-re: fclean makedir all
+re: fclean all
 
 .PHONY: all clean fclean re
