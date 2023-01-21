@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/01/21 18:38:51 by lorbke           ###   ########.fr        #
+#    Updated: 2023/01/21 21:17:44 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,5 +85,12 @@ re: fclean all
 debug: CFLAGS += -O0 -DDEBUG -g
 debug: clean all
 	@$(MAKE) clean
+
+test:
+	@$(MAKE) -C $(LFT_PATH)
+	@$(MAKE) -C $(LEXER_PATH)
+	@$(MAKE) -C $(PARSER_PATH)
+	$(CC) -O0 -DDEBUG -g $(SRC_PATH)/test.c $(SRC_PATH)/debugger/debugger.c -I$(LFT_PATH) \
+	-I$(LEXER_PATH) -I$(PARSER_PATH) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) -l$(RDLN_LIB) -o test
 
 .PHONY: all clean fclean re

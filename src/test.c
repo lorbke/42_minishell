@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:25 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/18 13:41:27 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/21 21:13:31 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
+
+// lexer
+#define CMD_SEPS " \t\n\r"
+#define CMD_ESCS "\'\"()"
 
 // test cases
 #define CASE_COUNT 25
@@ -65,9 +69,10 @@
 #define BOLDCYAN		"\033[1m\033[36m"	/* Bold Cyan */
 #define BOLDWHITE		"\033[1m\033[37m"	/* Bold White */
 
-static void	case_lexer(char **tests, char *seps, char *esc)
+static void	case_lexer(char **tests)
 {
 	char	*input;
+	t_stack	*tokstack;
 	int		i;
 
 	input = malloc(sizeof(char) * 100);
@@ -75,16 +80,19 @@ static void	case_lexer(char **tests, char *seps, char *esc)
 	while (tests[i])
 	{
 		strcpy(input, tests[i]);
-		debug_lexer(input, seps, esc);
+		tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
+		debug_lexer(tokstack);
 		printf(YELLOW "CASE %d\n\n" RESET, i);
 		i++;
 	}
 	free(input);
 }
 
-static void	case_parser(char **tests, char *seps, char *esc)
+static void	case_parser(char **tests)
 {
 	char	*input;
+	t_ast	*ast;
+	t_stack	*tokstack;
 	int		i;
 
 	input = malloc(sizeof(char) * 100);
@@ -92,7 +100,9 @@ static void	case_parser(char **tests, char *seps, char *esc)
 	while (tests[i])
 	{
 		strcpy(input, tests[i]);
-		debug_parser(input, seps, esc);
+		tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
+		ast = parser_tokstack_to_ast(&tokstack);
+		debug_parser(ast, tokstack);
 		printf(YELLOW "CASE %d\n\n" RESET, i);
 		i++;
 	}
@@ -135,8 +145,6 @@ static char	**init_tests(void)
 
 int	main(int argc, char *argv[])
 {
-	char	*seps = " \t\n\r";
-	char	*esc = "\'\"()";
 	char	**tests;
 
 	if (argc != 2)
@@ -147,14 +155,14 @@ int	main(int argc, char *argv[])
 	tests = init_tests();
 	if (!strncmp(argv[1], "all\0", 4))
 	{
-		case_lexer(tests, seps, esc);
+		case_lexer(tests);
 		printf("\n\n\n");
-		case_parser(tests, seps, esc);
+		case_parser(tests);
 	}
 	else if (!strncmp(argv[1], "lexer\0", 10))
-		case_lexer(tests, seps, esc);
+		case_lexer(tests);
 	else if (!strncmp(argv[1], "parser\0", 7))
-		case_parser(tests, seps, esc);
+		case_parser(tests);
 	else
 		printf("usage: ./test [ all | lexer | parser ]\n");
 	free(tests);
