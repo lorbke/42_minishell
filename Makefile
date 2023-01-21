@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/01/21 18:20:32 by lorbke           ###   ########.fr        #
+#    Updated: 2023/01/21 18:32:07 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,8 @@ SHELL := /bin/bash
 # colors
 RED := \033[0;31m
 GREEN := \033[0;32m
+YELLOW := \033[0;33m
+BLUE := \033[0;34m
 RESET := \033[0m
 
 # name macros
@@ -54,6 +56,7 @@ $(NAME): $(OBJ_PATH) $(OBJ)
 	@$(MAKE) -C $(LFT_PATH)
 	@$(MAKE) -C $(LEXER_PATH)
 	@$(MAKE) -C $(PARSER_PATH)
+	@echo -e -n "$(BLUE)Executable: $(RESET)"
 	$(CC) $(CFLAGS) $(OBJ) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) -l$(RDLN_LIB) -o $(NAME)
 	@echo -e "$(GREEN)make: minishell success!$(RESET)"
 
@@ -61,6 +64,7 @@ $(OBJ_PATH):
 	@mkdir -p $(OBJ_PATH)
 
 $(OBJ_PATH)/%.o: %.c Makefile $(SRC_PATH)/minishell.h $(SRC_PATH)/debugger.h
+	@echo -e -n "$(YELLOW)Compiling: $(RESET)"
 	$(CC) $(CFLAGS) -I$(LFT_PATH) -I$(LEXER_PATH) -I$(PARSER_PATH) -c $< -o $@
 
 # phony targets

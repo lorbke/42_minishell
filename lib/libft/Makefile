@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/12 16:30:49 by lorbke            #+#    #+#              #
-#    Updated: 2023/01/21 18:20:01 by lorbke           ###   ########.fr        #
+#    Updated: 2023/01/21 18:32:54 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,8 @@ SHELL := /bin/bash
 # colors
 RED := \033[0;31m
 GREEN := \033[0;32m
+YELLOW := \033[0;33m
+BLUE := \033[0;34m
 RESET := \033[0m
 
 # name macro
@@ -47,6 +49,7 @@ $(OBJ_PATH):
 	@mkdir -p $(OBJ_PATH)
 
 $(OBJ_PATH)/%.o: %.c
+	@echo -e -n "$(YELLOW)Compiling: $(RESET)"
 	$(CC) $(FLAGS) $(ADD_FLAGS) -c $< -o $@
 
 # phony targets
