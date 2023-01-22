@@ -9,6 +9,7 @@ lib/parser/libparser.a
 lib/parser/obj
 lib/lexer/liblexer.a
 lib/lexer/obj
-test
+tester
+tester.dSYM
 in
 out

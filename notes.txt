@@ -275,3 +275,22 @@ Parser
 	- what errors are there?
 		- syntax errors
 		- parsing errors
+
+
+
+
+
+CASE 25: (echo) hi
+bash: syntax error near unexpected token `hi'
+
+CASE 34: (< in) echo hi
+bash: syntax error near unexpected token `echo'
+
+solution:
+	- a subshell can replace all words in a simple_cmd
+
+
+CASE 32: < in (echo hi)
+bash: syntax error near unexpected token `('
+
+

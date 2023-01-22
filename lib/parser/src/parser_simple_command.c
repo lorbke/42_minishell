@@ -6,11 +6,11 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:53:34 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/17 20:25:02 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/22 22:30:21 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser_private.h" // main header
+#include "parser_private.h" // utils
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token, t_stack, TOK_* macros
 #include <stdlib.h> // NULL
@@ -22,8 +22,7 @@ static bool	is_word(t_stack *token)
 		return (false);
 	if (token->token->desc == TOK_WORD
 		|| token->token->desc == TOK_SQUOTE
-		|| token->token->desc == TOK_DQUOTE
-		|| token->token->desc == TOK_SUBSHELL)
+		|| token->token->desc == TOK_DQUOTE)
 		return (true);
 	return (false);
 }
@@ -78,26 +77,28 @@ static t_ast	*connect_simple_cmd(
 	return (head);
 }
 
+// implementation of subshell case feels a bit hacky
 t_ast	*rule_simple_cmd(t_stack **tokstack)
 {
 	t_ast	*redirs_in;
 	t_ast	*words;
 	t_ast	*redirs_out;
 
-	if (!*tokstack)
-		return (NULL);
+	words = handle_subshell(tokstack);
 	redirs_in = NULL;
-	words = NULL;
 	redirs_out = NULL;
 	while (*tokstack && (is_word(*tokstack) || is_redirect(*tokstack)))
 	{
 		if (*tokstack && ((*tokstack)->token->desc == TOK_REDIR_IN
 				|| (*tokstack)->token->desc == TOK_REDIR_HEREDOC))
 			redirs_in = append_left_ast(rule_redirect(tokstack), redirs_in);
-		words = append_left_ast(words, rule_word(tokstack));
+		if (!words || words->token->desc != TOK_SUBSHELL)
+			words = append_left_ast(words, rule_word(tokstack));
 		if (*tokstack && ((*tokstack)->token->desc == TOK_REDIR_OUT
 				|| (*tokstack)->token->desc == TOK_REDIR_APPEND))
 			redirs_out = append_left_ast(rule_redirect(tokstack), redirs_out);
+		if (is_word(*tokstack) && words->token->desc == TOK_SUBSHELL)
+			break ;
 	}
 	return (connect_simple_cmd(redirs_in, words, redirs_out));
 }

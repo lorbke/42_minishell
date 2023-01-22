@@ -6,11 +6,11 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 12:30:50 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/17 20:25:16 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/22 21:24:44 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser_private.h" // main header
+#include "parser_private.h" // utils
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token, t_stack, TOK_* macros
 #include <stdlib.h> // NULL
@@ -40,4 +40,15 @@ t_ast	*append_left_ast(t_ast *main, t_ast *append)
 		temp = temp->left;
 	temp->left = append;
 	return (main);
+}
+
+t_ast	*handle_subshell(t_stack **tokstack)
+{
+	t_ast	*new;
+
+	if (!tokstack || !*tokstack || (*tokstack)->token->desc != TOK_SUBSHELL)
+		return (NULL);
+	new = create_ast_node((*tokstack)->token);
+	*tokstack = (*tokstack)->next;
+	return (new);
 }

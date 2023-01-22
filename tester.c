@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   tester.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:25 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/21 21:13:31 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/22 21:31:42 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #define CMD_ESCS "\'\"()"
 
 // test cases
-#define CASE_COUNT 25
+#define CASE_COUNT 35
 #define CASE_0 ""
 #define CASE_1 "< in\n"
 #define CASE_2 "echo\n"
@@ -48,7 +48,17 @@
 #define CASE_21 "echo 1 | echo 2 && echo 3\n"
 #define CASE_22 "echo 1 | echo 2 || echo 3 | echo 4\n"
 #define CASE_23 "echo ||\n"
-#define CASE_24 " || \n"
+#define CASE_24 "(echo hi)\n"
+#define CASE_25 "(echo) hi\n"
+#define CASE_26 "(echo) | echo hi \n"
+#define CASE_27 "(echo | echo)\n"
+#define CASE_28 "(echo |) echo\n"
+#define CASE_29 "echo (| echo)\n"
+#define CASE_30 "echo (&&) echo\n"
+#define CASE_31 "(echo hi) > out\n"
+#define CASE_32 "< in (echo hi)\n"
+#define CASE_33 "(< in echo hi)\n"
+#define CASE_34 "(< in) echo hi\n"
 
 // colors for printf
 #define RESET			"\033[0m"
@@ -99,11 +109,12 @@ static void	case_parser(char **tests)
 	i = 0;
 	while (tests[i])
 	{
+		printf(YELLOW "+++++++++++++++++++++++++++++\n" RESET);
+		printf(YELLOW "CASE %d: %s" RESET, i, tests[i]);
 		strcpy(input, tests[i]);
 		tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
 		ast = parser_tokstack_to_ast(&tokstack);
 		debug_parser(ast, tokstack);
-		printf(YELLOW "CASE %d\n\n" RESET, i);
 		i++;
 	}
 	free(input);
@@ -139,7 +150,17 @@ static char	**init_tests(void)
 	tests[22] = CASE_22;
 	tests[23] = CASE_23;
 	tests[24] = CASE_24;
-	tests[25] = NULL;
+	tests[25] = CASE_25;
+	tests[26] = CASE_26;
+	tests[27] = CASE_27;
+	tests[28] = CASE_28;
+	tests[29] = CASE_29;
+	tests[30] = CASE_30;
+	tests[31] = CASE_31;
+	tests[32] = CASE_32;
+	tests[33] = CASE_33;
+	tests[34] = CASE_34;
+	tests[35] = NULL;
 	return (tests);
 }
 

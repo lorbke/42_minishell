@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/01/21 21:17:44 by lorbke           ###   ########.fr        #
+#    Updated: 2023/01/22 20:56:13 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,10 +87,11 @@ debug: clean all
 	@$(MAKE) clean
 
 test:
+	@rm -f tester
 	@$(MAKE) -C $(LFT_PATH)
 	@$(MAKE) -C $(LEXER_PATH)
 	@$(MAKE) -C $(PARSER_PATH)
 	$(CC) -O0 -DDEBUG -g tester.c $(SRC_PATH)/debugger/debugger.c -I$(SRC_PATH) -I$(LFT_PATH) \
-	-I$(LEXER_PATH) -I$(PARSER_PATH) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) -l$(RDLN_LIB) -o test
+	-I$(LEXER_PATH) -I$(PARSER_PATH) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) -l$(RDLN_LIB) -o tester
 
 .PHONY: all clean fclean re
