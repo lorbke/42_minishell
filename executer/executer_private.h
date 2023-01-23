@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer.h                                         :+:      :+:    :+:   */
+/*   executer_private.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/23 15:45:37 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/23 17:44:18 by lorbke           ###   ########.fr       */
+/*   Created: 2023/01/23 17:14:20 by lorbke            #+#    #+#             */
+/*   Updated: 2023/01/23 17:50:54 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTER_H
-# define EXECUTER_H
+#ifndef EXECUTER_PRIVATE_H
+# define EXECUTER_PRIVATE_H
 
-# include "parser.h" // t_ast
+# include "executer.h"
+# include "parser.h"
 
-typedef struct s_cmd_table
-{
-	char	**cmd;
-	int		fd_in;
-	int		fd_out;
-}	t_cmd_table;
-
-t_cmd_table	*create_cmd_table(t_ast *ast);
-void		executer(t_ast *ast);
+typedef t_cmd_table	*(*t_func_exec)(t_ast *, void **);
 
 #endif
