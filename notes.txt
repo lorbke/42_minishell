@@ -168,7 +168,7 @@ example:
 			cat
 
 
---------EXECUTOR--------
+--------EXECUTER--------
 
 
 -----edge cases
@@ -195,7 +195,7 @@ example:
 - problem: the pipe out fd is not passed to the next command
 - if instead the fd is returned, the problem is that the called function doesnt know the fd of the redirect file
 
---------executor solution:
+--------executer solution:
 	- every function returns a command table
 	
 	- a redirect calling function will overwrite the tables' in/out descriptor with its file and pass the table to its own calling function

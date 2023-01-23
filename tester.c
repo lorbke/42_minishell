@@ -6,11 +6,12 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:25 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/22 21:31:42 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/23 17:03:50 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "debugger.h"
+#include "executer.h"
 #include "parser.h"
 #include "lexer.h"
 #include <stdio.h>
@@ -120,6 +121,42 @@ static void	case_parser(char **tests)
 	free(input);
 }
 
+void	debug_executer(t_cmd_table *cmd_table)
+{
+	printf(BLUE "\n=========Executer=========\n" RESET);
+	while (*cmd_table->cmd)
+	{
+		printf("%s ", *cmd_table->cmd);
+		cmd_table->cmd++;
+	}
+	printf(BLUE "\n==========================\n\n\n" RESET);
+}
+
+static void	case_executer(char **tests)
+{
+	char		*input;
+	t_ast		*ast;
+	t_stack		*tokstack;
+	t_cmd_table	*cmd_table;
+	int			i;
+
+	input = malloc(sizeof(char) * 100);
+	i = 0;
+	while (tests[i])
+	{
+		printf(YELLOW "+++++++++++++++++++++++++++++\n" RESET);
+		printf(YELLOW "CASE %d: %s" RESET, i, tests[i]);
+		strcpy(input, tests[i]);
+		tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
+		ast = parser_tokstack_to_ast(&tokstack);
+		cmd_table = create_cmd_table(ast);
+		debug_executer(cmd_table);
+		free(cmd_table);
+		i++;
+	}
+	free(input);
+}
+
 static char	**init_tests(void)
 {
 	char	**tests;
@@ -170,7 +207,7 @@ int	main(int argc, char *argv[])
 
 	if (argc != 2)
 	{
-		printf("usage: ./test [ all | lexer | parser ]\n");
+		printf("usage: ./test [ all | lexer | parser | executer ]\n");
 		return (0);
 	}
 	tests = init_tests();
@@ -179,13 +216,17 @@ int	main(int argc, char *argv[])
 		case_lexer(tests);
 		printf("\n\n\n");
 		case_parser(tests);
+		printf("\n\n\n");
+		case_executer(tests);
 	}
 	else if (!strncmp(argv[1], "lexer\0", 10))
 		case_lexer(tests);
 	else if (!strncmp(argv[1], "parser\0", 7))
 		case_parser(tests);
+	else if (!strncmp(argv[1], "executer\0", 9))
+		case_executer(tests);
 	else
-		printf("usage: ./test [ all | lexer | parser ]\n");
+		printf("usage: ./test [ all | lexer | parser | executer ]\n");
 	free(tests);
 	return (0);
 }
