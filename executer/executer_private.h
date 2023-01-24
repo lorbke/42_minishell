@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:14:20 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/23 17:50:54 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/24 15:07:54 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@
 # include "executer.h"
 # include "parser.h"
 
-typedef t_cmd_table	*(*t_func_exec)(t_ast *, void **);
+typedef t_cmd_table	*(*t_func_exec)(t_ast *, void *);
 
 #endif

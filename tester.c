@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:25 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/23 18:00:07 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/01/24 18:32:23 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 #define CASE_1 "< in\n"
 #define CASE_2 "echo\n"
 #define CASE_3 "echo hello ha\n"
-#define CASE_4 "< in echo hi hi > out\n"
+#define CASE_4 "/bin/echo hi hi > out\n"
 #define CASE_5 "< in1 < in2 < in3 echo hi hi > out1 > out2 > out4 hello hello\n"
 #define CASE_6 "echo \"hi       hi\" hi\n"
 #define CASE_7 "ec\"ho\" hi\n"
@@ -124,10 +124,13 @@ static void	case_parser(char **tests)
 void	debug_executer(t_cmd_table *cmd_table)
 {
 	printf(BLUE "\n=========Executer=========\n" RESET);
-	while (*cmd_table->cmd)
+	if (cmd_table)
 	{
-		printf("%s ", *cmd_table->cmd);
-		cmd_table->cmd++;
+		while (*cmd_table->cmd)
+		{
+			printf("%s ", *cmd_table->cmd);
+			cmd_table->cmd++;
+		}
 	}
 	printf(BLUE "\n==========================\n\n\n" RESET);
 }
@@ -141,24 +144,19 @@ static void	case_executer(char **tests)
 	int			i;
 
 	input = malloc(sizeof(char) * 100);
-	i = 0;
+	i = 4;
 	// while (tests[i])
 	// {
-	// 	printf(YELLOW "+++++++++++++++++++++++++++++\n" RESET);
-	// 	printf(YELLOW "CASE %d: %s" RESET, i, tests[i]);
-	// 	strcpy(input, tests[i]);
-	// 	tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
-	// 	ast = parser_tokstack_to_ast(&tokstack);
-	// 	cmd_table = create_cmd_table(ast);
-	// 	debug_executer(cmd_table);
-	// 	free(cmd_table);
+		// printf(YELLOW "+++++++++++++++++++++++++++++\n" RESET);
+		// printf(YELLOW "CASE %d: %s" RESET, i, tests[i]);
+		strcpy(input, tests[i]);
+		tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
+		ast = parser_tokstack_to_ast(&tokstack);
+		executer(ast);
+		// debug_executer(cmd_table);
+		// free(cmd_table);
 	// 	i++;
 	// }
-	strcpy(input, tests[i]);
-	tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
-	ast = parser_tokstack_to_ast(&tokstack);
-	cmd_table = create_cmd_table(ast);
-	executer(ast);
 	free(input);
 }
 
