@@ -16,6 +16,9 @@
 # include "executer.h"
 # include "parser.h"
 
-typedef t_cmd_table	*(*t_func_exec)(t_ast *, void *);
+typedef t_cmd_table	*(*t_func_exec)(t_ast *);
+
+t_cmd_table	*exec_redir_out(t_ast *ast);
+t_cmd_table	*exec_cmd(t_ast *ast);
 
 #endif

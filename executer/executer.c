@@ -19,6 +19,21 @@
 #include <stdlib.h> // malloc
 #include <stdio.h> // printf
 
+static const t_func_exec func_exec_arr[]
+= {
+	[TOK_WORD] = &exec_cmd,
+	[TOK_PIPE] = &exec_cmd,
+	[TOK_REDIR_IN] = &exec_cmd,
+	[TOK_REDIR_OUT] = &exec_redir_out,
+	[TOK_REDIR_APPEND] = &exec_cmd,
+	[TOK_REDIR_HEREDOC] = &exec_cmd,
+	[TOK_SQUOTE] = &exec_cmd,
+	[TOK_DQUOTE] = &exec_cmd,
+	[TOK_SUBSHELL] = &exec_cmd,
+	[TOK_AND] = &exec_cmd,
+	[TOK_OR] = &exec_cmd,
+};
+
 // func create_cmd_table
 t_cmd_table	*create_cmd_table(t_ast *ast)
 {
@@ -65,62 +80,36 @@ void	execute_cmd(t_cmd_table *cmd_table)
 }
 
 // func for every (almost) toktype
-t_cmd_table	*exec_cmd(t_ast *ast, void *func_exec)
+t_cmd_table	*exec_cmd(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
-	t_func_exec	*func_exec_arr;
 
 	if (!ast)
 		return (NULL);
-	func_exec_arr = (t_func_exec *)func_exec;
 	cmd_table = create_cmd_table(ast);
 	return (cmd_table);
 }
 
-t_cmd_table	*exec_redir_out(t_ast *ast, void *func_exec)
+t_cmd_table	*exec_redir_out(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
-	t_func_exec	*func_exec_arr;
 
 	if (!ast)
 		return (NULL);
-	func_exec_arr = (t_func_exec *)func_exec;
-	cmd_table = exec_cmd(ast->left, func_exec);
+	cmd_table = exec_cmd(ast->left);
 	cmd_table->fd_out
 		= open(ast->right->token->word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	return (cmd_table);
 }
 
-// func func_pointer_init
-t_func_exec	*init_func_exec_arr(void)
-{
-	t_func_exec	*func_exec;
-
-	func_exec = malloc(sizeof(t_func_exec) * 11);
-	func_exec[0] = exec_cmd;
-	func_exec[1] = exec_cmd;
-	func_exec[2] = exec_cmd;
-	func_exec[3] = exec_redir_out;
-	func_exec[4] = exec_cmd;
-	func_exec[5] = exec_cmd;
-	func_exec[6] = exec_cmd;
-	func_exec[7] = exec_cmd;
-	func_exec[8] = exec_cmd;
-	func_exec[9] = exec_cmd;
-	func_exec[10] = exec_cmd;
-	return (func_exec);
-}
-
 void	executer(t_ast *ast)
 {
-	t_func_exec	*func_exec;
 	t_cmd_table	*cmd_table;
 
 	cmd_table = NULL;
-	func_exec = init_func_exec_arr();
 	if (ast && ast->token)
 	{
-		cmd_table = func_exec[ast->token->desc](ast, (void *)func_exec);
+		cmd_table = func_exec_arr[ast->token->desc](ast);
 		execute_cmd(cmd_table);
 	}
 }
