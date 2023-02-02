@@ -11,5 +11,6 @@ lib/lexer/liblexer.a
 lib/lexer/obj
 tester
 tester.dSYM
+tester.o
 in
 out
