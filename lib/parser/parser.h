@@ -16,6 +16,16 @@ is a solution that is more interesting to me and because the current
 implementation of the bash parser seems to be a relict of the past and even
 bash's maintainers argue that it has weaknesses. */
 
+/* The parser follows the following Backus-Naur-Form (BNF) grammar:
+	<all>        ::=  <and_or> <newline>
+	<and_or>     ::=  <pipeline> { ('&&' | '||') <pipeline> }
+	<pipeline>   ::=  <command> { '|' <command> }
+	<comp_cmd>   ::=  ( <simple_cmd> | <and_or> )
+	<simple_cmd> ::=  { ( <redirect> | <word> ) }
+	<redirect>   ::=  ( '<' | '>' | '<<' | '>>' ) <word>
+	<word>       ::=  ( any character except certain special characters )
+*/
+
 #ifndef PARSER_H
 # define PARSER_H
 
