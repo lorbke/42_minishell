@@ -22,11 +22,11 @@
 static const t_func_exec func_exec_arr[]
 = {
 	[TOK_WORD] = &exec_cmd,
-	[TOK_PIPE] = &exec_cmd,
-	[TOK_REDIR_IN] = &exec_cmd,
+	[TOK_PIPE] = &exec_pipe,
+	[TOK_REDIR_IN] = &exec_redir_in,
 	[TOK_REDIR_OUT] = &exec_redir_out,
-	[TOK_REDIR_APPEND] = &exec_cmd,
 	[TOK_REDIR_HEREDOC] = &exec_cmd,
+	[TOK_REDIR_APPEND] = &exec_cmd,
 	[TOK_SQUOTE] = &exec_cmd,
 	[TOK_DQUOTE] = &exec_cmd,
 	[TOK_SUBSHELL] = &exec_cmd,
@@ -68,15 +68,22 @@ void	execute_cmd(t_cmd_table *cmd_table)
 {
 	pid_t	pid;
 
+	if (!cmd_table)
+		return ;
 	pid = fork();
 	if (pid == 0)
 	{
 		dup2(cmd_table->fd_in, STDIN_FILENO);
 		dup2(cmd_table->fd_out, STDOUT_FILENO);
+		close(cmd_table->fd_in);
+		close(cmd_table->fd_out);
 		execve(cmd_table->cmd[0], cmd_table->cmd, NULL);
 	}
 	else
+	{
 		waitpid(pid, NULL, 0);
+		printf("child done!\n");
+	}
 }
 
 // func for every (almost) toktype
@@ -96,10 +103,44 @@ t_cmd_table	*exec_redir_out(t_ast *ast)
 
 	if (!ast)
 		return (NULL);
+	printf("2token->word: %s\n", ast->token->word);
 	cmd_table = exec_cmd(ast->left);
 	cmd_table->fd_out
 		= open(ast->right->token->word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	printf("3token->word: %s\n", ast->right->token->word);
 	return (cmd_table);
+}
+
+t_cmd_table	*exec_redir_in(t_ast *ast)
+{
+	t_cmd_table	*cmd_table;
+
+	if (!ast)
+		return (NULL);
+	printf("1token->word: %s\n", ast->token->word);
+	cmd_table = exec_cmd(ast->left);
+	cmd_table->fd_in
+		= open(ast->right->token->word, O_RDONLY);
+	printf("open ret: %d\n", cmd_table->fd_in);
+	return (cmd_table);
+}
+
+t_cmd_table	*exec_pipe(t_ast *ast)
+{
+	t_cmd_table	*cmd_table_l;
+	t_cmd_table	*cmd_table_r;
+	int			fd[2];
+
+	if (!ast)
+		return (NULL);
+	printf("pipe ret: %d\n", pipe(fd));
+	cmd_table_l = func_exec_arr[ast->left->token->desc](ast->left);
+	cmd_table_l->fd_out = fd[1];
+	cmd_table_r = func_exec_arr[ast->right->token->desc](ast->right);
+	cmd_table_r->fd_in = fd[0];
+	execute_cmd(cmd_table_l);
+	close(fd[1]);
+	return (cmd_table_r);
 }
 
 void	executer(t_ast *ast)
@@ -111,5 +152,6 @@ void	executer(t_ast *ast)
 	{
 		cmd_table = func_exec_arr[ast->token->desc](ast);
 		execute_cmd(cmd_table);
+		// close(cmd_table->fd_in);
 	}
 }

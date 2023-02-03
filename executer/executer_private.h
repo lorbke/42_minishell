@@ -18,6 +18,8 @@
 
 typedef t_cmd_table	*(*t_func_exec)(t_ast *);
 
+t_cmd_table	*exec_pipe(t_ast *ast);
+t_cmd_table	*exec_redir_in(t_ast *ast);
 t_cmd_table	*exec_redir_out(t_ast *ast);
 t_cmd_table	*exec_cmd(t_ast *ast);
 
