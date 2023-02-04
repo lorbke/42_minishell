@@ -19,19 +19,19 @@
 #include <stdlib.h> // malloc
 #include <stdio.h> // printf
 
-static const t_func_exec func_exec_arr[]
+static const t_func_handle func_handle_arr[]
 = {
-	[TOK_WORD] = &exec_cmd,
-	[TOK_PIPE] = &exec_pipe,
-	[TOK_REDIR_IN] = &exec_redir_in,
-	[TOK_REDIR_OUT] = &exec_redir_out,
-	[TOK_REDIR_HEREDOC] = &exec_cmd,
-	[TOK_REDIR_APPEND] = &exec_cmd,
-	[TOK_SQUOTE] = &exec_cmd,
-	[TOK_DQUOTE] = &exec_cmd,
-	[TOK_SUBSHELL] = &exec_cmd,
-	[TOK_AND] = &exec_cmd,
-	[TOK_OR] = &exec_cmd,
+	[TOK_WORD] = &handle_cmd,
+	[TOK_PIPE] = &handle_pipe,
+	[TOK_REDIR_IN] = &handle_redir_in,
+	[TOK_REDIR_OUT] = &handle_redir_out,
+	[TOK_REDIR_HEREDOC] = &handle_cmd,
+	[TOK_REDIR_APPEND] = &handle_cmd,
+	[TOK_SQUOTE] = &handle_cmd,
+	[TOK_DQUOTE] = &handle_cmd,
+	[TOK_SUBSHELL] = &handle_cmd,
+	[TOK_AND] = &handle_cmd,
+	[TOK_OR] = &handle_cmd,
 };
 
 // func create_cmd_table
@@ -64,7 +64,7 @@ t_cmd_table	*create_cmd_table(t_ast *ast)
 }
 
 // func execute cmd_table
-void	execute_cmd(t_cmd_table *cmd_table)
+void	exec_cmd(t_cmd_table *cmd_table)
 {
 	pid_t	pid;
 
@@ -75,19 +75,14 @@ void	execute_cmd(t_cmd_table *cmd_table)
 	{
 		dup2(cmd_table->fd_in, STDIN_FILENO);
 		dup2(cmd_table->fd_out, STDOUT_FILENO);
+		execve(cmd_table->cmd[0], cmd_table->cmd, NULL);
 		close(cmd_table->fd_in);
 		close(cmd_table->fd_out);
-		execve(cmd_table->cmd[0], cmd_table->cmd, NULL);
-	}
-	else
-	{
-		waitpid(pid, NULL, 0);
-		printf("child done!\n");
 	}
 }
 
 // func for every (almost) toktype
-t_cmd_table	*exec_cmd(t_ast *ast)
+t_cmd_table	*handle_cmd(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
 
@@ -97,35 +92,31 @@ t_cmd_table	*exec_cmd(t_ast *ast)
 	return (cmd_table);
 }
 
-t_cmd_table	*exec_redir_out(t_ast *ast)
+t_cmd_table	*handle_redir_out(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
 
 	if (!ast)
 		return (NULL);
-	printf("2token->word: %s\n", ast->token->word);
-	cmd_table = exec_cmd(ast->left);
+	cmd_table = handle_cmd(ast->left);
 	cmd_table->fd_out
 		= open(ast->right->token->word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	printf("3token->word: %s\n", ast->right->token->word);
 	return (cmd_table);
 }
 
-t_cmd_table	*exec_redir_in(t_ast *ast)
+t_cmd_table	*handle_redir_in(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
 
 	if (!ast)
 		return (NULL);
-	printf("1token->word: %s\n", ast->token->word);
-	cmd_table = exec_cmd(ast->left);
+	cmd_table = handle_cmd(ast->left);
 	cmd_table->fd_in
 		= open(ast->right->token->word, O_RDONLY);
-	printf("open ret: %d\n", cmd_table->fd_in);
 	return (cmd_table);
 }
 
-t_cmd_table	*exec_pipe(t_ast *ast)
+t_cmd_table	*handle_pipe(t_ast *ast)
 {
 	t_cmd_table	*cmd_table_l;
 	t_cmd_table	*cmd_table_r;
@@ -133,25 +124,25 @@ t_cmd_table	*exec_pipe(t_ast *ast)
 
 	if (!ast)
 		return (NULL);
-	printf("pipe ret: %d\n", pipe(fd));
-	cmd_table_l = func_exec_arr[ast->left->token->desc](ast->left);
+	pipe(fd);
+	cmd_table_l = func_handle_arr[ast->left->token->desc](ast->left);
 	cmd_table_l->fd_out = fd[1];
-	cmd_table_r = func_exec_arr[ast->right->token->desc](ast->right);
+	cmd_table_r = func_handle_arr[ast->right->token->desc](ast->right);
 	cmd_table_r->fd_in = fd[0];
-	execute_cmd(cmd_table_l);
+	exec_cmd(cmd_table_l);
 	close(fd[1]);
 	return (cmd_table_r);
 }
 
-void	executer(t_ast *ast)
+void	executer_exec_ast(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
 
 	cmd_table = NULL;
 	if (ast && ast->token)
 	{
-		cmd_table = func_exec_arr[ast->token->desc](ast);
-		execute_cmd(cmd_table);
+		cmd_table = func_handle_arr[ast->token->desc](ast);
+		exec_cmd(cmd_table);
 		// close(cmd_table->fd_in);
 	}
 }

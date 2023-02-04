@@ -22,7 +22,6 @@ typedef struct s_cmd_table
 	int		fd_out;
 }	t_cmd_table;
 
-t_cmd_table	*create_cmd_table(t_ast *ast);
-void		executer(t_ast *ast);
+void		executer_exec_ast(t_ast *ast);
 
 #endif
