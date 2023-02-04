@@ -23,5 +23,6 @@ t_cmd_table	*handle_redir_in(t_ast *ast);
 t_cmd_table	*handle_redir_out(t_ast *ast);
 t_cmd_table	*handle_cmd(t_ast *ast);
 t_cmd_table	*create_cmd_table(t_ast *ast);
+char		*get_cmd_path(char **env, char *cmd);
 
 #endif

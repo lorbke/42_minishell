@@ -19,6 +19,8 @@
 #include <stdlib.h> // malloc
 #include <stdio.h> // printf
 
+extern char	**environ;
+
 static const t_func_handle func_handle_arr[]
 = {
 	[TOK_WORD] = &handle_cmd,
@@ -66,16 +68,18 @@ t_cmd_table	*create_cmd_table(t_ast *ast)
 // func execute cmd_table
 void	exec_cmd(t_cmd_table *cmd_table)
 {
+	char	*path;
 	pid_t	pid;
 
 	if (!cmd_table)
 		return ;
+	path = get_cmd_path(environ, cmd_table->cmd[0]);
 	pid = fork();
 	if (pid == 0)
 	{
 		dup2(cmd_table->fd_in, STDIN_FILENO);
 		dup2(cmd_table->fd_out, STDOUT_FILENO);
-		execve(cmd_table->cmd[0], cmd_table->cmd, NULL);
+		execve(path, cmd_table->cmd, environ);
 		close(cmd_table->fd_in);
 		close(cmd_table->fd_out);
 	}
