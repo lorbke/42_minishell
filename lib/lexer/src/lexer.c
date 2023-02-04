@@ -20,6 +20,10 @@ static unsigned int	desc_word(char *word)
 {
 	if (*word == '|' && *(word + 1) != '|')
 		return (TOK_PIPE);
+	else if (*word == '<' && *(word + 1) == '<')
+		return (TOK_REDIR_HEREDOC);
+	else if (*word == '>' && *(word + 1) == '>')
+		return (TOK_REDIR_APPEND);
 	else if (*word == '<')
 		return (TOK_REDIR_IN);
 	else if (*word == '>')

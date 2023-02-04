@@ -28,7 +28,7 @@ static const t_func_handle func_handle_arr[]
 	[TOK_REDIR_IN] = &handle_redir_in,
 	[TOK_REDIR_OUT] = &handle_redir_out,
 	[TOK_REDIR_HEREDOC] = &handle_cmd,
-	[TOK_REDIR_APPEND] = &handle_cmd,
+	[TOK_REDIR_APPEND] = &handle_redir_append,
 	[TOK_SQUOTE] = &handle_cmd,
 	[TOK_DQUOTE] = &handle_cmd,
 	[TOK_SUBSHELL] = &handle_cmd,
@@ -93,6 +93,18 @@ t_cmd_table	*handle_cmd(t_ast *ast)
 	if (!ast)
 		return (NULL);
 	cmd_table = create_cmd_table(ast);
+	return (cmd_table);
+}
+
+t_cmd_table	*handle_redir_append(t_ast *ast)
+{
+	t_cmd_table	*cmd_table;
+
+	if (!ast)
+		return (NULL);
+	cmd_table = handle_cmd(ast->left);
+	cmd_table->fd_out
+		= open(ast->right->token->word, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	return (cmd_table);
 }
 
