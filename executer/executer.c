@@ -14,10 +14,12 @@
 #include "executer.h" // t_cmd_table
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token
+#include "libft.h" // ft_strlen, ft_strncmp
 #include <unistd.h> // execve, fork
 #include <fcntl.h> // open
 #include <stdlib.h> // malloc
 #include <stdio.h> // printf
+#include <limits.h> // ARG_MAX
 
 extern char	**environ;
 
@@ -27,7 +29,7 @@ static const t_func_handle func_handle_arr[]
 	[TOK_PIPE] = &handle_pipe,
 	[TOK_REDIR_IN] = &handle_redir_in,
 	[TOK_REDIR_OUT] = &handle_redir_out,
-	[TOK_REDIR_HEREDOC] = &handle_cmd,
+	[TOK_REDIR_HEREDOC] = &handle_redir_heredoc,
 	[TOK_REDIR_APPEND] = &handle_redir_append,
 	[TOK_SQUOTE] = &handle_cmd,
 	[TOK_DQUOTE] = &handle_cmd,
@@ -65,6 +67,32 @@ t_cmd_table	*create_cmd_table(t_ast *ast)
 	return (cmd_table);
 }
 
+int	get_heredoc(char *limiter)
+{
+	int		fd[2];
+	int		limiter_len;
+	char	*line;
+	int		i;
+
+	pipe(fd);
+	limiter_len = ft_strlen(limiter);
+	line = malloc(ARG_MAX * sizeof(char));
+	i = 0;
+	while (1)
+	{
+		write(STDOUT_FILENO, "> ", 2);
+		i = read(STDOUT_FILENO, line, ARG_MAX);
+		line[i] = 0;
+		if (line[limiter_len] == '\n'
+			&& !ft_strncmp(line, limiter, limiter_len))
+			break ;
+		write(fd[1], line, i);
+	}
+	close(fd[1]);
+	free(line);
+	return (fd[0]);
+}
+
 // func execute cmd_table
 void	exec_cmd(t_cmd_table *cmd_table)
 {
@@ -96,6 +124,18 @@ t_cmd_table	*handle_cmd(t_ast *ast)
 	return (cmd_table);
 }
 
+t_cmd_table	*handle_redir_heredoc(t_ast *ast)
+{
+	t_cmd_table	*cmd_table;
+
+	if (!ast)
+		return (NULL);
+	cmd_table = handle_cmd(ast->left);
+	cmd_table->fd_in
+		= get_heredoc(ast->right->token->word);
+	return (cmd_table);
+}
+
 t_cmd_table	*handle_redir_append(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
@@ -108,18 +148,6 @@ t_cmd_table	*handle_redir_append(t_ast *ast)
 	return (cmd_table);
 }
 
-t_cmd_table	*handle_redir_out(t_ast *ast)
-{
-	t_cmd_table	*cmd_table;
-
-	if (!ast)
-		return (NULL);
-	cmd_table = handle_cmd(ast->left);
-	cmd_table->fd_out
-		= open(ast->right->token->word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	return (cmd_table);
-}
-
 t_cmd_table	*handle_redir_in(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
@@ -129,6 +157,18 @@ t_cmd_table	*handle_redir_in(t_ast *ast)
 	cmd_table = handle_cmd(ast->left);
 	cmd_table->fd_in
 		= open(ast->right->token->word, O_RDONLY);
+	return (cmd_table);
+}
+
+t_cmd_table	*handle_redir_out(t_ast *ast)
+{
+	t_cmd_table	*cmd_table;
+
+	if (!ast)
+		return (NULL);
+	cmd_table = handle_cmd(ast->left);
+	cmd_table->fd_out
+		= open(ast->right->token->word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	return (cmd_table);
 }
 
@@ -159,6 +199,6 @@ void	executer_exec_ast(t_ast *ast)
 	{
 		cmd_table = func_handle_arr[ast->token->desc](ast);
 		exec_cmd(cmd_table);
-		// close(cmd_table->fd_in);
+		close(cmd_table->fd_in);
 	}
 }
