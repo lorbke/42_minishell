@@ -24,6 +24,7 @@
 #include <stdbool.h> // bool
 
 // free the ast and the tokstack
+// test if all fds are closed
 
 void	process_command(char *command)
 {
