@@ -205,8 +205,11 @@ t_cmd_table *handle_and(t_ast *ast)
 	waitpid(pid_l, &status, 0);
 	if (status != 0)
 		return (NULL);
-	cmd_table_r = func_handle_arr[ast->right->token->desc](ast->right);
-	return (cmd_table_r);
+	else
+	{
+		cmd_table_r = func_handle_arr[ast->right->token->desc](ast->right);
+		return (cmd_table_r);
+	}
 }
 
 t_cmd_table *handle_or(t_ast *ast)
@@ -223,8 +226,11 @@ t_cmd_table *handle_or(t_ast *ast)
 	waitpid(pid_l, &status, 0);
 	if (status == 0)
 		return (NULL);
-	cmd_table_r = func_handle_arr[ast->right->token->desc](ast->right);
-	return (cmd_table_r);
+	else
+	{
+		cmd_table_r = func_handle_arr[ast->right->token->desc](ast->right);
+		return (cmd_table_r);
+	}
 }
 
 void	executer_exec_ast(t_ast *ast)

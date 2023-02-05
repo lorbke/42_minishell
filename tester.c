@@ -28,7 +28,7 @@
 #define CASE_0 ""
 #define CASE_1 "< in\n"
 #define CASE_2 "echo\n"
-#define CASE_3 "eco hi || echo hey\n"
+#define CASE_3 "cat in && cat in\n"
 #define CASE_4 "/bin/echo hi hi > out\n"
 #define CASE_5 "< in1 < in2 < in3 echo hi hi > out1 > out2 > out4 hello hello\n"
 #define CASE_6 "echo \"hi       hi\" hi\n"
