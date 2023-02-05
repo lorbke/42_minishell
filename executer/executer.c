@@ -15,9 +15,9 @@
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token
 #include "libft.h" // ft_strlen, ft_strncmp
-#include <unistd.h> // execve, fork
+#include <sys/types.h> // pid_t, fork, execve
 #include <fcntl.h> // open
-#include <stdlib.h> // malloc
+#include <stdlib.h> // malloc, free, exit
 #include <stdio.h> // printf
 #include <limits.h> // ARG_MAX
 
@@ -34,8 +34,8 @@ static const t_func_handle func_handle_arr[]
 	[TOK_SQUOTE] = &handle_cmd,
 	[TOK_DQUOTE] = &handle_cmd,
 	[TOK_SUBSHELL] = &handle_cmd,
-	[TOK_AND] = &handle_cmd,
-	[TOK_OR] = &handle_cmd,
+	[TOK_AND] = &handle_and,
+	[TOK_OR] = &handle_or,
 };
 
 // func create_cmd_table
@@ -94,23 +94,24 @@ int	get_heredoc(char *limiter)
 }
 
 // func execute cmd_table
-void	exec_cmd(t_cmd_table *cmd_table)
+pid_t	exec_cmd(t_cmd_table *cmd_table)
 {
 	char	*path;
 	pid_t	pid;
+	int		status;
 
 	if (!cmd_table)
-		return ;
+		return (-1);
 	path = get_cmd_path(environ, cmd_table->cmd[0]);
 	pid = fork();
-	if (pid == 0)
-	{
-		dup2(cmd_table->fd_in, STDIN_FILENO);
-		dup2(cmd_table->fd_out, STDOUT_FILENO);
-		execve(path, cmd_table->cmd, environ);
-		close(cmd_table->fd_in);
-		close(cmd_table->fd_out);
-	}
+	if (pid != 0)
+		return (pid);
+	dup2(cmd_table->fd_in, STDIN_FILENO);
+	dup2(cmd_table->fd_out, STDOUT_FILENO);
+	status = execve(path, cmd_table->cmd, environ);
+	close(cmd_table->fd_in);
+	close(cmd_table->fd_out);
+	exit(status);
 }
 
 // func for every (almost) toktype
@@ -183,10 +184,46 @@ t_cmd_table	*handle_pipe(t_ast *ast)
 	pipe(fd);
 	cmd_table_l = func_handle_arr[ast->left->token->desc](ast->left);
 	cmd_table_l->fd_out = fd[1];
-	cmd_table_r = func_handle_arr[ast->right->token->desc](ast->right);
-	cmd_table_r->fd_in = fd[0];
 	exec_cmd(cmd_table_l);
 	close(fd[1]);
+	cmd_table_r = func_handle_arr[ast->right->token->desc](ast->right);
+	cmd_table_r->fd_in = fd[0];
+	return (cmd_table_r);
+}
+
+t_cmd_table *handle_and(t_ast *ast)
+{
+	t_cmd_table	*cmd_table_l;
+	t_cmd_table	*cmd_table_r;
+	pid_t		pid_l;
+	int			status;
+
+	if (!ast)
+		return (NULL);
+	cmd_table_l = func_handle_arr[ast->left->token->desc](ast->left);
+	pid_l = exec_cmd(cmd_table_l);
+	waitpid(pid_l, &status, 0);
+	if (status != 0)
+		return (NULL);
+	cmd_table_r = func_handle_arr[ast->right->token->desc](ast->right);
+	return (cmd_table_r);
+}
+
+t_cmd_table *handle_or(t_ast *ast)
+{
+	t_cmd_table	*cmd_table_l;
+	t_cmd_table	*cmd_table_r;
+	pid_t		pid_l;
+	int			status;
+
+	if (!ast)
+		return (NULL);
+	cmd_table_l = func_handle_arr[ast->left->token->desc](ast->left);
+	pid_l = exec_cmd(cmd_table_l);
+	waitpid(pid_l, &status, 0);
+	if (status == 0)
+		return (NULL);
+	cmd_table_r = func_handle_arr[ast->right->token->desc](ast->right);
 	return (cmd_table_r);
 }
 
@@ -198,6 +235,8 @@ void	executer_exec_ast(t_ast *ast)
 	if (ast && ast->token)
 	{
 		cmd_table = func_handle_arr[ast->token->desc](ast);
+		if (!cmd_table)
+			return ;
 		exec_cmd(cmd_table);
 		close(cmd_table->fd_in);
 	}
