@@ -13,6 +13,7 @@
 #include "minishell.h" // macros
 #include "lexer.h" // lexer_str_to_tokstack
 #include "parser.h" // parser_tokstack_to_ast
+#include "executer.h" // executer_exec_ast
 #include "debugger.h" // debug
 #include "libft.h" // ft_strncmp
 #include <termios.h> // termios functions and struct
@@ -21,6 +22,8 @@
 #include <readline/readline.h> // readline
 #include <readline/history.h> // add_history
 #include <stdbool.h> // bool
+
+// free the ast and the tokstack
 
 void	process_command(char *command)
 {
@@ -34,6 +37,10 @@ void	process_command(char *command)
 	{
 		ast = parser_tokstack_to_ast(&tokstack);
 		debug_parser(ast, tokstack);
+		if (ast)
+		{
+			executer_exec_ast(ast);
+		}
 	}
 }
 

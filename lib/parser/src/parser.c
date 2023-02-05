@@ -23,7 +23,6 @@
 // rule_all was skipped
 // newline implementation still needed
 
-// subshell handling still incorrect
 // quote handling also probably incorrect
 
 t_ast	*parser_tokstack_to_ast(t_stack	**tokstack)

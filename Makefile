@@ -40,6 +40,9 @@ LEXER_LINK := -L$(LEXER_PATH) -l$(LEXER_LIB)
 PARSER_PATH := $(LIB_PATH)/parser
 PARSER_LIB := parser
 PARSER_LINK := -L$(PARSER_PATH) -l$(PARSER_LIB)
+EXECUTER_PATH := $(LIB_PATH)/executer
+EXECUTER_LIB := executer
+EXECUTER_LINK := -L$(EXECUTER_PATH) -l$(EXECUTER_LIB)
 RDLN_LIB := readline
 
 # src and obj files macros
@@ -56,8 +59,9 @@ $(NAME): $(OBJ_PATH) $(OBJ)
 	@$(MAKE) -C $(LFT_PATH)
 	@$(MAKE) -C $(LEXER_PATH)
 	@$(MAKE) -C $(PARSER_PATH)
+	@$(MAKE) -C $(EXECUTER_PATH)
 	@echo -e -n "$(BLUE)Creating: minishell executable: $(RESET)"
-	$(CC) $(CFLAGS) $(OBJ) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) -l$(RDLN_LIB) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(EXECUTER_LINK) -l$(RDLN_LIB) -o $(NAME)
 	@echo -e "$(GREEN)make: minishell success!$(RESET)"
 
 $(OBJ_PATH):
@@ -65,7 +69,7 @@ $(OBJ_PATH):
 
 $(OBJ_PATH)/%.o: %.c Makefile $(SRC_PATH)/minishell.h $(SRC_PATH)/debugger.h
 	@echo -e -n "$(YELLOW)Compiling: $(RESET)"
-	$(CC) $(CFLAGS) -I$(LFT_PATH) -I$(LEXER_PATH) -I$(PARSER_PATH) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(LFT_PATH) -I$(LEXER_PATH) -I$(PARSER_PATH) -I$(EXECUTER_PATH) -c $< -o $@
 
 # phony targets
 all: $(NAME)
@@ -77,6 +81,7 @@ fclean: clean
 	@cd $(LFT_PATH) && $(MAKE) fclean
 	@cd $(LEXER_PATH) && $(MAKE) fclean
 	@cd $(PARSER_PATH) && $(MAKE) fclean
+	@cd $(EXECUTER_PATH) && $(MAKE) fclean
 	$(RM) $(NAME)
 	@echo -e "$(RED)make: minishell cleaned!$(RESET)"
 
@@ -91,6 +96,7 @@ test:
 	@$(MAKE) -C $(LFT_PATH)
 	@$(MAKE) -C $(LEXER_PATH)
 	@$(MAKE) -C $(PARSER_PATH)
+	@$(MAKE) -C $(EXECUTER_PATH
 	$(CC) -O0 -DDEBUG -g tester.c executer/executer.c executer/executer_path.c $(SRC_PATH)/debugger/debugger.c -I$(SRC_PATH) -I$(LFT_PATH) \
 	-I$(LEXER_PATH) -I$(PARSER_PATH) -Iexecuter $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) -l$(RDLN_LIB) -o tester
 
