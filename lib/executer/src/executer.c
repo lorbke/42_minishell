@@ -244,5 +244,6 @@ void	executer_exec_ast(t_ast *ast)
 		if (!cmd_table)
 			return ;
 		exec_cmd(cmd_table);
+		while (wait(NULL) > 0);
 	}
 }
