@@ -28,7 +28,7 @@
 #define CASE_0 ""
 #define CASE_1 "< in\n"
 #define CASE_2 "echo\n"
-#define CASE_3 "< in /bin/cat | /bin/cat | /bin/cat | /bin/cat > out\n"
+#define CASE_3 "echo a && eho b\n"
 #define CASE_4 "/bin/echo hi hi > out\n"
 #define CASE_5 "< in1 < in2 < in3 echo hi hi > out1 > out2 > out4 hello hello\n"
 #define CASE_6 "echo \"hi       hi\" hi\n"
@@ -153,7 +153,7 @@ static void	case_executer(char **tests)
 		tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
 		ast = parser_tokstack_to_ast(&tokstack);
 		debug_parser(ast, tokstack);
-		executer(ast);
+		executer_exec_ast(ast);
 		// debug_executer(cmd_table);
 		// free(cmd_table);
 	// 	i++;
@@ -223,7 +223,7 @@ int	main(int argc, char *argv[])
 		printf("\n\n\n");
 		case_executer(tests);
 	}
-	else if (!strncmp(argv[1], "lexer\0", 10))
+	else if (!strncmp(argv[1], "lexer\0", 6))
 		case_lexer(tests);
 	else if (!strncmp(argv[1], "parser\0", 7))
 		case_parser(tests);

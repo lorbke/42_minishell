@@ -9,8 +9,11 @@ lib/parser/libparser.a
 lib/parser/obj
 lib/lexer/liblexer.a
 lib/lexer/obj
+lib/executer/obj
+lib/executer/libexecuter.a
 tester
 tester.dSYM
 tester.o
 in
 out
+pathfinder.dSYM
