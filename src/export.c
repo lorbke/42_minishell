@@ -6,11 +6,16 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:13:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/05 18:30:44 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/06 09:43:00 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "symtab.h"
+#include "libft.h"
+
+static void	free_list(t_sym_tab *head);
+static void	print_sorted_list(t_sym_tab *head);
+static void	insertion_sort(t_sym_tab **head, t_sym_tab *node);
 
 // @note essentially this func has 3 modes:
 // by arguments I refer to name and value
