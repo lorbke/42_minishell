@@ -5,9 +5,12 @@
 
 static char	*ft_strnstr_arr(char **str_arr, char *needle)
 {
+	int	needle_len;
+
+	needle_len = ft_strlen(needle);
 	while (*str_arr)
 	{
-		if (ft_strnstr(*str_arr, needle, ft_strlen(*str_arr)) != NULL)
+		if (ft_strncmp(*str_arr, needle, needle_len) == 0)
 			return (*str_arr);
 		str_arr++;
 	}
@@ -22,6 +25,8 @@ static char	*get_pathset(char **envp)
 	path_set = ft_strtrim(path_set, PATH_ENV);
 	return (path_set);
 }
+
+#include <stdio.h>
 
 char	*get_cmd_path(char **env, char *cmd)
 {

@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/06 13:23:30 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/06 17:19:36 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <limits.h>
+
+int			is_num(char *str);
+long long 	ft_atoi_long(const char *str);
 
 // argv in this case is cmd_table->cmd
 void	builtin_exit(char **argv)
@@ -77,7 +80,7 @@ int	is_num(char *str)
 	return (1);
 }
 
-static check_flow(long long number, int sign)
+static int	check_flow(long long number, int sign)
 {
 	number *= sign;
 	// check for underflow

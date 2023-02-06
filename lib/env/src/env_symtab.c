@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   symtab.c                                           :+:      :+:    :+:   */
+/*   env_symtab.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:00:37 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/06 09:21:38 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/06 16:19:17 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "symtab.h"
-#include "libft.h"
 #include "env.h"
+#include "libft.h"
+#include "env_private.h"
+#include <stdlib.h>
 
 t_sym_tab	**init_sym_tab(char **envp)
 {

@@ -6,12 +6,12 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:20:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/06 09:17:20 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/06 16:18:42 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "symtab.h"
 #include "libft.h"
+#include "env_private.h"
 
 static char *ft_strncpy(char *dest, const char *src, size_t n)
 {

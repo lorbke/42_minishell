@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/24 18:30:32 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/06 17:24:51 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int	get_heredoc(char *limiter)
 	return (fd[0]);
 }
 
+//@note expansion and builtins are here
 // func execute cmd_table
 pid_t	exec_cmd(t_cmd_table *cmd_table)
 {

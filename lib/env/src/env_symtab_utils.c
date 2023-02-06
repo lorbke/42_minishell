@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   symtab_utils.c                                     :+:      :+:    :+:   */
+/*   env_symtab_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:03:21 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/06 09:23:11 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/06 16:19:12 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "symtab.h"
 #include "libft.h"
+#include "env_private.h"
+#include <stdlib.h>
 
 int get_list_len(t_sym_tab **head)
 {
