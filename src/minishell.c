@@ -16,6 +16,7 @@
 #include "executer.h" // executer_exec_ast
 #include "debugger.h" // debug
 #include "libft.h" // ft_strncmp
+#include "env.h" // global_var
 #include <termios.h> // termios functions and struct
 #include <unistd.h> // file descriptor macros
 #include <stdio.h> // printf
@@ -25,6 +26,9 @@
 
 // free the ast and the tokstack
 // test if all fds are closed
+
+// global var
+t_sym_tab **g_sym_table;
 
 void	process_command(char *command)
 {
@@ -86,6 +90,8 @@ static int	init_termios(bool mode)
 
 int	main(int argc, char **argv, char **envp)
 {
+	// init global var
+	g_sym_table = init_sym_tab(envp);
 	if (init_termios(true) == ERROR)
 		return (EXIT_FAILURE);
 	ms_init_signals();

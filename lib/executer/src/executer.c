@@ -15,7 +15,7 @@
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token
 #include "libft.h" // ft_strlen, ft_strncmp
-#include "builtins.h" // all builtins
+#include "../../../src/builtins/builtins.h" // all builtins
 #include <sys/types.h> // pid_t, fork, execve
 #include <fcntl.h> // open
 #include <stdlib.h> // malloc, free, exit
@@ -94,14 +94,25 @@ int	get_heredoc(char *limiter)
 	return (fd[0]);
 }
 
-// check if builtin
-void	is_builtin(t_cmd_table *cmd_table)
+int	exec(char *path, t_cmd_table *cmd_table, char **environ)
 {
-	char	*func;
+	int		i;
+	int		status;
+	char	*cmd;
 
-	func = cmd_table->cmd[0];
-	if (ft_strncmp(func, "cd", 2))
-		builtin_cd(cmd_table->cmd);
+	i = 0;
+	cmd = cmd_table->cmd[0];
+	while (builtin_arr[i].name)
+	{
+		if (!ft_strncmp(cmd, builtin_arr[i].name, ft_strlen(cmd)))
+		{
+			status = builtin_arr[i].func(cmd_table->cmd);
+			return (status);
+		}
+		i++;
+	}
+	status = execve(path, cmd_table->cmd, environ);
+	return (status);
 }
 
 //@note expansion and builtins are here
@@ -121,8 +132,7 @@ pid_t	exec_cmd(t_cmd_table *cmd_table)
 	dup2(cmd_table->fd_in, STDIN_FILENO);
 	dup2(cmd_table->fd_out, STDOUT_FILENO);
 	// check if builtin
-
-	status = execve(path, cmd_table->cmd, environ);
+	status = exec(path, cmd_table, environ);
 	close(cmd_table->fd_in);
 	close(cmd_table->fd_out);
 	exit(status);

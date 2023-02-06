@@ -19,7 +19,7 @@ int			is_num(char *str);
 long long 	ft_atoi_long(const char *str);
 
 // argv in this case is cmd_table->cmd
-void	builtin_exit(char **argv)
+int	builtin_exit(char **argv)
 {
 	int			argc;
 	long long	exit_code;
@@ -57,7 +57,7 @@ void	builtin_exit(char **argv)
 		printf("exit\n");
 		// print error message: too many arguments
 	}
-	exit(0);
+	return (0);
 }
 
 int	is_num(char *str)

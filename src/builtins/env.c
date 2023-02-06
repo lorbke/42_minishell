@@ -13,10 +13,11 @@
 #include "env.h"
 #include <stdio.h>
 
-void	builtin_env(t_sym_tab **sym_table) {
+int	builtin_env(t_sym_tab **sym_table) {
 	char **env_list = create_env_list(sym_table);
 	while (*env_list) {
 		printf("%s\n", *env_list);
 		env_list++;
 	}
+	return (0);
 }

@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include "libft.h"
 
-void builtin_echo(char **argv)
+int builtin_echo(char **argv)
 {
 	int i;
 	int	flag;
@@ -38,4 +38,5 @@ void builtin_echo(char **argv)
 		if (!flag)
 			printf("\n");
 	}
+	return (0);
 }

@@ -16,7 +16,14 @@
 
 int main(int argc, char **argv, char **envp)
 {
-	pick_builtin(argv[1]);
-
+	if (ft_strncmp(builtin_arr[0].name, "echo", ft_strlen("echo")) == 0)
+	{
+		char *str[] = {
+			"echo",
+			"whaddup",
+			"boi",
+			NULL
+		};
+	}
 	return(0);
 }

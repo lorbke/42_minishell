@@ -15,9 +15,10 @@
 
 static void	remove_node(char *var, t_sym_tab **head);
 
-void	builtin_unset(char *var, t_sym_tab **sym_table)
+int	builtin_unset(char *var, t_sym_tab **sym_table)
 {
 	remove_node(var, sym_table);
+	return (0);
 }
 
 static void	remove_first_node(t_sym_tab	*first, t_sym_tab **head)

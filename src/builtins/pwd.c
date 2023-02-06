@@ -14,7 +14,7 @@
 #include <limits.h>
 #include <stdio.h>
 
-void builtin_pwd(void)
+int builtin_pwd(void)
 {
 	char	cwd[PATH_MAX];
 
@@ -24,4 +24,5 @@ void builtin_pwd(void)
 	{
 		// @note need to handle this error properly
 	}
+	return (0);
 }

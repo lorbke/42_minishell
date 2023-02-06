@@ -13,14 +13,37 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-#include "env.h"
+#include "../../lib/env/env.h"
+#include "executer.h"
+#include <stdlib.h>
 
-void	builtin_pwd(void);
-void	builtin_cd(char *path);
-void	builtin_exit(char **argv);
-void	builtin_echo(char **argv);
-void	builtin_env(t_sym_tab **sym_table);
-void	builtin_unset(char *var, t_sym_tab **sym_table);
-void	builtin_export(t_sym_tab **sym_table, char *name, char *value);
+typedef struct	s_builtin
+{
+	char	*name;
+	int		(*func)();
+}	t_builtin;
+
+// @note all builtins need to receive the same arguments
+// if the env is global, it is enough to pass cmd_table->cmd
+int	builtin_pwd(void);
+int	builtin_cd(char **argv);
+int	builtin_echo(char **argv);
+int	builtin_env(t_sym_tab **sym_table);
+int	builtin_unset(char *var, t_sym_tab **sym_table);
+int	builtin_export(t_sym_tab **sym_table, char *name, char *value);
+int	builtin_exit(char **argv);
+
+const	t_builtin builtin_arr[] =
+{
+	{"echo", &builtin_echo},
+	{"cd", &builtin_cd},
+	{"pwd", &builtin_pwd},
+	{"export", &builtin_export},
+	{"unset", &builtin_unset},
+	{"env", &builtin_env},
+	{"exit", &builtin_exit},
+	//@note do we even need this?
+	{NULL, NULL}
+};
 
 #endif

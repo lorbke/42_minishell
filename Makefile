@@ -65,15 +65,18 @@ $(NAME): $(OBJ_PATH) $(OBJ)
 	@$(MAKE) -C $(EXECUTER_PATH)
 	@$(MAKE) -C $(ENV_PATH)
 	@echo -e -n "$(BLUE)Creating: minishell executable: $(RESET)"
-	$(CC) $(CFLAGS) $(OBJ) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(EXECUTER_LINK) $(ENV_LINK) -l$(RDLN_LIB) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(EXECUTER_LINK) $(ENV_LINK) -l$(RDLN_LIB) -L/opt/homebrew/Cellar/readline/8.2.1/lib -o $(NAME)
 	@echo -e "$(GREEN)make: minishell success!$(RESET)"
+
+dev: $(OBJ_PATH) $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) dev.o $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(EXECUTER_LINK) $(ENV_LINK) -l$(RDLN_LIB) -L/opt/homebrew/Cellar/readline/8.2.1/lib -o dev
 
 $(OBJ_PATH):
 	@mkdir -p $(OBJ_PATH)
 
 $(OBJ_PATH)/%.o: %.c Makefile $(SRC_PATH)/minishell.h $(SRC_PATH)/debugger.h
 	@echo -e -n "$(YELLOW)Compiling: $(RESET)"
-	$(CC) $(CFLAGS) -I$(LFT_PATH) -I$(LEXER_PATH) -I$(PARSER_PATH) -I$(EXECUTER_PATH) -I$(ENV_PATH) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(LFT_PATH) -I$(LEXER_PATH) -I$(PARSER_PATH) -I$(EXECUTER_PATH) -I$(ENV_PATH) -I/opt/homebrew/Cellar/readline/8.2.1/include -c $< -o $@
 
 # phony targets
 all: $(NAME)
