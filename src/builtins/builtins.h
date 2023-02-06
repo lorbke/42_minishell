@@ -6,14 +6,14 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 14:33:34 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/06 14:39:17 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/06 17:50:56 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-#include "../symtab.h"
+#include "env.h"
 
 void	builtin_pwd(void);
 void	builtin_cd(char *path);

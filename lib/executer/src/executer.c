@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/06 17:24:51 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/06 17:52:00 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token
 #include "libft.h" // ft_strlen, ft_strncmp
+#include "builtins.h" // all builtins
 #include <sys/types.h> // pid_t, fork, execve
 #include <fcntl.h> // open
 #include <stdlib.h> // malloc, free, exit
@@ -93,6 +94,16 @@ int	get_heredoc(char *limiter)
 	return (fd[0]);
 }
 
+// check if builtin
+void	is_builtin(t_cmd_table *cmd_table)
+{
+	char	*func;
+
+	func = cmd_table->cmd[0];
+	if (ft_strncmp(func, "cd", 2))
+		builtin_cd(cmd_table->cmd);
+}
+
 //@note expansion and builtins are here
 // func execute cmd_table
 pid_t	exec_cmd(t_cmd_table *cmd_table)
@@ -109,6 +120,8 @@ pid_t	exec_cmd(t_cmd_table *cmd_table)
 		return (pid);
 	dup2(cmd_table->fd_in, STDIN_FILENO);
 	dup2(cmd_table->fd_out, STDOUT_FILENO);
+	// check if builtin
+
 	status = execve(path, cmd_table->cmd, environ);
 	close(cmd_table->fd_in);
 	close(cmd_table->fd_out);
