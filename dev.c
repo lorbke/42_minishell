@@ -1,15 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "symtab.h"
 #include "lib/libft/libft.h"
+#include "src/builtins/builtins.h"
+
+// char	*var_expansion(char *tok_value)
+// {
+
+// }
+
+// char	*wildcard_expansion(char *tok_value)
+// {
+
+// }
 
 int main(int argc, char **argv, char **envp)
 {
-	int len;
+	pick_builtin(argv[1]);
 
-	// the whole symbol table
-	t_sym_tab **sym_table = init_sym_tab(envp);
 	return(0);
 }
-

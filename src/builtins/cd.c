@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/05 18:45:14 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/06 09:43:32 by fyuzhyk          ###   ########.fr       */
+/*   Created: 2023/02/06 09:50:47 by fyuzhyk           #+#    #+#             */
+/*   Updated: 2023/02/06 09:56:19 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <limits.h>
-#include <stdio.h>
 
-void builtin_pwd(void)
+void builtin_cd(char *path)
 {
-	char cwd[PATH_MAX];
-
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-		printf("%s", cwd);
-	else
+	if (chdir(path) != 0)
 	{
 		// @note need to handle this error properly
 	}
