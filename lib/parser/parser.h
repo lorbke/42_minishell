@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 17:22:41 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/18 15:57:34 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/06 18:30:26 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ is a solution that is more interesting to me and because the current
 implementation of the bash parser seems to be a relict of the past and even
 bash's maintainers argue that it has weaknesses. */
 
-/* The parser follows the following Backus-Naur-Form (BNF) grammar:
+/* The parser takes a stack of tokens (t_stack) as a parameter and converts it
+to an abstract syntax tree (t_ast) according to the following
+
+Backus-Naur-Form (BNF) grammar:
 	<all>        ::=  <and_or> <newline>
 	<and_or>     ::=  <pipeline> { ('&&' | '||') <pipeline> }
 	<pipeline>   ::=  <command> { '|' <command> }
@@ -24,6 +27,10 @@ bash's maintainers argue that it has weaknesses. */
 	<simple_cmd> ::=  { ( <redirect> | <word> ) }
 	<redirect>   ::=  ( '<' | '>' | '<<' | '>>' ) <word>
 	<word>       ::=  ( any character except certain special characters )
+
+If a part of the token stack does not match the grammar, the parser will stop parsing
+and return the ast that was created so far.
+The token stack pointer will point to the first token that was not parsed.
 */
 
 #ifndef PARSER_H

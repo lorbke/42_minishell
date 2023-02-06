@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/20 17:37:59 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/06 18:25:04 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 #include <readline/history.h> // add_history
 #include <stdbool.h> // bool
 
-// free the ast and the tokstack
-// test if all fds are closed
+// @todo free the ast and the tokstack
+// @todo test if all fds are closed
 
 void	process_command(char *command)
 {
@@ -38,10 +38,10 @@ void	process_command(char *command)
 	{
 		ast = parser_tokstack_to_ast(&tokstack);
 		debug_parser(ast, tokstack);
-		if (ast)
-		{
-			executer_exec_ast(ast);
-		}
+		if (tokstack)
+			printf("%s: syntax error near unexpected token `%s'\n",
+				NAME, tokstack->token->word);
+		executer_exec_ast(ast);
 	}
 }
 
