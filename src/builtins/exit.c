@@ -6,63 +6,69 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/07 11:42:17 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/07 15:34:10 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <errno.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
 #include <limits.h>
 
-int			is_num(char *str);
-long long 	ft_atoi_long(const char *str);
+static int			is_num(char *str);
+static long long	ft_atoi_long(const char *str);
+static void			print_to_stderr(char *str, char *arg);
 
-// argv in this case is cmd_table->cmd
 int	builtin_exit(char **argv)
 {
 	int			argc;
 	long long	exit_code;
 
+	if (argv == NULL)
+	{
+		printf("exit\n");
+		exit(exit_code % 256);
+	}
 	argc = 0;
 	while(argv[argc])
 		argc++;
-	// exit w/o args called
-	if (argc == 1)
+	exit_code = errno;
+	printf("exit\n");
+	if (argc == 2)
 	{
-		//@note need to find the correct (current) exit code
-		exit(exit_code % 256);
-	}
-	// exit with arg called
-	else if (argc == 2)
-	{
-		// check whether the arg is a number
-		// if so, convert via ft_atoi_long
 		if (is_num(argv[1]))
-		{
 			exit_code = ft_atoi_long(argv[1]) % 256;
-			printf("exit\n");
-			exit(exit_code);
-		}
 		else
-		{
-			printf("exit\n");
-			// print error message: numeric argument required
-		}
+			print_to_stderr(NULL, argv[1]);
+		exit(exit_code);
 	}
 	else if (argc > 2)
-	{
-		//@note does not execute exit, but the first argument is set to be the new exit status (of the calling process)
-		printf("exit\n");
-		// print error message: too many arguments
-	}
+		print_to_stderr("too many arguments\n", NULL);
 	return (0);
 }
 
-int	is_num(char *str)
+static void	print_to_stderr(char *str, char *arg)
+{
+	if (str && arg)
+	{
+		ft_putstr_fd(ft_strjoin("minishell: exit: ", arg), STDERR_FILENO);
+		ft_putstr_fd(ft_strjoin(":", str), STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+	}
+	else if (str && arg == NULL)
+		ft_putstr_fd(ft_strjoin("minishell: exit: ", str), STDERR_FILENO);
+	else if (str == NULL && arg)
+	{
+		ft_putstr_fd(ft_strjoin("minishell: exit: ", arg), STDERR_FILENO);
+		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+	}
+}
+
+static int	is_num(char *str)
 {
 	int	i;
-	int	c;
 
 	i = 0;
 	if (str == NULL)
@@ -71,27 +77,27 @@ int	is_num(char *str)
 		i++;
 	while (str[i])
 	{
-		// convert char to int
-		c = str[i] - '0';
-		if (!ft_isdigit(c))
+		if (!ft_isdigit(str[i]))
 			return (0);
+		i++;
 	}
 	return (1);
 }
 
-static int	check_flow(long long number, int sign)
+static int	check_value(long long number, int sign, const char *str)
 {
 	number *= sign;
-	// check for underflow
-	if (number > 0 && sign == -1)
-		return (1);
-	// check for overflow
-	if (number < 0 && sign == 1)
-		return (1);
-	return (0);
+	// check for over- and underflow
+	if (number > 0 && sign == -1
+	|| number < 0 && sign == 1)
+	{
+		printf("minishell: exit: %s: numeric argument required\n", str);
+		return (-1);
+	}
+	return (number);
 }
 
-long long 	ft_atoi_long(const char *str)
+static long long	ft_atoi_long(const char *str)
 {
 	int	i;
 	int	sign;
@@ -115,8 +121,5 @@ long long 	ft_atoi_long(const char *str)
 		number += str[i] - '0';
 		i++;
 	}
-	// if overflow or underflow, need to exit approtiately instead of simply returning -1
-	if (check_flow(number, sign))
-		return (-1);
-	return (number * sign);
+	return(check_value(number, sign, str));
 }

@@ -6,67 +6,84 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:13:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/07 11:35:51 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/07 18:02:04 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "libft.h"
+#include "../free.h"
 #include "lib/env/src/env_private.h"
 #include <stdio.h>
 
-static void	free_list(t_sym_tab *head);
+static void	export_var(char *arg);
 static void	print_sorted_list(t_sym_tab *head);
 static void	insertion_sort(t_sym_tab **head, t_sym_tab *node);
+static void	create_entry(t_sym_tab **sym_table, char **args, int i);
 
-// @note essentially this func has 3 modes:
-// by arguments I refer to name and value
-// 1. no arguments: print out the exported env variables
-// 2. one argument: create a new env variable (if not already existant)
-// 3. two arguments: update the value of an existing env variable or create new one
+extern t_sym_tab **g_sym_table;
 
-// int builtin_export(t_sym_tab **sym_table, char *name, char *value)
 int builtin_export(char **argv)
 {
-	// t_sym_tab *temp;
+	int		i;
+	int		argc;
+	char	**var;
 
-	// temp = *sym_table;
-	// // if no arguments are provided
-	// if (name == NULL && value == NULL)
-	// {
-	// 	print_sorted_list(*sym_table);
-	// 	return (0);
-	// }
-	// // if only name is provided (without value and '=')
-	// if (name && value == NULL)
-	// {
-	// 	// first check whether the value already exists
-	// 	while (temp)
-	// 	{
-	// 		if (ft_strncmp(temp->name, name, ft_strlen(name)) == 0)
-	// 		{
-	// 			// if so, simply return (no changes to env variables)
-	// 			return (0);
-	// 		}
-	// 		temp = temp->next;
-	// 	}
-	// 	// if not, create a new node
-	// 	add_to_back(sym_table, new_sym_tab_node(name, NULL));
-	// 	return (0);
-	// }
-	// while (temp)
-	// {
-	// 	// if the variable already exists, update the value
-	// 	if (ft_strncmp(temp->name, name, ft_strlen(name)) == 0)
-	// 	{
-	// 		temp->value = value;
-	// 		return (0);
-	// 	}
-	// 	temp = temp->next;
-	// }
-	// // if not, create a new node
-	// add_to_back(sym_table, new_sym_tab_node(name, value));
+	// if no arguments are provided
+	if (argv[1] == NULL)
+	{
+		print_sorted_list(*g_sym_table);
+		return (0);
+	}
+	i = 0;
+	argc = 0;
+	while (argv[argc])
+		argc++;
+	while (i < argc)
+	{
+		export_var(argv[i]);
+		i++;
+	}
 	return (0);
+}
+
+static void	create_entry(t_sym_tab **sym_table, char **args, int i)
+{
+	t_sym_tab *temp;
+
+	temp = *sym_table;
+	while (temp)
+	{
+		// if the variable already exists, update the value
+		if (ft_strncmp(temp->name, args[0], ft_strlen(args[0])) == 0)
+		{
+			if (args[1] != NULL)
+				temp->value = args[1];
+			free_split(args);
+			return ;
+		}
+		temp = temp->next;
+	}
+	// if not, create new entry (name + value)
+	if (args[1] == NULL && i == 0)
+		add_to_back(g_sym_table, new_sym_tab_node(args[0], NULL));
+	else if (args[1] && i >= 1)
+		add_to_back(g_sym_table, new_sym_tab_node(args[0], args[1]));
+	else
+		add_to_back(g_sym_table, new_sym_tab_node(args[0], ""));
+}
+
+static void	export_var(char *arg)
+{
+	int		i;
+	char	**var;
+
+	i = 0;
+	var = ft_split(arg, '=');
+	char *equal = ft_strchr(arg, '=');
+	if (equal)
+		i = 1;
+	create_entry(g_sym_table, var, i);
 }
 
 static void print_sorted_list(t_sym_tab *head)
@@ -120,20 +137,5 @@ static void insertion_sort(t_sym_tab **head, t_sym_tab *node)
 			current = current->next;
 		temp->next = current->next;
 		current->next = temp;
-	}
-}
-
-static void	free_list(t_sym_tab *head)
-{
-	t_sym_tab *temp;
-
-	while (head)
-	{
-		temp = head;
-		head = head->next;
-		free(temp->name);
-		if (temp->value)
-			free(temp->value);
-		free(temp);
 	}
 }

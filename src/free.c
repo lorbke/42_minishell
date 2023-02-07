@@ -1,25 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_private.h                                 :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/07 11:32:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/07 14:49:35 by fyuzhyk          ###   ########.fr       */
+/*   Created: 2023/02/07 17:11:56 by fyuzhyk           #+#    #+#             */
+/*   Updated: 2023/02/07 17:29:03 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_PRIVATE_H
-# define BUILTINS_PRIVATE_H
+#include "env.h" // t_sym_tab
+#include <stdlib.h> // free
 
-#include "../builtins.h"
-#include "libft.h"
-
-typedef struct	s_builtin
+void	free_split(char **split)
 {
-	char	*name;
-	int		(*func)(char **argv);
-}	t_builtin;
+	char **temp;
 
-#endif
+	temp = split;
+	while (*temp)
+	{
+		free(*temp);
+		temp++;
+	}
+	free(split);
+}
+
+void	free_list(t_sym_tab *head)
+{
+	t_sym_tab *temp;
+
+	while (head)
+	{
+		temp = head;
+		head = head->next;
+		free(temp->name);
+		if (temp->value)
+			free(temp->value);
+		free(temp);
+	}
+}

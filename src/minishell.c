@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/07 11:41:38 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/07 14:48:15 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 // test if all fds are closed
 
 // global var
+// @note can and should be defined in a header file later on
 t_sym_tab **g_sym_table;
 
 void	process_command(char *command)
@@ -59,9 +60,9 @@ void	ms_rep_loop(void)
 	{
 		line = readline(PROMPT);
 		if (!line) // exit buildin will be added later
-			builtin_exit(&line);
+			builtin_exit(NULL);
 		if (ft_strncmp(line, "exit", 5) == 0) // exit buildin will be added later
-			builtin_exit(&line);
+			builtin_exit(NULL);
 		if (*line)
 		{
 			add_history(line);

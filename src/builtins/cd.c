@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:50:47 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/07 11:00:19 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/07 14:03:37 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	builtin_cd(char **argv)
 		handle_dots();
 	else if (chdir(path) != 0)
 	{
-
 		printf("minishell: cd: %s: %s\n", argv[1], strerror(errno));
 		return (errno);
 	}
