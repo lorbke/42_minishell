@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 15:45:37 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/24 18:25:40 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/07 15:18:12 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ typedef struct s_cmd_table
 	int		fd_out;
 }	t_cmd_table;
 
-void	executer_exec_ast(t_ast *ast);
+int	executer_exec_ast(t_ast *ast);
 
 #endif

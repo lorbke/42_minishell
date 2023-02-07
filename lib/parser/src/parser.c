@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/06 18:26:08 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/07 15:19:33 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ t_ast	*parser_tokstack_to_ast(t_stack	**tokstack)
 {
 	t_ast	*ast;
 
+	if (!tokstack)
+		return (NULL);
 	ast = rule_and_or(tokstack);
 	return (ast);
 }

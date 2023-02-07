@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/07 14:41:49 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/07 18:17:31 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,36 @@
 #include "lexer.h" // t_token
 #include "libft.h" // ft_strlen, ft_strncmp
 #include <sys/types.h> // pid_t, fork, execve
-#include <fcntl.h> // open
+#include <sys/fcntl.h> // open
 #include <stdlib.h> // malloc, free, exit
 #include <stdio.h> // printf
 #include <limits.h> // ARG_MAX
+#include <sys/errno.h> // errno macros
+
+#define ERR_CMD "command not found"
 
 extern char	**environ;
 
-static const t_func_handle	g_func_handle_arr[] = {
-	[TOK_WORD] = &handle_cmd,
-	[TOK_PIPE] = &handle_pipe,
-	[TOK_REDIR_IN] = &handle_redir_in,
-	[TOK_REDIR_OUT] = &handle_redir_out,
-	[TOK_REDIR_HEREDOC] = &handle_redir_heredoc,
-	[TOK_REDIR_APPEND] = &handle_redir_append,
-	[TOK_SQUOTE] = &handle_cmd,
-	[TOK_DQUOTE] = &handle_cmd,
-	[TOK_SUBSHELL] = &handle_cmd,
-	[TOK_AND] = &handle_and,
-	[TOK_OR] = &handle_or,
+static const t_func_handle	g_func_handle_arr[]
+	= {
+[TOK_WORD] = &handle_cmd,
+[TOK_PIPE] = &handle_pipe,
+[TOK_REDIR_IN] = &handle_redir_in,
+[TOK_REDIR_OUT] = &handle_redir_out,
+[TOK_REDIR_HEREDOC] = &handle_redir_heredoc,
+[TOK_REDIR_APPEND] = &handle_redir_append,
+[TOK_SQUOTE] = &handle_cmd,
+[TOK_DQUOTE] = &handle_cmd,
+[TOK_SUBSHELL] = &handle_cmd,
+[TOK_AND] = &handle_and,
+[TOK_OR] = &handle_or,
 };
 
 // @todo file errors (not found, not executable, etc)
 // @todo cmd not found error
 // @todo invalid option error
+// @todo only redirection segfault fix
+// @todo free_cmd_table function
 
 t_cmd_table	*create_cmd_table(t_ast *ast)
 {
@@ -104,6 +110,8 @@ pid_t	exec_cmd(t_cmd_table *cmd_table)
 	if (!cmd_table)
 		return (-1);
 	path = get_cmd_path(environ, cmd_table->cmd[0]);
+	if (!path)
+		return (-1);
 	pid = fork();
 	if (pid != 0)
 		return (pid);
@@ -129,9 +137,11 @@ t_cmd_table	*handle_redir_heredoc(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
 
-	if (!ast)
+	if (!ast->left)
 		return (NULL);
 	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
+	if (!cmd_table)
+		return (NULL);
 	cmd_table->fd_in
 		= get_heredoc(ast->right->token->word);
 	return (cmd_table);
@@ -141,9 +151,11 @@ t_cmd_table	*handle_redir_append(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
 
-	if (!ast)
+	if (!ast->left)
 		return (NULL);
 	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
+	if (!cmd_table)
+		return (NULL);
 	cmd_table->fd_out
 		= open(ast->right->token->word, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	return (cmd_table);
@@ -152,12 +164,20 @@ t_cmd_table	*handle_redir_append(t_ast *ast)
 t_cmd_table	*handle_redir_in(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
+	int			fd;
 
-	if (!ast)
+	fd = open(ast->right->token->word, O_RDONLY);
+	if (fd == -1)
+	{
+		errno = ENOENT;
+		return (NULL);
+	}
+	if (!ast->left)
 		return (NULL);
 	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
-	cmd_table->fd_in
-		= open(ast->right->token->word, O_RDONLY);
+	if (!cmd_table)
+		return (NULL);
+	cmd_table->fd_in = fd;
 	return (cmd_table);
 }
 
@@ -165,9 +185,11 @@ t_cmd_table	*handle_redir_out(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
 
-	if (!ast)
+	if (!ast->left)
 		return (NULL);
 	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
+	if (!cmd_table)
+		return (NULL);
 	cmd_table->fd_out
 		= open(ast->right->token->word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	return (cmd_table);
@@ -178,20 +200,27 @@ t_cmd_table	*handle_pipe(t_ast *ast)
 	t_cmd_table	*cmd_table_l;
 	t_cmd_table	*cmd_table_r;
 	int			fd[2];
+	pid_t		pid_l;
 
 	if (!ast)
 		return (NULL);
-	pipe(fd);
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
+	if (!cmd_table_l)
+		return (NULL);
+	pipe(fd);
 	cmd_table_l->fd_out = fd[1];
-	exec_cmd(cmd_table_l);
+	pid_l = exec_cmd(cmd_table_l);
 	close(fd[1]);
+	if (pid_l == -1)
+		return (NULL);
 	cmd_table_r = g_func_handle_arr[ast->right->token->desc](ast->right);
+	if (!cmd_table_r)
+		return (NULL);
 	cmd_table_r->fd_in = fd[0];
 	return (cmd_table_r);
 }
 
-t_cmd_table *handle_and(t_ast *ast)
+t_cmd_table	*handle_and(t_ast *ast)
 {
 	t_cmd_table	*cmd_table_l;
 	t_cmd_table	*cmd_table_r;
@@ -201,8 +230,12 @@ t_cmd_table *handle_and(t_ast *ast)
 	if (!ast)
 		return (NULL);
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
+	if (!cmd_table_l)
+		return (NULL);
 	pid_l = exec_cmd(cmd_table_l);
 	waitpid(pid_l, &status, 0);
+	if (pid_l == -1)
+		return (NULL);
 	if (status != 0)
 		return (NULL);
 	else
@@ -212,7 +245,7 @@ t_cmd_table *handle_and(t_ast *ast)
 	}
 }
 
-t_cmd_table *handle_or(t_ast *ast)
+t_cmd_table	*handle_or(t_ast *ast)
 {
 	t_cmd_table	*cmd_table_l;
 	t_cmd_table	*cmd_table_r;
@@ -222,8 +255,13 @@ t_cmd_table *handle_or(t_ast *ast)
 	if (!ast)
 		return (NULL);
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
+	if (!cmd_table_l)
+		return (NULL);
 	pid_l = exec_cmd(cmd_table_l);
+	free(cmd_table_l);
 	waitpid(pid_l, &status, 0);
+	if (pid_l == -1)
+		return (NULL);
 	if (status == 0)
 		return (NULL);
 	else
@@ -233,10 +271,7 @@ t_cmd_table *handle_or(t_ast *ast)
 	}
 }
 
-#include <stdio.h>
-#include <string.h>
-
-void	executer_exec_ast(t_ast *ast)
+int	executer_exec_ast(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
 	pid_t		pid;
@@ -247,9 +282,12 @@ void	executer_exec_ast(t_ast *ast)
 	{
 		cmd_table = g_func_handle_arr[ast->token->desc](ast);
 		if (!cmd_table)
-			return ;
+			return (EXIT_FAILURE);
 		pid = exec_cmd(cmd_table);
+		free(cmd_table);
+		if (pid == -1)
+			return (EXIT_FAILURE);
 		waitpid(pid, &status, 0);
-		printf("%s\n", strerror(status));
 	}
+	return (EXIT_SUCCESS);
 }

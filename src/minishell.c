@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/07 14:44:28 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/07 18:18:58 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <readline/readline.h> // readline
 #include <readline/history.h> // add_history
 #include <stdbool.h> // bool
+#include <sys/errno.h> // errno
 
 // @todo free the ast and the tokstack
 // @todo test if all fds are closed
@@ -31,19 +32,21 @@ void	process_input(char *input)
 {
 	t_stack	*tokstack;
 	t_ast	*ast;
-	int		i;
+	int		status;
 
 	tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
 	debug_lexer(tokstack);
+	ast = parser_tokstack_to_ast(&tokstack);
+	debug_parser(ast, tokstack);
 	if (tokstack)
-	{
-		ast = parser_tokstack_to_ast(&tokstack);
-		debug_parser(ast, tokstack);
-		if (tokstack)
-			printf("%s: syntax error near unexpected token `%s'\n",
-				SHELL_NAME, tokstack->token->word);
-		executer_exec_ast(ast);
-	}
+		printf("%s: syntax error near unexpected token `%s'\n",
+			SHELL_NAME, tokstack->token->word);
+	errno = 0;
+	status = executer_exec_ast(ast);
+	if (status == EXIT_FAILURE && errno != 0)
+		perror(SHELL_NAME);
+	// else if (status == EXIT_FAILURE)
+	// 	printf("%s: command not found: %s", SHELL_NAME, input);
 }
 
 /* Read-Eval-Print-Loop. */
