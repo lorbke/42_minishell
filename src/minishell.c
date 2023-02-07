@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/06 18:25:04 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/07 13:42:10 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 // @todo free the ast and the tokstack
 // @todo test if all fds are closed
+// @todo exit behaviour: print exit when ctrl+d is pressed (is that handled in exit builtin?)
 
 void	process_command(char *command)
 {

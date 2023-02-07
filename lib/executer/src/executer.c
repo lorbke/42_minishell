@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/06 15:38:50 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/07 14:18:00 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@
 
 extern char	**environ;
 
-static const t_func_handle func_handle_arr[]
-= {
+static const t_func_handle	g_func_handle_arr[] = {
 	[TOK_WORD] = &handle_cmd,
 	[TOK_PIPE] = &handle_pipe,
 	[TOK_REDIR_IN] = &handle_redir_in,
@@ -38,7 +37,10 @@ static const t_func_handle func_handle_arr[]
 	[TOK_OR] = &handle_or,
 };
 
-// func create_cmd_table
+// @todo file errors (not found, not executable, etc)
+// @todo cmd not found error
+// @todo invalid option error
+
 t_cmd_table	*create_cmd_table(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
@@ -93,7 +95,6 @@ int	get_heredoc(char *limiter)
 	return (fd[0]);
 }
 
-// func execute cmd_table
 pid_t	exec_cmd(t_cmd_table *cmd_table)
 {
 	char	*path;
@@ -114,7 +115,6 @@ pid_t	exec_cmd(t_cmd_table *cmd_table)
 	exit(status);
 }
 
-// func for every (almost) toktype
 t_cmd_table	*handle_cmd(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
@@ -131,7 +131,7 @@ t_cmd_table	*handle_redir_heredoc(t_ast *ast)
 
 	if (!ast)
 		return (NULL);
-	cmd_table = handle_cmd(ast->left);
+	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
 	cmd_table->fd_in
 		= get_heredoc(ast->right->token->word);
 	return (cmd_table);
@@ -143,7 +143,7 @@ t_cmd_table	*handle_redir_append(t_ast *ast)
 
 	if (!ast)
 		return (NULL);
-	cmd_table = handle_cmd(ast->left);
+	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
 	cmd_table->fd_out
 		= open(ast->right->token->word, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	return (cmd_table);
@@ -155,7 +155,7 @@ t_cmd_table	*handle_redir_in(t_ast *ast)
 
 	if (!ast)
 		return (NULL);
-	cmd_table = handle_cmd(ast->left);
+	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
 	cmd_table->fd_in
 		= open(ast->right->token->word, O_RDONLY);
 	return (cmd_table);
@@ -167,7 +167,7 @@ t_cmd_table	*handle_redir_out(t_ast *ast)
 
 	if (!ast)
 		return (NULL);
-	cmd_table = handle_cmd(ast->left);
+	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
 	cmd_table->fd_out
 		= open(ast->right->token->word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	return (cmd_table);
@@ -182,11 +182,11 @@ t_cmd_table	*handle_pipe(t_ast *ast)
 	if (!ast)
 		return (NULL);
 	pipe(fd);
-	cmd_table_l = func_handle_arr[ast->left->token->desc](ast->left);
+	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
 	cmd_table_l->fd_out = fd[1];
 	exec_cmd(cmd_table_l);
 	close(fd[1]);
-	cmd_table_r = func_handle_arr[ast->right->token->desc](ast->right);
+	cmd_table_r = g_func_handle_arr[ast->right->token->desc](ast->right);
 	cmd_table_r->fd_in = fd[0];
 	return (cmd_table_r);
 }
@@ -200,14 +200,14 @@ t_cmd_table *handle_and(t_ast *ast)
 
 	if (!ast)
 		return (NULL);
-	cmd_table_l = func_handle_arr[ast->left->token->desc](ast->left);
+	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
 	pid_l = exec_cmd(cmd_table_l);
 	waitpid(pid_l, &status, 0);
 	if (status != 0)
 		return (NULL);
 	else
 	{
-		cmd_table_r = func_handle_arr[ast->right->token->desc](ast->right);
+		cmd_table_r = g_func_handle_arr[ast->right->token->desc](ast->right);
 		return (cmd_table_r);
 	}
 }
@@ -221,14 +221,14 @@ t_cmd_table *handle_or(t_ast *ast)
 
 	if (!ast)
 		return (NULL);
-	cmd_table_l = func_handle_arr[ast->left->token->desc](ast->left);
+	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
 	pid_l = exec_cmd(cmd_table_l);
 	waitpid(pid_l, &status, 0);
 	if (status == 0)
 		return (NULL);
 	else
 	{
-		cmd_table_r = func_handle_arr[ast->right->token->desc](ast->right);
+		cmd_table_r = g_func_handle_arr[ast->right->token->desc](ast->right);
 		return (cmd_table_r);
 	}
 }
@@ -236,14 +236,16 @@ t_cmd_table *handle_or(t_ast *ast)
 void	executer_exec_ast(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
+	pid_t		pid;
+	int			status;
 
 	cmd_table = NULL;
 	if (ast && ast->token)
 	{
-		cmd_table = func_handle_arr[ast->token->desc](ast);
+		cmd_table = g_func_handle_arr[ast->token->desc](ast);
 		if (!cmd_table)
 			return ;
-		exec_cmd(cmd_table);
-		while (wait(NULL) > 0);
+		pid = exec_cmd(cmd_table);
+		waitpid(pid, &status, 0);
 	}
 }
