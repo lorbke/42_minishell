@@ -6,7 +6,7 @@
 #    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/06 17:16:07 by fyuzhyk          ###   ########.fr        #
+#    Updated: 2023/02/07 07:31:31 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,18 +65,24 @@ $(NAME): $(OBJ_PATH) $(OBJ)
 	@$(MAKE) -C $(EXECUTER_PATH)
 	@$(MAKE) -C $(ENV_PATH)
 	@echo -e -n "$(BLUE)Creating: minishell executable: $(RESET)"
-	$(CC) $(CFLAGS) $(OBJ) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(EXECUTER_LINK) $(ENV_LINK) -l$(RDLN_LIB) -L/opt/homebrew/Cellar/readline/8.2.1/lib -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(EXECUTER_LINK) $(ENV_LINK) -l$(RDLN_LIB) -o $(NAME)
 	@echo -e "$(GREEN)make: minishell success!$(RESET)"
+# inc when on macbook
+# -L/opt/homebrew/Cellar/readline/8.2.1/lib
 
 dev: $(OBJ_PATH) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) dev.o $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(EXECUTER_LINK) $(ENV_LINK) -l$(RDLN_LIB) -L/opt/homebrew/Cellar/readline/8.2.1/lib -o dev
+	$(CC) $(CFLAGS) $(OBJ) dev.o $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(EXECUTER_LINK) $(ENV_LINK) -l$(RDLN_LIB) -o dev
+# inc when on macbook
+# -L/opt/homebrew/Cellar/readline/8.2.1/lib
 
 $(OBJ_PATH):
 	@mkdir -p $(OBJ_PATH)
 
 $(OBJ_PATH)/%.o: %.c Makefile $(SRC_PATH)/minishell.h $(SRC_PATH)/debugger.h
 	@echo -e -n "$(YELLOW)Compiling: $(RESET)"
-	$(CC) $(CFLAGS) -I$(LFT_PATH) -I$(LEXER_PATH) -I$(PARSER_PATH) -I$(EXECUTER_PATH) -I$(ENV_PATH) -I/opt/homebrew/Cellar/readline/8.2.1/include -c $< -o $@
+	$(CC) $(CFLAGS) -I$(LFT_PATH) -I$(LEXER_PATH) -I$(PARSER_PATH) -I$(EXECUTER_PATH) -I$(ENV_PATH) -c $< -o $@
+# inc when on macbook
+# -I/opt/homebrew/Cellar/readline/8.2.1/include
 
 # phony targets
 all: $(NAME)

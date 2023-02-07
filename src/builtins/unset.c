@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:23:41 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/06 17:22:27 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/07 11:36:35 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 
 static void	remove_node(char *var, t_sym_tab **head);
 
-int	builtin_unset(char *var, t_sym_tab **sym_table)
+// int	builtin_unset(char *var, t_sym_tab **sym_table)
+int	builtin_unset(char **argv)
 {
-	remove_node(var, sym_table);
+	// remove_node(var, sym_table);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/06 17:52:00 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/07 11:40:43 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token
 #include "libft.h" // ft_strlen, ft_strncmp
-#include "../../../src/builtins/builtins.h" // all builtins
+#include "../../../src/builtins.h" // all builtins
 #include <sys/types.h> // pid_t, fork, execve
 #include <fcntl.h> // open
 #include <stdlib.h> // malloc, free, exit
 #include <stdio.h> // printf
 #include <limits.h> // ARG_MAX
 
-extern char	**environ;
+extern t_sym_tab **g_sym_table;
 
 static const t_func_handle func_handle_arr[]
 = {
@@ -94,45 +94,31 @@ int	get_heredoc(char *limiter)
 	return (fd[0]);
 }
 
-int	exec(char *path, t_cmd_table *cmd_table, char **environ)
-{
-	int		i;
-	int		status;
-	char	*cmd;
-
-	i = 0;
-	cmd = cmd_table->cmd[0];
-	while (builtin_arr[i].name)
-	{
-		if (!ft_strncmp(cmd, builtin_arr[i].name, ft_strlen(cmd)))
-		{
-			status = builtin_arr[i].func(cmd_table->cmd);
-			return (status);
-		}
-		i++;
-	}
-	status = execve(path, cmd_table->cmd, environ);
-	return (status);
-}
-
 //@note expansion and builtins are here
 // func execute cmd_table
 pid_t	exec_cmd(t_cmd_table *cmd_table)
 {
 	char	*path;
+	char	**env;
 	pid_t	pid;
 	int		status;
 
 	if (!cmd_table)
 		return (-1);
-	path = get_cmd_path(environ, cmd_table->cmd[0]);
+	env = create_env_list(g_sym_table);
+	path = get_cmd_path(env, cmd_table->cmd[0]);
+	// check if builtin before fork
+	if (is_builtin(cmd_table->cmd[0]))
+	{
+		status = exec_builtin(cmd_table);
+		return (status);
+	}
 	pid = fork();
 	if (pid != 0)
 		return (pid);
 	dup2(cmd_table->fd_in, STDIN_FILENO);
 	dup2(cmd_table->fd_out, STDOUT_FILENO);
-	// check if builtin
-	status = exec(path, cmd_table, environ);
+	status = execve(path, cmd_table->cmd, env);
 	close(cmd_table->fd_in);
 	close(cmd_table->fd_out);
 	exit(status);

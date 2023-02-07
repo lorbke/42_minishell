@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/20 17:37:59 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/07 11:41:38 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "debugger.h" // debug
 #include "libft.h" // ft_strncmp
 #include "env.h" // global_var
+#include "builtins.h" // builtin_exit
 #include <termios.h> // termios functions and struct
 #include <unistd.h> // file descriptor macros
 #include <stdio.h> // printf
@@ -58,9 +59,9 @@ void	ms_rep_loop(void)
 	{
 		line = readline(PROMPT);
 		if (!line) // exit buildin will be added later
-			break ;
+			builtin_exit(&line);
 		if (ft_strncmp(line, "exit", 5) == 0) // exit buildin will be added later
-			break ;
+			builtin_exit(&line);
 		if (*line)
 		{
 			add_history(line);

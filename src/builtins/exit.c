@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/06 17:19:36 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/07 11:42:17 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	builtin_exit(char **argv)
 	if (argc == 1)
 	{
 		//@note need to find the correct (current) exit code
-		printf("exit\n");
 		exit(exit_code % 256);
 	}
 	// exit with arg called
