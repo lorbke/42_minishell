@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/07 13:42:10 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/07 14:44:28 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@
 // @todo test if all fds are closed
 // @todo exit behaviour: print exit when ctrl+d is pressed (is that handled in exit builtin?)
 
-void	process_command(char *command)
+void	process_input(char *input)
 {
 	t_stack	*tokstack;
 	t_ast	*ast;
 	int		i;
 
-	tokstack = lexer_str_to_tokstack(command, CMD_SEPS, CMD_ESCS);
+	tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
 	debug_lexer(tokstack);
 	if (tokstack)
 	{
@@ -41,7 +41,7 @@ void	process_command(char *command)
 		debug_parser(ast, tokstack);
 		if (tokstack)
 			printf("%s: syntax error near unexpected token `%s'\n",
-				NAME, tokstack->token->word);
+				SHELL_NAME, tokstack->token->word);
 		executer_exec_ast(ast);
 	}
 }
@@ -61,7 +61,7 @@ void	ms_rep_loop(void)
 		if (*line)
 		{
 			add_history(line);
-			process_command(line);
+			process_input(line);
 		}
 		free(line);
 	}

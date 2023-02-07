@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/07 14:18:00 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/07 14:41:49 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,9 @@ t_cmd_table *handle_or(t_ast *ast)
 	}
 }
 
+#include <stdio.h>
+#include <string.h>
+
 void	executer_exec_ast(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
@@ -247,5 +250,6 @@ void	executer_exec_ast(t_ast *ast)
 			return ;
 		pid = exec_cmd(cmd_table);
 		waitpid(pid, &status, 0);
+		printf("%s\n", strerror(status));
 	}
 }
