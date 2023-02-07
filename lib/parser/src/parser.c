@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/07 15:19:33 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/07 18:20:56 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 // @note the token stack will be represented by a token_list instead of just a string
 
 // @todo rule_all was skipped
-// @todo newline implementation still needed
+// @todo newline implementation still needed (case: < -> bash error is invalid token at newline)
 
 // @note quote handling also probably incorrect
 
