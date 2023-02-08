@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/08 18:30:14 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/08 18:32:03 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,7 @@ char	executer_exec_ast(t_ast **ast)
 		if (pid == -1)
 		{
 			exit_status_set(EXEC_CMDNOTFOUND);
+			// @note mistakes are hidden here
 			if ((*ast)->right)
 				*ast = (*ast)->right;
 			return (exit_status_get());
