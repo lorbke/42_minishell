@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:39:03 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/07 14:43:23 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/08 18:40:50 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@
 # define CMD_ESCS "\'\"()"
 
 void	ms_init_signals(void);
+void	print_exec_error(char exit_status, char *error_loc);
 
 #endif

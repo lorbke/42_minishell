@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/08 17:54:57 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/08 18:40:40 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 #include <readline/readline.h> // readline
 #include <readline/history.h> // add_history
 #include <stdbool.h> // bool
-#include <sys/errno.h> // errno
 
 // @todo free the ast and the tokstack
 // @todo test if all fds are closed
@@ -44,12 +43,8 @@ char	process_input(char *input)
 			SHELL_NAME, tokstack->token->word);
 		return (2);
 	}
-	errno = 0;
 	exit_status = executer_exec_ast(&ast);
-	if (exit_status == EXEC_CMDNOTFOUND)
-		printf("%s: %s: command not found\n", SHELL_NAME, ast->token->word);
-	else if (exit_status != EXEC_SUCCESS)
-		printf("%s: %s: %s\n", SHELL_NAME, ast->token->word, strerror(errno));
+	print_exec_error(exit_status, ast->token->word);
 	return (exit_status);
 }
 
