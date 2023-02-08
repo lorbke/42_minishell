@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/08 18:48:32 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/08 19:30:30 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,16 @@ char	process_input(char *input)
 	debug_parser(ast, tokstack);
 	if (tokstack)
 	{
-		printf("%s: syntax error near unexpected token `%s'\n",
-			SHELL_NAME, tokstack->token->word);
+		// @note ugly edge case, maybe just remove it?
+		if (tokstack->token->desc == TOK_REDIR_IN
+			|| tokstack->token->desc == TOK_REDIR_OUT
+			|| tokstack->token->desc == TOK_REDIR_APPEND
+			|| tokstack->token->desc == TOK_REDIR_HEREDOC)
+			printf("%s: syntax error near unexpected token `%s'\n",
+				SHELL_NAME, "newline");
+		else
+			printf("%s: syntax error near unexpected token `%s'\n",
+				SHELL_NAME, tokstack->token->word);
 		return (2);
 	}
 	exit_status = executer_exec_ast(&ast);

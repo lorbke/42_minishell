@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:53:34 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/22 22:30:21 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/08 19:26:22 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ static t_ast	*rule_redirect(t_stack **tokstack)
 	if (!*tokstack || !is_redirect(*tokstack))
 		return (NULL);
 	head = create_ast_node((*tokstack)->token);
+	if (!(*tokstack)->next)
+		return (head);
 	*tokstack = (*tokstack)->next;
 	head->right = rule_word(tokstack);
 	return (head);
@@ -77,7 +79,7 @@ static t_ast	*connect_simple_cmd(
 	return (head);
 }
 
-// implementation of subshell case feels a bit hacky
+// @note implementation of subshell case feels a bit hacky
 t_ast	*rule_simple_cmd(t_stack **tokstack)
 {
 	t_ast	*redirs_in;
@@ -87,7 +89,8 @@ t_ast	*rule_simple_cmd(t_stack **tokstack)
 	words = handle_subshell(tokstack);
 	redirs_in = NULL;
 	redirs_out = NULL;
-	while (*tokstack && (is_word(*tokstack) || is_redirect(*tokstack)))
+	while (*tokstack && (is_word(*tokstack)
+			|| (is_redirect(*tokstack) && (*tokstack)->next)))
 	{
 		if (*tokstack && ((*tokstack)->token->desc == TOK_REDIR_IN
 				|| (*tokstack)->token->desc == TOK_REDIR_HEREDOC))
