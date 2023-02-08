@@ -42,6 +42,8 @@ static const t_func_handle	g_func_handle_arr[]
 // @todo fix heredoc and unclosed && and || and |
 // @todo revise code and remove unnecessary if statements
 // @todo check for leaks and unclosed fds
+// @todo < in case should do nothing, currently throws error
+// @todo check ping and /dev/random cases
 
 t_cmd_table	*handle_cmd(t_ast *ast)
 {
