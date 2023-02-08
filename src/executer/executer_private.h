@@ -6,16 +6,22 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:14:20 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/24 15:07:54 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/08 13:05:02 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTER_PRIVATE_H
 # define EXECUTER_PRIVATE_H
 
-# include "executer.h"
 # include "parser.h"
 # include <sys/types.h> // pid_t
+
+typedef struct s_cmd_table
+{
+	char	**cmd;
+	int		fd_in;
+	int		fd_out;
+}	t_cmd_table;
 
 typedef t_cmd_table	*(*t_func_handle)(t_ast *);
 

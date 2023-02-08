@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/07 18:18:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/08 13:00:26 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void	process_input(char *input)
 			SHELL_NAME, tokstack->token->word);
 	errno = 0;
 	status = executer_exec_ast(ast);
-	if (status == EXIT_FAILURE && errno != 0)
+	if (status == EXIT_FAILURE && errno == ENOENT)
 		perror(SHELL_NAME);
-	// else if (status == EXIT_FAILURE)
-	// 	printf("%s: command not found: %s", SHELL_NAME, input);
+	else if (status == EXIT_FAILURE)
+		printf("%s: command not found: %s", SHELL_NAME, input);
 }
 
 /* Read-Eval-Print-Loop. */
