@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 11:31:19 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/08 08:48:52 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/08 13:17:25 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	exec_builtin(t_cmd_table *cmd_table)
 		status = builtin_pwd(cmd_table->cmd);
 	else if (!ft_strncmp(cmd, "export", ft_strlen("export")))
 		status = builtin_export(cmd_table->cmd);
-	// else if (!ft_strncmp(cmd, "unset", ft_strlen("unset")))
-	// 	status = builtin_unset(cmd_table->cmd);
+	else if (!ft_strncmp(cmd, "unset", ft_strlen("unset")))
+		status = builtin_unset(cmd_table->cmd);
 	else if (!ft_strncmp(cmd, "env", ft_strlen("env")))
 		status = builtin_env(cmd_table->cmd);
 	else if (!ft_strncmp(cmd, "exit", ft_strlen("exit")))

@@ -6,15 +6,16 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:45:14 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/07 10:58:44 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/08 12:10:16 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h" // ft_strjoin
 #include <stdio.h> // printf
 #include <errno.h> // errno
 #include <unistd.h> // getcwd
 #include <limits.h> // PATH_MAX
-#include <string.h> // strerror
+#include <string.h> // strerror, perror
 
 int builtin_pwd(char **argv)
 {
@@ -25,7 +26,7 @@ int builtin_pwd(char **argv)
 	else
 	{
 		// @note need to handle this error properly
-		printf("minishell: pwd: %s\n", strerror(errno));
+		perror(ft_strjoin("minishell: pwd: ", strerror(errno)));
 		return (errno);
 	}
 	return (0);

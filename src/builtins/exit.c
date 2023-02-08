@@ -6,16 +6,15 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/07 15:34:10 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/08 12:14:16 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <errno.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include <limits.h>
+#include "libft.h" // ft_putstr_fd, ft_strjoin
+#include <errno.h> // errno
+#include <stdio.h> // printf
+#include <unistd.h> // NULL
+#include <string.h> // strerror
 
 static int			is_num(char *str);
 static long long	ft_atoi_long(const char *str);
@@ -49,23 +48,6 @@ int	builtin_exit(char **argv)
 	return (0);
 }
 
-static void	print_to_stderr(char *str, char *arg)
-{
-	if (str && arg)
-	{
-		ft_putstr_fd(ft_strjoin("minishell: exit: ", arg), STDERR_FILENO);
-		ft_putstr_fd(ft_strjoin(":", str), STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
-	}
-	else if (str && arg == NULL)
-		ft_putstr_fd(ft_strjoin("minishell: exit: ", str), STDERR_FILENO);
-	else if (str == NULL && arg)
-	{
-		ft_putstr_fd(ft_strjoin("minishell: exit: ", arg), STDERR_FILENO);
-		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-	}
-}
-
 static int	is_num(char *str)
 {
 	int	i;
@@ -91,7 +73,7 @@ static int	check_value(long long number, int sign, const char *str)
 	if (number > 0 && sign == -1
 	|| number < 0 && sign == 1)
 	{
-		printf("minishell: exit: %s: numeric argument required\n", str);
+		print_to_stderr(NULL, str);
 		return (-1);
 	}
 	return (number);
@@ -122,4 +104,21 @@ static long long	ft_atoi_long(const char *str)
 		i++;
 	}
 	return(check_value(number, sign, str));
+}
+
+static void	print_to_stderr(char *str, char *arg)
+{
+	if (str && arg)
+	{
+		ft_putstr_fd(ft_strjoin("minishell: exit: ", arg), STDERR_FILENO);
+		ft_putstr_fd(ft_strjoin(":", str), STDERR_FILENO);
+		ft_putstr_fd("\n", STDERR_FILENO);
+	}
+	else if (str && arg == NULL)
+		ft_putstr_fd(ft_strjoin("minishell: exit: ", str), STDERR_FILENO);
+	else if (str == NULL && arg)
+	{
+		ft_putstr_fd(ft_strjoin("minishell: exit: ", arg), STDERR_FILENO);
+		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+	}
 }

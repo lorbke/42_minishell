@@ -6,22 +6,20 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:13:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/08 07:54:29 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/08 13:07:30 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "libft.h"
-#include "../free.h"
-#include "lib/env/src/env_private.h"
-#include <stdio.h>
+#include "env.h" // g_sym_table
+#include "libft.h" // ft_strchr, ft_strjoin, ft_strdup, ft_strlen, ft_strncmp
+#include "../free.h" // free_list
+#include "lib/env/src/env_private.h" // add_to_back, new_sym_tab_node
+#include <stdio.h> // printf
 
-static void	export_var(char *arg);
+static void	export_var(t_sym_tab **sym_table, char *var);
 static void	print_sorted_list(t_sym_tab *head);
 static void	insertion_sort(t_sym_tab **head, t_sym_tab *node);
-static void	create_entry(t_sym_tab **sym_table, char *var);
-
-extern t_sym_tab **g_sym_table;
+static void	print_var(t_sym_tab *node, char *equal);
 
 int builtin_export(char **argv)
 {
@@ -35,40 +33,44 @@ int builtin_export(char **argv)
 		print_sorted_list(*g_sym_table);
 		return (0);
 	}
-	i = 0;
-	argc = 0;
+	// 1 because 0 is the func itself
+	i = 1;
+	argc = 1;
 	while (argv[argc])
 		argc++;
 	while (i < argc)
 	{
-		export_var(argv[i]);
+		export_var(g_sym_table, argv[i]);
 		i++;
 	}
 	return (0);
 }
 
-static void	create_entry(t_sym_tab **sym_table, char *var)
+static void	export_var(t_sym_tab **sym_table, char *var)
 {
-	t_sym_tab *temp;
+	int			i;
+	t_sym_tab	*temp;
+	char		*search;
 
+	i = 0;
 	temp = *sym_table;
+	search = malloc(sizeof(char) * ft_strlen(var));
+	while (var[i] != '=' && var[i])
+	{
+		search[i] = var[i];
+		i++;
+	}
 	while (temp)
 	{
-		// if the variable already exists, update the value
-		if (ft_strncmp(temp->var, var, ft_strlen(var)) == 0)
+		if (ft_strncmp(temp->var, search, ft_strlen(search)) == 0)
 		{
 			temp->var = ft_strdup(var);
 			return ;
 		}
 		temp = temp->next;
 	}
-	// if not, create new entry (name + value)
+	free(search);
 	add_to_back(g_sym_table, new_sym_tab_node(var));
-}
-
-static void	export_var(char *arg)
-{
-	create_entry(g_sym_table, arg);
 }
 
 static void print_sorted_list(t_sym_tab *head)
@@ -76,7 +78,6 @@ static void print_sorted_list(t_sym_tab *head)
 	t_sym_tab	*next;
 	t_sym_tab	*sorted;
 	t_sym_tab	*current;
-	char		*equal;
 
 	sorted = NULL;
 	current = head;
@@ -88,14 +89,7 @@ static void print_sorted_list(t_sym_tab *head)
 	}
 	while (sorted)
 	{
-		printf("declare -x ");
-		equal = ft_strchr(sorted->var, '=');
-		if(equal)
-		{
-			// wtf is this
-			printf("%.*s", (int)(equal - sorted->var), sorted->var);
-			printf("\"%s\"", equal + 1);
-		}
+		print_var(sorted, ft_strchr(sorted->var, '='));
 		sorted = sorted->next;
 	}
 	free_list(sorted);
@@ -127,4 +121,19 @@ static void insertion_sort(t_sym_tab **head, t_sym_tab *node)
 		temp->next = current->next;
 		current->next = temp;
 	}
+}
+
+static void	print_var(t_sym_tab *node, char *equal)
+{
+	printf("declare -x ");
+	if (equal)
+	{
+		// pointer subtraction here to get the length of the var name
+		printf("%.*s", (int)(equal - node->var), node->var);
+		printf("=");
+		printf("\"%s\"", equal + 1);
+		printf("\n");
+	}
+	else
+		printf("%s\n", node->var);
 }
