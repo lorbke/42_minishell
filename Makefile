@@ -6,7 +6,7 @@
 #    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/07 07:31:31 by fyuzhyk          ###   ########.fr        #
+#    Updated: 2023/02/08 12:06:40 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,15 +47,16 @@ ENV_PATH := $(LIB_PATH)/env
 ENV_LIB := env
 ENV_LINK := -L$(ENV_PATH) -l$(ENV_LIB)
 RDLN_LIB := readline
+BLTN_PATH := src/builtins
 
 # src and obj files macros
 SRC_PATH := src
 OBJ_PATH := obj
-SRC := $(wildcard $(SRC_PATH)/*.c) $(wildcard $(SRC_PATH)/*/*.c)
+SRC := $(wildcard $(SRC_PATH)/*.c) $(wildcard $(SRC_PATH)/*/*.c) $(wildcard $(BLTN_PATH)/*/*.c)
 OBJ := $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 
 # VPATH
-VPATH := $(SRC_PATH) $(SRC_PATH)/debugger $(SRC_PATH)/builtins
+VPATH := $(SRC_PATH) $(SRC_PATH)/debugger $(SRC_PATH)/builtins $(SRC_PATH)/builtins/cd
 
 # file targets
 $(NAME): $(OBJ_PATH) $(OBJ)

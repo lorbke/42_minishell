@@ -6,12 +6,13 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:50:47 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/07 14:03:37 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/08 11:52:59 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // t_sym_tab
 #include "libft.h" // ft_strncmp, ft_strlen
+#include "cd_private.h" // set_path, get_path, check_prev_dir, check_for_dots
 #include <stdio.h> // printf
 #include <errno.h> // errno
 #include <string.h> // strerror
@@ -19,16 +20,11 @@
 
 //@note ~ will be part of the general variable expansion
 
-// include global var
-extern		t_sym_tab **g_sym_table;
-
-static void	set_var_value(char *var, char *value);
-static void	handle_dots(void);
-static void	handle_dash(void);
+static void	handle_dash(char *oldpwd);
+static void	handle_dots(char *path);
 
 int	builtin_cd(char **argv)
 {
-	char		*pwd;
 	char		*path;
 	char		*oldpwd;
 	t_sym_tab	*temp;
@@ -38,66 +34,70 @@ int	builtin_cd(char **argv)
 	path = argv[1];
 	oldpwd = getcwd(NULL, 0);
 	if (ft_strncmp(path, "-", ft_strlen("-")) == 0)
-		handle_dash();
-	if (ft_strncmp(path, "..", ft_strlen("..")) == 0)
-		handle_dots();
-	else if (chdir(path) != 0)
+		handle_dash(oldpwd);
+	else if (ft_strncmp(path, "..", ft_strlen("..")) == 0)
+		handle_dots(argv[1]);
+	else
 	{
-		printf("minishell: cd: %s: %s\n", argv[1], strerror(errno));
-		return (errno);
+		if (chdir(path) != 0)
+		{
+			perror(ft_strjoin("minishell: cd: ", argv[1]));
+			return (errno);
+		}
+		set_path("OLDPWD", oldpwd);
 	}
-	set_var_value("OLDPWD", oldpwd);
-	pwd = getcwd(NULL, 0);
-	set_var_value("PWD", pwd);
+	set_path("PWD", getcwd(NULL, 0));
 	return (errno);
 }
 
-static void	handle_dots(void)
-{
-	char	*cwd;
-	int		i;
-
-	cwd = getcwd(NULL, 0);
-	i = ft_strlen(cwd) - 1;
-	while (cwd[i] != '/' & i > 0)
-	{
-		cwd[i] = '\0';
-		i--;
-	}
-	if (ft_strlen(cwd) > 1)
-		cwd[i] = '\0';
-	chdir(cwd);
-}
-
-static void	handle_dash(void)
+static void	handle_dash(char *oldpwd)
 {
 	t_sym_tab	*temp;
+	char		*path;
 
 	temp = *g_sym_table;
 	while (temp)
 	{
-		if (ft_strncmp(temp->name, "OLDPWD", ft_strlen("OLDPWD")) == 0)
+		if (ft_strncmp(temp->var, "OLDPWD", ft_strlen("OLDPWD")) == 0)
 		{
-			chdir(temp->value);
-			printf("%s\n", temp->value);
-			break ;
-		}
-		temp = temp->next;
-	}
-}
-
-static void	set_var_value(char *var, char *value)
-{
-	t_sym_tab	*temp;
-
-	temp = *g_sym_table;
-	while (temp)
-	{
-		if (ft_strncmp(temp->name, var, ft_strlen(var)) == 0)
-		{
-			temp->value = value;
+			path = get_path(temp->var);
+			if (path == NULL)
+				break ;
+			if (chdir(path) != 0)
+			{
+				perror(ft_strjoin("minishell: cd: ", path));
+				return ;
+			}
+			set_path("OLDPWD", oldpwd);
+			printf("%s\n", path);
 			return ;
 		}
 		temp = temp->next;
+	}
+	ft_putstr_fd("minishell: cd: OLDPWD not set\n", STDERR_FILENO);
+}
+
+static void	handle_dots(char *path)
+{
+	int		i;
+	int		count;
+	char 	*start;
+
+	i = 0;
+	start = getcwd(NULL, 0);
+	set_path("OLDPWD", getcwd(NULL, 0));
+	count = check_for_dots(path, &i);
+	while (count)
+	{
+		change_prev_dir();
+		count--;
+	}
+	if (ft_strlen(path) > i)
+	{
+		if (chdir(&path[i]) != 0)
+		{
+			chdir(start);
+			perror(ft_strjoin("minishell: cd: ", path));
+		}
 	}
 }

@@ -1,40 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   cd_private.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/07 17:11:56 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/08 07:54:59 by fyuzhyk          ###   ########.fr       */
+/*   Created: 2023/02/08 11:39:44 by fyuzhyk           #+#    #+#             */
+/*   Updated: 2023/02/08 11:46:13 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h" // t_sym_tab
-#include <stdlib.h> // free
+#ifndef CD_PRIVATE_H
+# define CD_PRIVATE_H
 
-void	free_split(char **split)
-{
-	char **temp;
+void	change_prev_dir(void);
+void	set_path(char *var, char *value);
+char	*get_path(char *var);
+int		check_for_dots(char *path, int *i);
 
-	temp = split;
-	while (*temp)
-	{
-		free(*temp);
-		temp++;
-	}
-	free(split);
-}
-
-void	free_list(t_sym_tab *head)
-{
-	t_sym_tab *temp;
-
-	while (head)
-	{
-		temp = head;
-		head = head->next;
-		free(temp->var);
-		free(temp);
-	}
-}
+#endif

@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/07 14:48:15 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/08 11:44:45 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,6 @@
 
 // free the ast and the tokstack
 // test if all fds are closed
-
-// global var
-// @note can and should be defined in a header file later on
-t_sym_tab **g_sym_table;
 
 void	process_command(char *command)
 {

@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:03:21 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/07 14:23:53 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/08 07:38:44 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,7 @@ t_sym_tab	*copy_node(t_sym_tab *node)
 	if (!new_node) {
 		// @note need to handle this error properly
 	}
-	new_node->name = ft_strdup(node->name);
-	if (node->value == NULL)
-		new_node->value = NULL;
-	else
-		new_node->value = ft_strdup(node->value);
+	new_node->var = ft_strdup(node->var);
 	new_node->next = NULL;
 	return (new_node);
 }
