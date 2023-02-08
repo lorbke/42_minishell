@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/08 17:11:01 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/08 17:54:57 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ char	process_input(char *input)
 	}
 	errno = 0;
 	exit_status = executer_exec_ast(&ast);
-	if (exit_status == 127)
+	if (exit_status == EXEC_CMDNOTFOUND)
 		printf("%s: %s: command not found\n", SHELL_NAME, ast->token->word);
-	else if (exit_status != 0)
+	else if (exit_status != EXEC_SUCCESS)
 		printf("%s: %s: %s\n", SHELL_NAME, ast->token->word, strerror(errno));
 	return (exit_status);
 }

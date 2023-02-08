@@ -6,24 +6,20 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/08 17:45:23 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/08 18:30:14 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer_private.h" // t_cmd_table, t_func_handle
+#include "../executer.h" // EXEC_* defines
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token
-#include "libft.h" // ft_strlen, ft_strncmp
-#include <sys/types.h> // pid_t, fork, execve
+#include <sys/types.h> // pid_t
 #include <sys/fcntl.h> // open
-#include <stdlib.h> // malloc, free, exit
-#include <stdio.h> // printf
-#include <limits.h> // ARG_MAX
 #include <sys/errno.h> // errno macros
-
-#define ERR_CMD "command not found"
-
-extern char	**environ;
+#include <sys/wait.h> // waitpid
+#include <string.h> // NULL
+#include <unistd.h> // close, pipe
 
 static const t_func_handle	g_func_handle_arr[]
 	= {
@@ -40,86 +36,10 @@ static const t_func_handle	g_func_handle_arr[]
 [TOK_OR] = &handle_or,
 };
 
-// @todo free_cmd_table function
-
-t_cmd_table	*create_cmd_table(t_ast *ast)
-{
-	t_cmd_table	*cmd_table;
-	t_ast		*temp;
-	int			i;
-
-	temp = ast;
-	i = 0;
-	while (temp && temp->token->desc == TOK_WORD)
-	{
-		temp = temp->left;
-		i++;
-	}
-	cmd_table = malloc(sizeof(t_cmd_table));
-	cmd_table->cmd = malloc(sizeof(char *) * (i + 1));
-	i = 0;
-	while (ast && ast->token->desc == TOK_WORD)
-	{
-		cmd_table->cmd[i] = ast->token->word;
-		ast = ast->left;
-		i++;
-	}
-	cmd_table->cmd[i] = NULL;
-	cmd_table->fd_in = STDIN_FILENO;
-	cmd_table->fd_out = STDOUT_FILENO;
-	return (cmd_table);
-}
-
-int	get_heredoc(char *limiter)
-{
-	int		fd[2];
-	int		limiter_len;
-	char	*line;
-	int		i;
-
-	pipe(fd);
-	limiter_len = ft_strlen(limiter);
-	line = malloc(ARG_MAX * sizeof(char));
-	i = 0;
-	while (1)
-	{
-		write(STDOUT_FILENO, "> ", 2);
-		i = read(STDOUT_FILENO, line, ARG_MAX);
-		line[i] = 0;
-		if (line[limiter_len] == '\n'
-			&& !ft_strncmp(line, limiter, limiter_len))
-			break ;
-		write(fd[1], line, i);
-	}
-	close(fd[1]);
-	free(line);
-	return (fd[0]);
-}
-
-pid_t	exec_cmd(t_cmd_table *cmd_table)
-{
-	char	*path;
-	pid_t	pid;
-	int		status;
-
-	if (!cmd_table)
-		return (-1);
-	path = get_cmd_path(environ, cmd_table->cmd[0]);
-	if (!path)
-	{
-		exit_status_set(127);
-		return (-1);
-	}
-	pid = fork();
-	if (pid != 0)
-		return (pid);
-	dup2(cmd_table->fd_in, STDIN_FILENO);
-	dup2(cmd_table->fd_out, STDOUT_FILENO);
-	status = execve(path, cmd_table->cmd, environ);
-	close(cmd_table->fd_in);
-	close(cmd_table->fd_out);
-	exit(status);
-}
+// @todo free_cmd_table function and free everything
+// @todo fix case: echo 1 && ec 2 || echo 3 && echo 4
+// @todo fix case: echo hi && ech || echo hey
+// @todo fix heredoc and unclosed && and || and |
 
 t_cmd_table	*handle_cmd(t_ast *ast)
 {
@@ -168,7 +88,7 @@ t_cmd_table	*handle_redir_in(t_ast *ast)
 	if (fd == -1)
 	{
 		invalid_ast_set(ast->right);
-		exit_status_set(1);
+		exit_status_set(EXEC_GENERALERR);
 		return (NULL);
 	}
 	if (!ast->left)
@@ -278,40 +198,6 @@ t_cmd_table	*handle_or(t_ast *ast)
 	}
 }
 
-static char	*exit_status_init(void)
-{
-	static char	exit_status = 0;
-
-	return (&exit_status);
-}
-
-void	exit_status_set(char exit_status)
-{
-	*exit_status_init() = exit_status;
-}
-
-char	exit_status_get(void)
-{
-	return (*exit_status_init());
-}
-
-static t_ast	**invalid_ast_init(void)
-{
-	static t_ast	*ast = NULL;
-
-	return (&ast);
-}
-
-void	invalid_ast_set(t_ast *invalid_ast)
-{
-	*invalid_ast_init() = invalid_ast;
-}
-
-t_ast	*invalid_ast_get(void)
-{
-	return(*invalid_ast_init());
-}
-
 char	executer_exec_ast(t_ast **ast)
 {
 	t_cmd_table	*cmd_table;
@@ -329,18 +215,14 @@ char	executer_exec_ast(t_ast **ast)
 		}
 		pid = exec_cmd(cmd_table);
 		if (pid == -1)
+		{
+			exit_status_set(EXEC_CMDNOTFOUND);
+			if ((*ast)->right)
+				*ast = (*ast)->right;
 			return (exit_status_get());
+		}
 		waitpid(pid, &status, 0);
 	}
 	exit_status_set(0);
 	return (exit_status_get());
 }
-
-// error in cmd table
-// print inside executer
-// status pointer in exec funcs + return faulty ast node
-
-// syntax error exit status: 258
-// execve exit status
-// open exit status
-// path not found exit status: command not found: 127

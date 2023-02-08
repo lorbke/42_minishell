@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 15:45:37 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/08 16:55:46 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/08 17:51:03 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define EXECUTER_H
 
 # include "parser.h" // t_ast
+
+# define EXEC_SUCCESS 0
+# define EXEC_GENERALERR 1 
+# define EXEC_CMDNOTFOUND 127
 
 char	executer_exec_ast(t_ast **ast);
 
