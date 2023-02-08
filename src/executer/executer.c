@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/08 17:44:05 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/08 17:45:23 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,6 @@ static const t_func_handle	g_func_handle_arr[]
 [TOK_OR] = &handle_or,
 };
 
-// @todo file errors (not found, not executable, etc)
-// @todo permission denied error
-// @todo cmd not found error
-// @todo invalid option error
-// @todo only redirection segfault fix
 // @todo free_cmd_table function
 
 t_cmd_table	*create_cmd_table(t_ast *ast)
