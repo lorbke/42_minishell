@@ -40,6 +40,7 @@ static const t_func_handle	g_func_handle_arr[]
 // @todo fix case: echo 1 && ec 2 || echo 3 && echo 4
 // @todo fix case: echo hi && ech || echo hey
 // @todo fix heredoc and unclosed && and || and |
+// @todo heredoc signals
 // @todo revise code and remove unnecessary if statements
 // @todo check for leaks and unclosed fds
 // @todo < in case should do nothing, currently throws error
