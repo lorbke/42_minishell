@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/08 18:42:55 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/08 18:43:51 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static const t_func_handle	g_func_handle_arr[]
 // @todo fix case: echo hi && ech || echo hey
 // @todo fix heredoc and unclosed && and || and |
 // @todo revise code and remove unnecessary if statements
+// @todo check for leaks and unclosed fds
 
 t_cmd_table	*handle_cmd(t_ast *ast)
 {
