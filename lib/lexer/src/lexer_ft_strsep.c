@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:26:56 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/18 15:20:56 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/08 18:48:12 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ static char	*ignore_delims(char *stringp, const char *ignore)
 	}
 	return (start);
 }
+
+// @todo unclosed quote handling
 
 /* For the minishell project, the function had to be modified because
 quote-handling with the original one would have been overly complicated.
