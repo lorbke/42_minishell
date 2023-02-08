@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/08 13:05:34 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/08 17:44:05 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static const t_func_handle	g_func_handle_arr[]
 };
 
 // @todo file errors (not found, not executable, etc)
+// @todo permission denied error
 // @todo cmd not found error
 // @todo invalid option error
 // @todo only redirection segfault fix
@@ -110,7 +111,10 @@ pid_t	exec_cmd(t_cmd_table *cmd_table)
 		return (-1);
 	path = get_cmd_path(environ, cmd_table->cmd[0]);
 	if (!path)
+	{
+		exit_status_set(127);
 		return (-1);
+	}
 	pid = fork();
 	if (pid != 0)
 		return (pid);
@@ -168,7 +172,8 @@ t_cmd_table	*handle_redir_in(t_ast *ast)
 	fd = open(ast->right->token->word, O_RDONLY);
 	if (fd == -1)
 	{
-		errno = ENOENT;
+		invalid_ast_set(ast->right);
+		exit_status_set(1);
 		return (NULL);
 	}
 	if (!ast->left)
@@ -211,7 +216,10 @@ t_cmd_table	*handle_pipe(t_ast *ast)
 	pid_l = exec_cmd(cmd_table_l);
 	close(fd[1]);
 	if (pid_l == -1)
+	{
+		invalid_ast_set(ast->left);
 		return (NULL);
+	}
 	cmd_table_r = g_func_handle_arr[ast->right->token->desc](ast->right);
 	if (!cmd_table_r)
 		return (NULL);
@@ -234,7 +242,10 @@ t_cmd_table	*handle_and(t_ast *ast)
 	pid_l = exec_cmd(cmd_table_l);
 	waitpid(pid_l, &status, 0);
 	if (pid_l == -1)
+	{
+		invalid_ast_set(ast->left);
 		return (NULL);
+	}
 	if (status != 0)
 		return (NULL);
 	else
@@ -257,10 +268,12 @@ t_cmd_table	*handle_or(t_ast *ast)
 	if (!cmd_table_l)
 		return (NULL);
 	pid_l = exec_cmd(cmd_table_l);
-	free(cmd_table_l);
 	waitpid(pid_l, &status, 0);
 	if (pid_l == -1)
+	{
+		invalid_ast_set(ast->left);
 		return (NULL);
+	}
 	if (status == 0)
 		return (NULL);
 	else
@@ -270,23 +283,69 @@ t_cmd_table	*handle_or(t_ast *ast)
 	}
 }
 
-int	executer_exec_ast(t_ast *ast)
+static char	*exit_status_init(void)
+{
+	static char	exit_status = 0;
+
+	return (&exit_status);
+}
+
+void	exit_status_set(char exit_status)
+{
+	*exit_status_init() = exit_status;
+}
+
+char	exit_status_get(void)
+{
+	return (*exit_status_init());
+}
+
+static t_ast	**invalid_ast_init(void)
+{
+	static t_ast	*ast = NULL;
+
+	return (&ast);
+}
+
+void	invalid_ast_set(t_ast *invalid_ast)
+{
+	*invalid_ast_init() = invalid_ast;
+}
+
+t_ast	*invalid_ast_get(void)
+{
+	return(*invalid_ast_init());
+}
+
+char	executer_exec_ast(t_ast **ast)
 {
 	t_cmd_table	*cmd_table;
 	pid_t		pid;
 	int			status;
 
 	cmd_table = NULL;
-	if (ast && ast->token)
+	if (ast && *ast && (*ast)->token)
 	{
-		cmd_table = g_func_handle_arr[ast->token->desc](ast);
+		cmd_table = g_func_handle_arr[(*ast)->token->desc](*ast);
 		if (!cmd_table)
-			return (EXIT_FAILURE);
+		{
+			*ast = invalid_ast_get();
+			return (exit_status_get());
+		}
 		pid = exec_cmd(cmd_table);
-		free(cmd_table);
 		if (pid == -1)
-			return (EXIT_FAILURE);
+			return (exit_status_get());
 		waitpid(pid, &status, 0);
 	}
-	return (EXIT_SUCCESS);
+	exit_status_set(0);
+	return (exit_status_get());
 }
+
+// error in cmd table
+// print inside executer
+// status pointer in exec funcs + return faulty ast node
+
+// syntax error exit status: 258
+// execve exit status
+// open exit status
+// path not found exit status: command not found: 127

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/08 13:00:26 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/08 17:11:01 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,29 @@
 // @todo test if all fds are closed
 // @todo exit behaviour: print exit when ctrl+d is pressed (is that handled in exit builtin?)
 
-void	process_input(char *input)
+char	process_input(char *input)
 {
 	t_stack	*tokstack;
 	t_ast	*ast;
-	int		status;
+	char	exit_status;
 
 	tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
 	debug_lexer(tokstack);
 	ast = parser_tokstack_to_ast(&tokstack);
 	debug_parser(ast, tokstack);
 	if (tokstack)
+	{
 		printf("%s: syntax error near unexpected token `%s'\n",
 			SHELL_NAME, tokstack->token->word);
+		return (2);
+	}
 	errno = 0;
-	status = executer_exec_ast(ast);
-	if (status == EXIT_FAILURE && errno == ENOENT)
-		perror(SHELL_NAME);
-	else if (status == EXIT_FAILURE)
-		printf("%s: command not found: %s", SHELL_NAME, input);
+	exit_status = executer_exec_ast(&ast);
+	if (exit_status == 127)
+		printf("%s: %s: command not found\n", SHELL_NAME, ast->token->word);
+	else if (exit_status != 0)
+		printf("%s: %s: %s\n", SHELL_NAME, ast->token->word, strerror(errno));
+	return (exit_status);
 }
 
 /* Read-Eval-Print-Loop. */

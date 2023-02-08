@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/07 18:20:56 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/08 15:05:26 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 // @todo newline implementation still needed (case: < -> bash error is invalid token at newline)
 
 // @note quote handling also probably incorrect
+// @todo unclosed quote syntax error
 
 t_ast	*parser_tokstack_to_ast(t_stack	**tokstack)
 {

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:14:20 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/08 13:05:02 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/08 17:40:16 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,9 @@ pid_t		exec_cmd(t_cmd_table *cmd_table);
 t_cmd_table	*create_cmd_table(t_ast *ast);
 int			get_heredoc(char *limiter);
 char		*get_cmd_path(char **env, char *cmd);
+char		exit_status_get();
+void		exit_status_set(char exit_status);
+t_ast		*invalid_ast_get();
+void		invalid_ast_set(t_ast *invalid_ast);
 
 #endif
