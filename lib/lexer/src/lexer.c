@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/18 15:21:33 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/08 18:51:08 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 #include "lexer_private.h" // main header
 #include <stdlib.h> // for NULL
 
-// where to handle token specific errors like only one &, unnmatched quotes, etc.?
-// quotes are not identified properly - do they have to be identified?
+// @note where to handle token specific errors like only one &, unnmatched quotes, etc.?
+// @note quotes are not identified properly - do they have to be identified?
 static unsigned int	desc_word(char *word)
 {
 	if (*word == '|' && *(word + 1) != '|')
@@ -38,6 +38,8 @@ static unsigned int	desc_word(char *word)
 		return (TOK_AND);
 	else if (*word == '|' && *(word + 1) == '|')
 		return (TOK_OR);
+	else if (*word == '\n')
+		return (TOK_NEWLINE);
 	return (TOK_WORD);
 }
 
@@ -65,7 +67,7 @@ static t_stack	*create_list_node(t_token *token)
 	return (new);
 }
 
-// ugly code, fix?
+// @note ugly code, fix?
 t_stack	*lexer_str_to_tokstack(char *str, char *seps, char *esc)
 {
 	t_stack	*head;
