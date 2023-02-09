@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/08 18:43:51 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/09 14:50:02 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static const t_func_handle	g_func_handle_arr[]
 // @todo heredoc signals
 // @todo revise code and remove unnecessary if statements
 // @todo check for leaks and unclosed fds
-// @todo < in case should do nothing, currently throws error
 // @todo check ping and /dev/random cases
 
 t_cmd_table	*handle_cmd(t_ast *ast)
@@ -59,28 +58,30 @@ t_cmd_table	*handle_cmd(t_ast *ast)
 t_cmd_table	*handle_redir_heredoc(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
+	int			fd;
 
+	fd = get_heredoc(ast->right->token->word);
 	if (!ast->left)
 		return (NULL);
 	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
 	if (!cmd_table)
 		return (NULL);
-	cmd_table->fd_in
-		= get_heredoc(ast->right->token->word);
+	cmd_table->fd_in = fd;
 	return (cmd_table);
 }
 
 t_cmd_table	*handle_redir_append(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
+	int			fd;
 
+	fd = open(ast->right->token->word, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (!ast->left)
 		return (NULL);
 	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
 	if (!cmd_table)
 		return (NULL);
-	cmd_table->fd_out
-		= open(ast->right->token->word, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	cmd_table->fd_out = fd;
 	return (cmd_table);
 }
 
@@ -108,14 +109,15 @@ t_cmd_table	*handle_redir_in(t_ast *ast)
 t_cmd_table	*handle_redir_out(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
+	int			fd;
 
+	fd = open(ast->right->token->word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (!ast->left)
 		return (NULL);
 	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
 	if (!cmd_table)
 		return (NULL);
-	cmd_table->fd_out
-		= open(ast->right->token->word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	cmd_table->fd_out = fd;
 	return (cmd_table);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/09 14:35:25 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/09 14:45:26 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ char	process_input(char *input)
 		return (2);
 	}
 	exit_status = executer_exec_ast(&ast);
-	error_exec_print(exit_status, ast->token->word);
+	if (ast)
+		error_exec_print(exit_status, ast->token->word);
+	else
+		error_exec_print(exit_status, NULL);
 	return (exit_status);
 }
 
