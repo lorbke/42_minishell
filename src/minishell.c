@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/09 14:26:27 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/09 14:35:25 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 // @todo exit behaviour: print exit when ctrl+d is pressed (is that handled in exit builtin?)
 // @todo documentation with some kind of tool
 // @todo improve the debugger
+// @todo rethink function names in minishell.h
 
 char	process_input(char *input)
 {
@@ -41,20 +42,11 @@ char	process_input(char *input)
 	debug_parser(ast, tokstack);
 	if (tokstack)
 	{
-		// @note ugly edge case, maybe just remove it?
-		if (tokstack->token->desc == TOK_REDIR_IN
-			|| tokstack->token->desc == TOK_REDIR_OUT
-			|| tokstack->token->desc == TOK_REDIR_APPEND
-			|| tokstack->token->desc == TOK_REDIR_HEREDOC)
-			printf("%s: syntax error near unexpected token `%s'\n",
-				SHELL_NAME, "newline");
-		else
-			printf("%s: syntax error near unexpected token `%s'\n",
-				SHELL_NAME, tokstack->token->word);
+		error_parse_print(tokstack->token->desc, tokstack->token->word);
 		return (2);
 	}
 	exit_status = executer_exec_ast(&ast);
-	print_exec_error(exit_status, ast->token->word);
+	error_exec_print(exit_status, ast->token->word);
 	return (exit_status);
 }
 

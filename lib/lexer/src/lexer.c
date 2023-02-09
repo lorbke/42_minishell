@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/08 18:51:08 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/09 14:35:07 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "lexer_private.h" // main header
 #include <stdlib.h> // for NULL
 
+// @todo change token desc from int to char
 // @note where to handle token specific errors like only one &, unnmatched quotes, etc.?
 // @note quotes are not identified properly - do they have to be identified?
 static unsigned int	desc_word(char *word)
