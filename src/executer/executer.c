@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/09 18:07:49 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/09 18:16:53 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 // @todo revise code and remove unnecessary if statements
 // @todo check for leaks and unclosed fds
 // @todo check ping and /dev/random cases
+// @todo subshell
+// @todo integrate expander
 
 char	executer_exec_ast(t_ast *ast)
 {
