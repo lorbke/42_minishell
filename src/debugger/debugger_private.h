@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:31:22 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/17 20:31:46 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/09 14:21:03 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "parser.h" // t_ast
 
 // colors for printf
-# define RESET       "\033[0m"
+# define RESET       "\033[39;49m"
 # define BLACK       "\033[30m"        /* Black */
 # define RED         "\033[31m"        /* Red */
 # define GREEN       "\033[32m"        /* Green */
