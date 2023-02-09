@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/08 08:54:54 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/09 19:28:23 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token
 #include "libft.h" // ft_strlen, ft_strncmp
+#include "../../../src/expander.h"
 #include "../../../src/builtins.h" // all builtins
 #include <sys/types.h> // pid_t, fork, execve
 #include <fcntl.h> // open
@@ -107,7 +108,7 @@ pid_t	exec_cmd(t_cmd_table *cmd_table)
 		return (-1);
 	env = create_env_list(g_sym_table);
 	path = get_cmd_path(env, cmd_table->cmd[0]);
-	// check if builtin before fork
+	expand(cmd_table->cmd);
 	if (is_builtin(cmd_table->cmd[0]))
 	{
 		status = exec_builtin(cmd_table);
