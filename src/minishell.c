@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/09 14:21:30 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/09 14:25:38 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 // @todo test if all fds are closed
 // @todo exit behaviour: print exit when ctrl+d is pressed (is that handled in exit builtin?)
 // @todo documentation with some kind of tool
+// @todo improve the debugger
 
 char	process_input(char *input)
 {
