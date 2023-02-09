@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/09 14:50:02 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/09 14:51:10 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ t_cmd_table	*handle_cmd(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
 
-	if (!ast)
-		return (NULL);
 	cmd_table = create_cmd_table(ast);
 	return (cmd_table);
 }
@@ -128,8 +126,6 @@ t_cmd_table	*handle_pipe(t_ast *ast)
 	int			fd[2];
 	pid_t		pid_l;
 
-	if (!ast)
-		return (NULL);
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
 	if (!cmd_table_l)
 		return (NULL);
@@ -156,8 +152,6 @@ t_cmd_table	*handle_and(t_ast *ast)
 	pid_t		pid_l;
 	int			status;
 
-	if (!ast)
-		return (NULL);
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
 	if (!cmd_table_l)
 		return (NULL);
@@ -184,8 +178,6 @@ t_cmd_table	*handle_or(t_ast *ast)
 	pid_t		pid_l;
 	int			status;
 
-	if (!ast)
-		return (NULL);
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
 	if (!cmd_table_l)
 		return (NULL);
