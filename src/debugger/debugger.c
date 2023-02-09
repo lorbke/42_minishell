@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:19 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/09 13:56:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/09 14:29:27 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	debug_print_termios(struct termios *termios)
 	printf("control chars: %hhu\n", termios->c_cc[VQUIT]);
 	printf("input speed:   %lu\n", termios->c_ispeed);
 	printf("output speed:  %lu\n", termios->c_ospeed);
-	printf(BLUE "=========================\n\n\n" RESET);
+	printf(BLUE "=========================" RESET);
+	printf("\n\n\n");
 }
 
 void	debug_lexer(t_stack *tokstack)
@@ -69,7 +70,8 @@ void	debug_lexer(t_stack *tokstack)
 		return ;
 	printf(BLUE "\n=========Token Stack=========\n" RESET);
 	print_tokstack(tokstack);
-	printf(BLUE "\n=============================\n\n\n" RESET);
+	printf(BLUE "\n=============================" RESET);
+	printf("\n\n\n");
 }
 
 void	debug_parser(t_ast *ast, t_stack *tokstack)
@@ -82,5 +84,6 @@ void	debug_parser(t_ast *ast, t_stack *tokstack)
 		printf(RED "minishell: syntax error near unexpected token `%s'\n" RESET, tokstack->token->word);
 	else
 		printf(GREEN "minishell: syntax valid!\n" RESET);
-	printf(BLUE "======================================\n\n\n" RESET);
+	printf(BLUE "======================================" RESET);
+	printf("\n\n\n");
 }
