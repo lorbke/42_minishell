@@ -6,11 +6,12 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:30:24 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/09 17:58:36 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/09 18:07:07 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer_private.h" // t_cmd_table, t_func_handle
+#include "../executer.h" // EXEC_* defines
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token
 #include "../minishell.h" // error_exec_print
@@ -37,7 +38,7 @@ t_cmd_table	*handle_and(t_ast *ast)
 		print_error(exit_status_get(), cmd_table_l->cmd[0]);
 		return (NULL);
 	}
-	else if (WEXITSTATUS(status) != 0)
+	else if (WEXITSTATUS(status) != EXEC_SUCCESS)
 		exit_status_set(WEXITSTATUS(status));
 	else
 	{
