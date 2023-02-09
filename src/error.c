@@ -6,24 +6,15 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:33:19 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/09 14:35:29 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/09 15:36:27 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h" // SHELL_NAME
 #include "lexer.h" // TOK_* defines
-#include "executer.h" // EXEC_* defines
 #include <stdio.h> // printf
 #include <string.h> // strerror
 #include <sys/errno.h> // errno
-
-void	error_exec_print(char exit_status, char *error_loc)
-{
-	if (exit_status == EXEC_CMDNOTFOUND)
-		printf("%s: %s: command not found\n", SHELL_NAME, error_loc);
-	else if (exit_status != EXEC_SUCCESS)
-		printf("%s: %s: %s\n", SHELL_NAME, error_loc, strerror(errno));
-}
 
 void	error_parse_print(int desc, char *error_loc)
 {

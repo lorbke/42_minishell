@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/09 14:45:26 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/09 17:14:57 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 // @todo documentation with some kind of tool
 // @todo improve the debugger
 // @todo rethink function names in minishell.h
+// @todo exit status handling
 
 char	process_input(char *input)
 {
@@ -45,11 +46,8 @@ char	process_input(char *input)
 		error_parse_print(tokstack->token->desc, tokstack->token->word);
 		return (2);
 	}
-	exit_status = executer_exec_ast(&ast);
-	if (ast)
-		error_exec_print(exit_status, ast->token->word);
-	else
-		error_exec_print(exit_status, NULL);
+	exit_status = executer_exec_ast(ast);
+	printf("-----exit status: %d\n", (int)exit_status);
 	return (exit_status);
 }
 
