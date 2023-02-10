@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/09 14:35:07 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/10 14:46:29 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 // @todo change token desc from int to char
 // @note where to handle token specific errors like only one &, unnmatched quotes, etc.?
 // @note quotes are not identified properly - do they have to be identified?
+// @todo <<lim cases, echo hi|echo hey etc.
 static unsigned int	desc_word(char *word)
 {
 	if (*word == '|' && *(word + 1) != '|')
