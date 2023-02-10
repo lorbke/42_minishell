@@ -6,14 +6,17 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:37:35 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/18 17:00:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/10 18:12:15 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "executer.h" // EXEC_* defines
+#include "minishell.h" // SIGNAL_* defines
 #include <signal.h> // signal
 #include <stdio.h> // FILE type
 #include <readline/readline.h> // readline functions
 #include <unistd.h> // write
+#include <stdlib.h> // exit
 
 /* This is bad practice, calling readline functions inside a signal handler
 can cause undefined behavior (see signal-safety). 
@@ -24,11 +27,25 @@ static void	handle_ctrlc(int signal)
 	rl_on_new_line(); // will move the cursor to the beginning of the line
 	rl_replace_line("", 0); // will replace the line buffer with nothing, but won't change what's on the terminal
 	rl_redisplay(); // will display the line buffer on the terminal
-	return ;
 }
 
-void	ms_init_signals(void)
+static void	handle_ctrlc_heredoc(int signal)
 {
-	signal(SIGINT, handle_ctrlc);
+	exit(EXEC_GENERALERR);
+}
+
+static void	handle_ctrlc_notheredoc(int signal)
+{
+	write(STDOUT_FILENO, "\n", 1);
+}
+
+void	init_signals(char mode)
+{
 	signal(SIGQUIT, SIG_IGN); // ignore ctrl+backslash
+	if (mode == SIGNAL_STANDARD)
+		signal(SIGINT, handle_ctrlc);
+	else if (mode == SIGNAL_NOTHEREDOC)
+		signal(SIGINT, handle_ctrlc_notheredoc);
+	else
+		signal(SIGINT, handle_ctrlc_heredoc);
 }

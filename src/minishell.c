@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/09 18:13:44 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/10 18:11:52 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 // @todo improve the debugger
 // @todo rethink function names in minishell.h
 // @todo exit status handling
+// @todo error protections (malloc, open, etc.)
+// @todo fix bug: overwriting first input when term winidow is exceeded
 
 char	process_input(char *input)
 {
@@ -52,16 +54,14 @@ char	process_input(char *input)
 }
 
 /* Read-Eval-Print-Loop. */
-void	ms_rep_loop(void)
+void	rep_loop(void)
 {
 	char	*line;
 
 	while (1)
 	{
 		line = readline(PROMPT);
-		if (!line) // exit buildin will be added later
-			break ;
-		if (ft_strncmp(line, "exit", 5) == 0) // exit buildin will be added later
+		if (!line || ft_strncmp(line, "exit", 5) == 0) // exit buildin will be added later
 			break ;
 		if (*line)
 		{
@@ -79,24 +79,24 @@ static int	init_termios(bool mode)
 	struct termios	term_set;
 
 	if (tcgetattr(STDIN_FILENO, &term_set) == -1)
-		return (ERROR);
+		return (EXIT_FAILURE);
 	if (mode)
 		term_set.c_lflag &= ~ECHOCTL; // this will prevent ^C from being printed (bitwise NOT)
 	else
 		term_set.c_lflag |= ECHOCTL; // restore ^C printing
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &term_set) == -1) // TCSANOW: change attributes immediately
-		return (ERROR);
+		return (EXIT_FAILURE);
 	debug_print_termios(&term_set);
 	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	if (init_termios(true) == ERROR)
+	if (init_termios(true) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	ms_init_signals();
+	init_signals(SIGNAL_STANDARD);
 	if (isatty(STDIN_FILENO)) // check if stdin is a terminal
-		ms_rep_loop();
+		rep_loop();
 	// else put input directly from STDIN to parser, executer etc
 	return (EXIT_SUCCESS);
 }

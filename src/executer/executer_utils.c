@@ -6,18 +6,23 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:12:31 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/08 18:27:20 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/10 18:13:04 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer_private.h" // cmd_table
 #include "../executer.h" // EXEC_* defines
+#include "../minishell.h" // init_signals
 #include "parser.h" // t_ast
+#include "lexer.h" // TOK_* defines
 #include "libft.h" // ft_strlen, ft_strncmp
 #include <sys/types.h> // pid_t, fork, waitpid, execve
+#include <stdio.h> // EOF
 #include <stdlib.h> // malloc, free, exit
 #include <unistd.h> // STDIN_FILENO, STDOUT_FILENO, write, read
 #include <limits.h> // ARG_MAX
+#include <readline/readline.h> // readline
+#include <readline/history.h> // add_history
 
 extern char	**environ;
 
@@ -54,24 +59,35 @@ int	get_heredoc(char *limiter)
 	int		fd[2];
 	int		limiter_len;
 	char	*line;
-	int		i;
+	int		status;
+	pid_t	pid;
 
+	init_signals(SIGNAL_NOTHEREDOC);
 	pipe(fd);
-	limiter_len = ft_strlen(limiter);
-	line = malloc(ARG_MAX * sizeof(char));
-	i = 0;
-	while (1)
+	pid = fork();
+	if (pid == 0)
 	{
-		write(STDOUT_FILENO, "> ", 2);
-		i = read(STDOUT_FILENO, line, ARG_MAX);
-		line[i] = 0;
-		if (line[limiter_len] == '\n'
-			&& !ft_strncmp(line, limiter, limiter_len))
-			break ;
-		write(fd[1], line, i);
+		init_signals(SIGNAL_HEREDOC);
+		limiter_len = ft_strlen(limiter);
+		while (1)
+		{
+			line = readline("> ");
+			if (!line || ft_strncmp(line, limiter, limiter_len + 1) == 0) // exit buildin will be added later
+				break ;
+			write(fd[1], line, ft_strlen(line));
+			write(fd[1], "\n", 1);
+			free(line);
+		}
+		close(fd[1]);
+		exit(EXEC_SUCCESS);
 	}
-	close(fd[1]);
-	free(line);
+	else
+	{
+		waitpid(pid, &status, 0);
+		init_signals(SIGNAL_STANDARD);
+		exit_status_set(WEXITSTATUS(status));
+		close(fd[1]);
+	}
 	return (fd[0]);
 }
 
