@@ -12,7 +12,7 @@
 
 #include "executer_private.h" // cmd_table
 #include "../executer.h" // EXEC_* defines
-#include "../minishell.h" // init_signals
+#include "../mssignal.h" // init_signals
 #include "parser.h" // t_ast
 #include "lexer.h" // TOK_* defines
 #include "libft.h" // ft_strlen, ft_strncmp
@@ -54,6 +54,8 @@ t_cmd_table	*create_cmd_table(t_ast *ast)
 	return (cmd_table);
 }
 
+// @note newline bug when ctrl d
+
 int	get_heredoc(char *limiter)
 {
 	int		fd[2];
@@ -62,12 +64,12 @@ int	get_heredoc(char *limiter)
 	int		status;
 	pid_t	pid;
 
-	init_signals(SIGNAL_NOTHEREDOC);
+	mssignal_change_mode(MSSIG_NHDOC);
 	pipe(fd);
 	pid = fork();
 	if (pid == 0)
 	{
-		init_signals(SIGNAL_HEREDOC);
+		mssignal_change_mode(MSSIG_HDOC);
 		limiter_len = ft_strlen(limiter);
 		while (1)
 		{
@@ -84,7 +86,7 @@ int	get_heredoc(char *limiter)
 	else
 	{
 		waitpid(pid, &status, 0);
-		init_signals(SIGNAL_STANDARD);
+		mssignal_change_mode(MSSIG_STD);
 		exit_status_set(WEXITSTATUS(status));
 		close(fd[1]);
 	}

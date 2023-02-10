@@ -18,11 +18,6 @@
 # define CMD_SEPS " \t\n\r"
 # define CMD_ESCS "\'\"()"
 
-# define SIGNAL_STANDARD 0
-# define SIGNAL_NOTHEREDOC 1
-# define SIGNAL_HEREDOC 2
-
-void	init_signals(char mode);
 void	error_parse_print(int desc, char *error_loc);
 
 #endif

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h" // macros
+#include "mssignal.h" // init_signals
 #include "lexer.h" // lexer_str_to_tokstack
 #include "parser.h" // parser_tokstack_to_ast
 #include "executer.h" // executer_exec_ast
@@ -94,7 +95,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	if (init_termios(true) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	init_signals(SIGNAL_STANDARD);
+	mssignal_change_mode(MSSIG_STD);
 	if (isatty(STDIN_FILENO)) // check if stdin is a terminal
 		rep_loop();
 	// else put input directly from STDIN to parser, executer etc

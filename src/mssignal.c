@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "executer.h" // EXEC_* defines
-#include "minishell.h" // SIGNAL_* defines
+#include "mssignal.h" // SIGNAL_* defines
 #include <signal.h> // signal
 #include <stdio.h> // FILE type
 #include <readline/readline.h> // readline functions
@@ -39,12 +39,12 @@ static void	handle_ctrlc_notheredoc(int signal)
 	write(STDOUT_FILENO, "\n", 1);
 }
 
-void	init_signals(char mode)
+void	mssignal_change_mode(char mode)
 {
 	signal(SIGQUIT, SIG_IGN); // ignore ctrl+backslash
-	if (mode == SIGNAL_STANDARD)
+	if (mode == MSSIG_STD)
 		signal(SIGINT, handle_ctrlc);
-	else if (mode == SIGNAL_NOTHEREDOC)
+	else if (mode == MSSIG_NHDOC)
 		signal(SIGINT, handle_ctrlc_notheredoc);
 	else
 		signal(SIGINT, handle_ctrlc_heredoc);
