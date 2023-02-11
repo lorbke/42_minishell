@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/11 16:50:39 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/11 18:18:46 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	get_unclosed(t_ast *ast)
 		heredoc = malloc(sizeof(char) * ARG_MAX);
 		read(get_heredoc(&heredoc_small, NULL), heredoc, ARG_MAX);
 		heredoc_ast = input_to_ast(heredoc);
-		if (!heredoc_ast)
+		if (!heredoc_ast && exit_status_get() == EXEC_SUCCESS)
 			exit_status_set(EXEC_SYNTAXERR);
 		free(heredoc);
 		get_unclosed(heredoc_ast);
