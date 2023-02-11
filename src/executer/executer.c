@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/11 12:17:25 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/11 12:26:50 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <unistd.h> // close, pipe
 #include <limits.h> // ARG_MAX
 #include <stdlib.h> // malloc, free
+#include <stdio.h> // printf
 
 // @todo free_cmd_table function and free everything
 // @todo fix heredoc and unclosed && and || and |
@@ -32,6 +33,14 @@
 // @todo check ping and /dev/random cases
 // @todo subshell
 // @todo integrate expander
+
+void	print_error(char exit_status, char *error_loc)
+{
+	if (exit_status == EXEC_CMDNOTFOUND)
+		printf("%s: %s: command not found\n", SHELL_NAME, error_loc);
+	else if (exit_status != EXEC_SUCCESS)
+		printf("%s: %s: %s\n", SHELL_NAME, error_loc, strerror(errno));
+}
 
 // free unclosed ast
 void	get_unclosed(t_ast *ast)
@@ -48,7 +57,7 @@ void	get_unclosed(t_ast *ast)
 		heredoc = malloc(sizeof(char) * ARG_MAX);
 		read(get_heredoc(&heredoc_small, NULL), heredoc, ARG_MAX);
 		heredoc_tokstack = lexer_str_to_tokstack(heredoc, CMD_SEPS, CMD_ESCS);
-		heredoc_ast = parser_tokstack_to_ast(&heredoc_tokstack);
+		heredoc_ast = parser_tokstack_to_ast(&heredoc_tokstack, SHELL_NAME);
 		ast->right = heredoc_ast;
 	}
 }

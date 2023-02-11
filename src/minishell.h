@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:39:03 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/10 18:11:09 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/11 12:18:38 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,5 @@
 # define PROMPT "mini🐚~ "
 # define CMD_SEPS " \t\n\r"
 # define CMD_ESCS "\'\"()"
-
-void	error_parse_print(int desc, char *error_loc);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/10 18:11:52 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/11 12:25:45 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,10 @@ char	process_input(char *input)
 
 	tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
 	debug_lexer(tokstack);
-	ast = parser_tokstack_to_ast(&tokstack);
+	ast = parser_tokstack_to_ast(&tokstack, SHELL_NAME);
 	debug_parser(ast, tokstack);
 	if (tokstack)
 	{
-		error_parse_print(tokstack->token->desc, tokstack->token->word);
 		return (2);
 	}
 	exit_status = executer_exec_ast(ast);

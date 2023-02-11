@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/08 19:09:26 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/11 12:26:36 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token, t_stack, TOK_* macros
 #include <stdlib.h> // free
+#include <stdio.h> // printf
 
 // @note every function gets the stack as input and returns a sub-ast that is then connected to the main ast
 
@@ -26,12 +27,28 @@
 // @note quote handling also probably incorrect
 // @todo unclosed quote syntax error
 
-t_ast	*parser_tokstack_to_ast(t_stack	**tokstack)
+static void	print_error(int desc, char *error_loc, char *error_name)
+{
+	// @note ugly edge case, maybe just remove it?
+	if (desc == TOK_REDIR_IN
+		|| desc == TOK_REDIR_OUT
+		|| desc == TOK_REDIR_APPEND
+		|| desc == TOK_REDIR_HEREDOC)
+		printf("%s: syntax error near unexpected token `%s'\n",
+			error_name, "newline");
+	else
+		printf("%s: syntax error near unexpected token `%s'\n",
+			error_name, error_loc);
+}
+
+t_ast	*parser_tokstack_to_ast(t_stack	**tokstack, char *error_name)
 {
 	t_ast	*ast;
 
 	if (!tokstack)
 		return (NULL);
 	ast = rule_and_or(tokstack);
+	if (*tokstack)
+		print_error((*tokstack)->token->desc, (*tokstack)->token->word, error_name);
 	return (ast);
 }
