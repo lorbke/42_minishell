@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/11 18:18:46 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/11 18:21:10 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	get_unclosed(t_ast *ast)
 	if (ast && (ast->token->desc == TOK_AND
 			|| ast->token->desc == TOK_OR
 			|| ast->token->desc == TOK_PIPE)
-			&& ast->right->token->desc == TOK_UNCLOSED)
+		&& ast->right->token->desc == TOK_UNCLOSED)
 	{
 		heredoc = malloc(sizeof(char) * ARG_MAX);
 		read(get_heredoc(&heredoc_small, NULL), heredoc, ARG_MAX);
