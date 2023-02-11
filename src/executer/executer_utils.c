@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:12:31 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/11 16:42:40 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/11 17:00:52 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ t_cmd_table	*create_cmd_table(t_ast *ast)
 
 	temp = ast;
 	i = 0;
-	while (temp && (temp->token->desc == TOK_WORD || temp->token->desc == TOK_SUBSHELL))
+	while (temp && (temp->token->desc == TOK_WORD
+			|| temp->token->desc == TOK_SUBSHELL))
 	{
 		temp = temp->left;
 		i++;
@@ -39,7 +40,8 @@ t_cmd_table	*create_cmd_table(t_ast *ast)
 	cmd_table = malloc(sizeof(t_cmd_table));
 	cmd_table->cmd = malloc(sizeof(char *) * (i + 1));
 	i = 0;
-	while (ast && (ast->token->desc == TOK_WORD || ast->token->desc == TOK_SUBSHELL))
+	while (ast && (ast->token->desc == TOK_WORD
+			|| ast->token->desc == TOK_SUBSHELL))
 	{
 		cmd_table->cmd[i] = ast->token->word;
 		ast = ast->left;
@@ -60,7 +62,8 @@ pid_t	exec_subshell(t_cmd_table *cmd_table)
 	if (pid != 0)
 		return (pid);
 	cmd_table->cmd[0][ft_strlen(cmd_table->cmd[0]) - 1] = 0;
-	status = process_input(cmd_table->cmd[0] + 1, cmd_table->fd_in, cmd_table->fd_out);
+	status = process_input(cmd_table->cmd[0] + 1,
+			cmd_table->fd_in, cmd_table->fd_out);
 	exit(status);
 }
 
