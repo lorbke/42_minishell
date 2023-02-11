@@ -7,6 +7,7 @@
 #include <sys/types.h> // pid_t, fork, waitpid, execve
 #include <stdio.h> // FILE define (needed for readline?!)
 #include <readline/readline.h> // readline
+#include <readline/history.h> // add_history
 #include <unistd.h> // STDIN_FILENO, STDOUT_FILENO, write, read
 
 void	heredoc_big(char *limiter, int fd_write)
@@ -34,6 +35,7 @@ void	heredoc_small(char *line, int fd_write)
 		line = readline("> ");
 		if (*line)
 			break ;
+		add_history(line);
 		free(line);
 	}
 	write(fd_write, line, ft_strlen(line));

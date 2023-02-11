@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/11 12:25:45 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/11 15:10:23 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,30 @@
 // @todo rethink function names in minishell.h
 // @todo exit status handling
 // @todo error protections (malloc, open, etc.)
-// @todo fix bug: overwriting first input when term winidow is exceeded
+// @todo fix bug: overwriting first input when term window is exceeded
 
-char	process_input(char *input)
+t_ast	*input_to_ast(char *input)
 {
 	t_stack	*tokstack;
 	t_ast	*ast;
-	char	exit_status;
 
 	tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
 	debug_lexer(tokstack);
 	ast = parser_tokstack_to_ast(&tokstack, SHELL_NAME);
 	debug_parser(ast, tokstack);
 	if (tokstack)
-	{
-		return (2);
-	}
+		return (NULL);
+	return (ast);
+}
+
+char	process_input(char *input)
+{
+	char	exit_status;
+	t_ast	*ast;
+
+	ast = input_to_ast(input);
+	if (!ast)
+		return (EXEC_SYNTAXERR);
 	exit_status = executer_exec_ast(ast);
 	printf("-----exit status: %d\n", (int)exit_status);
 	return (exit_status);
