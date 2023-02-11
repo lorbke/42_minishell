@@ -9,19 +9,6 @@
 #include <readline/readline.h> // readline
 #include <unistd.h> // STDIN_FILENO, STDOUT_FILENO, write, read
 
-// @todo put heredoc str through subshell to get tokenized output
-// @todo echo 1 && echo 2 print order bug
-t_cmd_table	*handle_unclosed(t_ast *ast)
-{
-	char	*heredoc;
-
-	heredoc = malloc(sizeof(char) * ARG_MAX);
-	read(get_heredoc(heredoc_small, NULL), heredoc, ARG_MAX);
-	ast->token->word = heredoc;
-	ast->token->desc = TOK_WORD;
-	return (create_cmd_table(ast));
-}
-
 void	heredoc_big(char *limiter, int fd_write)
 {
 	int		limiter_len;
