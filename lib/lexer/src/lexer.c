@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/11 18:34:05 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/11 19:47:05 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,25 @@ static unsigned int	desc_word(char *word)
 	return (TOK_WORD);
 }
 
+// static int	is_special_char(char *str)
+// {
+// 	if (*str == '|')
+// 		return (1);
+// 	else if (*str == '<' && *str + 1 != '<')
+// 		return (1);
+// 	else if (*str == '>' && *str + 1 != '>')
+// 		return (1);
+// 	else if (*str == '<' && *str + 1 == '<')
+// 		return (2);
+// 	else if (*str == '>' && *str + 1 == '>')
+// 		return (2);
+// 	else if (*str == '&' && *str + 1 == '&')
+// 		return (2);
+// 	else if (*str == '|' && *str + 1 == '|')
+// 		return (2);
+// 	return (0);
+// }
+
 static t_token	*create_token(char *word)
 {
 	t_token	*new;
@@ -78,7 +97,8 @@ t_stack	*lexer_str_to_tokstack(char *str, char *seps, char *esc)
 	head = NULL;
 	while (*str)
 	{
-		head = create_stack_node(create_token(lexer_ft_strsep(&str, seps, esc)));
+		head
+			= create_stack_node(create_token(lexer_ft_strsep(&str, seps, esc)));
 		if (head)
 			break ;
 	}
