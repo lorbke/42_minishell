@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/11 18:38:41 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/11 19:52:05 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 // @todo exit status handling
 // @todo error protections (malloc, open, etc.)
 // @todo fix bug: overwriting first input when term window is exceeded
+// @todo is not a terminal case handling
 
 t_ast	*input_to_ast(char *input)
 {
