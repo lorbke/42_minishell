@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/11 18:21:10 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/11 18:23:37 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	print_error(char exit_status, char *error_loc)
 
 // @todo free unclosed ast
 // @note unclosed handling still ot like bash, e.g. history
-void	get_unclosed(t_ast *ast)
+static void	close_unclosed(t_ast *ast)
 {
 	char	*heredoc;
 	t_ast	*heredoc_ast;
@@ -59,7 +59,7 @@ void	get_unclosed(t_ast *ast)
 		if (!heredoc_ast && exit_status_get() == EXEC_SUCCESS)
 			exit_status_set(EXEC_SYNTAXERR);
 		free(heredoc);
-		get_unclosed(heredoc_ast);
+		close_unclosed(heredoc_ast);
 		ast->right = heredoc_ast;
 	}
 }
@@ -75,7 +75,7 @@ char	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
 	exit_status_set(EXEC_SUCCESS);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
-	get_unclosed(ast);
+	close_unclosed(ast);
 	if (exit_status_get() != EXEC_SUCCESS)
 		return (exit_status_get());
 	cmd_table = g_func_handle_arr[ast->token->desc](ast);
