@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:39:03 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/11 14:42:05 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/11 16:43:06 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@
 # define CMD_ESCS "\'\"()"
 
 t_ast	*input_to_ast(char *input);
-char	process_input(char *input);
+char	process_input(char *input, int fd_in, int fd_out);
 
 #endif

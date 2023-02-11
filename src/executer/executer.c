@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/11 15:51:52 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/11 16:50:39 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@
 #include <stdio.h> // printf
 
 // @todo free_cmd_table function and free everything
-// @todo fix heredoc and unclosed && and || and |
-// @todo heredoc signals
 // @todo revise code and remove unnecessary if statements
 // @todo check for leaks and unclosed fds
 // @todo check ping and /dev/random cases
@@ -66,7 +64,7 @@ void	get_unclosed(t_ast *ast)
 	}
 }
 
-char	executer_exec_ast(t_ast *ast)
+char	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
 {
 	t_cmd_table	*cmd_table;
 	pid_t		pid;
@@ -75,6 +73,8 @@ char	executer_exec_ast(t_ast *ast)
 	if (!ast)
 		return (EXEC_SUCCESS);
 	exit_status_set(EXEC_SUCCESS);
+	dup2(fd_in, STDIN_FILENO);
+	dup2(fd_out, STDOUT_FILENO);
 	get_unclosed(ast);
 	if (exit_status_get() != EXEC_SUCCESS)
 		return (exit_status_get());

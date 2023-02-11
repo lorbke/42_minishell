@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/11 15:10:23 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/11 16:44:53 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_ast	*input_to_ast(char *input)
 	return (ast);
 }
 
-char	process_input(char *input)
+char	process_input(char *input, int fd_in, int fd_out)
 {
 	char	exit_status;
 	t_ast	*ast;
@@ -56,7 +56,7 @@ char	process_input(char *input)
 	ast = input_to_ast(input);
 	if (!ast)
 		return (EXEC_SYNTAXERR);
-	exit_status = executer_exec_ast(ast);
+	exit_status = executer_exec_ast(ast, fd_in, fd_out);
 	printf("-----exit status: %d\n", (int)exit_status);
 	return (exit_status);
 }
@@ -74,7 +74,7 @@ void	rep_loop(void)
 		if (*line)
 		{
 			add_history(line);
-			process_input(line);
+			process_input(line, STDIN_FILENO, STDOUT_FILENO);
 		}
 		free(line);
 	}

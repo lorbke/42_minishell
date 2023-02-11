@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 15:45:37 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/11 15:10:17 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/11 16:45:00 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@
 # define EXEC_SYNTAXERR 2
 # define EXEC_CMDNOTFOUND 127
 
-char	executer_exec_ast(t_ast *ast);
+char	executer_exec_ast(t_ast *ast, int fd_in, int fd_out);
 
 #endif
