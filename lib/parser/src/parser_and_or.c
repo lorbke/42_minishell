@@ -18,7 +18,7 @@
 static t_ast	*get_right(t_stack **tokstack)
 {
 	t_ast	*head;
-	t_ast	*next_pipe;
+	t_ast	*next_andor;
 
 	if (!*tokstack
 		|| ((*tokstack)->token->desc != TOK_AND
@@ -28,11 +28,14 @@ static t_ast	*get_right(t_stack **tokstack)
 	*tokstack = (*tokstack)->next;
 	head->right = rule_pipeline(tokstack);
 	if (!head->right)
+	{
+		head->right = create_ast_node(create_token_unclosed());
 		return (head);
-	next_pipe = get_right(tokstack);
-	if (!next_pipe)
+	}
+	next_andor = get_right(tokstack);
+	if (!next_andor)
 		return (head);
-	head = append_left_ast(next_pipe, head);
+	head = append_left_ast(next_andor, head);
 	return (head);
 }
 

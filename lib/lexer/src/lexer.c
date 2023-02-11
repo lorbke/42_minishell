@@ -40,8 +40,6 @@ static unsigned int	desc_word(char *word)
 		return (TOK_AND);
 	else if (*word == '|' && *(word + 1) == '|')
 		return (TOK_OR);
-	else if (*word == '\n')
-		return (TOK_NEWLINE);
 	return (TOK_WORD);
 }
 

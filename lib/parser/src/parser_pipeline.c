@@ -26,7 +26,10 @@ static t_ast	*get_right(t_stack **tokstack)
 	*tokstack = (*tokstack)->next;
 	head->right = rule_comp_cmd(tokstack);
 	if (!head->right)
+	{
+		head->right = create_ast_node(create_token_unclosed());
 		return (head);
+	}
 	next_pipe = get_right(tokstack);
 	if (!next_pipe)
 		return (head);

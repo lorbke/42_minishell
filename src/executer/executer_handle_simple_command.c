@@ -31,7 +31,7 @@ t_cmd_table	*handle_redir_heredoc(t_ast *ast)
 	t_cmd_table	*cmd_table;
 	int			fd;
 
-	fd = get_heredoc(ast->right->token->word);
+	fd = get_heredoc(&heredoc_big, ast->right->token->word);
 	if (!ast->left)
 		return (NULL);
 	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);

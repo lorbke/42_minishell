@@ -13,7 +13,7 @@
 #ifndef EXECUTER_PRIVATE_H
 # define EXECUTER_PRIVATE_H
 
-# include "parser.h"
+# include "parser.h" // t_ast
 # include <sys/types.h> // pid_t
 
 typedef struct s_cmd_table
@@ -35,6 +35,24 @@ t_cmd_table	*handle_redir_in(t_ast *ast);
 t_cmd_table	*handle_redir_out(t_ast *ast);
 t_cmd_table	*handle_cmd(t_ast *ast);
 
+// utils
+pid_t		exec_cmd(t_cmd_table *cmd_table);
+t_cmd_table	*create_cmd_table(t_ast *ast);
+
+// heredoc
+t_cmd_table	*handle_unclosed(t_ast *ast);
+int			get_heredoc(void (*heredoc_type)(char *, int), char *limiter);
+void		heredoc_big(char *limiter, int fd_write);
+void		heredoc_small(char *line, int fd_write);
+
+// path
+char		*get_cmd_path(char **env, char *cmd);
+
+// exit_status
+char		exit_status_get(void);
+void		exit_status_set(char exit_status);
+void		print_error(char exit_status, char *error_loc);
+
 static const t_func_handle	g_func_handle_arr[]
 	= {
 [TOK_WORD] = &handle_cmd,
@@ -48,17 +66,7 @@ static const t_func_handle	g_func_handle_arr[]
 [TOK_SUBSHELL] = &handle_cmd,
 [TOK_AND] = &handle_and,
 [TOK_OR] = &handle_or,
+[TOK_UNCLOSED] = &handle_unclosed,
 };
-
-// utils
-pid_t		exec_cmd(t_cmd_table *cmd_table);
-t_cmd_table	*create_cmd_table(t_ast *ast);
-int			get_heredoc(char *limiter);
-char		*get_cmd_path(char **env, char *cmd);
-
-// exit_status
-char		exit_status_get(void);
-void		exit_status_set(char exit_status);
-void		print_error(char exit_status, char *error_loc);
 
 #endif

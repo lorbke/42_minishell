@@ -12,17 +12,12 @@
 
 #include "executer_private.h" // cmd_table
 #include "../executer.h" // EXEC_* defines
-#include "../mssignal.h" // init_signals
 #include "parser.h" // t_ast
 #include "lexer.h" // TOK_* defines
 #include "libft.h" // ft_strlen, ft_strncmp
 #include <sys/types.h> // pid_t, fork, waitpid, execve
-#include <stdio.h> // EOF
 #include <stdlib.h> // malloc, free, exit
 #include <unistd.h> // STDIN_FILENO, STDOUT_FILENO, write, read
-#include <limits.h> // ARG_MAX
-#include <readline/readline.h> // readline
-#include <readline/history.h> // add_history
 
 extern char	**environ;
 
@@ -52,45 +47,6 @@ t_cmd_table	*create_cmd_table(t_ast *ast)
 	cmd_table->fd_in = STDIN_FILENO;
 	cmd_table->fd_out = STDOUT_FILENO;
 	return (cmd_table);
-}
-
-// @note newline bug when ctrl d
-
-int	get_heredoc(char *limiter)
-{
-	int		fd[2];
-	int		limiter_len;
-	char	*line;
-	int		status;
-	pid_t	pid;
-
-	mssignal_change_mode(MSSIG_NHDOC);
-	pipe(fd);
-	pid = fork();
-	if (pid == 0)
-	{
-		mssignal_change_mode(MSSIG_HDOC);
-		limiter_len = ft_strlen(limiter);
-		while (1)
-		{
-			line = readline("> ");
-			if (!line || ft_strncmp(line, limiter, limiter_len + 1) == 0) // exit buildin will be added later
-				break ;
-			write(fd[1], line, ft_strlen(line));
-			write(fd[1], "\n", 1);
-			free(line);
-		}
-		close(fd[1]);
-		exit(EXEC_SUCCESS);
-	}
-	else
-	{
-		waitpid(pid, &status, 0);
-		mssignal_change_mode(MSSIG_STD);
-		exit_status_set(WEXITSTATUS(status));
-		close(fd[1]);
-	}
-	return (fd[0]);
 }
 
 pid_t	exec_cmd(t_cmd_table *cmd_table)

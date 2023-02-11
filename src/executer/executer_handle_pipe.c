@@ -17,6 +17,7 @@
 #include <sys/types.h> // pid_t
 #include <string.h> // NULL
 #include <unistd.h> // close, pipe
+#include <stdio.h>
 
 t_cmd_table	*handle_pipe(t_ast *ast)
 {
