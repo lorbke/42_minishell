@@ -6,7 +6,7 @@
 #    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/10 08:41:45 by fyuzhyk          ###   ########.fr        #
+#    Updated: 2023/02/11 20:38:11 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,15 +48,16 @@ ENV_LIB := env
 ENV_LINK := -L$(ENV_PATH) -l$(ENV_LIB)
 RDLN_LIB := readline
 BLTN_PATH := src/builtins
+GLBR_PATH := src/expander/globber
 
 # src and obj files macros
 SRC_PATH := src
 OBJ_PATH := obj
-SRC := $(wildcard $(SRC_PATH)/*.c) $(wildcard $(SRC_PATH)/*/*.c) $(wildcard $(BLTN_PATH)/*/*.c)
+SRC := $(wildcard $(SRC_PATH)/*.c) $(wildcard $(SRC_PATH)/*/*.c) $(wildcard $(BLTN_PATH)/*/*.c) $(wildcard $(GLBR_PATH)/*.c)
 OBJ := $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 
 # VPATH
-VPATH := $(SRC_PATH) $(SRC_PATH)/debugger $(SRC_PATH)/builtins $(SRC_PATH)/builtins/cd $(SRC_PATH)/expander
+VPATH := $(SRC_PATH) $(SRC_PATH)/debugger $(SRC_PATH)/builtins $(SRC_PATH)/builtins/cd $(SRC_PATH)/expander $(GLBR_PATH)
 
 # file targets
 $(NAME): $(OBJ_PATH) $(OBJ)

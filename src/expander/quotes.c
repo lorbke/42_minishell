@@ -6,14 +6,12 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:38:45 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/10 08:58:38 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/10 19:19:08 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // ft_strlen, malloc
 #include "expander_private.h" // ft_realloc
-
-static int	find_closing_quote(char *str, int *index);
 
 void	quote_removal(char *str)
 {
@@ -32,14 +30,15 @@ void	quote_removal(char *str)
 }
 
 // @note needs to be tested if quotes are implemented in parser
-char*	handle_single_quotes(char *result, char *str, int *index, int *result_index)
+char*	handle_quotes(char *result, char *str, int *index, int *result_index)
 {
 	int		i;
 	int		str_len;
 	char	*arg;
+	char	quote_type;
 
-	(*index)++;
-	str_len = find_closing_quote(str, &(*index));
+	quote_type = str[(*index)++];
+	str_len = find_closing_quote(str, &(*index), quote_type);
 	if (!result)
 		arg = malloc(sizeof(char) * str_len + 1);
 	else
@@ -54,14 +53,16 @@ char*	handle_single_quotes(char *result, char *str, int *index, int *result_inde
 	return (arg);
 }
 
-static int	find_closing_quote(char *str, int *index)
+// @note I think this way the func also recognizes if the closing quote
+// directly follows the opening quote ?
+int	find_closing_quote(char *str, int *index, char quote_type)
 {
 	int	str_len;
 
 	str_len = 1;
 	while (str[str_len])
 	{
-		if (str[str_len] == '\'')
+		if (str[str_len] == quote_type)
 		{
 			(*index)++;
 			break ;

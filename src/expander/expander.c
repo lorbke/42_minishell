@@ -6,17 +6,17 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:14:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/10 08:57:41 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/11 21:16:57 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // g_sym_table
 #include "libft.h" // malloc, free, ft_strlen
+#include "globber/globber.h" // globber
 #include "expander_private.h" // ft_realloc, expand_var, get_var, add_expanded_var, handle_single_quotes, quote_removal
 
 static char	*try_expansion(char *arg, int *index, int *result_index);
 static char	*add_char_to_string(char *result, char c, int *index);
-static char	*copy_result_to_argv(char *result);
 
 void	expander(char **argv)
 {
@@ -36,13 +36,33 @@ void	expander(char **argv)
 			if (argv[i][j] == '$')
 				result = try_expansion(&argv[i][j], &j, &result_index);
 			else if (argv[i][j] == '\'')
-				result = handle_single_quotes(result, &argv[i][j], &j, &result_index);
+				result = handle_quotes(result, &argv[i][j], &j, &result_index);
 			else
 				result = add_char_to_string(result, argv[i][j++], &result_index);
 		}
 		argv[i] = copy_result_to_argv(result);
+		globber(argv);
 		i++;
 	}
+}
+
+char	*copy_result_to_argv(char *result)
+{
+	char	*arg;
+	int		i;
+
+	if (result == NULL)
+		return (NULL);
+	i = 0;
+	arg = malloc(sizeof(char) * ft_strlen(result) + 1);
+	while (result[i])
+	{
+		arg[i] = result[i];
+		i++;
+	}
+	arg[i] = '\0';
+	free(result);
+	return (arg);
 }
 
 static char *try_expansion(char *arg, int *index, int *result_index)
@@ -69,28 +89,8 @@ static char	*add_char_to_string(char *result, char c, int *index)
 	if (!result)
 		arg = malloc(sizeof(char) * 2);
 	else
-		arg = ft_realloc(result, ft_strlen(result));
+		arg = ft_realloc(result, ft_strlen(result) + 2);
 	arg[(*index)++] = c;
 	arg[(*index)] = '\0';
-	return (arg);
-}
-
-static char	*copy_result_to_argv(char *result)
-{
-	char	*arg;
-	int		i;
-
-	if (result == NULL)
-		return (NULL);
-	i = 0;
-	arg = malloc(sizeof(char) * ft_strlen(result) + 1);
-	while (result[i])
-	{
-		arg[i] = result[i];
-		i++;
-	}
-	arg[i] = '\0';
-	quote_removal(arg);
-	free(result);
 	return (arg);
 }

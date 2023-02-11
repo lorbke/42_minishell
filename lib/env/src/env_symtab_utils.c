@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:03:21 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/09 13:03:27 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/11 14:37:30 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_sym_tab	*get_last_node(t_sym_tab *lst)
 	return (lst);
 }
 
-#include <stdio.h>
 void	add_to_back(t_sym_tab **lst, t_sym_tab *new_node)
 {
 	t_sym_tab	*temp;
