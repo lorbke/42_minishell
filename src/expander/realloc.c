@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:45:58 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/12 11:37:59 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/12 16:14:48 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_realloc(char *ptr, int len)
 	return (result);
 }
 
-char	**realloc_string_array(char **ptr)
+char	**realloc_string_array(char **ptr, int size)
 {
 	char	**result;
 	int		i;
@@ -36,7 +36,8 @@ char	**realloc_string_array(char **ptr)
 	ptr_len = 0;
 	while (ptr[ptr_len])
 		ptr_len++;
-	result = malloc(sizeof(char *) * (ptr_len + 2));
+	// @note second func argument should define the size of the array (ptr_len + size + 2)
+	result = malloc(sizeof(char *) * (ptr_len + size) + 1);
 	while (ptr[i] != NULL)
 	{
 		len = ft_strlen(ptr[i]);

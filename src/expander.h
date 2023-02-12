@@ -6,13 +6,13 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:59:39 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/10 08:32:24 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/12 16:31:44 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANDER_H
 # define EXPANDER_H
 
-void	expander(char **argv);
+char	**expander(char **argv);
 
 #endif

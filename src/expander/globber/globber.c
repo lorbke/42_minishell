@@ -6,29 +6,29 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:29:31 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/12 14:02:19 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/12 19:05:17 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // NULL
 #include "globber.h" // globbing, is_match, concatentate_entries, add_matching_entries, find_pattern, opendir, readdir, closedir
-#include "../expander_private.h" // find_closing_quote, quote_removal, copy_result_to_argv
+#include "../expander_private.h" // find_closing_quote, quote_removal
 
-static char	*globbing(char *arg, int *index);
+static char	**globbing(char *arg, int *index);
 
-void	globber(char **argv)
+char	**globber(char **argv)
 {
 	int		i;
 	int		j;
-	int		result_index;
-	char	*result;
+	char	**result;
+	char	**expanded_argv;
 
 	i = 1;
+	expanded_argv = NULL;
 	while (argv[i])
 	{
 		result = NULL;
 		j = 0;
-		result_index = 0;
 		while (argv[i][j])
 		{
 			if (argv[i][j] == '\'' || argv[i][j] == '\"')
@@ -37,14 +37,15 @@ void	globber(char **argv)
 				result = globbing(argv[i], &j);
 			j++;
 		}
-		if (result != NULL)
-			argv[i] = copy_result_to_argv(result);
+		expanded_argv = add_vars(expanded_argv, result, &argv[i]);
 		quote_removal(argv[i]);
 		i++;
 	}
+	expanded_argv = create_new_cmd(expanded_argv, argv);
+	return (expanded_argv);
 }
 
-static char *globbing(char *arg, int *index)
+static char **globbing(char *arg, int *index)
 {
 	char			*pwd;
 	char			*pattern;
@@ -70,5 +71,5 @@ static char *globbing(char *arg, int *index)
 	}
 	closedir(dir);
 	free(pattern);
-	return (concatenate_entries(result));
+	return (result);
 }

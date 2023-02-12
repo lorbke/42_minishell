@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:20:36 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/12 14:01:14 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/12 16:15:22 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	**add_matching_entry(char **result, char *entry)
 		new_result = add_first_entry(result, entry);
 	else
 	{
-		new_result = realloc_string_array(result);
+		new_result = realloc_string_array(result, 1);
 		new_result = sort_entries(new_result, entry);
 	}
 	return (new_result);
