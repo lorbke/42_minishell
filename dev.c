@@ -26,23 +26,24 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 
 int main(int argc, char **argv, char **envp)
 {
-	DIR *dir;
-	struct dirent *entry;
+	// DIR *dir;
+	// struct dirent *entry;
 
-	if (argc != 2) {
-		fprintf(stderr, "Usage: %s path\n", argv[0]);
-		return 1;
-	}
-	dir = opendir(argv[1]);
-	if (dir == NULL) {
-		perror("opendir");
-		return 1;
-	}
-	while ((entry = readdir(dir)) != NULL) {
-		if (ft_strnstr(entry->d_name, ".c", strlen(entry->d_name)))
-			printf("%s ", entry->d_name);
-	}
-	printf("\n");
-	closedir(dir);
+	// if (argc != 2) {
+	// 	fprintf(stderr, "Usage: %s path\n", argv[0]);
+	// 	return 1;
+	// }
+	// dir = opendir(argv[1]);
+	// if (dir == NULL) {
+	// 	perror("opendir");
+	// 	return 1;
+	// }
+	// while ((entry = readdir(dir)) != NULL) {
+	// 	if (ft_strnstr(entry->d_name, ".c", strlen(entry->d_name)))
+	// 		printf("%s ", entry->d_name);
+	// }
+	// printf("\n");
+	// closedir(dir);
+	printf("%d\n", strcmp("Makefile", "dev"));
 	return(0);
 }

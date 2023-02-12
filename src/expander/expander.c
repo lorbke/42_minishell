@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:14:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/11 21:16:57 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/12 11:45:28 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,6 @@ static char	*add_char_to_string(char *result, char c, int *index)
 	else
 		arg = ft_realloc(result, ft_strlen(result) + 2);
 	arg[(*index)++] = c;
-	arg[(*index)] = '\0';
+	arg[*index] = '\0';
 	return (arg);
 }
