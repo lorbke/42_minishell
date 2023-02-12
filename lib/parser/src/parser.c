@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/11 17:04:59 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/12 18:17:10 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ t_ast	*parser_tokstack_to_ast(t_stack	**tokstack, char *error_name)
 {
 	t_ast	*ast;
 
-	if (!tokstack)
-		return (NULL);
 	ast = rule_and_or(tokstack);
 	if (*tokstack)
 		print_error((*tokstack)->token->desc, (*tokstack)->token->word, error_name);
