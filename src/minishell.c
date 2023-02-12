@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/12 18:53:17 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/12 18:55:31 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@
 
 static void	print_syntax_error(int desc, char *error_loc)
 {
-	// @note ugly edge case, maybe just remove it?
 	if (desc == TOK_REDIR_IN
 		|| desc == TOK_REDIR_OUT
 		|| desc == TOK_REDIR_APPEND
