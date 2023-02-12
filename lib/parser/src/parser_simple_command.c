@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:53:34 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/08 20:02:30 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/12 18:44:55 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static t_ast	*rule_redirect(t_stack **tokstack)
 {
 	t_ast	*head;
 
-	if (!*tokstack || !is_redirect(*tokstack))
+	if (!*tokstack || !is_redirect(*tokstack) || !is_word((*tokstack)->next))
 		return (NULL);
 	head = create_ast_node((*tokstack)->token);
 	if (!(*tokstack)->next)
@@ -90,7 +90,7 @@ t_ast	*rule_simple_cmd(t_stack **tokstack)
 	redirs_in = NULL;
 	redirs_out = NULL;
 	while (*tokstack && (is_word(*tokstack)
-			|| (is_redirect(*tokstack) && (*tokstack)->next)))
+			|| (is_redirect(*tokstack) && is_word((*tokstack)->next))))
 	{
 		if (*tokstack && ((*tokstack)->token->desc == TOK_REDIR_IN
 				|| (*tokstack)->token->desc == TOK_REDIR_HEREDOC))
