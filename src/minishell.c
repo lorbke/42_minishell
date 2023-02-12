@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/11 19:52:05 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/12 18:53:17 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,25 @@
 // @todo fix bug: overwriting first input when term window is exceeded
 // @todo is not a terminal case handling
 
+#define STR_SYNTAXERR ": syntax error near unexpected token `"
+
+static void	print_syntax_error(int desc, char *error_loc)
+{
+	// @note ugly edge case, maybe just remove it?
+	if (desc == TOK_REDIR_IN
+		|| desc == TOK_REDIR_OUT
+		|| desc == TOK_REDIR_APPEND
+		|| desc == TOK_REDIR_HEREDOC)
+		printf("%s%s%s'\n",
+			SHELL_NAME, STR_SYNTAXERR, "newline");
+	else if (desc == TOK_SUBSHELL)
+		printf("%s%s%s'\n",
+			SHELL_NAME, STR_SYNTAXERR, "(");
+	else
+		printf("%s%s%s'\n",
+			SHELL_NAME, STR_SYNTAXERR, error_loc);
+}
+
 t_ast	*input_to_ast(char *input)
 {
 	t_stack	*tokstack;
@@ -42,10 +61,13 @@ t_ast	*input_to_ast(char *input)
 
 	tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
 	debug_lexer(tokstack);
-	ast = parser_tokstack_to_ast(&tokstack, SHELL_NAME);
+	ast = parser_tokstack_to_ast(&tokstack);
 	debug_parser(ast, tokstack);
 	if (tokstack)
+	{
+		print_syntax_error(tokstack->token->desc, tokstack->token->word);
 		return (NULL);
+	}
 	return (ast);
 }
 
