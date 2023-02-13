@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:29:31 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/13 14:30:35 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/13 17:36:46 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ char	**globber(char **argv)
 	return (expanded_argv);
 }
 
+#include <stdio.h>
+// @note need to pass globbers current result to globbing
+// in order to check if it is a valid direcotry?
+// if so, we call opendir with this value instead of getcwd
 static char **globbing(char *arg, int *index)
 {
 	char			*pwd;
@@ -55,6 +59,9 @@ static char **globbing(char *arg, int *index)
 
 	result = NULL;
 	pwd = getcwd(NULL, 0);
+	// @note find_pattern checks for */
+	// if pattern == */, try to expand to the cwd'subdirectories,
+	// concatenate them to the rest of the pattern, and call
 	pattern = find_pattern(arg, &(*index));
 	dir = opendir(pwd);
 	while (1)
