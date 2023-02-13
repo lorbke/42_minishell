@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 14:33:34 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/08 13:17:30 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/13 13:49:45 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include "../../lib/env/env.h"
 #include <stdlib.h>
 
-// @note all builtins need to receive the same argument(s)
 int	builtin_cd(char **argv);
 int	builtin_pwd(char **argv);
 int	builtin_env(char **argv);

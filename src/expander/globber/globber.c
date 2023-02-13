@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:29:31 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/12 19:05:17 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/13 13:30:11 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ char	**globber(char **argv)
 			j++;
 		}
 		expanded_argv = add_vars(expanded_argv, result, &argv[i]);
-		quote_removal(argv[i]);
 		i++;
 	}
 	expanded_argv = create_new_cmd(expanded_argv, argv);
+	quote_removal(expanded_argv);
 	return (expanded_argv);
 }
 
@@ -62,7 +62,6 @@ static char **globbing(char *arg, int *index)
 		entry = readdir(dir);
 		if (entry == NULL)
 			break ;
-		// skip hidden files, except for .*
 		if (entry->d_name[0] != '.' || ft_strcmp(pattern, ".*") == 0)
 		{
 			if (is_match(entry->d_name, pattern))

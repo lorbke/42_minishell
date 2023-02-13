@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 19:04:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/12 19:09:24 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/13 13:39:54 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	**create_new_cmd(char **expanded_argv, char **argv)
 	return (expanded_argv);
 }
 
-// @note like discussed with luca, *every* arg from the cmd will be copied into the expanded_argv
+// @note as discussed with luca, *every* arg from the cmd will be copied into the expanded_argv
 static char	**add_unglobbed_vars(char **expanded_argv, char **result, char **argv)
 {
 	int i;

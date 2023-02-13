@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 11:31:19 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/12 15:24:31 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/13 08:46:34 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	exec_builtin(t_cmd_table *cmd_table)
 	i = 0;
 	status = -1;
 	cmd = cmd_table->cmd[0];
-	if (!ft_strncmp(cmd, "echo", ft_strlen("echo")))
-		status = builtin_echo(cmd_table->cmd);
-	else if (!ft_strncmp(cmd, "cd", ft_strlen("cd")))
+	// if (!ft_strncmp(cmd, "echo", ft_strlen("echo")))
+	// 	status = builtin_echo(cmd_table->cmd);
+	if (!ft_strncmp(cmd, "cd", ft_strlen("cd")))
 		status = builtin_cd(cmd_table->cmd);
 	else if (!ft_strncmp(cmd, "pwd", ft_strlen("pwd")))
 		status = builtin_pwd(cmd_table->cmd);
@@ -41,9 +41,9 @@ int	exec_builtin(t_cmd_table *cmd_table)
 
 int	is_builtin(char *cmd)
 {
-	if (!ft_strncmp(cmd, "echo", ft_strlen("echo")))
-		return (1);
-	else if (!ft_strncmp(cmd, "cd", ft_strlen("cd")))
+	// if (!ft_strncmp(cmd, "echo", ft_strlen("echo")))
+	// 	return (1);
+	if (!ft_strncmp(cmd, "cd", ft_strlen("cd")))
 		return (1);
 	else if (!ft_strncmp(cmd, "pwd", ft_strlen("pwd")))
 		return (1);

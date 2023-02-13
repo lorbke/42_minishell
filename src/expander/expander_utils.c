@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:47:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/10 08:52:42 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/13 13:22:57 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,19 @@ static int	get_var_len(char *var);
 char	*get_var(char *arg, int *index)
 {
 	int		i;
+	int		len;
 	char	*var;
 
 	i = 0;
-	while (arg[i] && ft_isalpha(arg[i]) || arg[i] == '_')
-		i++;
+	if (arg[i] && (ft_isalpha(arg[i]) || arg[i] == '_'))
+	{
+		while (arg[i] && (ft_isalnum(arg[i]) || arg[i] == '_'))
+			i++;
+	}
 	if (i == 0)
 		return (NULL);
-	var = (char *)malloc(sizeof(char) * (i + 1));
-	i = 0;
-	while (arg[i] && ft_isalnum(arg[i]) || arg[i] == '_')
-	{
-		var[i] = arg[i];
-		i++;
-	}
-	var[i] = '\0';
+	var = malloc(sizeof(char) * (i + 1));
+	ft_strlcpy(var, arg,  (i + 1));
 	*index += i;
 	return (var);
 }
@@ -54,7 +52,7 @@ char	*expand_var(char *arg)
 			len = get_var_len(temp->var);
 		if (ft_strncmp(arg, temp->var, len) == 0)
 		{
-			value = ft_strchr(temp->var, '=') + 1;
+			value = ft_strdup(ft_strchr(temp->var, '=') + 1);
 			break ;
 		}
 		temp = temp->next;
@@ -62,25 +60,20 @@ char	*expand_var(char *arg)
 	return (value);
 }
 
-char	*add_expanded_var(char *result, char *var, int *index)
+char	*add_expanded_var(char *result, char *var, int *result_index)
 {
 	int		i;
-	int		len;
 	char	*arg;
 
 	i = 0;
-	len = 0;
-	if (!result)
-		arg = malloc(sizeof(char) * (ft_strlen(var) + 1));
+	if (result == NULL)
+		arg = ft_strdup(var);
 	else
 	{
-		arg = ft_realloc(result, ft_strlen(result) + ft_strlen(var));
-		len = ft_strlen(arg);
+		arg = ft_realloc(result, ft_strlen(result) + ft_strlen(var) + 1);
+		ft_strlcat(arg, var, ft_strlen(arg) + ft_strlen(var) + 1);
 	}
-	while (var[i])
-		arg[len++] = var[i++];
-	arg[len] = '\0';
-	*index = ft_strlen(var);
+	*result_index = ft_strlen(arg);
 	return (arg);
 }
 

@@ -6,27 +6,27 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:38:45 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/10 19:19:08 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/13 13:28:54 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // ft_strlen, malloc
 #include "expander_private.h" // ft_realloc
 
-void	quote_removal(char *str)
+static void	remove_quotes(char *str);
+
+void	quote_removal(char **argv)
 {
 	int	i;
-	int	j;
 
+	if (argv == NULL)
+		return ;
 	i = 0;
-	j = 0;
-	while (str[i])
+	while (argv[i])
 	{
-		if (str[i] != '\'' && str[i] != '\"')
-			str[j++] = str[i];
+		remove_quotes(argv[i]);
 		i++;
 	}
-	str[j] = '\0';
 }
 
 // @note needs to be tested if quotes are implemented in parser
@@ -42,11 +42,12 @@ char*	handle_quotes(char *result, char *str, int *index, int *result_index)
 	if (!result)
 		arg = malloc(sizeof(char) * str_len + 1);
 	else
-		arg = ft_realloc(result, ft_strlen(result) + str_len);
+		arg = ft_realloc(result, ft_strlen(result) + str_len + 1);
 	i = 0;
 	while (i < str_len)
 	{
-		arg[i] = str[i];
+		// @note result_index or i as index for arg?
+		arg[*result_index] = str[i];
 		i++;
 		(*result_index)++;
 	}
@@ -71,4 +72,20 @@ int	find_closing_quote(char *str, int *index, char quote_type)
 		(*index)++;
 	}
 	return (str_len);
+}
+
+static void	remove_quotes(char *str)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] != '\'' && str[i] != '\"')
+			str[j++] = str[i];
+		i++;
+	}
+	str[j] = '\0';
 }
