@@ -6,10 +6,11 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 11:31:19 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/13 08:46:34 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/13 14:25:07 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../utils.h"
 #include "../builtins.h"
 #include "builtins_private.h"
 
@@ -24,17 +25,17 @@ int	exec_builtin(t_cmd_table *cmd_table)
 	cmd = cmd_table->cmd[0];
 	// if (!ft_strncmp(cmd, "echo", ft_strlen("echo")))
 	// 	status = builtin_echo(cmd_table->cmd);
-	if (!ft_strncmp(cmd, "cd", ft_strlen("cd")))
+	if (!ft_strcmp(cmd, "cd"))
 		status = builtin_cd(cmd_table->cmd);
-	else if (!ft_strncmp(cmd, "pwd", ft_strlen("pwd")))
+	else if (!ft_strcmp(cmd, "pwd"))
 		status = builtin_pwd(cmd_table->cmd);
-	else if (!ft_strncmp(cmd, "export", ft_strlen("export")))
+	else if (!ft_strcmp(cmd, "export"))
 		status = builtin_export(cmd_table->cmd);
-	else if (!ft_strncmp(cmd, "unset", ft_strlen("unset")))
+	else if (!ft_strcmp(cmd, "unset"))
 		status = builtin_unset(cmd_table->cmd);
-	else if (!ft_strncmp(cmd, "env", ft_strlen("env")))
+	else if (!ft_strcmp(cmd, "env"))
 		status = builtin_env(cmd_table->cmd);
-	else if (!ft_strncmp(cmd, "exit", ft_strlen("exit")))
+	else if (!ft_strcmp(cmd, "exit"))
 		status = builtin_exit(cmd_table->cmd);
 	return (status);
 }
@@ -43,17 +44,17 @@ int	is_builtin(char *cmd)
 {
 	// if (!ft_strncmp(cmd, "echo", ft_strlen("echo")))
 	// 	return (1);
-	if (!ft_strncmp(cmd, "cd", ft_strlen("cd")))
+	if (!ft_strcmp(cmd, "cd"))
 		return (1);
-	else if (!ft_strncmp(cmd, "pwd", ft_strlen("pwd")))
+	else if (!ft_strcmp(cmd, "pwd"))
 		return (1);
-	else if (!ft_strncmp(cmd, "export", ft_strlen("export")))
+	else if (!ft_strcmp(cmd, "export"))
 		return (1);
-	else if (!ft_strncmp(cmd, "unset", ft_strlen("unset")))
+	else if (!ft_strcmp(cmd, "unset"))
 		return (1);
-	else if (!ft_strncmp(cmd, "env", ft_strlen("env")))
+	else if (!ft_strcmp(cmd, "env"))
 		return (1);
-	else if (!ft_strncmp(cmd, "exit", ft_strlen("exit")))
+	else if (!ft_strcmp(cmd, "exit"))
 		return (1);
 	return (0);
 }

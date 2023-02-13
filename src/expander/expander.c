@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:14:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/13 13:23:27 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/13 14:56:38 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 #include "expander_private.h" // ft_realloc, expand_var, get_var, add_expanded_var, handle_single_quotes, quote_removal
 
 static char	*try_expansion(char *result, char *arg, int *index, int *result_index);
+static char	*evaluate_char(char *result, char *arg, int *index, int *result_index);
 static char	*add_char_to_string(char *result, char c, int *index, int *result_index);
+static char	*tilde_expansion(char *result, char *arg, int *index, int *result_index);
 
 char	**expander(char **argv)
 {
@@ -32,19 +34,25 @@ char	**expander(char **argv)
 		j = 0;
 		result_index = 0;
 		while (argv[i][j])
-		{
-			if (argv[i][j] == '$')
-				result = try_expansion(result, argv[i], &j, &result_index);
-			else if (argv[i][j] == '\'')
-				result = handle_quotes(result, argv[i], &j, &result_index);
-			else
-				result = add_char_to_string(result, argv[i][j], &j, &result_index);
-		}
+			result = evaluate_char(result, argv[i], &j, &result_index);
 		argv[i] = result;
 		i++;
 	}
 	argv = globber(argv);
 	return (argv);
+}
+
+static char	*evaluate_char(char *result, char *arg, int *index, int *result_index)
+{
+	if (arg[*index] == '$')
+		result = try_expansion(result, arg, &(*index), &(*result_index));
+	else if (arg[*index] == '\'')
+		result = handle_quotes(result, arg, &(*index), &(*result_index));
+	else if (arg[*index] == '~')
+		result = tilde_expansion(result, arg, &(*index), &(*result_index));
+	else
+		result = add_char_to_string(result, arg[*index], &(*index), &(*result_index));
+	return (result);
 }
 
 static char *try_expansion(char *result, char *arg, int *index, int *result_index)
@@ -66,6 +74,23 @@ static char *try_expansion(char *result, char *arg, int *index, int *result_inde
 	}
 	free(var);
 	return (expanded_var);
+}
+
+static char	*tilde_expansion(char *result, char *arg, int *index, int *result_index)
+{
+	char	*home;
+	char	*expanded_home;
+
+	if (result != NULL || arg[*index + 1] != '\0')
+	{
+		expanded_home = add_char_to_string(result, '~', &(*index), &(*result_index));
+		return (expanded_home);
+	}
+	home = expand_var("HOME");
+	expanded_home = add_expanded_var(result, home, &(*result_index));
+	free(home);
+	(*index)++;
+	return (expanded_home);
 }
 
 static char	*add_char_to_string(char *result, char c, int *index, int *result_index)

@@ -6,13 +6,13 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:13:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/08 13:07:30 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/13 14:19:58 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // g_sym_table
 #include "libft.h" // ft_strchr, ft_strjoin, ft_strdup, ft_strlen, ft_strncmp
-#include "../free.h" // free_list
+#include "../utils.h" // free_list
 #include "lib/env/src/env_private.h" // add_to_back, new_sym_tab_node
 #include <stdio.h> // printf
 
