@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:14:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/13 14:56:38 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/13 17:55:06 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,12 @@ char	**expander(char **argv)
 {
 	int		i;
 	int		j;
+	int		k;
 	int		result_index;
 	char	*result;
 
 	i = 1;
+	k = 1;
 	while (argv[i])
 	{
 		result = NULL;
@@ -35,9 +37,14 @@ char	**expander(char **argv)
 		result_index = 0;
 		while (argv[i][j])
 			result = evaluate_char(result, argv[i], &j, &result_index);
-		argv[i] = result;
+		if (result != NULL)
+		{
+			argv[k] = result;
+			k++;
+		}
 		i++;
 	}
+	argv[k] = NULL;
 	argv = globber(argv);
 	return (argv);
 }
