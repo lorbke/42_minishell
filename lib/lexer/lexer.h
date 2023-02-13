@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:05:04 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/08 18:50:04 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/13 14:21:32 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ which will be useful during the execution phase. */
 typedef struct s_token
 {
 	char			*word;
-	unsigned int	desc;
+	unsigned char	desc;
 }	t_token;
 
 typedef struct s_stack
