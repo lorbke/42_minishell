@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/11 18:23:37 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/13 18:32:51 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 // @todo integrate expander
 // @todo fix cat | ls case
 
-void	print_error(char exit_status, char *error_loc)
+void	print_error(t_status exit_status, char *error_loc)
 {
 	if (exit_status == EXEC_CMDNOTFOUND)
 		printf("%s: %s: command not found\n", SHELL_NAME, error_loc);
@@ -64,14 +64,12 @@ static void	close_unclosed(t_ast *ast)
 	}
 }
 
-char	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
+// @todo cat /dev/random prints error message when it shouldn't
+t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
 {
 	t_cmd_table	*cmd_table;
 	pid_t		pid;
-	int			status;
 
-	if (!ast)
-		return (EXEC_SUCCESS);
 	exit_status_set(EXEC_SUCCESS);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
@@ -82,12 +80,10 @@ char	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
 	if (!cmd_table)
 		return (exit_status_get());
 	pid = exec_cmd(cmd_table);
-	if (pid == -1)
-	{
-		print_error(exit_status_get(), cmd_table->cmd[0]);
-		return (exit_status_get());
-	}
-	waitpid(pid, &status, 0);
-	exit_status_set(WEXITSTATUS(status));
+	if (pid != -1)
+		wait_pid_and_set_exit(pid);
+	print_error(exit_status_get(), cmd_table->cmd[0]);
+	while (wait(NULL) > 0)
+		;
 	return (exit_status_get());
 }

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/12 18:55:31 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/13 18:29:39 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,19 @@ t_ast	*input_to_ast(char *input)
 	return (ast);
 }
 
-char	process_input(char *input, int fd_in, int fd_out)
+t_status	process_input(char *input, int fd_in, int fd_out)
 {
-	char	exit_status;
-	t_ast	*ast;
+	t_status	exit_status;
+	t_ast		*ast;
 
 	ast = input_to_ast(input);
 	if (!ast)
+	{
+		// printf("-----exit status: %d\n", EXEC_SYNTAXERR);
 		return (EXEC_SYNTAXERR);
+	}
 	exit_status = executer_exec_ast(ast, fd_in, fd_out);
-	printf("-----exit status: %d\n", (int)exit_status);
+	// printf("-----exit status: %d\n", exit_status);
 	return (exit_status);
 }
 

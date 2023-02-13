@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:12:31 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/11 17:00:52 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/13 18:25:13 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,18 @@ t_cmd_table	*create_cmd_table(t_ast *ast)
 	return (cmd_table);
 }
 
-pid_t	exec_subshell(t_cmd_table *cmd_table)
+void	wait_pid_and_set_exit(pid_t pid)
+{
+	int	status;
+
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		exit_status_set(WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		exit_status_set(EXEC_SIGNAL + WTERMSIG(status));
+}
+
+static pid_t	exec_subshell(t_cmd_table *cmd_table)
 {
 	pid_t	pid;
 	int		status;
@@ -90,7 +101,5 @@ pid_t	exec_cmd(t_cmd_table *cmd_table)
 	dup2(cmd_table->fd_in, STDIN_FILENO);
 	dup2(cmd_table->fd_out, STDOUT_FILENO);
 	status = execve(path, cmd_table->cmd, environ);
-	close(cmd_table->fd_in);
-	close(cmd_table->fd_out);
-	exit(status);
+	return (pid);
 }

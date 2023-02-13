@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:30:24 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/13 15:12:29 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/13 18:05:51 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ t_cmd_table	*handle_and(t_ast *ast)
 		return (NULL);
 	}
 	if (pid_l != -1)
-	{
-		waitpid(pid_l, &status, 0);
-		exit_status_set(WEXITSTATUS(status));
-	}
+		wait_pid_and_set_exit(pid_l);
 	if (exit_status_get() == EXEC_SUCCESS)
 	{
 		cmd_table_r = g_func_handle_arr[ast->right->token->desc](ast->right);
@@ -58,10 +55,7 @@ t_cmd_table	*handle_or(t_ast *ast)
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
 	pid_l = exec_cmd(cmd_table_l);
 	if (pid_l != -1)
-	{
-		waitpid(pid_l, &status, 0);
-		exit_status_set(WEXITSTATUS(status));
-	}
+		wait_pid_and_set_exit(pid_l);
 	if (exit_status_get() != EXEC_SUCCESS)
 	{
 		print_error(exit_status_get(), cmd_table_l->cmd[0]);

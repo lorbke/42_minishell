@@ -6,13 +6,14 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:14:20 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/11 16:03:07 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/13 18:21:52 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTER_PRIVATE_H
 # define EXECUTER_PRIVATE_H
 
+# include "../executer.h" // t_status
 # include "parser.h" // t_ast
 # include <sys/types.h> // pid_t
 
@@ -37,6 +38,7 @@ t_cmd_table	*handle_cmd(t_ast *ast);
 
 // utils
 pid_t		exec_cmd(t_cmd_table *cmd_table);
+void		wait_pid_and_set_exit(pid_t pid);
 t_cmd_table	*create_cmd_table(t_ast *ast);
 
 // heredoc
@@ -48,9 +50,9 @@ void		heredoc_small(char *line, int fd_write);
 char		*get_cmd_path(char **env, char *cmd);
 
 // exit_status
-char		exit_status_get(void);
-void		exit_status_set(char exit_status);
-void		print_error(char exit_status, char *error_loc);
+t_status	exit_status_get(void);
+void		exit_status_set(t_status exit_status);
+void		print_error(t_status exit_status, char *error_loc);
 
 static const t_func_handle	g_func_handle_arr[]
 	= {
