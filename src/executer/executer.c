@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/14 13:25:14 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/14 17:30:13 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,22 @@
 // @todo subshell
 // @todo integrate expander
 // @todo fix cat | ls case
+// @todo errors into stderr
 
 void	print_error(t_status exit_status, char *error_loc)
 {
 	if (exit_status == EXEC_CMDNOTFOUND)
 		printf("%s: %s: command not found\n", SHELL_NAME, error_loc);
+	else if (exit_status >= EXEC_SIGNAL && exit_status <= EXEC_SIGNAL + 9)
+		return ;
 	else if (exit_status != EXEC_SUCCESS
-		&& exit_status != EXEC_SYNTAXERR
-		&& exit_status <= EXEC_SIGNAL
-		|| exit_status > EXEC_SIGNAL + 9)
+		&& exit_status != EXEC_SYNTAXERR)
 		printf("%s: %s: %s\n", SHELL_NAME, error_loc, strerror(errno));
 }
 
 // @todo free unclosed ast
 // @note unclosed handling still ot like bash, e.g. history
-static void	close_unclosed(t_ast *ast)
+static void	close_unclosed_branches(t_ast *ast)
 {
 	char	*heredoc;
 	t_ast	*heredoc_ast;
@@ -62,7 +63,7 @@ static void	close_unclosed(t_ast *ast)
 		if (!heredoc_ast && exit_status_get() == EXEC_SUCCESS)
 			exit_status_set(EXEC_SYNTAXERR);
 		free(heredoc);
-		close_unclosed(heredoc_ast);
+		close_unclosed_branches(heredoc_ast);
 		ast->right = heredoc_ast;
 	}
 }
@@ -76,7 +77,7 @@ t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
 	exit_status_set(EXEC_SUCCESS);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
-	close_unclosed(ast);
+	close_unclosed_branches(ast);
 	if (exit_status_get() != EXEC_SUCCESS)
 		return (exit_status_get());
 	cmd_table = g_func_handle_arr[ast->token->desc](ast);
@@ -85,8 +86,9 @@ t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
 	pid = exec_cmd(cmd_table);
 	if (pid != -1)
 		wait_pid_and_set_exit(pid);
-	print_error(exit_status_get(), cmd_table->cmd[0]);
-	while (wait(NULL) > 0)
+	if (exit_status_get() != EXEC_GENERALERR)
+		print_error(exit_status_get(), cmd_table->cmd[0]);
+	while (waitpid(-1, NULL, WUNTRACED) != -1)
 		;
 	return (exit_status_get());
 }

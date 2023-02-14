@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 18:16:59 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/11 18:17:03 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/14 14:52:10 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	get_heredoc(void (*heredoc_type)(char *, int), char *limiter)
 	int		status;
 	pid_t	pid;
 
-	mssignal_change_mode(MSSIG_NHDOC);
 	pipe(fd);
 	pid = fork();
 	if (pid == 0)
@@ -73,7 +72,6 @@ int	get_heredoc(void (*heredoc_type)(char *, int), char *limiter)
 	else
 	{
 		waitpid(pid, &status, 0);
-		mssignal_change_mode(MSSIG_STD);
 		exit_status_set(WEXITSTATUS(status));
 		close(fd[1]);
 	}

@@ -6,23 +6,21 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/13 18:29:39 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/14 17:14:34 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h" // macros
-#include "mssignal.h" // init_signals
+#include "mssignal.h" // mssignal_change_mode
 #include "lexer.h" // lexer_str_to_tokstack
 #include "parser.h" // parser_tokstack_to_ast
 #include "executer.h" // executer_exec_ast
 #include "debugger.h" // debug
 #include "libft.h" // ft_strncmp
-#include <termios.h> // termios functions and struct
 #include <unistd.h> // file descriptor macros
 #include <stdio.h> // printf
 #include <readline/readline.h> // readline
 #include <readline/history.h> // add_history
-#include <stdbool.h> // bool
 
 // @todo free the ast and the tokstack
 // @todo test if all fds are closed
@@ -81,7 +79,9 @@ t_status	process_input(char *input, int fd_in, int fd_out)
 		// printf("-----exit status: %d\n", EXEC_SYNTAXERR);
 		return (EXEC_SYNTAXERR);
 	}
+	mssignal_change_mode(MSSIG_EXEC);
 	exit_status = executer_exec_ast(ast, fd_in, fd_out);
+	mssignal_change_mode(MSSIG_INTER);
 	// printf("-----exit status: %d\n", exit_status);
 	return (exit_status);
 }
@@ -91,6 +91,7 @@ void	rep_loop(void)
 {
 	char	*line;
 
+	mssignal_change_mode(MSSIG_INTER);
 	while (1)
 	{
 		line = readline(PROMPT);
@@ -106,28 +107,8 @@ void	rep_loop(void)
 	rl_clear_history();
 }
 
-/* Initializes the terminal settings according to mode. */
-static int	init_termios(bool mode)
+int	main(void)
 {
-	struct termios	term_set;
-
-	if (tcgetattr(STDIN_FILENO, &term_set) == -1)
-		return (EXIT_FAILURE);
-	if (mode)
-		term_set.c_lflag &= ~ECHOCTL; // this will prevent ^C from being printed (bitwise NOT)
-	else
-		term_set.c_lflag |= ECHOCTL; // restore ^C printing
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &term_set) == -1) // TCSANOW: change attributes immediately
-		return (EXIT_FAILURE);
-	debug_print_termios(&term_set);
-	return (0);
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	if (init_termios(true) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	mssignal_change_mode(MSSIG_STD);
 	if (isatty(STDIN_FILENO)) // check if stdin is a terminal
 		rep_loop();
 	// else put input directly from STDIN to parser, executer etc

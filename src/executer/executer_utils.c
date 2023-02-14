@@ -6,13 +6,14 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:12:31 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/13 18:25:13 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/14 17:26:29 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer_private.h" // cmd_table
 #include "../executer.h" // EXEC_* defines
 #include "../minishell.h" // process_input
+#include "../mssignal.h" // mssignal_change_mode
 #include "parser.h" // t_ast
 #include "lexer.h" // TOK_* defines
 #include "libft.h" // ft_strlen, ft_strncmp
@@ -61,7 +62,11 @@ void	wait_pid_and_set_exit(pid_t pid)
 	if (WIFEXITED(status))
 		exit_status_set(WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
+	{
 		exit_status_set(EXEC_SIGNAL + WTERMSIG(status));
+		if (WTERMSIG(status) == SIGQUIT)
+			write(STDOUT_FILENO, "Quit: 3\n", 8);
+	}
 }
 
 static pid_t	exec_subshell(t_cmd_table *cmd_table)
@@ -98,6 +103,7 @@ pid_t	exec_cmd(t_cmd_table *cmd_table)
 	pid = fork();
 	if (pid != 0)
 		return (pid);
+	mssignal_change_mode(MSSIG_NINTER);
 	dup2(cmd_table->fd_in, STDIN_FILENO);
 	dup2(cmd_table->fd_out, STDOUT_FILENO);
 	status = execve(path, cmd_table->cmd, environ);
