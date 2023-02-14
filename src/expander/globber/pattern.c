@@ -6,11 +6,12 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:17:44 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/12 13:48:31 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/14 19:37:47 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h" // malloc, ft_strlen
+#include "libft.h" // malloc, ft_strlen, ft_strjoin
+#include "../expander_private.h" // realloc_string_array
 
 static void	check_char(char **arg, char **pattern, int *astrisk_control);
 static void	get_next_pattern_char(char *entry, char *pattern, int *index, char *match);
@@ -61,6 +62,27 @@ int	is_match(char *entry, char *pattern)
 		(entry[i - 1] == match || match == '*'))
 		return (1);
 	return (0);
+}
+
+char	**pattern_over(char **result, char *entry, char *path)
+{
+	int		i;
+	char	**new_result;
+
+	i = 0;
+	if (result != NULL)
+	{
+		while (result[i] != NULL)
+			i++;
+		new_result = realloc_string_array(result, 2);
+	}
+	else
+		new_result = malloc(sizeof(char *) * 2);
+	new_result[i] = ft_strjoin(path, entry);
+	new_result[i] = ft_strjoin(new_result[i], "/");
+	new_result[i + 1] = NULL;
+	result = new_result;
+	return (result);
 }
 
 static void	check_char(char **arg, char **pattern, int *astrisk_control)

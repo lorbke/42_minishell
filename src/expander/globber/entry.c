@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:20:36 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/14 08:18:19 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/14 19:31:45 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,38 @@ char	**add_matching_entry(char **result, char *entry)
 		new_result = sort_entries(new_result, entry);
 	}
 	return (new_result);
+}
+
+// @note need to be shortened
+char	**get_matching_entries(char *path, char *pattern, char **result)
+{
+	char			*pwd;
+	DIR				*dir;
+	struct dirent	*entry;
+
+	pwd = getcwd(NULL, 0);
+	if (path)
+		dir = opendir(path);
+	else
+		dir = opendir(pwd);
+	while (1)
+	{
+		entry = readdir(dir);
+		if (entry == NULL)
+			break ;
+		if (entry->d_name[0] != '.' || ft_strcmp(pattern, ".*") == 0)
+		{
+			if (is_match(entry->d_name, pattern))
+			{
+				if (path)
+					result = add_matching_entry(result, ft_strjoin(path, entry->d_name));
+				else
+					result = add_matching_entry(result, entry->d_name);
+			}
+		}
+	}
+	closedir(dir);
+	return (result);
 }
 
 static char	**add_first_entry(char **result, char *entry)
