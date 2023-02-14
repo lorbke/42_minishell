@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/13 18:32:51 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/14 13:25:14 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ void	print_error(t_status exit_status, char *error_loc)
 	if (exit_status == EXEC_CMDNOTFOUND)
 		printf("%s: %s: command not found\n", SHELL_NAME, error_loc);
 	else if (exit_status != EXEC_SUCCESS
-			&& exit_status != EXEC_SYNTAXERR
-			&& exit_status <= EXEC_SIGNAL
-			|| exit_status >= EXEC_SIGNAL + 9)
+		&& exit_status != EXEC_SYNTAXERR
+		&& exit_status <= EXEC_SIGNAL
+		|| exit_status > EXEC_SIGNAL + 9)
 		printf("%s: %s: %s\n", SHELL_NAME, error_loc, strerror(errno));
 }
 
@@ -72,7 +72,7 @@ t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
 	t_cmd_table	*cmd_table;
 	pid_t		pid;
 
-	errno = EXEC_SUCCESS;
+	errno = 0;
 	exit_status_set(EXEC_SUCCESS);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
