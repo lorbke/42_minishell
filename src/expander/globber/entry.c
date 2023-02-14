@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:20:36 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/13 13:45:18 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/14 08:18:19 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static char	**sort_entries(char **result, char *entry)
 	result[len + 1] = NULL;
 	while (result[i])
 	{
-		// @note write own strcmp
 		if (ft_strcmp(entry, result[i]) < 0)
 			break ;
 		i++;
