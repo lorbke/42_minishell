@@ -37,7 +37,10 @@ void	print_error(t_status exit_status, char *error_loc)
 {
 	if (exit_status == EXEC_CMDNOTFOUND)
 		printf("%s: %s: command not found\n", SHELL_NAME, error_loc);
-	else if (exit_status != EXEC_SUCCESS)
+	else if (exit_status != EXEC_SUCCESS
+			&& exit_status != EXEC_SYNTAXERR
+			&& exit_status <= EXEC_SIGNAL
+			|| exit_status >= EXEC_SIGNAL + 9)
 		printf("%s: %s: %s\n", SHELL_NAME, error_loc, strerror(errno));
 }
 
@@ -64,12 +67,12 @@ static void	close_unclosed(t_ast *ast)
 	}
 }
 
-// @todo cat /dev/random prints error message when it shouldn't
 t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
 {
 	t_cmd_table	*cmd_table;
 	pid_t		pid;
 
+	errno = EXEC_SUCCESS;
 	exit_status_set(EXEC_SUCCESS);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
