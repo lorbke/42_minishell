@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:20:36 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/14 19:31:45 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 09:03:24 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,15 @@ char	**add_matching_entry(char **result, char *entry)
 	return (new_result);
 }
 
-// @note need to be shortened
 char	**get_matching_entries(char *path, char *pattern, char **result)
 {
-	char			*pwd;
 	DIR				*dir;
 	struct dirent	*entry;
 
-	pwd = getcwd(NULL, 0);
 	if (path)
 		dir = opendir(path);
 	else
-		dir = opendir(pwd);
+		dir = opendir(getcwd(NULL, 0));
 	while (1)
 	{
 		entry = readdir(dir);

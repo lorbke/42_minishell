@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/14 19:35:38 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 09:08:49 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ char	**globbing_outside_cwd(char *path, char *pattern, char **result)
 		new_path = ft_substr(pattern, 0, i + 1);
 		new_pattern = ft_substr(pattern, i + 1, ft_strlen(pattern));
 		if (ft_strcmp(new_path, "*/") == 0)
-		{
 			result = iterate_over_dir(path, new_pattern, result);
-			return (result);
-		}
 		else
+		{
+			path = ft_strjoin(path, new_path);
 			result = expand_in_valid_path(path, new_pattern, result);
+		}
 	}
 	else
 		result = get_matching_entries(path, pattern, result);
@@ -53,7 +53,6 @@ char	**check_for_path(char *pattern, char **result)
 	char			*new_pattern;
 
 	i = 0;
-	result = NULL;
 	while (pattern[i] != '\0' && pattern[i] != '/')
 		i++;
 	if (pattern[i] == '/')
@@ -65,43 +64,35 @@ char	**check_for_path(char *pattern, char **result)
 		else
 		{
 			if (stat(new_path, &buf) == 0)
-			{
-				new_pattern = ft_substr(pattern, i + 1, ft_strlen(pattern));
 				result = globbing_outside_cwd(new_path, new_pattern, result);
-			}
 		}
 	}
 	return (result);
 }
 
-// @note need to be shortened
 static char	**iterate_over_dir(char *path, char *pattern, char **result)
 {
 	DIR				*dir;
-	char			*pwd;
 	char			*new_path;
 	struct dirent	*entry;
 
-	pwd = path;
-	dir = opendir(pwd);
+	dir = opendir(path);
 	while (1)
 	{
 		entry = readdir(dir);
 		if (entry == NULL)
 			break ;
-		if (entry->d_name[0] != '.' || ft_strcmp(pattern, ".*") == 0)
+		if ((entry->d_name[0] != '.' || ft_strcmp(pattern, ".*") == 0)
+			&& entry->d_type == DT_DIR)
 		{
-			if (entry->d_type == DT_DIR)
+			if (pattern[0] == '\0')
+				result = pattern_over(result, entry->d_name, path);
+			else
 			{
-				if (pattern[0] == '\0')
-					result = pattern_over(result, entry->d_name, path);
-				else
-				{
-					new_path = ft_strjoin(path, entry->d_name);
-					new_path = ft_strjoin(new_path, "/");
-					result = globbing_outside_cwd(new_path, pattern, result);
-					free(new_path);
-				}
+				// @note I am sure this will leak, because of the inner strjoin
+				new_path = ft_strjoin(ft_strjoin(path, entry->d_name), "/");
+				result = globbing_outside_cwd(new_path, pattern, result);
+				free(new_path);
 			}
 		}
 	}
@@ -112,22 +103,20 @@ static char	**iterate_over_dir(char *path, char *pattern, char **result)
 static char	**expand_in_valid_path(char *path, char *pattern, char **result)
 {
 	struct stat		buf;
-	char			*new_path;
 
-	new_path = ft_strjoin(path, new_path);
-	if (stat(new_path, &buf) == 0)
-		result = globbing_outside_cwd(new_path, pattern, result);
+	if (stat(path, &buf) == 0)
+		result = globbing_outside_cwd(path, pattern, result);
+	free(path);
 	return (result);
 }
 
 static char	**expand_cwd_dir(char *path, char *pattern, char **result)
 {
 	DIR				*dir;
-	char			*pwd;
 	struct dirent	*entry;
 
-	pwd = getcwd(NULL, 0);
-	dir = opendir(pwd);
+	// @note need to protect/check if dir == NULL?
+	dir = opendir(getcwd(NULL, 0));
 	while (1)
 	{
 		entry = readdir(dir);
@@ -135,14 +124,12 @@ static char	**expand_cwd_dir(char *path, char *pattern, char **result)
 			break ;
 		if (entry->d_name[0] != '.' || ft_strcmp(pattern, ".*") == 0)
 		{
+			path = ft_strjoin(entry->d_name, "/");
 			if (entry->d_type == DT_DIR && pattern[0] != '\0')
-			{
-				path = ft_strjoin(entry->d_name, "/");
 				result = globbing_outside_cwd(path, pattern, result);
-				free(path);
-			}
 			else if (entry->d_type == DT_DIR)
-				result = add_matching_entry(result, ft_strjoin(entry->d_name, "/"));
+				result = add_matching_entry(result, path);
+			free(path);
 		}
 	}
 	closedir(dir);

@@ -6,16 +6,16 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:22:03 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/14 19:34:20 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 07:34:29 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GLOBBER_H
 # define GLOBBER_H
 
-#include <dirent.h>
-#include <sys/stat.h>
-#include <sys/types.h>
+#include <dirent.h> // opendir, readdir, closedir
+#include <sys/stat.h> // stat
+#include <sys/types.h> // stat
 
 // globbing
 char	**globber(char **argv);

@@ -6,16 +6,13 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:29:31 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/14 19:34:40 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 10:06:50 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // NULL
 #include "globber.h" // globbing, is_match, concatentate_entries, add_matching_entries, find_pattern, opendir, readdir, closedir
 #include "../expander_private.h" // find_closing_quote, quote_removal
-#include <stdio.h>
-#include <sys/stat.h>
-#include <sys/types.h>
 
 static char	**globbing(char *arg, int *index);
 
@@ -53,10 +50,10 @@ static char **globbing(char *arg, int *index)
 	char	*pattern;
 	char	**result;
 
+	result = NULL;
 	pattern = find_pattern(arg, &(*index));
 	result = check_for_path(pattern, result);
 	if (ft_strcmp(pattern, "*/") != 0)
 		result = get_matching_entries(NULL, pattern, result);
-	free(pattern);
 	return (result);
 }
