@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:37:35 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/14 17:14:15 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/15 15:07:15 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ static void	handle_ctrlc_heredoc(int signal)
 	exit(EXEC_GENERALERR);
 }
 
-/* Because of the way bash handles ^C, 
-a new line needs to be printed when a command is interrupted. */
-static void	handle_ctrlc_exec(int signal)
-{
-	write(STDOUT_FILENO, "\n", 1);
-}
+// /* Because of the way bash handles ^C, 
+// a new line needs to be printed when a command is interrupted. */
+// static void	handle_ctrlc_exec(int signal)
+// {
+// 	write(STDOUT_FILENO, "\n", 1);
+// }
 
 /* Initializes the terminal settings according to interactive parameter. */
 static int	set_termios(bool interactive)
@@ -83,6 +83,6 @@ void	mssignal_change_mode(char mode)
 	{
 		set_termios(true);
 		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, handle_ctrlc_exec);
+		signal(SIGINT, SIG_IGN);
 	}
 }

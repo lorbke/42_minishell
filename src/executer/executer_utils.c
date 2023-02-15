@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:12:31 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/14 18:56:35 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/15 15:08:03 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void	wait_pid_and_set_exit(pid_t pid)
 	{
 		exit_status_set(EXEC_SIGNAL + WTERMSIG(status));
 		if (WTERMSIG(status) == SIGQUIT)
-			write(STDOUT_FILENO, "Quit: 3\n", 8);
+			write(STDOUT_FILENO, "Quit: 3", 7);
+		write(STDOUT_FILENO, "\n", 1);
 	}
 }
 
@@ -107,5 +108,5 @@ pid_t	exec_cmd(t_cmd_table *cmd_table)
 	dup2(cmd_table->fd_in, STDIN_FILENO);
 	dup2(cmd_table->fd_out, STDOUT_FILENO);
 	status = execve(path, cmd_table->cmd, environ);
-	return (pid);
+	exit(status);
 }
