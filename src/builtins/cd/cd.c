@@ -6,19 +6,17 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:50:47 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/08 11:52:59 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 13:14:48 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // t_sym_tab
 #include "libft.h" // ft_strncmp, ft_strlen
 #include "cd_private.h" // set_path, get_path, check_prev_dir, check_for_dots
+#include "../../utils.h" // ft_strcmp
 #include <stdio.h> // printf
-#include <errno.h> // errno
 #include <string.h> // strerror
 #include <unistd.h> // chdir, getcwd
-
-//@note ~ will be part of the general variable expansion
 
 static void	handle_dash(char *oldpwd);
 static void	handle_dots(char *path);
@@ -30,12 +28,12 @@ int	builtin_cd(char **argv)
 	t_sym_tab	*temp;
 
 	if (argv[1] == NULL)
-		return (errno);
+		return (1);
 	path = argv[1];
 	oldpwd = getcwd(NULL, 0);
-	if (ft_strncmp(path, "-", ft_strlen("-")) == 0)
+	if (ft_strcmp(path, "-") == 0)
 		handle_dash(oldpwd);
-	else if (ft_strncmp(path, "..", ft_strlen("..")) == 0)
+	else if (ft_strcmp(path, "..") == 0)
 		handle_dots(argv[1]);
 	else
 	{
@@ -47,7 +45,7 @@ int	builtin_cd(char **argv)
 		set_path("OLDPWD", oldpwd);
 	}
 	set_path("PWD", getcwd(NULL, 0));
-	return (errno);
+	return (0);
 }
 
 static void	handle_dash(char *oldpwd)
@@ -58,7 +56,7 @@ static void	handle_dash(char *oldpwd)
 	temp = *g_sym_table;
 	while (temp)
 	{
-		if (ft_strncmp(temp->var, "OLDPWD", ft_strlen("OLDPWD")) == 0)
+		if (ft_strcmp(temp->var, "OLDPWD") == 0)
 		{
 			path = get_path(temp->var);
 			if (path == NULL)

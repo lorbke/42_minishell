@@ -6,25 +6,23 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:43:00 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/08 11:46:49 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 13:22:26 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // t_sym_tab
 #include "libft.h" // ft_strncmp, ft_strlen, ft_strdup, ft_strjoin
+#include "../../utils.h" // ft_strcmp
 
 int	check_for_dots(char *path, int *i)
 {
 	int	count;
 
 	count = 0;
-	while (ft_strncmp(&path[*i], "..", ft_strlen("..")) == 0)
+	while (ft_strcmp(&path[*i], "..") == 0)
 	{
 		count++;
 		*i += 3;
-		// check if string is over bc ft_strncmp is not NULL protected
-		if (!path[*i])
-			break ;
 	}
 	return (count);
 }
@@ -50,8 +48,6 @@ char	*get_path(char *var)
 {
 	char	**split;
 
-	// @note needs to be freed here somehow?
-	// maybe by passing path as func arg?
 	split = ft_split(var, '=');
 	if (split[1] == NULL)
 		return (NULL);

@@ -6,14 +6,14 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 14:33:34 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/13 13:49:45 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 13:20:04 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-#include "../lib/executer/executer.h"
+#include "../lib/executer/executer.h" // t_cmd_table
 #include "../../lib/env/env.h"
 #include <stdlib.h>
 

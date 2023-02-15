@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/12 16:32:06 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 09:05:49 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,6 @@ int	get_heredoc(char *limiter)
 	return (fd[0]);
 }
 
-//@note expansion and builtins are here
-// func execute cmd_table
 pid_t	exec_cmd(t_cmd_table *cmd_table)
 {
 	char	*path;

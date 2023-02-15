@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/08 12:14:16 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 13:25:19 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <string.h> // strerror
 
 static int			is_num(char *str);
-static long long	ft_atoi_long(const char *str);
+static long long	ft_atoi_long(char *str);
 static void			print_to_stderr(char *str, char *arg);
 
 int	builtin_exit(char **argv)
@@ -66,7 +66,7 @@ static int	is_num(char *str)
 	return (1);
 }
 
-static int	check_value(long long number, int sign, const char *str)
+static int	check_value(long long number, int sign, char *str)
 {
 	number *= sign;
 	// check for over- and underflow
@@ -79,7 +79,7 @@ static int	check_value(long long number, int sign, const char *str)
 	return (number);
 }
 
-static long long	ft_atoi_long(const char *str)
+static long long	ft_atoi_long(char *str)
 {
 	int	i;
 	int	sign;

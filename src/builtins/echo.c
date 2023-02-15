@@ -6,12 +6,12 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:57:59 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/06 14:03:23 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 11:01:52 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "libft.h"
+#include "../utils.h" // ft_strcmp
+#include <stdio.h> // ft_printf
 
 int builtin_echo(char **argv)
 {
@@ -22,21 +22,20 @@ int builtin_echo(char **argv)
 	flag = 0;
 	while (argv[i])
 	{
-		if (ft_strncmp(argv[i], "-n", 2) == 0 && ft_strlen(argv[i]) == 2)
+		while (argv[i] && ft_strcmp(argv[i], "-n") == 0)
 		{
 			i++;
 			flag++;
 		}
-		while(argv[i])
+		while (argv[i])
 		{
-			while (ft_strncmp(argv[i], "-n", 2) == 0 && ft_strlen(argv[i]) == 2)
-				i++;
-			printf("%s", argv[i++]);
+			printf("%s", argv[i]);
 			if (argv[i])
 				printf(" ");
+			i++;
 		}
-		if (!flag)
-			printf("\n");
 	}
+	if (!flag)
+		printf("\n");
 	return (0);
 }
