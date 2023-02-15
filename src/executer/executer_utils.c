@@ -88,6 +88,7 @@ static pid_t	exec_subshell(t_cmd_table *cmd_table)
 // @note -1 as error sensible?
 // @todo think of echo hi | cd .. case (directory is not changed) when implementing builtins
 // @todo fix cat | ls, cat /dev/random | head -10 (cat is not killed)
+// @todo fix echo hello | << lim cat (heredoc fd is overwritten)
 pid_t	exec_cmd(t_cmd_table *cmd_table)
 {
 	char	*path;
