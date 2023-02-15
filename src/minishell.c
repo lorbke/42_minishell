@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/14 17:14:34 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/15 16:54:25 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <stdio.h> // printf
 #include <readline/readline.h> // readline
 #include <readline/history.h> // add_history
+#include <fcntl.h>
 
 // @todo free the ast and the tokstack
 // @todo test if all fds are closed
@@ -82,7 +83,7 @@ t_status	process_input(char *input, int fd_in, int fd_out)
 	mssignal_change_mode(MSSIG_EXEC);
 	exit_status = executer_exec_ast(ast, fd_in, fd_out);
 	mssignal_change_mode(MSSIG_INTER);
-	// printf("-----exit status: %d\n", exit_status);
+	printf("-----exit status: %d\n", exit_status);
 	return (exit_status);
 }
 
@@ -94,6 +95,7 @@ void	rep_loop(void)
 	mssignal_change_mode(MSSIG_INTER);
 	while (1)
 	{
+		open(STDIN_FILENO, O_RDONLY);
 		line = readline(PROMPT);
 		if (!line || ft_strncmp(line, "exit", 5) == 0) // exit buildin will be added later
 			break ;

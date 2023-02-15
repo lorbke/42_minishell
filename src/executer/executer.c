@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/14 18:53:19 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/15 19:05:52 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,11 @@ t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
 		return (exit_status_get());
 	pid = exec_cmd(cmd_table);
 	if (pid != -1)
+	{
 		wait_pid_and_set_exit(pid);
+		if (cmd_table->fd_in != STDIN_FILENO)
+			close(cmd_table->fd_in);
+	}
 	if (exit_status_get() != EXEC_GENERALERR)
 		print_error(exit_status_get(), cmd_table->cmd[0]);
 	while (waitpid(-1, NULL, WUNTRACED) != -1)

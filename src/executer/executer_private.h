@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:14:20 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/14 18:52:08 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/15 19:05:56 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_cmd_table
 	char	**cmd;
 	int		fd_in;
 	int		fd_out;
+	int		fd_last;
 }	t_cmd_table;
 
 typedef t_cmd_table	*(*t_func_handle)(t_ast *);

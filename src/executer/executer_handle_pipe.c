@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:29:17 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/14 18:24:35 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/15 15:47:38 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ t_cmd_table	*handle_pipe(t_ast *ast)
 	if (!cmd_table_r)
 		return (NULL);
 	cmd_table_r->fd_in = fd[0];
+	cmd_table_r->fd_last = fd[1];
 	return (cmd_table_r);
 }
