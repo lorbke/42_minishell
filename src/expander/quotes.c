@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:38:45 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/13 13:28:54 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 10:10:54 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,41 +29,39 @@ void	quote_removal(char **argv)
 	}
 }
 
-// @note needs to be tested if quotes are implemented in parser
-char*	handle_quotes(char *result, char *str, int *index, int *result_index)
+char	*handle_quotes(char *result, char *str, int *index, int *result_index)
 {
 	int		i;
 	int		str_len;
 	char	*arg;
 	char	quote_type;
 
-	quote_type = str[(*index)++];
+	quote_type = str[(*index)];
+	i = *index + 1;
 	str_len = find_closing_quote(str, &(*index), quote_type);
 	if (!result)
 		arg = malloc(sizeof(char) * str_len + 1);
 	else
 		arg = ft_realloc(result, ft_strlen(result) + str_len + 1);
-	i = 0;
-	while (i < str_len)
+	while (i < *index)
 	{
-		// @note result_index or i as index for arg?
 		arg[*result_index] = str[i];
 		i++;
 		(*result_index)++;
 	}
+	arg[*result_index] = '\0';
 	return (arg);
 }
 
-// @note I think this way the func also recognizes if the closing quote
-// directly follows the opening quote ?
 int	find_closing_quote(char *str, int *index, char quote_type)
 {
 	int	str_len;
 
-	str_len = 1;
-	while (str[str_len])
+	str_len = 0;
+	(*index)++;
+	while (str[*index])
 	{
-		if (str[str_len] == quote_type)
+		if (str[*index] == quote_type)
 		{
 			(*index)++;
 			break ;

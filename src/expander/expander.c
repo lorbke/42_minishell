@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:14:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/13 17:55:06 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 09:53:27 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ static char *try_expansion(char *result, char *arg, int *index, int *result_inde
 	char	*expanded_var;
 
 	(*index)++;
-	expanded_var = NULL;
+	expanded_var = result;
 	var = get_var(&arg[*index], &(*index));
-	if (var == NULL)
+	if (var == NULL && result == NULL)
 		return (NULL);
 	value = expand_var(var);
 	if (value != NULL)
@@ -88,7 +88,7 @@ static char	*tilde_expansion(char *result, char *arg, int *index, int *result_in
 	char	*home;
 	char	*expanded_home;
 
-	if (result != NULL || arg[*index + 1] != '\0')
+	if ((result || arg[*index + 1] != '/') && ft_strlen(arg) > 1)
 	{
 		expanded_home = add_char_to_string(result, '~', &(*index), &(*result_index));
 		return (expanded_home);
