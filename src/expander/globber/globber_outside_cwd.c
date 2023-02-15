@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 09:08:49 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 18:20:24 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ char	**globbing_outside_cwd(char *path, char *pattern, char **result)
 char	**check_for_path(char *pattern, char **result)
 {
 	int				i;
-	struct stat		buf;
 	char			*new_path;
 	char			*new_pattern;
+	struct stat		buf;
 
 	i = 0;
 	while (pattern[i] != '\0' && pattern[i] != '/')
@@ -127,7 +127,7 @@ static char	**expand_cwd_dir(char *path, char *pattern, char **result)
 			path = ft_strjoin(entry->d_name, "/");
 			if (entry->d_type == DT_DIR && pattern[0] != '\0')
 				result = globbing_outside_cwd(path, pattern, result);
-			else if (entry->d_type == DT_DIR)
+			else if (entry->d_type == DT_DIR && pattern[0] == '\0')
 				result = add_matching_entry(result, path);
 			free(path);
 		}

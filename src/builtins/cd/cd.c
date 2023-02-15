@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:50:47 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 13:14:48 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 15:13:16 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	builtin_cd(char **argv)
 	t_sym_tab	*temp;
 
 	if (argv[1] == NULL)
-		return (1);
+		return (-1);
 	path = argv[1];
 	oldpwd = getcwd(NULL, 0);
 	if (ft_strcmp(path, "-") == 0)
@@ -54,9 +54,9 @@ static void	handle_dash(char *oldpwd)
 	char		*path;
 
 	temp = *g_sym_table;
-	while (temp)
+	while (temp != NULL)
 	{
-		if (ft_strcmp(temp->var, "OLDPWD") == 0)
+		if (ft_strncmp(temp->var, "OLDPWD", ft_strlen("OLDPWD")) == 0)
 		{
 			path = get_path(temp->var);
 			if (path == NULL)
@@ -79,11 +79,11 @@ static void	handle_dots(char *path)
 {
 	int		i;
 	int		count;
-	char 	*start;
+	char 	*cwd;
 
 	i = 0;
-	start = getcwd(NULL, 0);
-	set_path("OLDPWD", getcwd(NULL, 0));
+	cwd = getcwd(NULL, 0);
+	set_path("OLDPWD", cwd);
 	count = check_for_dots(path, &i);
 	while (count)
 	{
@@ -94,7 +94,7 @@ static void	handle_dots(char *path)
 	{
 		if (chdir(&path[i]) != 0)
 		{
-			chdir(start);
+			chdir(cwd);
 			perror(ft_strjoin("minishell: cd: ", path));
 		}
 	}

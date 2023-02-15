@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:38:45 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 10:10:54 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 18:13:02 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	quote_removal(char **argv)
 	if (argv == NULL)
 		return ;
 	i = 0;
-	while (argv[i])
+	while (argv[i] != NULL)
 	{
 		remove_quotes(argv[i]);
 		i++;
@@ -39,7 +39,7 @@ char	*handle_quotes(char *result, char *str, int *index, int *result_index)
 	quote_type = str[(*index)];
 	i = *index + 1;
 	str_len = find_closing_quote(str, &(*index), quote_type);
-	if (!result)
+	if (result == NULL)
 		arg = malloc(sizeof(char) * str_len + 1);
 	else
 		arg = ft_realloc(result, ft_strlen(result) + str_len + 1);
@@ -59,7 +59,7 @@ int	find_closing_quote(char *str, int *index, char quote_type)
 
 	str_len = 0;
 	(*index)++;
-	while (str[*index])
+	while (str[*index] != '\0')
 	{
 		if (str[*index] == quote_type)
 		{
@@ -79,10 +79,13 @@ static void	remove_quotes(char *str)
 
 	i = 0;
 	j = 0;
-	while (str[i])
+	while (str[i] != '\0')
 	{
 		if (str[i] != '\'' && str[i] != '\"')
-			str[j++] = str[i];
+		{
+			str[j] = str[i];
+			j++;
+		}
 		i++;
 	}
 	str[j] = '\0';

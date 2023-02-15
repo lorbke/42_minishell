@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:20:36 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 09:03:24 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 18:15:36 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	**get_matching_entries(char *path, char *pattern, char **result)
 	DIR				*dir;
 	struct dirent	*entry;
 
-	if (path)
+	if (path != NULL)
 		dir = opendir(path);
 	else
 		dir = opendir(getcwd(NULL, 0));
@@ -50,7 +50,7 @@ char	**get_matching_entries(char *path, char *pattern, char **result)
 		{
 			if (is_match(entry->d_name, pattern))
 			{
-				if (path)
+				if (path != NULL)
 					result = add_matching_entry(result, ft_strjoin(path, entry->d_name));
 				else
 					result = add_matching_entry(result, entry->d_name);
@@ -79,10 +79,10 @@ static char	**sort_entries(char **result, char *entry)
 
 	i = 0;
 	len = 0;
-	while (result[len])
+	while (result[len] != NULL)
 		len++;
 	result[len + 1] = NULL;
-	while (result[i])
+	while (result[i] != NULL)
 	{
 		if (ft_strcmp(entry, result[i]) < 0)
 			break ;

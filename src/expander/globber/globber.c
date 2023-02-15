@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:29:31 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 10:06:50 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 18:24:53 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ char	**globber(char **argv)
 
 	i = 1;
 	expanded_argv = NULL;
-	while (argv[i])
+	while (argv[i] != NULL)
 	{
 		result = NULL;
 		j = 0;
-		while (argv[i][j])
+		while (argv[i][j] != '\0')
 		{
 			if (argv[i][j] == '\'' || argv[i][j] == '\"')
 				find_closing_quote(argv[i], &j, argv[i][j]);

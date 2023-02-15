@@ -6,13 +6,14 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:13:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/13 14:19:58 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 17:41:53 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // g_sym_table
 #include "libft.h" // ft_strchr, ft_strjoin, ft_strdup, ft_strlen, ft_strncmp
-#include "../utils.h" // free_list
+#include "../../utils.h" // free_list
+#include "export_private.h" // init_var_name, init_var_value, check_if_var_exists, update_var
 #include "lib/env/src/env_private.h" // add_to_back, new_sym_tab_node
 #include <stdio.h> // printf
 
@@ -27,16 +28,14 @@ int builtin_export(char **argv)
 	int		argc;
 	char	**var;
 
-	// if no arguments are provided
 	if (argv[1] == NULL)
 	{
 		print_sorted_list(*g_sym_table);
 		return (0);
 	}
-	// 1 because 0 is the func itself
 	i = 1;
 	argc = 1;
-	while (argv[argc])
+	while (argv[argc] != NULL)
 		argc++;
 	while (i < argc)
 	{
@@ -48,28 +47,26 @@ int builtin_export(char **argv)
 
 static void	export_var(t_sym_tab **sym_table, char *var)
 {
-	int			i;
 	t_sym_tab	*temp;
-	char		*search;
+	char		*var_name;
+	char		*var_value;
 
-	i = 0;
 	temp = *sym_table;
-	search = malloc(sizeof(char) * ft_strlen(var));
-	while (var[i] != '=' && var[i])
+	var_name = init_var_name(var);
+	if (var_name == NULL)
+		return ;
+	var_value = init_var_value(var, var_name);
+	while (temp != NULL)
 	{
-		search[i] = var[i];
-		i++;
-	}
-	while (temp)
-	{
-		if (ft_strncmp(temp->var, search, ft_strlen(search)) == 0)
+		if (check_if_var_exists(temp, var_name))
 		{
-			temp->var = ft_strdup(var);
+			update_var(temp, var_name, var_value);
 			return ;
 		}
 		temp = temp->next;
 	}
-	free(search);
+	if (var_value != NULL)
+		var = ft_strjoin(var_name, var_value);
 	add_to_back(g_sym_table, new_sym_tab_node(var));
 }
 

@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:14:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 09:53:27 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 18:03:32 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ char	**expander(char **argv)
 
 	i = 1;
 	k = 1;
-	while (argv[i])
+	while (argv[i] != NULL)
 	{
 		result = NULL;
 		j = 0;
 		result_index = 0;
-		while (argv[i][j])
+		while (argv[i][j] != '\0')
 			result = evaluate_char(result, argv[i], &j, &result_index);
 		if (result != NULL)
 		{

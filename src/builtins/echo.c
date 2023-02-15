@@ -6,12 +6,12 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:57:59 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 11:01:52 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 15:11:41 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../utils.h" // ft_strcmp
-#include <stdio.h> // ft_printf
+#include <stdio.h> // printf
 
 int builtin_echo(char **argv)
 {
@@ -30,9 +30,9 @@ int builtin_echo(char **argv)
 		while (argv[i])
 		{
 			printf("%s", argv[i]);
+			i++;
 			if (argv[i])
 				printf(" ");
-			i++;
 		}
 	}
 	if (!flag)

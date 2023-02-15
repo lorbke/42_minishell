@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:17:44 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/14 19:37:47 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 18:25:40 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ int	is_match(char *entry, char *pattern)
 	i = 0;
 	j = 0;
 	match = 0;
-	while(entry[i])
+	while(entry[i] != '\0')
 	{
 		get_next_pattern_char(entry, pattern, &j, &match);
 		if (j == 0 && entry[i] != pattern[j])
 			break ;
-		while (entry[i] && entry[i] != match)
+		while (entry[i]!= '\0' && entry[i] != match)
 			i++;
 		if (entry[i] == match)
 		{

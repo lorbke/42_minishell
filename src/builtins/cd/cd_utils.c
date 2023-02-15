@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:43:00 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 13:22:26 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 14:57:50 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,11 @@ void	change_prev_dir(void)
 
 	cwd = getcwd(NULL, 0);
 	i = ft_strlen(cwd) - 1;
-	while (cwd[i] != '/' & i > 0)
+	while (cwd[i] != '/' && i > 0)
 	{
 		cwd[i] = '\0';
 		i--;
 	}
-	if (ft_strlen(cwd) > 1)
-		cwd[i] = '\0';
 	chdir(cwd);
 }
 
@@ -49,6 +47,8 @@ char	*get_path(char *var)
 	char	**split;
 
 	split = ft_split(var, '=');
+	if (split == NULL)
+		return (NULL);
 	if (split[1] == NULL)
 		return (NULL);
 	else
@@ -61,7 +61,7 @@ void	set_path(char *var, char *value)
 	char		*path;
 
 	temp = *g_sym_table;
-	while (temp)
+	while (temp != NULL)
 	{
 		if (ft_strncmp(temp->var, var, ft_strlen(var)) == 0)
 		{
@@ -71,7 +71,7 @@ void	set_path(char *var, char *value)
 		}
 		temp = temp->next;
 	}
-	if (value)
+	if (value != NULL)
 	{
 		path = ft_strjoin(var, "=");
 		path = ft_strjoin(path, value);

@@ -6,13 +6,12 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:23:41 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/08 14:04:45 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 17:48:17 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "libft.h"
-#include <stdio.h>
+#include "env.h" // g_sym_table
+#include "libft.h" // ft_strchr, ft_strncmp
 
 static void	remove_node(char *var);
 
@@ -21,7 +20,7 @@ int	builtin_unset(char **argv)
 	int	i;
 
 	i = 1;
-	while (argv[i])
+	while (argv[i] != NULL)
 	{
 		remove_node(argv[i]);
 		i++;
@@ -53,7 +52,7 @@ static void	remove_node(char *var)
 		remove_first_node(prev);
 		return ;
 	}
-	while (temp)
+	while (temp != NULL)
 	{
 		key_len = (int)(ft_strchr(temp->var, '=') - temp->var);
 		if (ft_strncmp(temp->var, var, key_len) == 0)

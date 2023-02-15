@@ -6,13 +6,12 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 19:04:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/13 13:39:54 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 18:24:33 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "globber.h"
-#include "../expander_private.h"
+#include "libft.h" // malloc, ft_strlen, ft_strlcpy
+#include "../expander_private.h" // realloc_string_array
 
 static char	**add_globbed_vars(char **expanded_argv, char **result);
 static char	**add_unglobbed_vars(char **expanded_argv, char **result, char **argv);
@@ -34,7 +33,7 @@ char	**create_new_cmd(char **expanded_argv, char **argv)
 	if (expanded_argv == NULL)
 		return (argv);
 	expanded_argv = realloc_string_array(expanded_argv, 1);
-	while (expanded_argv[len])
+	while (expanded_argv[len] != NULL)
 		len++;
 	expanded_argv[len + 1] = NULL;
 	while (len > 0)
@@ -77,13 +76,13 @@ static char	**add_globbed_vars(char **expanded_argv, char **result)
 		expanded_argv = result;
 	else
 	{
-		while (result[i])
+		while (result[i] != NULL)
 			i++;
 		expanded_argv = realloc_string_array(expanded_argv, i);
 		i = 0;
-		while (expanded_argv[i])
+		while (expanded_argv[i] != NULL)
 			i++;
-		while (result[j])
+		while (result[j] != NULL)
 		{
 			expanded_argv[i + j] = result[j];
 			j++;

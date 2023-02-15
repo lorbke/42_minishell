@@ -6,12 +6,13 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:47:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/13 17:58:00 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 17:59:06 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // g_sym_table
 #include "libft.h" // malloc, ft_isalpha, ft_isalnum, ft_strlen, ft_strncmp, ft_strchr
+#include "../utils.h" // check_naming_convention
 #include "expander_private.h" // ft_realloc
 
 static int	get_var_len(char *var);
@@ -22,16 +23,11 @@ char	*get_var(char *arg, int *index)
 	int		len;
 	char	*var;
 
-	i = 0;
-	if (arg[i] && (ft_isalpha(arg[i]) || arg[i] == '_'))
-	{
-		while (arg[i] && (ft_isalnum(arg[i]) || arg[i] == '_'))
-			i++;
-	}
+	i = check_naming_convention(arg);
 	if (i == 0)
 		return (NULL);
 	var = malloc(sizeof(char) * (i + 1));
-	ft_strlcpy(var, arg,  (i + 1));
+	ft_strlcpy(var, arg, (i + 1));
 	*index += i;
 	return (var);
 }
@@ -44,7 +40,7 @@ char	*expand_var(char *arg)
 
 	temp = *g_sym_table;
 	value = NULL;
-	while (temp)
+	while (temp != NULL)
 	{
 		if (ft_strlen(arg) > get_var_len(temp->var))
 			len = ft_strlen(arg);
@@ -82,7 +78,7 @@ static int	get_var_len(char *var)
 	int	i;
 
 	i = 0;
-	while (var[i] && var[i] != '=')
+	while (var[i] != '\0' && var[i] != '=')
 		i++;
 	return (i);
 }

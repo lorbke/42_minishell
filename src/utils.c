@@ -6,19 +6,19 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:17:47 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/13 14:18:15 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 18:27:17 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // t_sym_tab
-#include <stdlib.h> // free
+#include "libft.h" // free, ft_isalpha, ft_isalnum
 
 void	free_split(char **split)
 {
 	char **temp;
 
 	temp = split;
-	while (*temp)
+	while (*temp != NULL)
 	{
 		free(*temp);
 		temp++;
@@ -30,7 +30,7 @@ void	free_list(t_sym_tab *head)
 {
 	t_sym_tab *temp;
 
-	while (head)
+	while (head != NULL)
 	{
 		temp = head;
 		head = head->next;
@@ -44,7 +44,22 @@ int	ft_strcmp(const char *s1, const char *s2)
 	int	i;
 
 	i = 0;
-	while (s1[i] != 0 && s2[i] != 0 && s1[i] == s2[i])
+	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
 		i++;
-	return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
+	return (s1[i] - s2[i]);
+}
+
+int	check_naming_convention(char *var_name)
+{
+	int	i;
+
+	i = 0;
+	if (var_name[i] != '\0' && (ft_isalpha(var_name[i]) || var_name[i] == '_'))
+	{
+		while (var_name[i] != '\0' && (ft_isalnum(var_name[i]) || var_name[i] == '_'))
+			i++;
+	}
+	if (i == 0)
+		return (0);
+	return (i);
 }

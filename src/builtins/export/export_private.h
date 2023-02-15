@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   export_private.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/07 17:10:26 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 17:52:05 by fyuzhyk          ###   ########.fr       */
+/*   Created: 2023/02/15 17:37:28 by fyuzhyk           #+#    #+#             */
+/*   Updated: 2023/02/15 17:39:56 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#ifndef EXPORT_PRIVATE_H
+# define EXPORT_PRIVATE_H
 
-# include "env.h"
+#include "env.h"
 
-void	free_split(char **split);
-void	free_list(t_sym_tab *head);
-int		ft_strcmp(const char *s1, const char *s2);
-int		check_naming_convention(char *var_name);
+char	*init_var_name(char *var);
+char	*init_var_value(char *var, char *var_name);
+int		check_if_var_exists(t_sym_tab *temp, char *var_name);
+void	update_var(t_sym_tab *temp, char *var_name, char *var_value);
 
 #endif

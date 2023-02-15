@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:45:58 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/13 13:39:19 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 18:13:30 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**realloc_string_array(char **ptr, int size)
 
 	i = 0;
 	ptr_len = 0;
-	while (ptr[ptr_len])
+	while (ptr[ptr_len] != NULL)
 		ptr_len++;
 	result = malloc(sizeof(char *) * (ptr_len + size) + 1);
 	while (ptr[i] != NULL)

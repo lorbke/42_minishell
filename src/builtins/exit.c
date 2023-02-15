@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 13:25:19 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/15 15:25:41 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ int	builtin_exit(char **argv)
 	int			argc;
 	long long	exit_code;
 
+	exit_code = errno;
 	if (argv == NULL)
 	{
 		printf("exit\n");
 		exit(exit_code % 256);
 	}
 	argc = 0;
-	while(argv[argc])
+	while(argv[argc] != NULL)
 		argc++;
-	exit_code = errno;
 	printf("exit\n");
 	if (argc == 2)
 	{
@@ -57,7 +57,7 @@ static int	is_num(char *str)
 		return (0);
 	if (str[i] == '-' || str[i] == '+' && str[i + 1] != '\0')
 		i++;
-	while (str[i])
+	while (str[i] != '\0')
 	{
 		if (!ft_isdigit(str[i]))
 			return (0);
@@ -66,10 +66,10 @@ static int	is_num(char *str)
 	return (1);
 }
 
+// check for over- and underflow
 static int	check_value(long long number, int sign, char *str)
 {
 	number *= sign;
-	// check for over- and underflow
 	if (number > 0 && sign == -1
 	|| number < 0 && sign == 1)
 	{
@@ -103,20 +103,21 @@ static long long	ft_atoi_long(char *str)
 		number += str[i] - '0';
 		i++;
 	}
-	return(check_value(number, sign, str));
+	number = check_value(number, sign, str);
+	return (number);
 }
 
 static void	print_to_stderr(char *str, char *arg)
 {
-	if (str && arg)
+	if (str != NULL && arg != NULL)
 	{
 		ft_putstr_fd(ft_strjoin("minishell: exit: ", arg), STDERR_FILENO);
 		ft_putstr_fd(ft_strjoin(":", str), STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);
 	}
-	else if (str && arg == NULL)
+	else if (str != NULL && arg == NULL)
 		ft_putstr_fd(ft_strjoin("minishell: exit: ", str), STDERR_FILENO);
-	else if (str == NULL && arg)
+	else if (str == NULL && arg != NULL)
 	{
 		ft_putstr_fd(ft_strjoin("minishell: exit: ", arg), STDERR_FILENO);
 		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
