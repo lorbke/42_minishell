@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 18:16:59 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/14 14:52:10 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 13:59:54 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int	get_heredoc(void (*heredoc_type)(char *, int), char *limiter)
 	{
 		mssignal_change_mode(MSSIG_HDOC);
 		(*heredoc_type)(limiter, fd[1]);
+		close(fd[0]);
+		close(fd[1]);
 		exit(EXEC_SUCCESS);
 	}
 	else
