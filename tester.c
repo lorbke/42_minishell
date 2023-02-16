@@ -6,12 +6,13 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:25 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/24 18:32:23 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 18:11:03 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "debugger.h"
 #include "executer.h"
+#include "src/executer/private_executer.h"
 #include "parser.h"
 #include "lexer.h"
 #include <stdio.h>
@@ -135,31 +136,31 @@ void	debug_executer(t_cmd_table *cmd_table)
 	printf(BLUE "\n==========================\n\n\n" RESET);
 }
 
-static void	case_executer(char **tests)
-{
-	char		*input;
-	t_ast		*ast;
-	t_stack		*tokstack;
-	t_cmd_table	*cmd_table;
-	int			i;
+// static void	case_executer(char **tests)
+// {
+// 	char		*input;
+// 	t_ast		*ast;
+// 	t_stack		*tokstack;
+// 	t_cmd_table	*cmd_table;
+// 	int			i;
 
-	input = malloc(sizeof(char) * 100);
-	i = 3;
-	// while (tests[i])
-	// {
-		// printf(YELLOW "+++++++++++++++++++++++++++++\n" RESET);
-		// printf(YELLOW "CASE %d: %s" RESET, i, tests[i]);
-		strcpy(input, tests[i]);
-		tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
-		ast = parser_tokstack_to_ast(&tokstack);
-		debug_parser(ast, tokstack);
-		executer_exec_ast(ast);
-		// debug_executer(cmd_table);
-		// free(cmd_table);
-	// 	i++;
-	// }
-	free(input);
-}
+// 	input = malloc(sizeof(char) * 100);
+// 	i = 3;
+// 	// while (tests[i])
+// 	// {
+// 		// printf(YELLOW "+++++++++++++++++++++++++++++\n" RESET);
+// 		// printf(YELLOW "CASE %d: %s" RESET, i, tests[i]);
+// 		strcpy(input, tests[i]);
+// 		tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
+// 		ast = parser_tokstack_to_ast(&tokstack);
+// 		debug_parser(ast, tokstack);
+// 		executer_exec_ast(ast, STDIN_FILENO, STDOUT_FILENO);
+// 		// debug_executer(cmd_table);
+// 		// free(cmd_table);
+// 	// 	i++;
+// 	// }
+// 	free(input);
+// }
 
 static char	**init_tests(void)
 {
@@ -221,14 +222,14 @@ int	main(int argc, char *argv[])
 		printf("\n\n\n");
 		case_parser(tests);
 		printf("\n\n\n");
-		case_executer(tests);
+		// case_executer(tests);
 	}
 	else if (!strncmp(argv[1], "lexer\0", 6))
 		case_lexer(tests);
 	else if (!strncmp(argv[1], "parser\0", 7))
 		case_parser(tests);
-	else if (!strncmp(argv[1], "executer\0", 9))
-		case_executer(tests);
+	// else if (!strncmp(argv[1], "executer\0", 9))
+	// 	case_executer(tests);
 	else
 		printf("usage: ./test [ all | lexer | parser | executer ]\n");
 	free(tests);

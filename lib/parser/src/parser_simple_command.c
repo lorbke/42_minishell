@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:53:34 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 14:46:32 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 18:08:04 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static t_ast	*connect_simple_cmd(
 }
 
 // @note implementation of subshell case feels a bit hacky
+// @note this is extremely unreadable
 t_ast	*rule_simple_cmd(t_stack **tokstack)
 {
 	t_ast	*redirs_in;
@@ -95,11 +96,11 @@ t_ast	*rule_simple_cmd(t_stack **tokstack)
 		if (*tokstack && ((*tokstack)->token->desc == TOK_REDIR_IN
 				|| (*tokstack)->token->desc == TOK_REDIR_HEREDOC))
 			redirs_in = append_left_ast(rule_redirect(tokstack), redirs_in);
-		if (!words || words->token->desc != TOK_SUBSHELL)
-			words = append_left_ast(words, rule_word(tokstack));
 		if (*tokstack && ((*tokstack)->token->desc == TOK_REDIR_OUT
 				|| (*tokstack)->token->desc == TOK_REDIR_APPEND))
 			redirs_out = append_left_ast(rule_redirect(tokstack), redirs_out);
+		if (!words || words->token->desc != TOK_SUBSHELL)
+			words = append_left_ast(words, rule_word(tokstack));
 		if (is_word(*tokstack) && words->token->desc == TOK_SUBSHELL)
 			break ;
 	}
