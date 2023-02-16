@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:14:20 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/15 19:05:56 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 14:02:41 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ typedef struct s_cmd_table
 	char	**cmd;
 	int		fd_in;
 	int		fd_out;
-	int		fd_pipe;
 }	t_cmd_table;
 
 typedef t_cmd_table	*(*t_func_handle)(t_ast *);
@@ -38,7 +37,7 @@ t_cmd_table	*handle_redir_out(t_ast *ast);
 t_cmd_table	*handle_cmd(t_ast *ast);
 
 // utils
-pid_t		exec_cmd(t_cmd_table *cmd_table);
+pid_t		exec_cmd(t_cmd_table *cmd_table, int fd_pipe);
 void		wait_pid_and_set_exit(pid_t pid);
 t_cmd_table	*create_cmd_table(t_ast *ast);
 

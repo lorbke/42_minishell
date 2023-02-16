@@ -6,11 +6,11 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:43:53 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/22 21:38:31 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 14:46:14 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser_private.h" // utils
+#include "private_parser.h" // utils
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token, t_stack, TOK_* macros
 #include <stdlib.h> // NULL

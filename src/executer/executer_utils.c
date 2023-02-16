@@ -6,11 +6,11 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:12:31 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/15 19:07:34 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 14:44:30 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executer_private.h" // cmd_table
+#include "private_executer.h" // cmd_table
 #include "../executer.h" // EXEC_* defines
 #include "../minishell.h" // process_input
 #include "../mssignal.h" // mssignal_change_mode
@@ -44,14 +44,12 @@ t_cmd_table	*create_cmd_table(t_ast *ast)
 	while (ast && (ast->token->desc == TOK_WORD
 			|| ast->token->desc == TOK_SUBSHELL))
 	{
-		cmd_table->cmd[i] = ast->token->word;
+		cmd_table->cmd[i++] = ast->token->word;
 		ast = ast->left;
-		i++;
 	}
 	cmd_table->cmd[i] = NULL;
 	cmd_table->fd_in = STDIN_FILENO;
 	cmd_table->fd_out = STDOUT_FILENO;
-	cmd_table->fd_pipe = -1;
 	return (cmd_table);
 }
 
@@ -71,6 +69,14 @@ void	wait_pid_and_set_exit(pid_t pid)
 	}
 }
 
+static void	close_in_out_fds(fd_in, fd_out)
+{
+	if (fd_in != STDIN_FILENO)
+		close(fd_in);
+	if (fd_out != STDOUT_FILENO)
+		close(fd_out);
+}
+
 static pid_t	exec_subshell(t_cmd_table *cmd_table)
 {
 	pid_t	pid;
@@ -86,9 +92,7 @@ static pid_t	exec_subshell(t_cmd_table *cmd_table)
 }
 
 // @note -1 as error sensible?
-// @todo fix echo hello | << lim cat (heredoc fd is overwritten)
-// @todo fix echo hello && << lim cat (heredoc is not interpreted first)
-pid_t	exec_cmd(t_cmd_table *cmd_table)
+pid_t	exec_cmd(t_cmd_table *cmd_table, int fd_pipe)
 {
 	char	*path;
 	pid_t	pid;
@@ -107,25 +111,14 @@ pid_t	exec_cmd(t_cmd_table *cmd_table)
 	pid = fork();
 	if (pid > 0)
 	{
-		if (cmd_table->fd_in != STDIN_FILENO)
-			close(cmd_table->fd_in);
-		if (cmd_table->fd_out != STDOUT_FILENO)
-			close(cmd_table->fd_out);
+		close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 		return (pid);
 	}
 	mssignal_change_mode(MSSIG_NINTER);
-	if (cmd_table->fd_in != STDIN_FILENO)
-	{
-		dup2(cmd_table->fd_in, STDIN_FILENO);
-		close(cmd_table->fd_in);
-	}
-	if (cmd_table->fd_out != STDOUT_FILENO)
-	{
-		dup2(cmd_table->fd_out, STDOUT_FILENO);
-		close(cmd_table->fd_out);
-	}
-	if (cmd_table->fd_pipe != -1)
-		close(cmd_table->fd_pipe);
+	dup2(cmd_table->fd_in, STDIN_FILENO);
+	dup2(cmd_table->fd_out, STDOUT_FILENO);
+	close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
+	close(fd_pipe);
 	status = execve(path, cmd_table->cmd, environ);
 	exit(status);
 }

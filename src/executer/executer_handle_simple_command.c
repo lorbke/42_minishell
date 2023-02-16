@@ -6,11 +6,11 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:27:13 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/09 17:46:08 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 14:45:08 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executer_private.h" // t_cmd_table, t_func_handle
+#include "private_executer.h" // t_cmd_table, t_func_handle
 #include "../executer.h" // EXEC_* defines
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token

@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/18 13:54:25 by lorbke            #+#    #+#              #
-#    Updated: 2023/01/21 18:38:44 by lorbke           ###   ########.fr        #
+#    Updated: 2023/02/16 14:48:47 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ $(NAME): $(OBJ_PATH) $(OBJ)
 $(OBJ_PATH):
 	@mkdir -p $(OBJ_PATH)
 
-$(OBJ_PATH)/%.o: %.c Makefile lexer.h $(SRC_PATH)/lexer_private.h
+$(OBJ_PATH)/%.o: %.c Makefile lexer.h $(SRC_PATH)/private_lexer.h
 	@echo -e -n "$(YELLOW)Compiling: $(RESET)"
 	$(CC) $(FLAGS) $(ADD_FLAGS) -c $< -o $@
 

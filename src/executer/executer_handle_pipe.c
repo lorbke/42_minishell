@@ -6,11 +6,11 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:29:17 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/15 15:47:38 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 14:45:12 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executer_private.h" // t_cmd_table, t_func_handle
+#include "private_executer.h" // t_cmd_table, t_func_handle
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token
 #include "../minishell.h" // error_exec_print
@@ -30,13 +30,9 @@ t_cmd_table	*handle_pipe(t_ast *ast)
 		return (NULL);
 	pipe(fd);
 	cmd_table_l->fd_out = fd[1];
-	cmd_table_l->fd_pipe = fd[0];
-	pid_l = exec_cmd(cmd_table_l);
+	pid_l = exec_cmd(cmd_table_l, fd[0]);
 	if (pid_l == -1)
-	{
 		print_error(exit_status_get(), cmd_table_l->cmd[0]);
-		return (NULL);
-	}
 	cmd_table_r = g_func_handle_arr[ast->right->token->desc](ast->right);
 	if (!cmd_table_r)
 		return (NULL);

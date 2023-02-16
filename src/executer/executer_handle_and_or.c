@@ -6,11 +6,11 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:30:24 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/15 19:05:49 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 14:45:16 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executer_private.h" // t_cmd_table, t_func_handle
+#include "private_executer.h" // t_cmd_table, t_func_handle
 #include "../executer.h" // EXEC_* defines
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token
@@ -29,10 +29,11 @@ t_cmd_table	*handle_and(t_ast *ast)
 	int			status;
 
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
-	pid_l = exec_cmd(cmd_table_l);
+	pid_l = exec_cmd(cmd_table_l, -1);
 	if (pid_l == -1 && exit_status_get() != EXEC_SUCCESS)
 	{
-		print_error(exit_status_get(), cmd_table_l->cmd[0]);
+		if (cmd_table_l)
+			print_error(exit_status_get(), cmd_table_l->cmd[0]);
 		return (NULL);
 	}
 	if (pid_l != -1)
@@ -53,12 +54,13 @@ t_cmd_table	*handle_or(t_ast *ast)
 	int			status;
 
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
-	pid_l = exec_cmd(cmd_table_l);
+	pid_l = exec_cmd(cmd_table_l, -1);
 	if (pid_l != -1)
 		wait_pid_and_set_exit(pid_l);
 	if (exit_status_get() != EXEC_SUCCESS)
 	{
-		print_error(exit_status_get(), cmd_table_l->cmd[0]);
+		if (cmd_table_l)
+			print_error(exit_status_get(), cmd_table_l->cmd[0]);
 		cmd_table_r = g_func_handle_arr[ast->right->token->desc](ast->right);
 		return (cmd_table_r);
 	}

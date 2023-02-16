@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:37:35 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/15 15:07:15 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 14:39:31 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,6 @@ static int	set_termios(bool interactive)
 	return (0);
 }
 
-static void	handle_sigpipe(int signal)
-{
-	printf("SIGPIPE\n");
-}
-
 void	mssignal_change_mode(char mode)
 {
 	if (mode == MSSIG_NINTER)
@@ -71,7 +66,6 @@ void	mssignal_change_mode(char mode)
 		set_termios(false);
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
-		signal(SIGPIPE, handle_sigpipe);
 	}
 	else if (mode == MSSIG_INTER)
 	{

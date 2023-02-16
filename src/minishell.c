@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/15 16:54:25 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 14:39:13 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,6 @@ int	main(void)
 	if (isatty(STDIN_FILENO)) // check if stdin is a terminal
 		rep_loop();
 	// else put input directly from STDIN to parser, executer etc
+	mssignal_change_mode(MSSIG_NINTER);
 	return (EXIT_SUCCESS);
 }

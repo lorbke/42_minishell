@@ -6,11 +6,11 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:26:56 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/11 19:37:49 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 14:45:57 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer_private.h" // main header
+#include "private_lexer.h" // main header
 #include <stdlib.h> // for NULL
 
 static char	*lexer_ft_strchr(const char *s, int c)

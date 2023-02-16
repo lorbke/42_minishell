@@ -6,11 +6,11 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/15 19:05:52 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 14:45:23 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executer_private.h" // t_cmd_table, t_func_handle
+#include "private_executer.h" // t_cmd_table, t_func_handle
 #include "../executer.h" // EXEC_* defines
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token
@@ -69,6 +69,9 @@ static void	close_unclosed_branches(t_ast *ast)
 	}
 }
 
+// @todo fix echo hello | << lim cat (heredoc fd is overwritten)
+// @todo fix echo hello && << lim cat (heredoc is not interpreted first)
+// @todo fix ech hi | > teste case (file is opened even though ech hi fails)
 t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
 {
 	t_cmd_table	*cmd_table;
@@ -84,7 +87,7 @@ t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
 	cmd_table = g_func_handle_arr[ast->token->desc](ast);
 	if (!cmd_table)
 		return (exit_status_get());
-	pid = exec_cmd(cmd_table);
+	pid = exec_cmd(cmd_table, -1);
 	if (pid != -1)
 		wait_pid_and_set_exit(pid);
 	if (exit_status_get() != EXEC_GENERALERR)

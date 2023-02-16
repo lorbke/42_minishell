@@ -6,11 +6,11 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:19 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/09 14:29:27 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 14:48:09 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debugger_private.h" // main header
+#include "private_debugger.h" // main header
 #include "../debugger.h" // DEBUG macro
 #include "lexer.h" // lexer functions
 #include "parser.h" // parser functions
