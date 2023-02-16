@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_private.h                                   :+:      :+:    :+:   */
+/*   private_parser.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 17:22:41 by lorbke            #+#    #+#             */
-/*   Updated: 2023/01/22 21:24:27 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 15:45:18 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_PRIVATE_H
-# define PARSER_PRIVATE_H
+#ifndef PRIVATE_PARSER_H
+# define PRIVATE_PARSER_H
 
 # include "lexer.h" // t_token, t_stack
 # include "parser.h" // t_ast

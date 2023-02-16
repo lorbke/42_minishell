@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:12:31 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 14:52:27 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 17:15:43 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ t_cmd_table	*create_cmd_table(t_ast *ast)
 		ast = ast->left;
 	}
 	cmd_table->cmd[i] = NULL;
-	cmd_table->fd_in = STDIN_FILENO;
-	cmd_table->fd_out = STDOUT_FILENO;
+	cmd_table->fd_in[0] = STDIN_FILENO;
+	cmd_table->fd_out[0] = STDOUT_FILENO;
+	cmd_table->fd_in[1] = FDLVL_STD;
+	cmd_table->fd_out[1] = FDLVL_STD;
 	return (cmd_table);
 }
 

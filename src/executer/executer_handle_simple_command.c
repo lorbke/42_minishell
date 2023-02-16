@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:27:13 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 14:45:08 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 17:16:44 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ t_cmd_table	*handle_redir_heredoc(t_ast *ast)
 	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
 	if (!cmd_table)
 		return (NULL);
-	cmd_table->fd_in = fd;
+	cmd_table->fd_in[0] = fd;
+	cmd_table->fd_in[1] = FDLVL_REDIR;
 	return (cmd_table);
 }
 
@@ -52,7 +53,8 @@ t_cmd_table	*handle_redir_append(t_ast *ast)
 	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
 	if (!cmd_table)
 		return (NULL);
-	cmd_table->fd_out = fd;
+	cmd_table->fd_out[0] = fd;
+	cmd_table->fd_out[1] = FDLVL_REDIR;
 	return (cmd_table);
 }
 
@@ -73,7 +75,8 @@ t_cmd_table	*handle_redir_in(t_ast *ast)
 	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
 	if (!cmd_table)
 		return (NULL);
-	cmd_table->fd_in = fd;
+	cmd_table->fd_in[0] = fd;
+	cmd_table->fd_in[1] = FDLVL_REDIR;
 	return (cmd_table);
 }
 
@@ -88,6 +91,7 @@ t_cmd_table	*handle_redir_out(t_ast *ast)
 	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
 	if (!cmd_table)
 		return (NULL);
-	cmd_table->fd_out = fd;
+	cmd_table->fd_out[0] = fd;
+	cmd_table->fd_out[1] = FDLVL_REDIR;
 	return (cmd_table);
 }

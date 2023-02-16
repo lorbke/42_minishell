@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 14:45:23 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 15:04:55 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,7 @@
 // @todo revise code and remove unnecessary if statements
 // @todo check for leaks and unclosed fds
 // @todo check ping and /dev/random cases
-// @todo subshell
 // @todo integrate expander
-// @todo fix cat | ls and cat /dev/random | head -10 cases
 // @todo errors into stderr
 // @todo multiple shell levels ctrl c new line printed multiple times
 

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 14:57:17 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 17:38:11 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,16 @@
 #include "libft.h" // ft_strlen
 #include <sys/types.h> // pid_t, fork, waitpid, execve
 #include <unistd.h> // STDIN_FILENO, STDOUT_FILENO, write, read
+#include <stdio.h>
 
 extern char	**environ;
 
-static void	close_in_out_fds(fd_in, fd_out)
+static void	close_in_out_fds(int fd_in[2], int fd_out[2])
 {
-	if (fd_in != STDIN_FILENO)
-		close(fd_in);
-	if (fd_out != STDOUT_FILENO)
-		close(fd_out);
+	if (fd_in[1] != FDLVL_STD)
+		close(fd_in[0]);
+	if (fd_out[1] != FDLVL_STD)
+		close(fd_out[0]);
 }
 
 static pid_t	exec_subshell(t_cmd_table *cmd_table)
@@ -38,7 +39,7 @@ static pid_t	exec_subshell(t_cmd_table *cmd_table)
 		return (pid);
 	cmd_table->cmd[0][ft_strlen(cmd_table->cmd[0]) - 1] = 0;
 	status = process_input(cmd_table->cmd[0] + 1,
-			cmd_table->fd_in, cmd_table->fd_out);
+			cmd_table->fd_in[0], cmd_table->fd_out[0]);
 	exit(status);
 }
 
@@ -54,10 +55,11 @@ static pid_t	fork_and_execve(char *path, t_cmd_table *cmd_table, int fd_pipe)
 		return (pid);
 	}
 	mssignal_change_mode(MSSIG_NINTER);
-	dup2(cmd_table->fd_in, STDIN_FILENO);
-	dup2(cmd_table->fd_out, STDOUT_FILENO);
+	dup2(cmd_table->fd_in[0], STDIN_FILENO);
+	dup2(cmd_table->fd_out[0], STDOUT_FILENO);
 	close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
-	close(fd_pipe);
+	if (fd_pipe != -1)
+		close(fd_pipe);
 	status = execve(path, cmd_table->cmd, environ);
 	exit(status);
 }
