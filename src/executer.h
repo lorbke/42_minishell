@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 15:45:37 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/13 18:17:13 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 18:27:43 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 
 # define EXEC_SUCCESS 0
 # define EXEC_GENERALERR 1 
+# define EXEC_SYNTAXERR 2
 # define EXEC_CMDNOTFOUND 127
 # define EXEC_SIGNAL 128
-# define EXEC_SYNTAXERR 258
 
 typedef int	t_status;
 
