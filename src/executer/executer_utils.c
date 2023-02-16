@@ -109,6 +109,8 @@ pid_t	exec_cmd(t_cmd_table *cmd_table)
 	{
 		if (cmd_table->fd_in != STDIN_FILENO)
 			close(cmd_table->fd_in);
+		if (cmd_table->fd_out != STDOUT_FILENO)
+			close(cmd_table->fd_out);
 		return (pid);
 	}
 	mssignal_change_mode(MSSIG_NINTER);
