@@ -38,13 +38,7 @@
 
 static void	print_syntax_error(int desc, char *error_loc)
 {
-	if (desc == TOK_REDIR_IN
-		|| desc == TOK_REDIR_OUT
-		|| desc == TOK_REDIR_APPEND
-		|| desc == TOK_REDIR_HEREDOC)
-		printf("%s%s%s'\n",
-			SHELL_NAME, STR_SYNTAXERR, "newline");
-	else if (desc == TOK_SUBSHELL)
+	if (desc == TOK_SUBSHELL)
 		printf("%s%s%s'\n",
 			SHELL_NAME, STR_SYNTAXERR, "(");
 	else
