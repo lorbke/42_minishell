@@ -86,11 +86,7 @@ t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
 		return (exit_status_get());
 	pid = exec_cmd(cmd_table);
 	if (pid != -1)
-	{
 		wait_pid_and_set_exit(pid);
-		if (cmd_table->fd_in != STDIN_FILENO)
-			close(cmd_table->fd_in);
-	}
 	if (exit_status_get() != EXEC_GENERALERR)
 		print_error(exit_status_get(), cmd_table->cmd[0]);
 	while (waitpid(-1, NULL, WUNTRACED) != -1)

@@ -59,6 +59,11 @@ static int	set_termios(bool interactive)
 	return (0);
 }
 
+static void	handle_sigpipe(int signal)
+{
+	printf("SIGPIPE\n");
+}
+
 void	mssignal_change_mode(char mode)
 {
 	if (mode == MSSIG_NINTER)
@@ -66,6 +71,7 @@ void	mssignal_change_mode(char mode)
 		set_termios(false);
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
+		signal(SIGPIPE, handle_sigpipe);
 	}
 	else if (mode == MSSIG_INTER)
 	{

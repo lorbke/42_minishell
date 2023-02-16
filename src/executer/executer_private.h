@@ -22,7 +22,7 @@ typedef struct s_cmd_table
 	char	**cmd;
 	int		fd_in;
 	int		fd_out;
-	int		fd_last;
+	int		fd_pipe;
 }	t_cmd_table;
 
 typedef t_cmd_table	*(*t_func_handle)(t_ast *);

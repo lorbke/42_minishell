@@ -51,7 +51,7 @@ t_cmd_table	*create_cmd_table(t_ast *ast)
 	cmd_table->cmd[i] = NULL;
 	cmd_table->fd_in = STDIN_FILENO;
 	cmd_table->fd_out = STDOUT_FILENO;
-	cmd_table->fd_last = -1;
+	cmd_table->fd_pipe = -1;
 	return (cmd_table);
 }
 
@@ -86,9 +86,8 @@ static pid_t	exec_subshell(t_cmd_table *cmd_table)
 }
 
 // @note -1 as error sensible?
-// @todo think of echo hi | cd .. case (directory is not changed) when implementing builtins
-// @todo fix cat | ls, cat /dev/random | head -10 (cat is not killed)
 // @todo fix echo hello | << lim cat (heredoc fd is overwritten)
+// @todo fix echo hello && << lim cat (heredoc is not interpreted first)
 pid_t	exec_cmd(t_cmd_table *cmd_table)
 {
 	char	*path;
@@ -106,43 +105,25 @@ pid_t	exec_cmd(t_cmd_table *cmd_table)
 		return (-1);
 	}
 	pid = fork();
-	if (pid != 0)
+	if (pid > 0)
 	{
 		if (cmd_table->fd_in != STDIN_FILENO)
-		{
-			printf("(parent) closing fd_in of: %s\n", cmd_table->cmd[0]);
 			close(cmd_table->fd_in);
-		}
-		if (cmd_table->fd_out != STDOUT_FILENO)
-		{
-			printf("(parent) closing fd_out of: %s\n", cmd_table->cmd[0]);
-			close(cmd_table->fd_out);
-		}
-		if (cmd_table->fd_last != -1)
-		{
-			printf("(parent) closing fd_last of: %s\n", cmd_table->cmd[0]);
-			close(cmd_table->fd_last);
-		}
 		return (pid);
 	}
 	mssignal_change_mode(MSSIG_NINTER);
 	if (cmd_table->fd_in != STDIN_FILENO)
 	{
-		printf("(child) closing fd_in of: %s\n", cmd_table->cmd[0]);
 		dup2(cmd_table->fd_in, STDIN_FILENO);
 		close(cmd_table->fd_in);
 	}
 	if (cmd_table->fd_out != STDOUT_FILENO)
 	{
-		printf("(child) closing fd_out of: %s\n", cmd_table->cmd[0]);
 		dup2(cmd_table->fd_out, STDOUT_FILENO);
 		close(cmd_table->fd_out);
 	}
-	if (cmd_table->fd_last != -1)
-	{
-		printf("(child) closing fd_last of: %s\n", cmd_table->cmd[0]);
-		close(cmd_table->fd_last);
-	}
+	if (cmd_table->fd_pipe != -1)
+		close(cmd_table->fd_pipe);
 	status = execve(path, cmd_table->cmd, environ);
 	exit(status);
 }

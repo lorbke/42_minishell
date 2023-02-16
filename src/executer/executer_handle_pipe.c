@@ -17,7 +17,6 @@
 #include <sys/types.h> // pid_t
 #include <string.h> // NULL
 #include <unistd.h> // close, pipe
-#include <stdio.h>
 
 t_cmd_table	*handle_pipe(t_ast *ast)
 {
@@ -31,6 +30,7 @@ t_cmd_table	*handle_pipe(t_ast *ast)
 		return (NULL);
 	pipe(fd);
 	cmd_table_l->fd_out = fd[1];
+	cmd_table_l->fd_pipe = fd[0];
 	pid_l = exec_cmd(cmd_table_l);
 	if (pid_l == -1)
 	{
@@ -41,6 +41,5 @@ t_cmd_table	*handle_pipe(t_ast *ast)
 	if (!cmd_table_r)
 		return (NULL);
 	cmd_table_r->fd_in = fd[0];
-	cmd_table_r->fd_last = fd[1];
 	return (cmd_table_r);
 }
