@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 14:39:13 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 19:21:52 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_status	process_input(char *input, int fd_in, int fd_out)
 	mssignal_change_mode(MSSIG_EXEC);
 	exit_status = executer_exec_ast(ast, fd_in, fd_out);
 	mssignal_change_mode(MSSIG_INTER);
-	printf("-----exit status: %d\n", exit_status);
+	// printf("-----exit status: %d\n", exit_status);
 	return (exit_status);
 }
 

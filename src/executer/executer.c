@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 15:04:55 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/16 18:26:01 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ static void	close_unclosed_branches(t_ast *ast)
 
 // @todo fix echo hello | << lim cat (heredoc fd is overwritten)
 // @todo fix echo hello && << lim cat (heredoc is not interpreted first)
-// @todo fix ech hi | > teste case (file is opened even though ech hi fails)
 t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
 {
 	t_cmd_table	*cmd_table;

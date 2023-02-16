@@ -294,3 +294,48 @@ CASE 32: < in (echo hi)
 bash: syntax error near unexpected token `('
 
 
+
+
+
+----------heredoc && unclosed------------
+
+problems:
+- heredoc is not interpreted first
+- unclosed quotes are not handled at all
+- if closing heredoc is opened, the whole command is not written to the history
+	- the actual bash history includes spaces and newlines, which leads to more problems
+- there is a weird bug: somehow the input of earlier closing heredocs is saved, probably because the pipe is never closed properly
+- consecutive closing heredocs behave incorrect, the heredoc never closes
+
+approach:
+- after lexing and parsing, the input is checked for unclosed branches and heredocs
+- unclosed branches are stored in a doc_list
+- they are opened consecutively and the input is stored in the list
+- the input string is then copied and supplemented by the unclosed branches input
+- the old input is freed, the supplemented input is lexed and parsed again
+- repeat until no unclosed branches are left
+- then interpret heredocs from left to right
+- add to history
+
+differences between heredoc and unclosed branches:
+- heredoc has a limiter
+- unclosed branch ends on itself
+- unclosed branch is added to history
+
+heredoc temp file or pipe?
+- temp file is much easier to implement, also a whole function in the executer can be spared
+
+heredoc readline or read?
+- readline will lead to the newline problem when writing EOF
+- read has other problems (which I forgot about)
+
+
+
+data structures:
+doc_list
+{
+	char *input
+	next *doc_list
+}
+problem: replacing lim with temp file name will lead to it being copied into the input string
+solution: first interpret unclosed branches until no unclosed branches are left, then add to history, then interpret heredocs
