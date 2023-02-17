@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:13:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 17:41:53 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/17 17:16:55 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 #include "libft.h" // ft_strchr, ft_strjoin, ft_strdup, ft_strlen, ft_strncmp
 #include "../../utils.h" // free_list
 #include "export_private.h" // init_var_name, init_var_value, check_if_var_exists, update_var
-#include "lib/env/src/env_private.h" // add_to_back, new_sym_tab_node
+// @note add this functions to the env.h header
+#include "../../../lib/env/src/env_private.h" // add_to_back, new_sym_tab_node
 #include <stdio.h> // printf
 
-static void	export_var(t_sym_tab **sym_table, char *var);
+static int	export_var(char *var);
 static void	print_sorted_list(t_sym_tab *head);
 static void	insertion_sort(t_sym_tab **head, t_sym_tab *node);
 static void	print_var(t_sym_tab *node, char *equal);
@@ -26,8 +27,10 @@ int builtin_export(char **argv)
 {
 	int		i;
 	int		argc;
+	int		status;
 	char	**var;
 
+	status = 0;
 	if (argv[1] == NULL)
 	{
 		print_sorted_list(*g_sym_table);
@@ -39,57 +42,60 @@ int builtin_export(char **argv)
 		argc++;
 	while (i < argc)
 	{
-		export_var(g_sym_table, argv[i]);
+		if (export_var(argv[i]) != 0)
+			status = 1;
 		i++;
 	}
-	return (0);
+	return (status);
 }
 
-static void	export_var(t_sym_tab **sym_table, char *var)
+static int	export_var(char *var)
 {
-	t_sym_tab	*temp;
-	char		*var_name;
-	char		*var_value;
+	char	*var_name;
+	char	*var_value;
+	char	*variable;
 
-	temp = *sym_table;
 	var_name = init_var_name(var);
 	if (var_name == NULL)
-		return ;
+		return (1);
 	var_value = init_var_value(var, var_name);
-	while (temp != NULL)
-	{
-		if (check_if_var_exists(temp, var_name))
-		{
-			update_var(temp, var_name, var_value);
-			return ;
-		}
-		temp = temp->next;
-	}
+	if (update_if_exists(var_name, var_value))
+		return ;
+	variable = malloc(sizeof(char) * ft_strlen(var) + 1);
+	if (variable == NULL)
+		return ;
+	ft_strlcpy(variable, var, ft_strlen(var) + 1);
 	if (var_value != NULL)
-		var = ft_strjoin(var_name, var_value);
-	add_to_back(g_sym_table, new_sym_tab_node(var));
+		variable = ft_strjoin(var_name, var_value);
+	add_to_back(g_sym_table, new_sym_tab_node(variable));
+	free(var_name);
+	free(var_value);
+	free(variable);
+	return (0);
 }
 
 static void print_sorted_list(t_sym_tab *head)
 {
 	t_sym_tab	*next;
-	t_sym_tab	*sorted;
 	t_sym_tab	*current;
+	t_sym_tab	*sorted;
 
 	sorted = NULL;
 	current = head;
-	while (current)
+	while (current != NULL)
 	{
 		next = current->next;
 		insertion_sort(&sorted, current);
 		current = next;
 	}
-	while (sorted)
+	while (sorted != NULL)
 	{
+		current = sorted;
 		print_var(sorted, ft_strchr(sorted->var, '='));
 		sorted = sorted->next;
+		free(current->var);
+		free(current);
 	}
-	free_list(sorted);
 }
 
 static void insertion_sort(t_sym_tab **head, t_sym_tab *node)
@@ -100,7 +106,9 @@ static void insertion_sort(t_sym_tab **head, t_sym_tab *node)
 
 	i = 0;
 	temp = copy_node(node);
-	if (*head == NULL || (*head)->var[i] >= temp->var[i])
+	if (temp == NULL)
+		return ;
+	if (*head == NULL || ft_strcmp((*head)->var, temp->var) >= 0)
 	{
 		if (*head == NULL)
 			temp->next = NULL;
@@ -111,9 +119,7 @@ static void insertion_sort(t_sym_tab **head, t_sym_tab *node)
 	else
 	{
 		current = *head;
-		while((*head)->var[i] == temp->var[i])
-			i++;
-		while (current->next != NULL && current->next->var[i] < temp->var[i])
+		while (current->next != NULL && ft_strcmp(current->next->var, temp->var) < 0)
 			current = current->next;
 		temp->next = current->next;
 		current->next = temp;
@@ -125,7 +131,6 @@ static void	print_var(t_sym_tab *node, char *equal)
 	printf("declare -x ");
 	if (equal)
 	{
-		// pointer subtraction here to get the length of the var name
 		printf("%.*s", (int)(equal - node->var), node->var);
 		printf("=");
 		printf("\"%s\"", equal + 1);
