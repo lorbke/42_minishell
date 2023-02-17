@@ -6,18 +6,15 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:20:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/11 14:38:56 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/17 13:46:00 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "env_private.h"
+#include "libft.h" // malloc, NULL, ft_strchr
+#include "env_private.h" // get_list_len
 
 static int	check_value(t_sym_tab *node);
 
-//@note you are mallocing the env list here
-// possible that this will cause leaks when called with execve?
-// or does it free this automatically?
 char **create_env_list(t_sym_tab **head)
 {
 	int			i;
@@ -30,11 +27,12 @@ char **create_env_list(t_sym_tab **head)
 	env_list = malloc(sizeof(char *) * (len + 1));
 	if (env_list == NULL) {
 		// @note need to handle this error properly
+		return (NULL);
 	}
 	temp = *head;
 	i = 0;
-	while (temp) {
-		if (!check_value(temp))
+	while (temp != NULL) {
+		if (check_value(temp) == 0)
 			temp = temp->next;
 		else
 		{
@@ -43,12 +41,13 @@ char **create_env_list(t_sym_tab **head)
 			i++;
 		}
 	}
+	env_list[i] = NULL;
 	return (env_list);
 }
 
 static int	check_value(t_sym_tab *node)
 {
-	if (!node)
+	if (node == NULL)
 		return (0);
 	if (ft_strchr(node->var, '='))
 		return (1);

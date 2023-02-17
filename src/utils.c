@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:17:47 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 18:27:17 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/17 16:56:14 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,31 @@
 
 void	free_split(char **split)
 {
-	char **temp;
+	int		i;
+	char	**temp;
 
+	i = 0;
 	temp = split;
-	while (*temp != NULL)
+	while (temp[i] != NULL)
 	{
-		free(*temp);
-		temp++;
+		free(temp[i]);
+		i++;
 	}
-	free(split);
+	free(temp);
 }
 
-void	free_list(t_sym_tab *head)
+void	free_list(t_sym_tab **head)
 {
 	t_sym_tab *temp;
 
-	while (head != NULL)
+	while (*head != NULL)
 	{
-		temp = head;
-		head = head->next;
+		temp = *head;
+		*head = (*head)->next;
 		free(temp->var);
 		free(temp);
 	}
+	free(head);
 }
 
 int	ft_strcmp(const char *s1, const char *s2)

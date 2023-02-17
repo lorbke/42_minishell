@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:03:21 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/11 14:37:30 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/17 15:27:40 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ t_sym_tab	*copy_node(t_sym_tab *node)
 {
 	t_sym_tab	*new_node;
 
-	new_node = (t_sym_tab *)malloc(sizeof(t_sym_tab));
-	if (!new_node) {
-		// @note need to handle this error properly
+	new_node = malloc(sizeof(t_sym_tab));
+	if (new_node == NULL) {
+		return (NULL);
 	}
 	new_node->var = ft_strdup(node->var);
 	new_node->next = NULL;

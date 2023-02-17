@@ -6,11 +6,11 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 19:04:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 18:24:33 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/17 13:26:00 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h" // malloc, ft_strlen, ft_strlcpy
+#include "libft.h" // malloc, free, ft_strlen, ft_strlcpy, ft_strjoin
 #include "../expander_private.h" // realloc_string_array
 
 static char	**add_globbed_vars(char **expanded_argv, char **result);
@@ -25,24 +25,15 @@ char **add_vars(char **expanded_argv, char **result, char **argv)
 	return (expanded_argv);
 }
 
-char	**create_new_cmd(char **expanded_argv, char **argv)
+char	*create_new_path(char *path, char *entry)
 {
-	int len;
+	char	*sub_path;
+	char	*new_path;
 
-	len = 0;
-	if (expanded_argv == NULL)
-		return (argv);
-	expanded_argv = realloc_string_array(expanded_argv, 1);
-	while (expanded_argv[len] != NULL)
-		len++;
-	expanded_argv[len + 1] = NULL;
-	while (len > 0)
-	{
-		expanded_argv[len] = expanded_argv[len - 1];
-		len--;
-	}
-	expanded_argv[0] = argv[0];
-	return (expanded_argv);
+	sub_path = ft_strjoin(path, entry);
+	new_path = ft_strjoin(sub_path, "/");
+	free(sub_path);
+	return (new_path);
 }
 
 // @note as discussed with luca, *every* arg from the cmd will be copied into the expanded_argv
@@ -53,7 +44,7 @@ static char	**add_unglobbed_vars(char **expanded_argv, char **result, char **arg
 	i = 0;
 	if (expanded_argv != NULL)
 	{
-		expanded_argv = realloc_string_array(expanded_argv, 2);
+		expanded_argv = realloc_string_array(expanded_argv, 1);
 		while (expanded_argv[i])
 			i++;
 	}
@@ -65,6 +56,7 @@ static char	**add_unglobbed_vars(char **expanded_argv, char **result, char **arg
 	return (expanded_argv);
 }
 
+// @note shorten
 static char	**add_globbed_vars(char **expanded_argv, char **result)
 {
 	int i;
@@ -84,9 +76,12 @@ static char	**add_globbed_vars(char **expanded_argv, char **result)
 			i++;
 		while (result[j] != NULL)
 		{
-			expanded_argv[i + j] = result[j];
+			expanded_argv[i + j] = malloc(sizeof(char) * ft_strlen(result[j]) + 1);
+			ft_strlcpy(expanded_argv[i + j], result[j], ft_strlen(result[j]) + 1);
+			free(result[j]);
 			j++;
 		}
+		free(result);
 		expanded_argv[i + j] = NULL;
 	}
 	return (expanded_argv);

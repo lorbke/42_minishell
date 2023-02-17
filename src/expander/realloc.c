@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:45:58 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 18:13:30 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/16 17:50:26 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ char	*ft_realloc(char *ptr, int len)
 		return (NULL);
 	ft_memcpy(result, ptr, len);
 	free(ptr);
+	ptr = NULL;
 	return (result);
 }
 
@@ -35,15 +36,21 @@ char	**realloc_string_array(char **ptr, int size)
 	ptr_len = 0;
 	while (ptr[ptr_len] != NULL)
 		ptr_len++;
-	result = malloc(sizeof(char *) * (ptr_len + size) + 1);
-	while (ptr[i] != NULL)
+	result = malloc(sizeof(char *) * (ptr_len + size + 1));
+	if (result == NULL)
+		return (NULL);
+	while (ptr[i] != NULL && i < ptr_len)
 	{
 		len = ft_strlen(ptr[i]);
 		result[i] = ft_realloc(ptr[i], len + 1);
 		result[i][len] = '\0';
 		i++;
 	}
-	free(ptr);
+	if (ptr != NULL)
+	{
+		free(ptr);
+		ptr = NULL;
+	}
 	result[i] = NULL;
 	return (result);
 }

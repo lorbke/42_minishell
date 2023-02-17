@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 18:20:24 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/17 13:18:01 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ char	**globbing_outside_cwd(char *path, char *pattern, char **result)
 	int		i;
 	char	*new_path;
 	char	*new_pattern;
-	char	**new_result;
 
 	i = 0;
 	while (pattern[i] != '\0' && pattern[i] != '/')
@@ -38,7 +37,10 @@ char	**globbing_outside_cwd(char *path, char *pattern, char **result)
 		{
 			path = ft_strjoin(path, new_path);
 			result = expand_in_valid_path(path, new_pattern, result);
+			free(path);
 		}
+		free(new_path);
+		free(new_pattern);
 	}
 	else
 		result = get_matching_entries(path, pattern, result);
@@ -61,11 +63,10 @@ char	**check_for_path(char *pattern, char **result)
 		new_pattern = ft_substr(pattern, i + 1, ft_strlen(pattern));
 		if (ft_strcmp(new_path, "*/") == 0)
 			result = expand_cwd_dir(new_path, new_pattern, result);
-		else
-		{
-			if (stat(new_path, &buf) == 0)
+		else if (stat(new_path, &buf) == 0)
 				result = globbing_outside_cwd(new_path, new_pattern, result);
-		}
+		free(new_path);
+		free(new_pattern);
 	}
 	return (result);
 }
@@ -73,8 +74,8 @@ char	**check_for_path(char *pattern, char **result)
 static char	**iterate_over_dir(char *path, char *pattern, char **result)
 {
 	DIR				*dir;
-	char			*new_path;
 	struct dirent	*entry;
+	char			*new_path;
 
 	dir = opendir(path);
 	while (1)
@@ -89,8 +90,7 @@ static char	**iterate_over_dir(char *path, char *pattern, char **result)
 				result = pattern_over(result, entry->d_name, path);
 			else
 			{
-				// @note I am sure this will leak, because of the inner strjoin
-				new_path = ft_strjoin(ft_strjoin(path, entry->d_name), "/");
+				new_path = create_new_path(path, entry->d_name);
 				result = globbing_outside_cwd(new_path, pattern, result);
 				free(new_path);
 			}
@@ -106,7 +106,6 @@ static char	**expand_in_valid_path(char *path, char *pattern, char **result)
 
 	if (stat(path, &buf) == 0)
 		result = globbing_outside_cwd(path, pattern, result);
-	free(path);
 	return (result);
 }
 
@@ -114,6 +113,7 @@ static char	**expand_cwd_dir(char *path, char *pattern, char **result)
 {
 	DIR				*dir;
 	struct dirent	*entry;
+	char			*new_path;
 
 	// @note need to protect/check if dir == NULL?
 	dir = opendir(getcwd(NULL, 0));
@@ -124,12 +124,12 @@ static char	**expand_cwd_dir(char *path, char *pattern, char **result)
 			break ;
 		if (entry->d_name[0] != '.' || ft_strcmp(pattern, ".*") == 0)
 		{
-			path = ft_strjoin(entry->d_name, "/");
+			new_path = ft_strjoin(entry->d_name, "/");
 			if (entry->d_type == DT_DIR && pattern[0] != '\0')
-				result = globbing_outside_cwd(path, pattern, result);
+				result = globbing_outside_cwd(new_path, pattern, result);
 			else if (entry->d_type == DT_DIR && pattern[0] == '\0')
-				result = add_matching_entry(result, path);
-			free(path);
+				result = add_matching_entry(result, new_path);
+			free(new_path);
 		}
 	}
 	closedir(dir);

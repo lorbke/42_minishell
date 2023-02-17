@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/15 09:05:49 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/17 09:40:44 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,18 @@
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token
 #include "libft.h" // ft_strlen, ft_strncmp
-#include "../../../src/expander.h"
+// @note change to absolute path later on
+#include "../../../src/utils.h"
+#include "../../../src/expander.h" // exapnder
 #include "../../../src/builtins.h" // all builtins
 #include <sys/types.h> // pid_t, fork, execve
 #include <fcntl.h> // open
 #include <stdlib.h> // malloc, free, exit
 #include <stdio.h> // printf
 #include <limits.h> // ARG_MAX
+#include <sys/wait.h>
+
+#define ARG_MAX (256 * 1024)
 
 extern t_sym_tab **g_sym_table;
 
@@ -95,6 +100,7 @@ int	get_heredoc(char *limiter)
 	return (fd[0]);
 }
 
+// @note builtins also need to be executed in child processes
 pid_t	exec_cmd(t_cmd_table *cmd_table)
 {
 	char	*path;
@@ -109,7 +115,11 @@ pid_t	exec_cmd(t_cmd_table *cmd_table)
 	cmd_table->cmd = expander(cmd_table->cmd);
 	if (is_builtin(cmd_table->cmd[0]))
 	{
+		// @note need to find a solution for this
+		// in the final version
+		free(env);
 		status = exec_builtin(cmd_table);
+		free_split(cmd_table->cmd);
 		return (status);
 	}
 	pid = fork();

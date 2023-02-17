@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:23:41 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 17:48:17 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/17 18:03:41 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,26 +38,22 @@ static void	remove_first_node(t_sym_tab	*first)
 	free(first);
 }
 
-static void	remove_node(char *var)
+static void	find_and_remove(char *var, t_sym_tab *temp)
 {
-	t_sym_tab	*temp;
-	t_sym_tab	*prev;
 	int			key_len;
+	t_sym_tab	*prev;
 
 	prev = *g_sym_table;
-	temp = (*g_sym_table)->next;
-	key_len = (int)(ft_strchr(prev->var, '=') - prev->var);
-	if (ft_strncmp(prev->var, var, key_len) == 0)
-	{
-		remove_first_node(prev);
-		return ;
-	}
+	temp = prev->next;
 	while (temp != NULL)
 	{
 		key_len = (int)(ft_strchr(temp->var, '=') - temp->var);
 		if (ft_strncmp(temp->var, var, key_len) == 0)
 		{
-			prev->next = temp->next;
+			if (temp->next == NULL)
+				prev->next = NULL;
+			else
+				prev->next = temp->next;
 			free(temp->var);
 			free(temp);
 			return ;
@@ -65,4 +61,21 @@ static void	remove_node(char *var)
 		prev = temp;
 		temp = temp->next;
 	}
+}
+
+static void	remove_node(char *var)
+{
+	t_sym_tab	*temp;
+	t_sym_tab	*prev;
+	int			key_len;
+
+	prev = *g_sym_table;
+	temp = prev->next;
+	key_len = (int)(ft_strchr(prev->var, '=') - prev->var);
+	if (ft_strncmp(prev->var, var, key_len) == 0)
+	{
+		remove_first_node(prev);
+		return ;
+	}
+	find_and_remove(var, temp);
 }

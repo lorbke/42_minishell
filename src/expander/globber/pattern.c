@@ -6,11 +6,12 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:17:44 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 18:25:40 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/17 13:29:07 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // malloc, ft_strlen, ft_strjoin
+#include "globber.h" // create_new_path
 #include "../expander_private.h" // realloc_string_array
 
 static void	check_char(char **arg, char **pattern, int *astrisk_control);
@@ -23,6 +24,8 @@ char	*find_pattern(char *arg, int *index)
 	int		astrisk_control;
 
 	pattern = malloc(sizeof(char) * ft_strlen(arg) + 1);
+	if (pattern == NULL)
+		return (NULL);
 	tmp = pattern;
 	astrisk_control = 0;
 	while (*arg != '\0')
@@ -66,22 +69,24 @@ int	is_match(char *entry, char *pattern)
 
 char	**pattern_over(char **result, char *entry, char *path)
 {
-	int		i;
-	char	**new_result;
+	int	i;
 
 	i = 0;
 	if (result != NULL)
 	{
 		while (result[i] != NULL)
 			i++;
-		new_result = realloc_string_array(result, 2);
+		result = realloc_string_array(result, 2);
 	}
 	else
-		new_result = malloc(sizeof(char *) * 2);
-	new_result[i] = ft_strjoin(path, entry);
-	new_result[i] = ft_strjoin(new_result[i], "/");
-	new_result[i + 1] = NULL;
-	result = new_result;
+	{
+		result = malloc(sizeof(char *) * 2);
+		if (result == NULL)
+			return (NULL);
+	}
+	result[i] = create_new_path(path, entry);
+	result[i + 1] = NULL;
+	result = result;
 	return (result);
 }
 

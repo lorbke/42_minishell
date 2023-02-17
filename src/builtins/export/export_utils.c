@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 17:36:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/17 17:12:48 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/17 17:45:09 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,15 @@ int	check_if_var_exists(t_sym_tab *temp, char *var_name)
 	if (ft_strncmp(temp->var, var_name, i) == 0)
 		return (1);
 	return (0);
+}
+
+void	update_var(t_sym_tab *temp, char *var_name, char *var_value)
+{
+	if (var_value != NULL)
+	{
+		free(temp->var);
+		temp->var = ft_strjoin(var_name, var_value);
+	}
 }
 
 int	update_if_exists(char *var_name, char *var_value)
@@ -46,14 +55,6 @@ int	update_if_exists(char *var_name, char *var_value)
 	return (0);
 }
 
-void	update_var(t_sym_tab *temp, char *var_name, char *var_value)
-{
-	if (var_value != NULL)
-	{
-		free(temp->var);
-		temp->var = ft_strjoin(var_name, var_value);
-	}
-}
 
 char	*init_var_name(char *var)
 {

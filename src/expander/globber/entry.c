@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:20:36 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 18:15:36 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/17 13:31:42 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,29 @@
 #include "../expander_private.h" // realloc_string_array
 
 static char	**sort_entries(char **result, char *entry);
-static char	**add_first_entry(char **result, char *entry);
+static char	**add_first_entry(char *entry, char **result);
 
+// @note possible leaks here
+// instead of freeing the entry/path inside their repspective functions
+// we could do it here
 char	**add_matching_entry(char **result, char *entry)
 {
-	int		i;
-	char	**new_result;
-
 	if (result == NULL)
-		new_result = add_first_entry(result, entry);
+		result = add_first_entry(entry, result);
 	else
 	{
-		new_result = realloc_string_array(result, 1);
-		new_result = sort_entries(new_result, entry);
+		result = realloc_string_array(result, 1);
+		result = sort_entries(result, entry);
 	}
-	return (new_result);
+	return (result);
 }
 
+// @note ft_join inside here seems to cause leaks
 char	**get_matching_entries(char *path, char *pattern, char **result)
 {
 	DIR				*dir;
 	struct dirent	*entry;
+	char			*entry_name;
 
 	if (path != NULL)
 		dir = opendir(path);
@@ -51,9 +53,18 @@ char	**get_matching_entries(char *path, char *pattern, char **result)
 			if (is_match(entry->d_name, pattern))
 			{
 				if (path != NULL)
-					result = add_matching_entry(result, ft_strjoin(path, entry->d_name));
+				{
+					entry_name = ft_strjoin(path, entry->d_name);
+					result = add_matching_entry(result, entry_name);
+					free(entry_name);
+				}
 				else
-					result = add_matching_entry(result, entry->d_name);
+				{
+					entry_name = malloc(sizeof(char) * ft_strlen(entry->d_name) + 1);
+					ft_strlcpy(entry_name, entry->d_name, ft_strlen(entry->d_name) + 1);
+					result = add_matching_entry(result, entry_name);
+					free(entry_name);
+				}
 			}
 		}
 	}
@@ -61,15 +72,17 @@ char	**get_matching_entries(char *path, char *pattern, char **result)
 	return (result);
 }
 
-static char	**add_first_entry(char **result, char *entry)
+static char	**add_first_entry(char *entry, char **result)
 {
-	char **new_result;
-
-	new_result = malloc(sizeof(char *) * 2);
-	new_result[0] = malloc(sizeof(char) * ft_strlen(entry) + 1);
-	ft_strlcpy(new_result[0], entry, ft_strlen(entry) + 1);
-	new_result[1] = NULL;
-	return (new_result);
+	result = malloc(sizeof(char *) * 2);
+	if (result == NULL)
+		return (NULL);
+	result[0] = malloc(sizeof(char) * ft_strlen(entry) + 1);
+	if (result[0] == NULL)
+		return (NULL);
+	ft_strlcpy(result[0], entry, ft_strlen(entry) + 1);
+	result[1] = NULL;
+	return (result);
 }
 
 static char	**sort_entries(char **result, char *entry)
@@ -94,6 +107,8 @@ static char	**sort_entries(char **result, char *entry)
 		len--;
 	}
 	result[i] = malloc(sizeof(char) * ft_strlen(entry) + 1);
+	if (result[i] == NULL)
+		return (NULL);
 	ft_strlcpy(result[i], entry, ft_strlen(entry) + 1);
 	return (result);
 }

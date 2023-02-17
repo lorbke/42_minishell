@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:47:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 17:59:06 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/17 13:44:45 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,40 +15,67 @@
 #include "../utils.h" // check_naming_convention
 #include "expander_private.h" // ft_realloc
 
-static int	get_var_len(char *var);
+static char	*expand_var(char *arg);
+static char	*get_var(char *arg, int *index);
+static char	*add_expanded_var(char *result, char *var, int *result_index);
 
-char	*get_var(char *arg, int *index)
+char *try_expansion(char *result, char *arg, int *index, int *result_index)
 {
-	int		i;
-	int		len;
 	char	*var;
+	char	*value;
+	char	*expanded_var;
 
-	i = check_naming_convention(arg);
-	if (i == 0)
+	(*index)++;
+	expanded_var = result;
+	var = get_var(&arg[*index], &(*index));
+	if (var == NULL && result == NULL)
 		return (NULL);
-	var = malloc(sizeof(char) * (i + 1));
-	ft_strlcpy(var, arg, (i + 1));
-	*index += i;
-	return (var);
+	value = expand_var(var);
+	if (value != NULL)
+		expanded_var = add_expanded_var(result, value, &(*result_index));
+	free(var);
+	return (expanded_var);
 }
 
-char	*expand_var(char *arg)
+char	*tilde_expansion(char *result, char *arg, int *index, int *result_index)
 {
-	int			len;
+	char	*home;
+	char	*expanded_home;
+
+	if ((result || arg[*index + 1] != '/') && ft_strlen(arg) > 1)
+	{
+		expanded_home = add_char_to_string(result, '~', &(*index), &(*result_index));
+		return (expanded_home);
+	}
+	// @note handle the case when HOME is not set?
+	home = expand_var("HOME");
+	expanded_home = add_expanded_var(result, home, &(*result_index));
+	free(home);
+	(*index)++;
+	return (expanded_home);
+}
+
+static char	*expand_var(char *arg)
+{
 	t_sym_tab	*temp;
+	int			len;
 	char		*value;
 
 	temp = *g_sym_table;
 	value = NULL;
 	while (temp != NULL)
 	{
-		if (ft_strlen(arg) > get_var_len(temp->var))
+		len = 0;
+		while (temp->var[len] != '\0' && temp->var[len] != '=')
+			len++;
+		if (ft_strlen(arg) > len)
 			len = ft_strlen(arg);
-		else
-			len = get_var_len(temp->var);
 		if (ft_strncmp(arg, temp->var, len) == 0)
 		{
-			value = ft_strdup(ft_strchr(temp->var, '=') + 1);
+			if (ft_strchr(temp->var, '=') != NULL)
+				value = ft_strchr(temp->var, '=') + 1;
+			else
+				value = NULL;
 			break ;
 		}
 		temp = temp->next;
@@ -56,7 +83,7 @@ char	*expand_var(char *arg)
 	return (value);
 }
 
-char	*add_expanded_var(char *result, char *var, int *result_index)
+static char	*add_expanded_var(char *result, char *var, int *result_index)
 {
 	int		i;
 	char	*arg;
@@ -73,12 +100,19 @@ char	*add_expanded_var(char *result, char *var, int *result_index)
 	return (arg);
 }
 
-static int	get_var_len(char *var)
+static char	*get_var(char *arg, int *index)
 {
-	int	i;
+	int		i;
+	int		len;
+	char	*var;
 
-	i = 0;
-	while (var[i] != '\0' && var[i] != '=')
-		i++;
-	return (i);
+	i = check_naming_convention(arg);
+	if (i == 0)
+		return (NULL);
+	var = malloc(sizeof(char) * (i + 1));
+	if (var == NULL)
+		return (NULL);
+	ft_strlcpy(var, arg, (i + 1));
+	*index += i;
+	return (var);
 }

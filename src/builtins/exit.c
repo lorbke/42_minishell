@@ -6,11 +6,13 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 15:25:41 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/17 17:49:33 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // ft_putstr_fd, ft_strjoin
+#include "../utils.h" // free_list
+#include "env.h" // g_sym_table
 #include <errno.h> // errno
 #include <stdio.h> // printf
 #include <unistd.h> // NULL
@@ -20,32 +22,34 @@ static int			is_num(char *str);
 static long long	ft_atoi_long(char *str);
 static void			print_to_stderr(char *str, char *arg);
 
+// @note I guess later, exit_code needs to be initialised to "global" exit status?
 int	builtin_exit(char **argv)
 {
 	int			argc;
 	long long	exit_code;
 
 	exit_code = errno;
-	if (argv == NULL)
-	{
-		printf("exit\n");
-		exit(exit_code % 256);
-	}
 	argc = 0;
 	while(argv[argc] != NULL)
 		argc++;
 	printf("exit\n");
-	if (argc == 2)
+	if (argc > 2)
+	{
+		print_to_stderr("too many arguments\n", NULL);
+		return (1);
+	}
+	else if (argv[1] == NULL)
+		exit_code = exit_code % 256;
+	else if (argc == 2)
 	{
 		if (is_num(argv[1]))
 			exit_code = ft_atoi_long(argv[1]) % 256;
 		else
 			print_to_stderr(NULL, argv[1]);
-		exit(exit_code);
 	}
-	else if (argc > 2)
-		print_to_stderr("too many arguments\n", NULL);
-	return (0);
+	free_list(g_sym_table);
+	free_split(argv);
+	exit(exit_code);
 }
 
 static int	is_num(char *str)
@@ -107,6 +111,8 @@ static long long	ft_atoi_long(char *str)
 	return (number);
 }
 
+
+// @note this one leaks (bc of strjoin of course)
 static void	print_to_stderr(char *str, char *arg)
 {
 	if (str != NULL && arg != NULL)

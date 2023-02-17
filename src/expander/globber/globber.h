@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:22:03 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 07:34:29 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/17 09:31:46 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 
 // globbing
 char	**globber(char **argv);
+char	*create_new_path(char *path, char *entry);
 char	**add_matching_entry(char **result, char *entry);
-char	**create_new_cmd(char **expanded_argv, char **argv);
 char	**add_vars(char **expanded_argv, char **result, char **argv);
 char	**globbing_outside_cwd(char *path, char *pattern, char **result);
 char	**check_for_path(char *pattern, char **result);

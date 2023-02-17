@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:45:14 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/08 12:10:16 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/17 17:50:51 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int builtin_pwd(char **argv)
 	else
 	{
 		// @note need to handle this error properly
+		// I am certain this leaks as well
 		perror(ft_strjoin("minishell: pwd: ", strerror(errno)));
 		return (errno);
 	}

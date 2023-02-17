@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/08 11:44:45 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/16 15:04:01 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ void	ms_rep_loop(void)
 	while (1)
 	{
 		line = readline(PROMPT);
-		if (!line) // exit buildin will be added later
-			builtin_exit(NULL);
-		if (ft_strncmp(line, "exit", 5) == 0) // exit buildin will be added later
-			builtin_exit(NULL);
+		// if (!line) // exit buildin will be added later
+		// 	builtin_exit(NULL);
+		// if (ft_strncmp(line, "exit", 5) == 0) // exit buildin will be added later
+		// 	builtin_exit(NULL);
 		if (*line)
 		{
 			add_history(line);

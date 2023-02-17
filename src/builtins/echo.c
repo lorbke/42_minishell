@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:57:59 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 15:11:41 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/16 13:48:16 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@
 int builtin_echo(char **argv)
 {
 	int i;
-	int	flag;
+	int	n_flag;
 
 	i = 1;
-	flag = 0;
-	while (argv[i])
+	n_flag = 0;
+	while (argv[i] != NULL)
 	{
-		while (argv[i] && ft_strcmp(argv[i], "-n") == 0)
+		while (argv[i] != NULL && ft_strcmp(argv[i], "-n") == 0)
 		{
 			i++;
-			flag++;
+			n_flag++;
 		}
-		while (argv[i])
+		while (argv[i] != NULL)
 		{
 			printf("%s", argv[i]);
 			i++;
@@ -35,7 +35,7 @@ int builtin_echo(char **argv)
 				printf(" ");
 		}
 	}
-	if (!flag)
+	if (!n_flag)
 		printf("\n");
 	return (0);
 }
