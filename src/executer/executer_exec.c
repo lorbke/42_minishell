@@ -6,13 +6,12 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/17 16:52:27 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/17 17:18:07 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_executer.h" // cmd_table
-#include "../executer.h" // EXEC_* defines
-#include "../minishell.h" // process_input
+#include "../minishell.h" // process_input, ERR_* defines
 #include "../mssignal.h" // mssignal_change_mode
 #include "libft.h" // ft_strlen
 #include <sys/types.h> // pid_t, fork, waitpid, execve
@@ -78,7 +77,7 @@ pid_t	exec_cmd(t_cmd_table *cmd_table, int fd_pipe)
 	path = get_cmd_path(environ, cmd_table->cmd[0]);
 	if (!path)
 	{
-		exit_status_set(EXEC_CMDNOTFOUND);
+		exit_status_set(ERR_CMDNOTFOUND);
 		return (-1);
 	}
 	pid = fork_and_execve(path, cmd_table, fd_pipe);

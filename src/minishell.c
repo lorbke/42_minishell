@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/17 17:01:41 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/17 17:15:52 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ t_status	process_input(char *input, int fd_in, int fd_out)
 	ast = input_to_ast(input);
 	if (!ast)
 	{
-		printf("-----exit status: %d\n", EXEC_SYNTAXERR);
-		return (EXEC_SYNTAXERR);
+		printf("-----exit status: %d\n", ERR_SYNTAXERR);
+		return (ERR_SYNTAXERR);
 	}
 	exit_status = doccer_interpret_heredocs(ast);
-	if (exit_status != EXEC_SUCCESS)
+	if (exit_status != ERR_SUCCESS)
 	{
 		printf("-----exit status: %d\n", exit_status);
 		doccer_delete_heredocs(ast);

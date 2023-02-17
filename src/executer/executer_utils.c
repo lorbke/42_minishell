@@ -6,12 +6,12 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:12:31 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 17:15:43 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/17 17:19:16 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_executer.h" // cmd_table
-#include "../executer.h" // EXEC_* defines
+#include "../minishell.h" // ERR_* defines
 #include "parser.h" // t_ast
 #include "lexer.h" // TOK_* defines
 #include <stdlib.h> // malloc, free, exit
@@ -57,7 +57,7 @@ void	wait_pid_and_set_exit(pid_t pid)
 		exit_status_set(WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
 	{
-		exit_status_set(EXEC_SIGNAL + WTERMSIG(status));
+		exit_status_set(ERR_SIGNAL + WTERMSIG(status));
 		if (WTERMSIG(status) == SIGQUIT)
 			write(STDOUT_FILENO, "Quit: 3", 7);
 		write(STDOUT_FILENO, "\n", 1);

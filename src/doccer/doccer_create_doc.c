@@ -6,12 +6,12 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:14:04 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/17 17:07:42 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/17 17:17:34 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h" // t_ast
-#include "../executer.h" // t_status
+#include "../minishell.h" // t_status, ERR_* defines
 #include "../mssignal.h" // mssignal_change_mode
 #include "libft.h" // ft_strlen, ft_strncmp
 #include <sys/types.h> // pid_t, fork, waitpid, execve
@@ -68,7 +68,7 @@ t_status	create_doc(t_ast *ast, void (*doc_type)(char *, int))
 	free(suffix);
 	fd = open(ast->token->word, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
-		return (EXEC_GENERALERR);
+		return (ERR_GENERALERR);
 	pid = fork();
 	if (pid > 0)
 	{
@@ -79,5 +79,5 @@ t_status	create_doc(t_ast *ast, void (*doc_type)(char *, int))
 	mssignal_change_mode(MSSIG_HDOC);
 	(*doc_type)(limiter, fd);
 	close(fd);
-	exit(EXEC_SUCCESS);
+	exit(ERR_SUCCESS);
 }

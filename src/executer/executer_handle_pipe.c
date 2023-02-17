@@ -6,14 +6,14 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:29:17 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 19:20:16 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/17 17:19:00 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_executer.h" // t_cmd_table, t_func_handle
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token
-#include "../minishell.h" // error_exec_print
+#include "../minishell.h" // ERR_* defines
 #include <sys/types.h> // pid_t
 #include <string.h> // NULL
 #include <unistd.h> // close, pipe

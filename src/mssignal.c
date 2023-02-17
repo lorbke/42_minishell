@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:37:35 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 19:22:51 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/17 17:15:43 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	handle_ctrlc_interactive(int signal)
 static void	handle_ctrlc_heredoc(int signal)
 {
 	write(STDOUT_FILENO, "\n", 1);
-	exit(EXEC_GENERALERR);
+	exit(ERR_GENERALERR);
 }
 
 // /* Because of the way bash handles ^C, 

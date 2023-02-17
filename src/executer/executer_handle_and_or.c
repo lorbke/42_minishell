@@ -6,15 +6,14 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:30:24 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 14:45:16 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/17 17:18:54 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_executer.h" // t_cmd_table, t_func_handle
-#include "../executer.h" // EXEC_* defines
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token
-#include "../minishell.h" // error_exec_print
+#include "../minishell.h" // ERR_* defines
 #include <sys/types.h> // pid_t
 #include <sys/fcntl.h> // open
 #include <sys/wait.h> // waitpid
@@ -30,7 +29,7 @@ t_cmd_table	*handle_and(t_ast *ast)
 
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
 	pid_l = exec_cmd(cmd_table_l, -1);
-	if (pid_l == -1 && exit_status_get() != EXEC_SUCCESS)
+	if (pid_l == -1 && exit_status_get() != ERR_SUCCESS)
 	{
 		if (cmd_table_l)
 			print_error(exit_status_get(), cmd_table_l->cmd[0]);
@@ -38,7 +37,7 @@ t_cmd_table	*handle_and(t_ast *ast)
 	}
 	if (pid_l != -1)
 		wait_pid_and_set_exit(pid_l);
-	if (exit_status_get() == EXEC_SUCCESS)
+	if (exit_status_get() == ERR_SUCCESS)
 	{
 		cmd_table_r = g_func_handle_arr[ast->right->token->desc](ast->right);
 		return (cmd_table_r);
@@ -57,7 +56,7 @@ t_cmd_table	*handle_or(t_ast *ast)
 	pid_l = exec_cmd(cmd_table_l, -1);
 	if (pid_l != -1)
 		wait_pid_and_set_exit(pid_l);
-	if (exit_status_get() != EXEC_SUCCESS)
+	if (exit_status_get() != ERR_SUCCESS)
 	{
 		if (cmd_table_l)
 			print_error(exit_status_get(), cmd_table_l->cmd[0]);

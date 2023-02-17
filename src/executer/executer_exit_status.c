@@ -6,12 +6,11 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:20:03 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/13 18:25:19 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/17 17:18:22 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../executer.h" // t_status, EXEC_* defines
-#include "../minishell.h" // SHELL_NAME
+#include "../minishell.h" // SHELL_NAME, t_status, ERR_* defines
 #include "parser.h" // t_ast
 #include <string.h> // NULL
 #include <stdio.h> // printf
@@ -20,7 +19,7 @@
 
 static t_status	*exit_status_init(void)
 {
-	static t_status	exit_status = EXEC_SUCCESS;
+	static t_status	exit_status = ERR_SUCCESS;
 
 	return (&exit_status);
 }
