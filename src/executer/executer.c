@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 18:26:01 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/17 14:43:15 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,29 +44,6 @@ void	print_error(t_status exit_status, char *error_loc)
 		printf("%s: %s: %s\n", SHELL_NAME, error_loc, strerror(errno));
 }
 
-// @todo free unclosed ast
-// @note unclosed handling still ot like bash, e.g. history
-static void	close_unclosed_branches(t_ast *ast)
-{
-	char	*heredoc;
-	t_ast	*heredoc_ast;
-
-	if (ast && (ast->token->desc == TOK_AND
-			|| ast->token->desc == TOK_OR
-			|| ast->token->desc == TOK_PIPE)
-		&& ast->right->token->desc == TOK_UNCLOSED)
-	{
-		heredoc = malloc(sizeof(char) * ARG_MAX);
-		read(get_heredoc(&heredoc_small, NULL), heredoc, ARG_MAX);
-		heredoc_ast = input_to_ast(heredoc);
-		if (!heredoc_ast && exit_status_get() == EXEC_SUCCESS)
-			exit_status_set(EXEC_SYNTAXERR);
-		free(heredoc);
-		close_unclosed_branches(heredoc_ast);
-		ast->right = heredoc_ast;
-	}
-}
-
 // @todo fix echo hello | << lim cat (heredoc fd is overwritten)
 // @todo fix echo hello && << lim cat (heredoc is not interpreted first)
 t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
@@ -78,7 +55,6 @@ t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
 	exit_status_set(EXEC_SUCCESS);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
-	close_unclosed_branches(ast);
 	if (exit_status_get() != EXEC_SUCCESS)
 		return (exit_status_get());
 	cmd_table = g_func_handle_arr[ast->token->desc](ast);

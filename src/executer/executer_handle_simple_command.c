@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:27:13 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 17:16:44 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/17 15:26:17 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,22 @@ t_cmd_table	*handle_cmd(t_ast *ast)
 	return (cmd_table);
 }
 
-t_cmd_table	*handle_redir_heredoc(t_ast *ast)
-{
-	t_cmd_table	*cmd_table;
-	int			fd;
+// @todo heredocs are expanded, therefore this function must exist
+// t_cmd_table	*handle_redir_heredoc(t_ast *ast)
+// {
+// 	t_cmd_table	*cmd_table;
+// 	int			fd;
 
-	fd = get_heredoc(&heredoc_big, ast->right->token->word);
-	if (!ast->left)
-		return (NULL);
-	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
-	if (!cmd_table)
-		return (NULL);
-	cmd_table->fd_in[0] = fd;
-	cmd_table->fd_in[1] = FDLVL_REDIR;
-	return (cmd_table);
-}
+// 	fd = get_heredoc(&heredoc_big, ast->right->token->word);
+// 	if (!ast->left)
+// 		return (NULL);
+// 	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
+// 	if (!cmd_table)
+// 		return (NULL);
+// 	cmd_table->fd_in[0] = fd;
+// 	cmd_table->fd_in[1] = FDLVL_REDIR;
+// 	return (cmd_table);
+// }
 
 t_cmd_table	*handle_redir_append(t_ast *ast)
 {

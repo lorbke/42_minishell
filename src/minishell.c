@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 19:21:52 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/17 15:49:44 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "mssignal.h" // mssignal_change_mode
 #include "lexer.h" // lexer_str_to_tokstack
 #include "parser.h" // parser_tokstack_to_ast
+#include "doccer.h" // doccer_interpret_heredocs
 #include "executer.h" // executer_exec_ast
 #include "debugger.h" // debug
 #include "libft.h" // ft_strncmp
@@ -74,10 +75,19 @@ t_status	process_input(char *input, int fd_in, int fd_out)
 		// printf("-----exit status: %d\n", EXEC_SYNTAXERR);
 		return (EXEC_SYNTAXERR);
 	}
+	exit_status = doccer_interpret_heredocs(ast);
+	if (exit_status != EXEC_SUCCESS)
+	{
+		printf("-----exit status: %d\n", exit_status);
+		doccer_delete_heredocs(ast);
+		return (exit_status);
+	}
+	debug_parser(ast, NULL);
 	mssignal_change_mode(MSSIG_EXEC);
 	exit_status = executer_exec_ast(ast, fd_in, fd_out);
 	mssignal_change_mode(MSSIG_INTER);
-	// printf("-----exit status: %d\n", exit_status);
+	printf("-----exit status: %d\n", exit_status);
+	exit_status = doccer_delete_heredocs(ast);
 	return (exit_status);
 }
 

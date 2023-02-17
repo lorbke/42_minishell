@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:14:20 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 17:16:04 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/17 14:42:54 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,6 @@ pid_t		exec_cmd(t_cmd_table *cmd_table, int fd_pipe);
 void		wait_pid_and_set_exit(pid_t pid);
 t_cmd_table	*create_cmd_table(t_ast *ast);
 
-// heredoc
-int			get_heredoc(void (*heredoc_type)(char *, int), char *limiter);
-void		heredoc_big(char *limiter, int fd_write);
-void		heredoc_small(char *line, int fd_write);
-
 // path
 char		*get_cmd_path(char **env, char *cmd);
 
@@ -69,7 +64,7 @@ static const t_func_handle	g_func_handle_arr[]
 [TOK_PIPE] = &handle_pipe,
 [TOK_REDIR_IN] = &handle_redir_in,
 [TOK_REDIR_OUT] = &handle_redir_out,
-[TOK_REDIR_HEREDOC] = &handle_redir_heredoc,
+[TOK_REDIR_HEREDOC] = &handle_redir_in,
 [TOK_REDIR_APPEND] = &handle_redir_append,
 [TOK_SQUOTE] = &handle_cmd,
 [TOK_DQUOTE] = &handle_cmd,

@@ -1,43 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer_heredoc.c                                 :+:      :+:    :+:   */
+/*   doccer_create_doc.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/11 18:16:59 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 19:05:48 by lorbke           ###   ########.fr       */
+/*   Created: 2023/02/17 14:14:04 by lorbke            #+#    #+#             */
+/*   Updated: 2023/02/17 15:33:59 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "private_executer.h" // exit_status_set
-#include "../executer.h" // EXEC_* defines
 #include "parser.h" // t_ast
-#include "../mssignal.h" // init_signals
+#include "../executer.h" // t_status
+#include "../mssignal.h" // mssignal_change_mode
 #include "libft.h" // ft_strlen, ft_strncmp
 #include <sys/types.h> // pid_t, fork, waitpid, execve
 #include <stdio.h> // FILE define (needed for readline?!)
 #include <readline/readline.h> // readline
 #include <unistd.h> // STDIN_FILENO, STDOUT_FILENO, write, read
+#include <fcntl.h> // open, O_CREAT, O_WRONLY, O_TRUNC
 
-void	heredoc_big(char *limiter, int fd_write)
+#define DOCC_DIR "/tmp/heredoc"
+
+void	doc_heredoc(char *limiter, int fd_write)
 {
 	int		limiter_len;
 	char	*line;
 
-	limiter_len = ft_strlen(limiter);
+	limiter_len = strlen(limiter);
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || ft_strncmp(line, limiter, limiter_len + 1) == 0)
+		if (!line || strncmp(line, limiter, limiter_len + 1) == 0)
 			break ;
-		write(fd_write, line, ft_strlen(line));
+		write(fd_write, line, strlen(line));
 		write(fd_write, "\n", 1);
 		free(line);
 	}
 }
 
-void	heredoc_small(char *line, int fd_write)
+void	doc_close(char *line, int fd_write)
 {
 	while (1)
 	{
@@ -46,32 +48,36 @@ void	heredoc_small(char *line, int fd_write)
 			break ;
 		free(line);
 	}
-	write(fd_write, line, ft_strlen(line));
+	write(fd_write, line, strlen(line));
 	free(line);
 }
 
 // @note newline bug when ctrl d
-int	get_heredoc(void (*heredoc_type)(char *, int), char *limiter)
+t_status	create_doc(t_ast *ast, void (*doc_type)(char *, int))
 {
-	int		fd[2];
-	int		status;
-	pid_t	pid;
+	pid_t		pid;
+	int			fd;
+	int			status;
+	char		*limiter;
+	char		*suffix;
 
-	pipe(fd);
+	mssignal_change_mode(MSSIG_EXEC);
+	suffix = ft_itoa((int)&ast->token->word);
+	limiter = ast->token->word;
+	ast->token->word = ft_strjoin(DOCC_DIR, suffix);
+	free(suffix);
+	fd = open(ast->token->word, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+		return (EXEC_GENERALERR);
 	pid = fork();
-	if (pid == 0)
+	if (pid > 0)
 	{
-		mssignal_change_mode(MSSIG_HDOC);
-		(*heredoc_type)(limiter, fd[1]);
-		close(fd[0]);
-		close(fd[1]);
-		exit(EXEC_SUCCESS);
-	}
-	else
-	{
+		close(fd);
 		waitpid(pid, &status, 0);
-		exit_status_set(WEXITSTATUS(status));
-		close(fd[1]);
+		return ((t_status)WEXITSTATUS(status));
 	}
-	return (fd[0]);
+	mssignal_change_mode(MSSIG_HDOC);
+	(*doc_type)(limiter, fd);
+	close(fd);
+	exit(EXEC_SUCCESS);
 }
