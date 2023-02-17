@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/17 16:52:52 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/17 17:01:41 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	print_syntax_error(int desc, char *error_loc)
 			SHELL_NAME, STR_SYNTAXERR, error_loc);
 }
 
-t_ast	*input_to_ast(char *input)
+static t_ast	*input_to_ast(char *input)
 {
 	t_stack	*tokstack;
 	t_ast	*ast;
@@ -72,7 +72,7 @@ t_status	process_input(char *input, int fd_in, int fd_out)
 	ast = input_to_ast(input);
 	if (!ast)
 	{
-		// printf("-----exit status: %d\n", EXEC_SYNTAXERR);
+		printf("-----exit status: %d\n", EXEC_SYNTAXERR);
 		return (EXEC_SYNTAXERR);
 	}
 	exit_status = doccer_interpret_heredocs(ast);

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 15:28:58 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/17 15:53:23 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/17 17:09:36 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,20 @@
 #include "lexer.h" // TOK_* defines
 #include "../executer.h" // t_status
 #include <unistd.h> // unlink
+
+t_status	doccer_interpret_unclosed(t_ast *ast)
+{
+	if (!ast || !ast->token)
+		return (EXEC_SUCCESS);
+	if (doccer_interpret_unclosed(ast->left) != EXEC_SUCCESS
+		|| doccer_interpret_unclosed(ast->right) != EXEC_SUCCESS)
+		return (EXEC_GENERALERR);
+	if (ast->token->desc == TOK_PIPE
+		|| ast->token->desc == TOK_AND
+		|| ast->token->desc == TOK_OR)
+		return (create_doc(ast->right, doc_unclosed));
+	return (EXEC_SUCCESS);
+}
 
 t_status	doccer_delete_heredocs(t_ast *ast)
 {

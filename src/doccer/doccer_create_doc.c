@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:14:04 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/17 15:33:59 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/17 17:07:42 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	doc_heredoc(char *limiter, int fd_write)
 	}
 }
 
-void	doc_close(char *line, int fd_write)
+void	doc_unclosed(char *line, int fd_write)
 {
 	while (1)
 	{

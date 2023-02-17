@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:39:03 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/14 14:13:03 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/17 16:55:27 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # define CMD_SEPS " \t\n\r"
 # define CMD_ESCS "\'\"()"
 
-t_ast		*input_to_ast(char *input);
 t_status	process_input(char *input, int fd_in, int fd_out);
 
 #endif
