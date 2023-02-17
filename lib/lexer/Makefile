@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
+#    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/18 13:54:25 by lorbke            #+#    #+#              #
-#    Updated: 2023/01/21 18:38:44 by lorbke           ###   ########.fr        #
+#    Updated: 2023/02/16 09:13:32 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ $(OBJ_PATH):
 
 $(OBJ_PATH)/%.o: %.c Makefile lexer.h $(SRC_PATH)/lexer_private.h
 	@echo -e -n "$(YELLOW)Compiling: $(RESET)"
-	$(CC) $(FLAGS) $(ADD_FLAGS) -c $< -o $@
+	$(CC) $(FLAGS) $(ADD_FLAGS) -I. -c $< -o $@
 
 # phony targets
 all: $(NAME)

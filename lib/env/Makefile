@@ -6,7 +6,7 @@
 #    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/06 16:19:43 by fyuzhyk           #+#    #+#              #
-#    Updated: 2023/02/06 16:22:44 by fyuzhyk          ###   ########.fr        #
+#    Updated: 2023/02/16 09:37:39 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,7 @@ $(OBJ_PATH):
 
 $(OBJ_PATH)/%.o: %.c Makefile env.h $(SRC_PATH)/env_private.h
 	@echo -e -n "$(YELLOW)Compiling: $(RESET)"
-	$(CC) $(FLAGS) $(ADD_FLAGS) -I$(LFT_INC) -c $< -o $@
+	$(CC) $(FLAGS) $(ADD_FLAGS) -I$(LFT_INC) -I. -c $< -o $@
 
 # phony targets
 all: $(NAME)
