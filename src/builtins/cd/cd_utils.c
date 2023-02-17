@@ -6,13 +6,14 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:43:00 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/15 14:57:50 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/17 14:55:28 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // t_sym_tab
 #include "libft.h" // ft_strncmp, ft_strlen, ft_strdup, ft_strjoin
 #include "../../utils.h" // ft_strcmp
+#include <errno.h> // errno
 
 int	check_for_dots(char *path, int *i)
 {
@@ -27,19 +28,27 @@ int	check_for_dots(char *path, int *i)
 	return (count);
 }
 
-void	change_prev_dir(void)
+int	change_prev_dir(void)
 {
 	int		i;
 	char	*cwd;
 
 	cwd = getcwd(NULL, 0);
+	if (cwd == NULL)
+		return (errno);
 	i = ft_strlen(cwd) - 1;
 	while (cwd[i] != '/' && i > 0)
 	{
 		cwd[i] = '\0';
 		i--;
 	}
-	chdir(cwd);
+	if (chdir(cwd) != 0)
+	{
+		free(cwd);
+		return (errno);
+	}
+	free(cwd);
+	return (0);
 }
 
 char	*get_path(char *var)
