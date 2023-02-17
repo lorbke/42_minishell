@@ -6,35 +6,14 @@
 #include <unistd.h> // STDIN_FILENO, STDOUT_FILENO, write, read
 #include <fcntl.h>
 
-void	heredoc_big(char *limiter, int fd_write)
-{
-	int		limiter_len;
-	char	*line;
+#define DOCC_DIR "/tmp/heredoc"
+# define ERR_SUCCESS 0
+# define ERR_GENERALERR 1 
+# define ERR_SYNTAXERR 2
+# define ERR_CMDNOTFOUND 127
+# define ERR_SIGNAL 128
 
-	limiter_len = strlen(limiter);
-	while (1)
-	{
-		line = readline("> ");
-		if (!line || strncmp(line, limiter, limiter_len + 1) == 0)
-			break ;
-		write(fd_write, line, strlen(line));
-		write(fd_write, "\n", 1);
-		free(line);
-	}
-}
-
-void	heredoc_small(char *line, int fd_write)
-{
-	while (1)
-	{
-		line = readline("> ");
-		if (*line)
-			break ;
-		free(line);
-	}
-	write(fd_write, line, strlen(line));
-	free(line);
-}
+typedef unsigned char	t_status;
 
 static int	ft_intlen(int n)
 {
@@ -98,18 +77,64 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (sjoin);
 }
 
-// @note newline bug when ctrl d
-char	*create_heredoc(int num, void (*heredoc_type)(char *, int), char *limiter)
+void	doc_heredoc(char *limiter, int fd_write)
 {
-	int		fd;
-	char	*dir = "/tmp/";
-	char	*file;
+	int		limiter_len;
+	char	*line;
 
-	file = ft_strjoin(dir, ft_itoa(num));
-	fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	(*heredoc_type)(limiter, fd);
+	limiter_len = strlen(limiter);
+	while (1)
+	{
+		line = readline("> ");
+		if (!line || strncmp(line, limiter, limiter_len + 1) == 0)
+			break ;
+		write(fd_write, line, strlen(line));
+		write(fd_write, "\n", 1);
+		free(line);
+	}
+}
+
+void	doc_unclosed(char *line, int fd_write)
+{
+	while (1)
+	{
+		line = readline("> ");
+		if (*line)
+			break ;
+		free(line);
+	}
+	write(fd_write, line, strlen(line));
+	free(line);
+}
+
+// @note newline bug when ctrl d
+t_status	create_doc(t_ast *ast, void (*doc_type)(char *, int))
+{
+	pid_t		pid;
+	int			fd;
+	int			status;
+	char		*limiter;
+	char		*suffix;
+
+	// mssignal_change_mode(MSSIG_EXEC);
+	suffix = ft_itoa((int)&ast->token->word);
+	limiter = ast->token->word;
+	ast->token->word = ft_strjoin(DOCC_DIR, suffix);
+	free(suffix);
+	fd = open(ast->token->word, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	pid = fork();
+	if (pid == -1 || fd == -1)
+		return (ERR_GENERALERR);
+	if (pid > 0)
+	{
+		close(fd);
+		waitpid(pid, &status, 0);
+		return ((t_status)WEXITSTATUS(status));
+	}
+	// mssignal_change_mode(MSSIG_HDOC);
+	(*doc_type)(limiter, fd);
 	close(fd);
-	return (file);
+	exit(ERR_SUCCESS);
 }
 
 int	main(int argc, char **argv)
@@ -119,7 +144,7 @@ int	main(int argc, char **argv)
 	char	*input;
 	char	*file;
 
-	file = create_heredoc(2, heredoc_big, argv[1]);
+	file = create_doc(2, doc_heredoc, argv[1]);
 	fd = open(file, O_RDONLY);
 	input = malloc(100);
 	status = read(fd, input, 100);

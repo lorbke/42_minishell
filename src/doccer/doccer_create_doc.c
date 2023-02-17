@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:14:04 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/17 17:17:34 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/17 18:23:30 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ void	doc_heredoc(char *limiter, int fd_write)
 	int		limiter_len;
 	char	*line;
 
-	limiter_len = strlen(limiter);
+	limiter_len = ft_strlen(limiter);
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || strncmp(line, limiter, limiter_len + 1) == 0)
+		if (!line || ft_strncmp(line, limiter, limiter_len + 1) == 0)
 			break ;
-		write(fd_write, line, strlen(line));
+		write(fd_write, line, ft_strlen(line));
 		write(fd_write, "\n", 1);
 		free(line);
 	}
@@ -48,7 +48,7 @@ void	doc_unclosed(char *line, int fd_write)
 			break ;
 		free(line);
 	}
-	write(fd_write, line, strlen(line));
+	write(fd_write, line, ft_strlen(line));
 	free(line);
 }
 
@@ -67,9 +67,9 @@ t_status	create_doc(t_ast *ast, void (*doc_type)(char *, int))
 	ast->token->word = ft_strjoin(DOCC_DIR, suffix);
 	free(suffix);
 	fd = open(ast->token->word, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-		return (ERR_GENERALERR);
 	pid = fork();
+	if (pid == -1 || fd == -1)
+		return (ERR_GENERALERR);
 	if (pid > 0)
 	{
 		close(fd);
