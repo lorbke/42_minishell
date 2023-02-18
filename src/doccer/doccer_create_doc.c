@@ -87,7 +87,7 @@ t_status	create_doc(t_ast *ast, bool type, char **doc)
 	char		*suffix;
 
 	mssignal_change_mode(MSSIG_EXEC);
-	suffix = ft_itoa((int)&ast->right->token);
+	suffix = ft_itoa((long)&ast->right->token);
 	limiter = ast->right->token->word;
 	ast->right->token->word = ft_strjoin(DOCC_DIR, suffix);
 	free(suffix);

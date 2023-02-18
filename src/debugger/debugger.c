@@ -33,7 +33,7 @@ void	print_tokstack(t_stack *head)
 	printf("ident: ");
 	while (temp)
 	{
-		printf("[ %*u ]->", strlen(temp->token->word), temp->token->desc);
+		printf("[ %*i ]->", (int)strlen(temp->token->word), temp->token->desc);
 		temp = temp->next;
 	}
 }
