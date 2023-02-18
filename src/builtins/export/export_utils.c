@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 17:36:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/17 17:45:09 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/18 14:00:52 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "libft.h" // ft_strncmp, ft_strjoin, ft_substr, ft_isalpha, ft_isalnum, ft_strlen
 #include "../../utils.h" // check_naming_convention
 #include <stdio.h> // printf
+
+static void	print_error_msg(char *str);
 
 int	check_if_var_exists(t_sym_tab *temp, char *var_name)
 {
@@ -27,15 +29,6 @@ int	check_if_var_exists(t_sym_tab *temp, char *var_name)
 	return (0);
 }
 
-void	update_var(t_sym_tab *temp, char *var_name, char *var_value)
-{
-	if (var_value != NULL)
-	{
-		free(temp->var);
-		temp->var = ft_strjoin(var_name, var_value);
-	}
-}
-
 int	update_if_exists(char *var_name, char *var_value)
 {
 	t_sym_tab	*temp;
@@ -45,7 +38,11 @@ int	update_if_exists(char *var_name, char *var_value)
 	{
 		if (check_if_var_exists(temp, var_name))
 		{
-			update_var(temp, var_name, var_value);
+			if (var_value != NULL)
+			{
+				free(temp->var);
+				temp->var = ft_strjoin(var_name, var_value);
+			}
 			free(var_name);
 			free(var_value);
 			return (1);
@@ -54,7 +51,6 @@ int	update_if_exists(char *var_name, char *var_value)
 	}
 	return (0);
 }
-
 
 char	*init_var_name(char *var)
 {
@@ -67,8 +63,7 @@ char	*init_var_name(char *var)
 	var_name = ft_substr(var, 0, i);
 	if (check_naming_convention(var_name) == 0)
 	{
-		// @note needs to be printed to stderr
-		printf("minishell: export: `%s': not a valid identifier\n", var_name);
+		print_error_msg(var_name);
 		free(var_name);
 		return (NULL);
 	}
@@ -90,4 +85,11 @@ char	*init_var_value(char *var, char *var_name)
 		return (var_value);
 	}
 	return (NULL);
+}
+
+static void	print_error_msg(char *str)
+{
+	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 }

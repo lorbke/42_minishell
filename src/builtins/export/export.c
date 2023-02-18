@@ -6,16 +6,15 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:13:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/17 17:44:23 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/18 14:03:34 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h" // g_sym_table
+#include "env.h" // g_sym_table, add_to_back, new_sym_tab_node
 #include "libft.h" // ft_strchr, ft_strjoin, ft_strdup, ft_strlen, ft_strncmp
 #include "../../utils.h" // free_list
-#include "export_private.h" // init_var_name, init_var_value, check_if_var_exists, update_var
-// @note add this functions to the env.h header
-#include "../../../lib/env/src/env_private.h" // add_to_back, new_sym_tab_node
+#include "export_private.h" // init_var_name, init_var_value, check_if_var_exists
+#include "../../../lib/env/src/env_private.h" // copy_node
 #include <stdio.h> // printf
 
 static int	export_var(char *var);

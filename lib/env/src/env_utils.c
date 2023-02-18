@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:20:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/17 13:46:00 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/18 13:52:25 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,9 @@ char **create_env_list(t_sym_tab **head)
 	t_sym_tab	*temp;
 	char		**env_list;
 
-	//@note check if it is possible to do it this way, without malloc
 	len = get_list_len(head);
 	env_list = malloc(sizeof(char *) * (len + 1));
 	if (env_list == NULL) {
-		// @note need to handle this error properly
 		return (NULL);
 	}
 	temp = *head;
@@ -36,7 +34,8 @@ char **create_env_list(t_sym_tab **head)
 			temp = temp->next;
 		else
 		{
-			env_list[i] = temp->var;
+			// @note is this dup necessary or not?
+			env_list[i] = ft_strdup(temp->var);
 			temp = temp->next;
 			i++;
 		}

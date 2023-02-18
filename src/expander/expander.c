@@ -6,14 +6,15 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:14:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/17 13:45:17 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/18 13:36:12 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // g_sym_table
 #include "libft.h" // malloc, free, ft_strlen, ft_strdup
 #include "globber/globber.h" // globber
-#include "expander_private.h" // ft_realloc, handle_quotes, try_expansion, tilde_expansion, add_char_to_string
+#include "../utils.h" // ft_realloc
+#include "expander_private.h" // handle_quotes, try_expansion, tilde_expansion, add_char_to_string
 
 static char	**copy_argv(char **argv);
 static char	*evaluate_argv(char *arg);

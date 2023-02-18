@@ -6,14 +6,14 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:47:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/17 13:44:45 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/18 13:40:59 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // g_sym_table
 #include "libft.h" // malloc, ft_isalpha, ft_isalnum, ft_strlen, ft_strncmp, ft_strchr
-#include "../utils.h" // check_naming_convention
-#include "expander_private.h" // ft_realloc
+#include "../utils.h" // check_naming_convention, ft_realloc
+#include "expander_private.h" // add_char_to_string
 
 static char	*expand_var(char *arg);
 static char	*get_var(char *arg, int *index);

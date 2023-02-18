@@ -6,12 +6,14 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:17:47 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/17 16:56:14 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/18 14:09:56 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // t_sym_tab
 #include "libft.h" // free, ft_isalpha, ft_isalnum
+#include "../utils.h" // free_split, free_list, ft_perror, ft_strcmp, check_naming_convention
+#include <stdio.h> // perror
 
 void	free_split(char **split)
 {
@@ -64,5 +66,15 @@ int	check_naming_convention(char *var_name)
 	}
 	if (i == 0)
 		return (0);
+	return (i);
+}
+
+int	get_string_array_len(char **array)
+{
+	int i;
+
+	i = 0;
+	while (array[i] != NULL)
+		i++;
 	return (i);
 }

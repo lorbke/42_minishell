@@ -6,12 +6,13 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:48:10 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/17 14:53:15 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/18 13:26:57 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // t_sym_tab
 #include "libft.h" // free, ft_strncmp, ft_strlen, ft_putstr_fd
+#include "../../utils.h" // ft_perror
 #include "cd_private.h" // check_for_dots, set_path, get_path
 #include <errno.h> // errno
 #include <unistd.h> // chdir, getcwd
@@ -69,7 +70,7 @@ static int	cd_oldpwd(char *var, char  *oldpwd)
 	}
 	if (chdir(path) != 0)
 	{
-		perror(ft_strjoin("minishell: cd: ", path));
+		ft_perror("cd", path);
 		free(path);
 		return (errno);
 	}
@@ -85,7 +86,7 @@ static int	cd_back(int count, int i, char *path, char *cwd)
 	{
 		if (change_prev_dir() != 0)
 		{
-			perror(ft_strjoin("minishell: cd: ", path));
+			ft_perror("cd", path);
 			return (errno);
 		}
 		count--;
@@ -95,8 +96,8 @@ static int	cd_back(int count, int i, char *path, char *cwd)
 		if (chdir(&path[i]) != 0)
 		{
 			if (chdir(cwd) != 0)
-				perror(ft_strjoin("minishell: cd: ", cwd));
-			perror(ft_strjoin("minishell: cd: ", path));
+				ft_perror("cd", cwd);
+			ft_perror("cd", path);
 			return (errno);
 		}
 	}

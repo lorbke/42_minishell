@@ -6,17 +6,12 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:33:05 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/17 09:05:37 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/18 13:34:17 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANDER_PRIVATE_H
 # define EXPANDER_PRIVATE_H
-
-// @note maybe would make more sense to move this to utils.h
-// reallocation
-char	**realloc_string_array(char **ptr, int size);
-char	*ft_realloc(char *ptr, int len);
 
 // expansion
 char	*try_expansion(char *result, char *arg, int *index, int *result_index);

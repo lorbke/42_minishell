@@ -6,18 +6,16 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 19:04:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/18 10:54:24 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/18 14:09:17 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // malloc, free, ft_strlen, ft_strlcpy, ft_strjoin
 #include "globber_private.h" // struct dirent
-#include "../../utils.h" // ft_strcmp
-#include "../expander_private.h" // realloc_string_array
+#include "../../utils.h" // realloc_string_array, ft_strcmp
 
 static char	**add_globbed_vars(char **expanded_argv, char **result);
 static char	**add_unglobbed_vars(char **expanded_argv, char **result, char **argv);
-static int	get_string_array_len(char **array);
 
 char **add_vars(char **expanded_argv, char **result, char **argv)
 {
@@ -81,14 +79,4 @@ static char	**add_globbed_vars(char **expanded_argv, char **result)
 		expanded_argv[i + j] = NULL;
 	}
 	return (expanded_argv);
-}
-
-static int	get_string_array_len(char **array)
-{
-	int i;
-
-	i = 0;
-	while (array[i] != NULL)
-		i++;
-	return (i);
 }

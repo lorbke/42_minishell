@@ -6,7 +6,7 @@
 #    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/16 14:52:35 by fyuzhyk          ###   ########.fr        #
+#    Updated: 2023/02/18 13:39:03 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ SRC := $(wildcard $(SRC_PATH)/*.c) $(wildcard $(SRC_PATH)/*/*.c) $(wildcard $(BL
 OBJ := $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 
 # VPATH
-VPATH := $(SRC_PATH) $(SRC_PATH)/debugger $(SRC_PATH)/builtins $(SRC_PATH)/builtins/cd $(SRC_PATH)/builtins/export $(SRC_PATH)/expander $(GLBR_PATH)
+VPATH := $(SRC_PATH) $(SRC_PATH)/debugger $(SRC_PATH)/builtins $(SRC_PATH)/builtins/cd $(SRC_PATH)/builtins/export $(SRC_PATH)/expander $(SRC_PATH)/utils $(GLBR_PATH)
 
 # file targets
 $(NAME): $(OBJ_PATH) $(OBJ)
