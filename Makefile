@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/17 18:03:18 by lorbke           ###   ########.fr        #
+#    Updated: 2023/02/18 15:25:52 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ NAME := minishell
 CC := cc
 AR := ar rcs
 RM := rm -f
-CFLAGS := #-Wall -Wextra -Werror
+CFLAGS := -g #-Wall -Wextra -Werror
 
 # library macros
 LIB_PATH := lib

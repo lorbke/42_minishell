@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/17 17:15:52 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/18 18:32:42 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,62 +35,6 @@
 // @todo fix bug: overwriting first input when term window is exceeded
 // @todo is not a terminal case handling
 
-#define STR_SYNTAXERR ": syntax error near unexpected token `"
-
-static void	print_syntax_error(int desc, char *error_loc)
-{
-	if (desc == TOK_SUBSHELL)
-		printf("%s%s%s'\n",
-			SHELL_NAME, STR_SYNTAXERR, "(");
-	else
-		printf("%s%s%s'\n",
-			SHELL_NAME, STR_SYNTAXERR, error_loc);
-}
-
-static t_ast	*input_to_ast(char *input)
-{
-	t_stack	*tokstack;
-	t_ast	*ast;
-
-	tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
-	debug_lexer(tokstack);
-	ast = parser_tokstack_to_ast(&tokstack);
-	debug_parser(ast, tokstack);
-	if (tokstack)
-	{
-		print_syntax_error(tokstack->token->desc, tokstack->token->word);
-		return (NULL);
-	}
-	return (ast);
-}
-
-t_status	process_input(char *input, int fd_in, int fd_out)
-{
-	t_status	exit_status;
-	t_ast		*ast;
-
-	ast = input_to_ast(input);
-	if (!ast)
-	{
-		printf("-----exit status: %d\n", ERR_SYNTAXERR);
-		return (ERR_SYNTAXERR);
-	}
-	exit_status = doccer_interpret_heredocs(ast);
-	if (exit_status != ERR_SUCCESS)
-	{
-		printf("-----exit status: %d\n", exit_status);
-		doccer_delete_heredocs(ast);
-		return (exit_status);
-	}
-	debug_parser(ast, NULL);
-	mssignal_change_mode(MSSIG_EXEC);
-	exit_status = executer_exec_ast(ast, fd_in, fd_out);
-	mssignal_change_mode(MSSIG_INTER);
-	printf("-----exit status: %d\n", exit_status);
-	exit_status = doccer_delete_heredocs(ast);
-	return (exit_status);
-}
-
 /* Read-Eval-Print-Loop. */
 void	rep_loop(void)
 {
@@ -105,8 +49,8 @@ void	rep_loop(void)
 			break ;
 		if (*line)
 		{
+			digest_input(&line, STDIN_FILENO, STDOUT_FILENO);
 			add_history(line);
-			process_input(line, STDIN_FILENO, STDOUT_FILENO);
 		}
 		free(line);
 	}

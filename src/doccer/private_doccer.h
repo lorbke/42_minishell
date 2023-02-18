@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 15:30:19 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/17 17:07:35 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/18 14:47:35 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 
 # include "../executer.h" // t_status
 # include "parser.h" // t_ast
+# include <stdbool.h> // bool
 
-void		doc_heredoc(char *limiter, int fd_write);
-void		doc_unclosed(char *line, int fd_write);
-t_status	create_doc(t_ast *ast, void (*doc_type)(char *, int));
-
+t_status	create_doc(t_ast *ast, bool type, char **doc);
 
 #endif

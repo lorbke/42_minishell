@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:25 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/17 18:41:22 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/18 17:27:50 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include <readline/readline.h> // readline
 #include <unistd.h> // STDIN_FILENO, STDOUT_FILENO, write, read
 #include <fcntl.h>
+#include <stdbool.h>
 
 // lexer
 #define CMD_SEPS " \t\n\r"
@@ -261,21 +262,29 @@ void	doc_heredoc(char *limiter, int fd_write)
 	}
 }
 
-void	doc_unclosed(char *line, int fd_write)
+void	doc_unclosed(char desc, int fd_write)
 {
+	char	*line;
+
 	while (1)
 	{
 		line = readline("> ");
-		if (*line)
+		if (!line)
+			break ;
+		write(fd_write, line, ft_strlen(line));
+		write(fd_write, " ", 1);
+		if ((desc == TOK_PIPE || desc == TOK_AND || desc == TOK_OR)
+			&& !ft_strchr(line, '|') && !ft_strchr(line, '&'))
+			break ;
+		if (desc == TOK_UNCLOSED && ft_strchr(line, '\"'))
 			break ;
 		free(line);
 	}
-	write(fd_write, line, ft_strlen(line));
 	free(line);
 }
 
 // @note newline bug when ctrl d
-t_status	create_doc(t_ast *ast, void (*doc_type)(char *, int))
+t_status	create_doc(t_ast *ast, bool type, char **doc)
 {
 	pid_t		pid;
 	int			fd;
@@ -284,11 +293,11 @@ t_status	create_doc(t_ast *ast, void (*doc_type)(char *, int))
 	char		*suffix;
 
 	// mssignal_change_mode(MSSIG_EXEC);
-	suffix = ft_itoa((int)&ast->token->word);
-	limiter = ast->token->word;
-	ast->token->word = ft_strjoin(DOCC_DIR, suffix);
+	suffix = ft_itoa((int)&ast->right->token->word);
+	limiter = ast->right->token->word;
+	ast->right->token->word = ft_strjoin(DOCC_DIR, suffix);
 	free(suffix);
-	fd = open(ast->token->word, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	fd = open(ast->right->token->word, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	pid = fork();
 	if (pid == -1 || fd == -1)
 		return (ERR_GENERALERR);
@@ -296,12 +305,35 @@ t_status	create_doc(t_ast *ast, void (*doc_type)(char *, int))
 	{
 		close(fd);
 		waitpid(pid, &status, 0);
+		if (!type)
+		{
+			fd = open(ast->right->token->word, O_RDONLY);
+			read(fd, *doc, 1000);
+			unlink(ast->right->token->word);
+		}
 		return ((t_status)WEXITSTATUS(status));
 	}
 	// mssignal_change_mode(MSSIG_HDOC);
-	(*doc_type)(limiter, fd);
+	if (type)
+		doc_heredoc(limiter, fd);
+	else
+		doc_unclosed(ast->token->desc, fd);
 	close(fd);
 	exit(ERR_SUCCESS);
+}
+
+void	eval_heredoc(t_ast *ast)
+{
+	int		fd;
+	int		status;
+	char	*input;
+
+	fd = open(ast->right->token->word, O_RDONLY);
+	input = malloc(100);
+	status = read(fd, input, 100);
+	printf("status: %d\n", status);
+	perror("read: ");
+	write(1, input, 100);
 }
 
 int	main(int argc, char **argv)
@@ -316,13 +348,10 @@ int	main(int argc, char **argv)
 	tokstack = lexer_str_to_tokstack(argv[1], CMD_SEPS, CMD_ESCS);
 	ast = parser_tokstack_to_ast(&tokstack);
 	debug_parser(ast, tokstack);
-	create_doc(ast->right, doc_heredoc);
+	// create_doc(ast->right, doc_heredoc, NULL);
+	input = malloc(1000);
+	create_doc(ast, 0, &input);
 	debug_parser(ast, tokstack);
-	fd = open(ast->right->token->word, O_RDONLY);
-	input = malloc(100);
-	status = read(fd, input, 100);
-	printf("status: %d\n", status);
-	perror("read: ");
-	write(1, input, 100);
+	printf("input: %s\n", input);
 	return (0);
 }
