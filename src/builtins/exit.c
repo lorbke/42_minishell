@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/17 17:49:33 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/18 14:39:23 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,21 +111,21 @@ static long long	ft_atoi_long(char *str)
 	return (number);
 }
 
-
-// @note this one leaks (bc of strjoin of course)
 static void	print_to_stderr(char *str, char *arg)
 {
+	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 	if (str != NULL && arg != NULL)
 	{
-		ft_putstr_fd(ft_strjoin("minishell: exit: ", arg), STDERR_FILENO);
-		ft_putstr_fd(ft_strjoin(":", str), STDERR_FILENO);
+		ft_putstr_fd(arg, STDERR_FILENO);
+		ft_putstr_fd(":", STDERR_FILENO);
+		ft_putstr_fd(str, STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);
 	}
 	else if (str != NULL && arg == NULL)
-		ft_putstr_fd(ft_strjoin("minishell: exit: ", str), STDERR_FILENO);
+		ft_putstr_fd(str, STDERR_FILENO);
 	else if (str == NULL && arg != NULL)
 	{
-		ft_putstr_fd(ft_strjoin("minishell: exit: ", arg), STDERR_FILENO);
+		ft_putstr_fd(arg, STDERR_FILENO);
 		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 	}
 }

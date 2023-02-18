@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 15:04:01 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/18 19:20:48 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include "libft.h" // ft_strncmp
 #include "env.h" // global_var
 #include "builtins.h" // builtin_exit
+#include "utils.h" // free_list
+#include "get_next_line.h" // get_next_line
 #include <termios.h> // termios functions and struct
 #include <unistd.h> // file descriptor macros
 #include <stdio.h> // printf
@@ -88,13 +90,24 @@ static int	init_termios(bool mode)
 
 int	main(int argc, char **argv, char **envp)
 {
+	char	*line;
+
 	// init global var
 	g_sym_table = init_sym_tab(envp);
-	if (init_termios(true) == ERROR)
-		return (EXIT_FAILURE);
 	ms_init_signals();
-	if (isatty(STDIN_FILENO)) // check if stdin is a terminal
+	// check if stdin is a terminal
+	if (isatty(STDIN_FILENO))
+	{
+		if (init_termios(true) == ERROR)
+			return (EXIT_FAILURE);
 		ms_rep_loop();
-	// else put input directly from STDIN to parser, executer etc
+	}
+	else
+	{
+		line = get_next_line(STDIN_FILENO);
+		process_command(line);
+		free(line);
+		free_list(g_sym_table);
+	}
 	return (EXIT_SUCCESS);
 }

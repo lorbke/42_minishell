@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/05 18:45:14 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/18 14:32:04 by fyuzhyk          ###   ########.fr       */
+/*   Created: 2022/04/04 17:42:14 by fyuzhyk           #+#    #+#             */
+/*   Updated: 2023/02/18 18:51:36 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h" // ft_strjoin
-#include "../utils.h" // ft_perror
-#include <stdio.h> // printf
-#include <errno.h> // errno
-#include <unistd.h> // getcwd
-#include <limits.h> // PATH_MAX
-#include <string.h> // strerror
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-int builtin_pwd(char **argv)
-{
-	char	cwd[PATH_MAX];
+# include <unistd.h>
+# include <stdlib.h>
 
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-		printf("%s\n", cwd);
-	else
-	{
-		ft_perror("pwd", cwd);
-		return (errno);
-	}
-	return (0);
-}
+#define BUFFER_SIZE 1000
+
+char	*get_next_line(int fd);
+char	*get_result(int fd, int j, char *buffer, char *result);
+
+#endif

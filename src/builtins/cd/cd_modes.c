@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:48:10 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/18 13:26:57 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/18 14:32:21 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int	handle_dash(char *oldpwd)
 		}
 		temp = temp->next;
 	}
-	ft_putstr_fd("minishell: cd: OLDPWD not set\n", STDERR_FILENO);
+	// ft_putstr_fd("minishell: cd: OLDPWD not set\n", STDERR_FILENO);
+	ft_perror("cd", "OLDPWD not set");
 	return (1);
 }
 
