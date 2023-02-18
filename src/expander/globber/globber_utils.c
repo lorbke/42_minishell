@@ -6,15 +6,18 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 19:04:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/17 13:26:00 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/18 10:54:24 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // malloc, free, ft_strlen, ft_strlcpy, ft_strjoin
+#include "globber_private.h" // struct dirent
+#include "../../utils.h" // ft_strcmp
 #include "../expander_private.h" // realloc_string_array
 
 static char	**add_globbed_vars(char **expanded_argv, char **result);
 static char	**add_unglobbed_vars(char **expanded_argv, char **result, char **argv);
+static int	get_string_array_len(char **array);
 
 char **add_vars(char **expanded_argv, char **result, char **argv)
 {
@@ -25,15 +28,14 @@ char **add_vars(char **expanded_argv, char **result, char **argv)
 	return (expanded_argv);
 }
 
-char	*create_new_path(char *path, char *entry)
+int	is_valid_entry(struct dirent *entry, char *pattern)
 {
-	char	*sub_path;
-	char	*new_path;
-
-	sub_path = ft_strjoin(path, entry);
-	new_path = ft_strjoin(sub_path, "/");
-	free(sub_path);
-	return (new_path);
+	if ((entry->d_name[0] != '.' || ft_strcmp(pattern, ".*") == 0)
+	&& entry->d_type == DT_DIR)
+	{
+		return (1);
+	}
+	return (0);
 }
 
 // @note as discussed with luca, *every* arg from the cmd will be copied into the expanded_argv
@@ -45,8 +47,7 @@ static char	**add_unglobbed_vars(char **expanded_argv, char **result, char **arg
 	if (expanded_argv != NULL)
 	{
 		expanded_argv = realloc_string_array(expanded_argv, 1);
-		while (expanded_argv[i])
-			i++;
+		i = get_string_array_len(expanded_argv);
 	}
 	else
 		expanded_argv = malloc(sizeof(char *) * 2);
@@ -56,24 +57,19 @@ static char	**add_unglobbed_vars(char **expanded_argv, char **result, char **arg
 	return (expanded_argv);
 }
 
-// @note shorten
 static char	**add_globbed_vars(char **expanded_argv, char **result)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
-	i = 0;
 	j = 0;
 	if (expanded_argv == NULL)
 		expanded_argv = result;
 	else
 	{
-		while (result[i] != NULL)
-			i++;
+		i = get_string_array_len(result);
 		expanded_argv = realloc_string_array(expanded_argv, i);
-		i = 0;
-		while (expanded_argv[i] != NULL)
-			i++;
+		i = get_string_array_len(expanded_argv);
 		while (result[j] != NULL)
 		{
 			expanded_argv[i + j] = malloc(sizeof(char) * ft_strlen(result[j]) + 1);
@@ -85,4 +81,14 @@ static char	**add_globbed_vars(char **expanded_argv, char **result)
 		expanded_argv[i + j] = NULL;
 	}
 	return (expanded_argv);
+}
+
+static int	get_string_array_len(char **array)
+{
+	int i;
+
+	i = 0;
+	while (array[i] != NULL)
+		i++;
+	return (i);
 }

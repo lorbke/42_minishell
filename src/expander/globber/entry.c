@@ -6,20 +6,17 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:20:36 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/17 13:31:42 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/18 10:48:55 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // malloc, ft_strlen, ft_strlcpy, ft_strjoin
-#include "globber.h" // sort_entries
+#include "globber_private.h" // is_match, opendir, readdir, closedir
 #include "../expander_private.h" // realloc_string_array
 
 static char	**sort_entries(char **result, char *entry);
 static char	**add_first_entry(char *entry, char **result);
 
-// @note possible leaks here
-// instead of freeing the entry/path inside their repspective functions
-// we could do it here
 char	**add_matching_entry(char **result, char *entry)
 {
 	if (result == NULL)
@@ -32,7 +29,29 @@ char	**add_matching_entry(char **result, char *entry)
 	return (result);
 }
 
-// @note ft_join inside here seems to cause leaks
+char	**add_if_match(char **result, char *entry, char *path, char *pattern)
+{
+	char	*entry_name;
+
+	if (is_match(entry, pattern))
+	{
+		if (path != NULL)
+		{
+			entry_name = ft_strjoin(path, entry);
+			result = add_matching_entry(result, entry_name);
+			free(entry_name);
+		}
+		else
+		{
+			entry_name = malloc(sizeof(char) * ft_strlen(entry) + 1);
+			ft_strlcpy(entry_name, entry, ft_strlen(entry) + 1);
+			result = add_matching_entry(result, entry_name);
+			free(entry_name);
+		}
+	}
+	return (result);
+}
+
 char	**get_matching_entries(char *path, char *pattern, char **result)
 {
 	DIR				*dir;
@@ -43,32 +62,16 @@ char	**get_matching_entries(char *path, char *pattern, char **result)
 		dir = opendir(path);
 	else
 		dir = opendir(getcwd(NULL, 0));
-	while (1)
+	while (dir != NULL)
 	{
 		entry = readdir(dir);
 		if (entry == NULL)
 			break ;
 		if (entry->d_name[0] != '.' || ft_strcmp(pattern, ".*") == 0)
-		{
-			if (is_match(entry->d_name, pattern))
-			{
-				if (path != NULL)
-				{
-					entry_name = ft_strjoin(path, entry->d_name);
-					result = add_matching_entry(result, entry_name);
-					free(entry_name);
-				}
-				else
-				{
-					entry_name = malloc(sizeof(char) * ft_strlen(entry->d_name) + 1);
-					ft_strlcpy(entry_name, entry->d_name, ft_strlen(entry->d_name) + 1);
-					result = add_matching_entry(result, entry_name);
-					free(entry_name);
-				}
-			}
-		}
+			result = add_if_match(result, entry->d_name, path, pattern);
 	}
-	closedir(dir);
+	if (dir != NULL)
+		closedir(dir);
 	return (result);
 }
 

@@ -6,12 +6,12 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:17:44 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/17 13:29:07 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/18 10:56:47 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h" // malloc, ft_strlen, ft_strjoin
-#include "globber.h" // create_new_path
+#include "libft.h" // malloc, ft_strlen
+#include "globber_private.h" // globbing, is_match, concatentate_entries, add_matching_entries, find_pattern, opendir, readdir, closedir, create_new_path
 #include "../expander_private.h" // realloc_string_array
 
 static void	check_char(char **arg, char **pattern, int *astrisk_control);

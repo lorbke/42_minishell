@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+	/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   globber.c                                          :+:      :+:    :+:   */
@@ -10,12 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h" // NULL
-#include "../../utils.h" // free_split
-#include "globber.h" // globbing, is_match, concatentate_entries, add_matching_entries, find_pattern, opendir, readdir, closedir
+#include "libft.h" // NULL, free, ft_substr
+#include "../../utils.h" // free_split, ft_strcmp
+#include "globber_private.h" // is_match, concatentate_entries, add_matching_entries, find_pattern, opendir, readdir, closedir, expand_cwd_dir, globbing_outside_cwd
 #include "../expander_private.h" // find_closing_quote, quote_removal
 
 static char	**globbing(char *arg, int *index);
+static char	**check_for_path(char *pattern, char **result);
 
 char	**globber(char **argv)
 {
@@ -57,5 +58,29 @@ static char **globbing(char *arg, int *index)
 	if (ft_strcmp(pattern, "*/") != 0)
 		result = get_matching_entries(NULL, pattern, result);
 	free(pattern);
+	return (result);
+}
+
+static char	**check_for_path(char *pattern, char **result)
+{
+	int				i;
+	char			*new_path;
+	char			*new_pattern;
+	struct stat		buf;
+
+	i = 0;
+	while (pattern[i] != '\0' && pattern[i] != '/')
+		i++;
+	if (pattern[i] == '/')
+	{
+		new_path = ft_substr(pattern, 0, i + 1);
+		new_pattern = ft_substr(pattern, i + 1, ft_strlen(pattern));
+		if (ft_strcmp(new_path, "*/") == 0)
+			result = expand_cwd_dir(new_path, new_pattern, result);
+		else if (stat(new_path, &buf) == 0)
+			result = globbing_outside_cwd(new_path, new_pattern, result);
+		free(new_path);
+		free(new_pattern);
+	}
 	return (result);
 }
