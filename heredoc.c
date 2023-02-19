@@ -94,17 +94,24 @@ void	doc_heredoc(char *limiter, int fd_write)
 	}
 }
 
-void	doc_unclosed(char *line, int fd_write)
+void	doc_quotedoc(char *quote, int fd_write)
 {
+	char	*line;
+
 	while (1)
 	{
+		write(fd_write, "\n", 1);
 		line = readline("> ");
-		if (*line)
+		if (!line)
 			break ;
+		write(fd_write, line, ft_strlen(line));
+		if (ft_strchr(line, *quote))
+		{
+			free(line);
+			break ;
+		}
 		free(line);
 	}
-	write(fd_write, line, strlen(line));
-	free(line);
 }
 
 // @note newline bug when ctrl d

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/19 18:25:04 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 00:41:47 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	rep_loop(void)
 			break ;
 		if (*line)
 		{
-			digest_input(&line, STDIN_FILENO, STDOUT_FILENO);
+			digest_input(line, STDIN_FILENO, STDOUT_FILENO);
 			add_history(line);
 		}
 		free(line);

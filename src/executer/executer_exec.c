@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/18 18:38:56 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 00:42:04 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static pid_t	exec_subshell(t_cmd_table *cmd_table)
 	if (pid != 0)
 		return (pid);
 	cmd_table->cmd[0][ft_strlen(cmd_table->cmd[0]) - 1] = 0;
-	digest_input(&cmd_table->cmd[0] + 1,
+	digest_input(cmd_table->cmd[0] + 1,
 		cmd_table->fd_in[0], cmd_table->fd_out[0]);
 	status = exit_status_get();
 	exit(status);
