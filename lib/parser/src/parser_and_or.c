@@ -29,7 +29,7 @@ static t_ast	*get_right(t_stack **tokstack)
 	head->right = rule_pipeline(tokstack);
 	if (!head->right)
 	{
-		head->right = create_ast_node(create_token_unclosed());
+		head->right = create_ast_node(create_token_empty());
 		return (head);
 	}
 	next_andor = get_right(tokstack);

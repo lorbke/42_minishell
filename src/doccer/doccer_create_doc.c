@@ -70,7 +70,7 @@ static void	doc_unclosed(char desc, int fd_write)
 		write(fd_write, line, ft_strlen(line));
 		if (is_closed(line, desc))
 			break ;
-		if (desc == TOK_UNCLOSED && ft_strchr(line, '\"'))
+		if (desc == TOK_UNCLOSED_DQUOTE && ft_strchr(line, '\"'))
 			break ;
 		free(line);
 	}

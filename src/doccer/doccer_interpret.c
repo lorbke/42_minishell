@@ -27,7 +27,7 @@ t_status	doccer_interpret_unclosed(t_ast *ast, char **doc_input)
 	if (ast->token->desc == TOK_PIPE
 		|| ast->token->desc == TOK_AND
 		|| ast->token->desc == TOK_OR
-		|| ast->token->desc == TOK_UNCLOSED)
+		|| ast->token->desc == TOK_UNCLOSED_DQUOTE)
 		return (create_doc(ast, 0, doc_input));
 	return (ERR_SUCCESS);
 }

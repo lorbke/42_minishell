@@ -16,7 +16,7 @@
 # include "lexer.h" // t_token, t_stack
 # include "parser.h" // t_ast
 
-t_token	*create_token_unclosed(void);
+t_token	*create_token_empty(void);
 t_ast	*create_ast_node(t_token *token);
 t_ast	*append_left_ast(t_ast *main, t_ast *append);
 t_ast	*handle_subshell(t_stack **tokstack);

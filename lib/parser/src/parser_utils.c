@@ -16,12 +16,12 @@
 #include <stdlib.h> // NULL
 #include <stdbool.h> // bool, true, false
 
-t_token	*create_token_unclosed(void)
+t_token	*create_token_empty(void)
 {
 	t_token	*new;
 
 	new = malloc(sizeof(t_token));
-	new->desc = TOK_UNCLOSED;
+	new->desc = TOK_WORD;
 	new->word = NULL;
 	return (new);
 }
