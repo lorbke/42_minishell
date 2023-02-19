@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/18 18:32:42 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/19 15:08:38 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 // @todo error protections (malloc, open, etc.)
 // @todo fix bug: overwriting first input when term window is exceeded
 // @todo is not a terminal case handling
+// @todo turn on wall werror wextra in every makefile
 
 /* Read-Eval-Print-Loop. */
 void	rep_loop(void)

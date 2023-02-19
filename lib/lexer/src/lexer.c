@@ -6,62 +6,74 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 14:45:51 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/19 17:24:59 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h" // ft_strchr
 #include "private_lexer.h" // main header
 #include "lexer.h" // TOK_* macros, t_token, t_stack
 #include <stdlib.h> // for NULL
 
-// @note quotes are not identified properly - do they have to be identified?
-static unsigned char	desc_word(char *word)
+static int	ignore_delims(char *stringp, const char *ignore)
 {
-	if (*word == '|' && *(word + 1) != '|')
-		return (TOK_PIPE);
-	else if (*word == '<' && *(word + 1) == '<')
-		return (TOK_REDIR_HEREDOC);
-	else if (*word == '>' && *(word + 1) == '>')
-		return (TOK_REDIR_APPEND);
-	else if (*word == '<')
-		return (TOK_REDIR_IN);
-	else if (*word == '>')
-		return (TOK_REDIR_OUT);
-	else if (*word == '\'')
-		return (TOK_WORD);
-	else if (*word == '"')
-		return (TOK_WORD);
-	else if (*word == '(')
-		return (TOK_SUBSHELL);
-	else if (*word == '&' && *(word + 1) == '&')
-		return (TOK_AND);
-	else if (*word == '|' && *(word + 1) == '|')
-		return (TOK_OR);
-	return (TOK_WORD);
+	char	*esc;
+	char	*start;
+
+	if (stringp + 1 && *(stringp + 1) == '(')
+		return (1);
+	start = stringp;
+	esc = ft_strchr(ignore, *start);
+	if (esc && *esc == '(')
+		esc++;
+	if (esc)
+	{
+		start++;
+		while (*start && *start != *esc)
+			start++;
+		if (!*start)
+			start++;
+		return (start - stringp + 1);
+	}
+	return (0);
 }
 
-static t_token	*create_token(char *word)
+static int	get_word_len(char *word, char *esc)
 {
-	t_token	*new;
+	int	len;
+	int	ignore;
+	int	special;
 
-	if (!word || !*word)
-		return (NULL);
-	new = malloc(sizeof(t_token));
-	new->word = word;
-	new->desc = desc_word(word);
-	return (new);
+	len = 0;
+	while (word[len])
+	{
+		ignore = ignore_delims(word + len, esc);
+		if (ignore)
+			return (len + ignore);
+		special = is_special_char(word + len);
+		if (special)
+		{
+			if (!len)
+				return (special);
+			else
+				return (len);
+		}
+		len++;
+	}
+	return (len);
 }
 
-static t_stack	*create_stack_node(t_token *token)
+static char	*get_next_word(char **str, char *seps, char *esc)
 {
-	t_stack	*new;
+	static char	*word = NULL;
 
-	if (!token)
-		return (NULL);
-	new = malloc(sizeof(t_stack));
-	new->token = token;
-	new->next = NULL;
-	return (new);
+	if (!str)
+		word = NULL;
+	else if (word && *word)
+		word += get_word_len(word, esc);
+	else
+		word = lexer_ft_strsep(str, seps, esc);
+	return (word);
 }
 
 // @note ugly code, fix?
@@ -69,26 +81,25 @@ t_stack	*lexer_str_to_tokstack(char *str, char *seps, char *esc)
 {
 	t_stack	*head;
 	t_stack	*temp;
+	char	*next_word;
 
-	str = insert_sep_around_special(str, seps);
-	head = NULL;
-	while (*str)
-	{
-		head
-			= create_stack_node(create_token(lexer_ft_strsep(&str, seps, esc)));
-		if (head)
-			break ;
-	}
-	if (!head)
+	while (*str && is_char_set(*str, seps))
+		str++;
+	next_word = get_next_word(&str, seps, esc);
+	head = create_stack_node
+		(create_token(next_word, get_word_len(next_word, esc)));
+	if (!head && !get_next_word(NULL, NULL, NULL))
 		return (NULL);
 	temp = head;
 	while (*str)
 	{
-		temp->next
-			= create_stack_node(create_token(lexer_ft_strsep(&str, seps, esc)));
+		next_word = get_next_word(&str, seps, esc);
+		temp->next = create_stack_node
+			(create_token(next_word, get_word_len(next_word, esc)));
 		if (temp->next)
 			temp = temp->next;
 	}
 	temp->next = NULL;
+	get_next_word(NULL, NULL, NULL);
 	return (head);
 }

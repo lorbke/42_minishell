@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/18 13:54:25 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/16 14:48:47 by lorbke           ###   ########.fr        #
+#    Updated: 2023/02/19 17:28:43 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,13 @@ CC := cc
 AR := ar rcs
 RM := rm -f
 ADD_FLAGS := #-g -fsanitize=address,undefined
-FLAGS := -Wall -Wextra -Werror
+FLAGS := -g #-Wall -Wextra -Werror
+
+# library macros
+LIB_PATH := ../
+LFT_PATH := $(LIB_PATH)/libft
+LFT_LIB := ft
+LFT_LINK := -L$(LFT_PATH) -l$(LFT_LIB)
 
 # src and obj files macros
 OBJ_PATH := obj
@@ -41,6 +47,7 @@ VPATH := $(SRC_PATH)
 
 # file targets
 $(NAME): $(OBJ_PATH) $(OBJ)
+	@$(MAKE) -C $(LFT_PATH)
 	@echo -e -n "$(BLUE)Creating: lexer library: $(RESET)"
 	$(AR) $(NAME) $(OBJ)
 	@echo -e "$(GREEN)make: lexer success!$(RESET)"
@@ -50,7 +57,7 @@ $(OBJ_PATH):
 
 $(OBJ_PATH)/%.o: %.c Makefile lexer.h $(SRC_PATH)/private_lexer.h
 	@echo -e -n "$(YELLOW)Compiling: $(RESET)"
-	$(CC) $(FLAGS) $(ADD_FLAGS) -c $< -o $@
+	$(CC) $(FLAGS) -I$(LFT_PATH) $(ADD_FLAGS) -c $< -o $@
 
 # phony targets
 all: $(NAME)
