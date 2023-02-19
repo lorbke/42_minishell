@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:14:04 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/18 19:06:46 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/19 18:51:28 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,17 @@ static void	doc_unclosed(char desc, int fd_write)
 
 	while (1)
 	{
-		write(fd_write, " ", 1);
+		if (desc == TOK_UNCLOSED_DQUOTE || desc == TOK_UNCLOSED_SQUOTE)
+			write(fd_write, "\n", 1);
+		else
+			write(fd_write, " ", 1);
 		line = readline("> ");
 		if (!line)
 			break ;
 		write(fd_write, line, ft_strlen(line));
 		if (is_closed(line, desc))
+			break ;
+		if (desc == TOK_UNCLOSED_SQUOTE && ft_strchr(line, '\''))
 			break ;
 		if (desc == TOK_UNCLOSED_DQUOTE && ft_strchr(line, '\"'))
 			break ;
@@ -88,10 +93,18 @@ t_status	create_doc(t_ast *ast, bool type, char **doc)
 
 	mssignal_change_mode(MSSIG_EXEC);
 	suffix = ft_itoa((long)&ast->right->token);
-	limiter = ast->right->token->word;
-	ast->right->token->word = ft_strjoin(DOCC_DIR, suffix);
+	if (ast->right)
+	{
+		limiter = ast->right->token->word;
+		ast->right->token->word = ft_strjoin(DOCC_DIR, suffix);
+		fd = open(ast->right->token->word, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	}
+	else
+	{
+		ast->token->word = ft_strjoin(DOCC_DIR, suffix);
+		fd = open(ast->token->word, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	}
 	free(suffix);
-	fd = open(ast->right->token->word, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	pid = fork();
 	if (pid == -1 || fd == -1)
 		return (ERR_GENERALERR);
@@ -101,10 +114,16 @@ t_status	create_doc(t_ast *ast, bool type, char **doc)
 		waitpid(pid, &status, 0);
 		if (type == false)
 		{
-			fd = open(ast->right->token->word, O_RDONLY);
+			if (ast->right)
+				fd = open(ast->right->token->word, O_RDONLY);
+			else
+				fd = open(ast->token->word, O_RDONLY);
 			read(fd, *doc, ARG_MAX);
 			close(fd);
-			unlink(ast->right->token->word);
+			if (ast->right)
+				unlink(ast->token->word);
+			else
+				unlink(ast->right->token->word);
 		}
 		return ((t_status)WEXITSTATUS(status));
 	}

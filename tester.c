@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:25 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/19 18:00:01 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/19 19:53:42 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 #define CASE_COUNT 35
 #define CASE_0 ""
 #define CASE_1 "< in\n"
-#define CASE_2 "echo\n"
+#define CASE_2 "cat |ls\n"
 #define CASE_3 "echo a && eho b\n"
 #define CASE_4 "/bin/echo hi hi > out\n"
 #define CASE_5 "<in1<in2<in3 echo hi hi > out1> out2 >out4 hello hello\n"

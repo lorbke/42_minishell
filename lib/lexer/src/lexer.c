@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/19 18:25:09 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/19 19:52:54 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	get_word_len(char *word, char *esc)
 	int	special;
 
 	len = 0;
-	while (word[len])
+	while (word && word[len])
 	{
 		ignore = ignore_delims(word + len, esc);
 		if (ignore)
@@ -77,6 +77,8 @@ static char	*get_next_word(char **str, char *seps, char *esc)
 	return (word);
 }
 
+#include <stdio.h>
+
 // @note ugly code, fix?
 t_stack	*lexer_str_to_tokstack(char *str, char *seps, char *esc)
 {
@@ -93,9 +95,10 @@ t_stack	*lexer_str_to_tokstack(char *str, char *seps, char *esc)
 	if (!head && !get_next_word(NULL, NULL, NULL))
 		return (NULL);
 	temp = head;
-	while (*str)
+	while ((str && *str) || next_word)
 	{
 		next_word = get_next_word(&str, seps, esc);
+		printf("next_word: %s\n", next_word);
 		temp->next = create_stack_node
 			(create_token(next_word, get_word_len(next_word, esc)));
 		if (temp->next)
