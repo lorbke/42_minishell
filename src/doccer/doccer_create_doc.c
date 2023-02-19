@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:14:04 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/19 18:51:28 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/19 20:35:32 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,29 +50,24 @@ static void	doc_heredoc(char *limiter, int fd_write)
 	{
 		line = readline("> ");
 		if (!line || ft_strncmp(line, limiter, limiter_len + 1) == 0)
-			break ;
+			return ;
 		write(fd_write, line, ft_strlen(line));
 		write(fd_write, "\n", 1);
 		free(line);
 	}
 }
 
-static void	doc_unclosed(char desc, int fd_write)
+static void	doc_unclosed_quote(char desc, int fd_write)
 {
 	char	*line;
 
 	while (1)
 	{
-		if (desc == TOK_UNCLOSED_DQUOTE || desc == TOK_UNCLOSED_SQUOTE)
-			write(fd_write, "\n", 1);
-		else
-			write(fd_write, " ", 1);
+		write(fd_write, "\n", 1);
 		line = readline("> ");
 		if (!line)
-			break ;
+			return ;
 		write(fd_write, line, ft_strlen(line));
-		if (is_closed(line, desc))
-			break ;
 		if (desc == TOK_UNCLOSED_SQUOTE && ft_strchr(line, '\''))
 			break ;
 		if (desc == TOK_UNCLOSED_DQUOTE && ft_strchr(line, '\"'))
@@ -82,7 +77,26 @@ static void	doc_unclosed(char desc, int fd_write)
 	free(line);
 }
 
+static void	doc_unclosed_special(char desc, int fd_write)
+{
+	char	*line;
+
+	while (1)
+	{
+		write(fd_write, " ", 1);
+		line = readline("> ");
+		if (!line)
+			return ;
+		write(fd_write, line, ft_strlen(line));
+		if (is_closed(line, desc))
+			break ;
+		free(line);
+	}
+	free(line);
+}
+
 // @note newline bug when ctrl d
+// @todo handle eof when unclosed quote
 t_status	create_doc(t_ast *ast, bool type, char **doc)
 {
 	pid_t		pid;
@@ -101,6 +115,7 @@ t_status	create_doc(t_ast *ast, bool type, char **doc)
 	}
 	else
 	{
+		limiter = ast->token->word;
 		ast->token->word = ft_strjoin(DOCC_DIR, suffix);
 		fd = open(ast->token->word, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	}
@@ -114,24 +129,34 @@ t_status	create_doc(t_ast *ast, bool type, char **doc)
 		waitpid(pid, &status, 0);
 		if (type == false)
 		{
-			if (ast->right)
-				fd = open(ast->right->token->word, O_RDONLY);
-			else
+			if (ast->token->desc == TOK_UNCLOSED_DQUOTE || ast->token->desc == TOK_UNCLOSED_SQUOTE)
+			{
 				fd = open(ast->token->word, O_RDONLY);
-			read(fd, *doc, ARG_MAX);
-			close(fd);
-			if (ast->right)
+				read(fd, *doc, ARG_MAX);
+				close(fd);
 				unlink(ast->token->word);
+				free(ast->token->word);
+				ast->token->word = ft_strjoin(limiter, *doc);
+				ast->token->desc = TOK_WORD;
+				free(limiter);
+			}
 			else
+			{
+				fd = open(ast->right->token->word, O_RDONLY);
 				unlink(ast->right->token->word);
+				read(fd, *doc, ARG_MAX);
+				close(fd);
+			}
 		}
 		return ((t_status)WEXITSTATUS(status));
 	}
 	mssignal_change_mode(MSSIG_HDOC);
 	if (type == true)
 		doc_heredoc(limiter, fd);
+	else if (ast->token->desc == TOK_UNCLOSED_DQUOTE || ast->token->desc == TOK_UNCLOSED_SQUOTE)
+		doc_unclosed_quote(ast->token->desc, fd);
 	else
-		doc_unclosed(ast->token->desc, fd);
+		doc_unclosed_special(ast->token->desc, fd);
 	close(fd);
 	exit(ERR_SUCCESS);
 }

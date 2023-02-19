@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 15:28:58 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/19 18:53:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/19 20:18:24 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ t_status	doccer_interpret_unclosed_quotes(t_ast *ast, char **doc_input)
 		|| doccer_interpret_unclosed_quotes(ast->right, doc_input) != ERR_SUCCESS)
 		return (ERR_GENERALERR);
 	if (ast->token->desc == TOK_UNCLOSED_SQUOTE)
-		return (create_doc(ast, doc_input, NULL));
+		return (create_doc(ast, 0, doc_input));
 	if (ast->token->desc == TOK_UNCLOSED_DQUOTE)
-		return (create_doc(ast, doc_input, NULL));
+		return (create_doc(ast, 0, doc_input));
 	return (ERR_SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/19 19:39:03 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/19 20:25:04 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,18 +102,18 @@ char	*digest_input(char **input, int fd_in, int fd_out)
 		*input = ft_strjoin(*input, new_input);
 		free(new_input);
 	}
-	// exit_status = doccer_interpret_unclosed_quotes(main_ast, &new_input);
-	// if (exit_status != ERR_SUCCESS)
-	// {
-	// 	printf("-----exit status unexpected end of file: %d\n", 2);
-	// 	return (*input);
-	// }
-	// if (*new_input)
-	// {
-	// 	append_right_ast(main_ast, closing_ast);
-	// 	*input = ft_strjoin(*input, new_input);
-	// 	free(new_input);
-	// }
+	new_input = ft_calloc(sizeof(char), ARG_MAX);
+	exit_status = doccer_interpret_unclosed_quotes(main_ast, &new_input);
+	if (exit_status != ERR_SUCCESS)
+	{
+		printf("-----exit status unexpected end of file: %d\n", 2);
+		return (*input);
+	}
+	if (*new_input)
+	{
+		*input = ft_strjoin(*input, new_input);
+		free(new_input);
+	}
 	debug_parser(main_ast, NULL);
 	mssignal_change_mode(MSSIG_EXEC);
 	exit_status = executer_exec_ast(main_ast, fd_in, fd_out);

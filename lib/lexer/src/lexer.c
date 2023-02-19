@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/19 19:52:54 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/19 20:07:55 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ t_stack	*lexer_str_to_tokstack(char *str, char *seps, char *esc)
 	while ((str && *str) || next_word)
 	{
 		next_word = get_next_word(&str, seps, esc);
-		printf("next_word: %s\n", next_word);
 		temp->next = create_stack_node
 			(create_token(next_word, get_word_len(next_word, esc)));
 		if (temp->next)
