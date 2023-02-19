@@ -6,12 +6,12 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:37:54 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/19 17:24:23 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/19 18:12:13 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h" // t_token, t_stack, TOK_* defines
-#include "libft.h" // ft_strdup
+#include "libft.h" // ft_strdup, ft_strchr
 #include <stdlib.h> // malloc
 
 int	is_special_char(char *str)
@@ -59,10 +59,13 @@ unsigned char	desc_word(char *word)
 		return (TOK_REDIR_IN);
 	else if (*word == '>')
 		return (TOK_REDIR_OUT);
-	else if (*word == '\'')
-		return (TOK_WORD);
-	else if (*word == '"')
-		return (TOK_WORD);
+	else if (ft_strchr(word, '\'')
+		&& ft_strchr(word, '\"') > ft_strchr(word, '\'')
+		&& ft_strchr(word, '\'') == ft_strrchr(word, '\''))
+		return (TOK_UNCLOSED_SQUOTE);
+	else if (ft_strchr(word, '\"')
+		&& ft_strchr(word, '\"') == ft_strrchr(word, '\"'))
+		return (TOK_UNCLOSED_DQUOTE);
 	else if (*word == '(')
 		return (TOK_SUBSHELL);
 	else if (*word == '&' && *(word + 1) == '&')

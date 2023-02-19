@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:14:20 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/17 14:42:54 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/19 17:49:11 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ static const t_func_handle	g_func_handle_arr[]
 [TOK_REDIR_OUT] = &handle_redir_out,
 [TOK_REDIR_HEREDOC] = &handle_redir_in,
 [TOK_REDIR_APPEND] = &handle_redir_append,
-[TOK_SQUOTE] = &handle_cmd,
-[TOK_DQUOTE] = &handle_cmd,
+[TOK_UNCLOSED_SQUOTE] = &handle_cmd,
+[TOK_UNCLOSED_DQUOTE] = &handle_cmd,
 [TOK_SUBSHELL] = &handle_cmd,
 [TOK_AND] = &handle_and,
 [TOK_OR] = &handle_or,

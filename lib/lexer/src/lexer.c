@@ -6,13 +6,13 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/19 17:24:59 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/19 17:46:20 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h" // ft_strchr
 #include "private_lexer.h" // main header
 #include "lexer.h" // TOK_* macros, t_token, t_stack
+#include "libft.h" // ft_strchr
 #include <stdlib.h> // for NULL
 
 static int	ignore_delims(char *stringp, const char *ignore)

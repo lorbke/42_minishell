@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:25 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/19 16:56:43 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/19 18:00:01 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@
 #define CASE_15 " | \n"
 #define CASE_16 "|\n"
 #define CASE_17 "echo 1 \"&& echo\" 2\n"
-#define CASE_18 "echo 1 || echo 2\n"
-#define CASE_19 "echo 1 && echo 2 && echo 3\n"
-#define CASE_20 "echo 1 || echo 2 | echo 3\n"
-#define CASE_21 "echo 1 | echo 2 && echo 3\n"
+#define CASE_18 "\"\n"
+#define CASE_19 "\'\"\n"
+#define CASE_20 "\"\"\n"
+#define CASE_21 "echo \"1 | ec\'ho 2 &\"& echo 3\n"
 #define CASE_22 "echo 1<<lim| echo 2>out|| echo 3 | echo 4\n"
 #define CASE_23 "echo ||\n"
 #define CASE_24 "(echo hi)\n"

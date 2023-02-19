@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:05:04 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/13 14:21:32 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/19 17:48:29 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,11 @@ which will be useful during the execution phase. */
 # define TOK_REDIR_OUT 3
 # define TOK_REDIR_HEREDOC 4
 # define TOK_REDIR_APPEND 5
-# define TOK_SQUOTE 6
-# define TOK_DQUOTE 7
+# define TOK_UNCLOSED_SQUOTE 6
+# define TOK_UNCLOSED_DQUOTE 7
 # define TOK_SUBSHELL 8
 # define TOK_AND 9
 # define TOK_OR 10
-# define TOK_UNCLOSED_SQUOTE 11
-# define TOK_UNCLOSED_DQUOTE 12
 
 typedef struct s_token
 {
