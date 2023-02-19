@@ -6,14 +6,15 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/19 17:46:20 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/19 18:25:09 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_lexer.h" // main header
 #include "lexer.h" // TOK_* macros, t_token, t_stack
 #include "libft.h" // ft_strchr
-#include <stdlib.h> // for NULL
+#include <stdlib.h> // NULL
+#include <unistd.h> // free
 
 static int	ignore_delims(char *stringp, const char *ignore)
 {
@@ -83,6 +84,7 @@ t_stack	*lexer_str_to_tokstack(char *str, char *seps, char *esc)
 	t_stack	*temp;
 	char	*next_word;
 
+	str = ft_strdup(str);
 	while (*str && is_char_set(*str, seps))
 		str++;
 	next_word = get_next_word(&str, seps, esc);
