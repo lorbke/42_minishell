@@ -24,7 +24,7 @@ RESET := \033[0m
 NAME := minishell
 
 # command macros
-CC := cc
+CC := gcc
 AR := ar rcs
 RM := rm -f
 CFLAGS := #-Wall -Wextra -Werror
@@ -71,7 +71,7 @@ $(NAME): $(OBJ_PATH) $(OBJ)
 	@$(MAKE) -C $(ENV_PATH)
 	@$(MAKE) -C $(GNL_PATH)
 	@echo -e -n "$(BLUE)Creating: minishell executable: $(RESET)"
-	$(CC) $(CFLAGS) $(OBJ) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(EXECUTER_LINK) $(ENV_LINK) $(GNL_LINK) -l$(RDLN_LIB) -o $(NAME)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(EXECUTER_LINK) $(ENV_LINK) $(GNL_LINK) -l$(RDLN_LIB)
 	@echo -e "$(GREEN)make: minishell success!$(RESET)"
 # inc when on macbook
 # -L/opt/homebrew/Cellar/readline/8.2.1/lib
@@ -79,7 +79,7 @@ $(NAME): $(OBJ_PATH) $(OBJ)
 # -L/Users/fyuzhyk/LeakSanitizer -llsan -lc++
 
 dev: $(OBJ_PATH) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) dev.o $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(EXECUTER_LINK) $(ENV_LINK) $(GNL_LINK) -l$(RDLN_LIB) -o dev
+	$(CC) $(CFLAGS) $(OBJ) dev.o $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(EXECUTER_LINK) $(ENV_LINK) $(GNL_LINK) -l$(RDLN_LIB)
 # inc when on macbook
 # -L/opt/homebrew/Cellar/readline/8.2.1/lib
 

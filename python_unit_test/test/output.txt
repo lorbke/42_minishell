@@ -1,0 +1,913 @@
+///////////////////////
+//////// ECHO /////////
+///////////////////////
+Case #1: 
+echo
+
+minishell output: 
+
+bash      output: 
+
+---------------------------------------------
+
+Case #2: 
+echo ''
+
+minishell output: 
+
+bash      output: 
+
+---------------------------------------------
+
+Case #3: 
+echo ""
+
+minishell output: 
+
+bash      output: 
+
+---------------------------------------------
+
+Case #4: 
+echo '' ""
+
+minishell output: 
+
+bash      output: 
+
+---------------------------------------------
+
+Case #5: 
+echo echo
+
+minishell output: echo
+
+bash      output: echo
+
+---------------------------------------------
+
+Case #6: 
+echo test1
+
+minishell output: test1
+
+bash      output: test1
+
+---------------------------------------------
+
+Case #7: 
+echo 'test1'
+
+minishell output: test1
+
+bash      output: test1
+
+---------------------------------------------
+
+Case #8: 
+echo "echo hallo"
+
+minishell output: echo hallo
+
+bash      output: echo hallo
+
+---------------------------------------------
+
+Case #9: 
+echo echo"1"
+
+minishell output: echo1
+
+bash      output: echo1
+
+---------------------------------------------
+
+Case #10: 
+echo "test1 test2"
+
+minishell output: test1 test2
+
+bash      output: test1 test2
+
+---------------------------------------------
+
+Case #11: 
+echo "test1  test2" test3
+
+minishell output: test1 test2 test3
+
+bash      output: test1 test2 test3
+
+---------------------------------------------
+
+Case #12: 
+echo " test1 test2 " 'test3 '
+
+minishell output: test1 test2 test3 
+
+bash      output: test1 test2 test3 
+
+---------------------------------------------
+
+Case #13: 
+echo test1		test2
+
+minishell output: test1 test2
+
+bash      output: test1 test2
+
+---------------------------------------------
+
+Case #14: 
+echo -n test1
+
+minishell output: test1
+bash      output: test1
+---------------------------------------------
+
+Case #15: 
+echo -n "test1 test2"
+
+minishell output: test1 test2
+bash      output: test1 test2
+---------------------------------------------
+
+Case #16: 
+echo -n "test1 test2" test3
+
+minishell output: test1 test2 test3
+bash      output: test1 test2 test3
+---------------------------------------------
+
+Case #17: 
+echo -n " test1 test2 " 'test3 '
+
+minishell output: test1 test2 test3 
+bash      output: test1 test2 test3 
+---------------------------------------------
+
+Case #18: 
+echo -n test1		test2
+
+minishell output: test1 test2
+bash      output: test1 test2
+---------------------------------------------
+
+Case #19: 
+echo test1 -n
+
+minishell output: test1 -n
+
+bash      output: test1 -n
+
+---------------------------------------------
+
+Case #20: 
+echo "test1 -n"
+
+minishell output: test1 -n
+
+bash      output: test1 -n
+
+---------------------------------------------
+
+Case #21: 
+echo -n -n test1
+
+minishell output: test1
+bash      output: test1
+---------------------------------------------
+
+Case #22: 
+echo -n -n -n -n -n test1
+
+minishell output: test1
+bash      output: test1
+---------------------------------------------
+
+Case #23: 
+echo "-n test1 -n test2"
+
+minishell output: test1 -n test2
+bash      output: test1 -n test2
+---------------------------------------------
+
+Case #24: 
+echo "test1 -n test2"
+
+minishell output: test1 -n test2
+
+bash      output: test1 -n test2
+
+---------------------------------------------
+
+Case #25: 
+echo ~42
+
+minishell output: ~42
+
+bash      output: ~42
+
+---------------------------------------------
+
+Case #26: 
+eCho
+
+minishell output: 
+
+bash      output: 
+
+---------------------------------------------
+
+Case #27: 
+eChO
+
+minishell output: 
+
+bash      output: 
+
+---------------------------------------------
+
+Case #28: 
+eCHO
+
+minishell output: 
+
+bash      output: 
+
+---------------------------------------------
+
+Case #29: 
+ECHO
+
+minishell output: 
+
+bash      output: 
+
+---------------------------------------------
+
+Case #30: 
+
+minishell output: 
+
+bash      output: 
+
+---------------------------------------------
+
+//////////////////////
+//////// PWD /////////
+//////////////////////
+Case #31: 
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #32: 
+"pwd"
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #33: 
+pw"d"
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #34: 
+pwd test42
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #35: 
+pwd 42 42 42
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #36: 
+pwd pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #37: 
+pwd pwd pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+///////////////////////
+//////// EXIT /////////
+///////////////////////
+Case #38: 
+exit
+
+minishell output: exit
+
+bash      output: 
+---------------------------------------------
+
+Case #39: 
+exit ""
+
+minishell output: exit
+
+bash      output: 
+---------------------------------------------
+
+Case #40: 
+exit 0
+
+minishell output: exit
+
+bash      output: 
+---------------------------------------------
+
+Case #41: 
+exit 10
+
+minishell output: exit
+
+bash      output: 
+---------------------------------------------
+
+Case #42: 
+exit 42
+
+minishell output: exit
+
+bash      output: 
+---------------------------------------------
+
+Case #43: 
+exit 1
+
+minishell output: exit
+
+bash      output: 
+---------------------------------------------
+
+Case #44: 
+exit +++++
+
+minishell output: minishell: exit: +++++: numeric argument required
+
+bash      output: bash: line 1: exit: +++++: numeric argument required
+
+---------------------------------------------
+
+Case #45: 
+exit ++++++
+
+minishell output: minishell: exit: ++++++: numeric argument required
+
+bash      output: bash: line 1: exit: ++++++: numeric argument required
+
+---------------------------------------------
+
+Case #46: 
+exit +1
+
+minishell output: exit
+
+bash      output: 
+---------------------------------------------
+
+Case #47: 
+exit ++1
+
+minishell output: minishell: exit: ++1: numeric argument required
+
+bash      output: bash: line 1: exit: ++1: numeric argument required
+
+---------------------------------------------
+
+Case #48: 
+exit ++12560
+
+minishell output: minishell: exit: ++12560: numeric argument required
+
+bash      output: bash: line 1: exit: ++12560: numeric argument required
+
+---------------------------------------------
+
+Case #49: 
+exit -----
+
+minishell output: minishell: exit: -----: numeric argument required
+
+bash      output: bash: line 1: exit: -----: numeric argument required
+
+---------------------------------------------
+
+Case #50: 
+exit ------
+
+minishell output: minishell: exit: ------: numeric argument required
+
+bash      output: bash: line 1: exit: ------: numeric argument required
+
+---------------------------------------------
+
+Case #51: 
+exit -1
+
+minishell output: exit
+
+bash      output: 
+---------------------------------------------
+
+Case #52: 
+exit --1
+
+minishell output: minishell: exit: --1: numeric argument required
+
+bash      output: bash: line 1: exit: --1: numeric argument required
+
+---------------------------------------------
+
+Case #53: 
+exit -12560
+
+minishell output: exit
+
+bash      output: 
+---------------------------------------------
+
+Case #54: 
+exit --12560
+
+minishell output: minishell: exit: --12560: numeric argument required
+
+bash      output: bash: line 1: exit: --12560: numeric argument required
+
+---------------------------------------------
+
+Case #55: 
+exit 255
+
+minishell output: exit
+
+bash      output: 
+---------------------------------------------
+
+Case #56: 
+exit 1 2
+
+minishell output: minishell: exit: too many arguments
+
+bash      output: bash: line 1: exit: too many arguments
+
+---------------------------------------------
+
+Case #57: 
+exit 1 2 3
+
+minishell output: minishell: exit: too many arguments
+
+bash      output: bash: line 1: exit: too many arguments
+
+---------------------------------------------
+
+Case #58: 
+exit A
+
+minishell output: minishell: exit: A: numeric argument required
+
+bash      output: bash: line 1: exit: A: numeric argument required
+
+---------------------------------------------
+
+Case #59: 
+exit A 2 3
+
+minishell output: minishell: exit: too many arguments
+
+bash      output: bash: line 1: exit: A: numeric argument required
+
+---------------------------------------------
+
+Case #60: 
+exit "A"
+
+minishell output: minishell: exit: A: numeric argument required
+
+bash      output: bash: line 1: exit: A: numeric argument required
+
+---------------------------------------------
+
+Case #61: 
+exit "+++"
+
+minishell output: minishell: exit: +++: numeric argument required
+
+bash      output: bash: line 1: exit: +++: numeric argument required
+
+---------------------------------------------
+
+Case #62: 
+exit ++++3193912939
+
+minishell output: minishell: exit: ++++3193912939: numeric argument required
+
+bash      output: bash: line 1: exit: ++++3193912939: numeric argument required
+
+---------------------------------------------
+
+Case #63: 
+exit 01
+
+minishell output: exit
+
+bash      output: 
+---------------------------------------------
+
+Case #64: 
+exit 001
+
+minishell output: exit
+
+bash      output: 
+---------------------------------------------
+
+Case #65: 
+exit 0001
+
+minishell output: exit
+
+bash      output: 
+---------------------------------------------
+
+Case #66: 
+exit +++000
+
+minishell output: minishell: exit: +++000: numeric argument required
+
+bash      output: bash: line 1: exit: +++000: numeric argument required
+
+---------------------------------------------
+
+Case #67: 
+exit ++++000
+
+minishell output: minishell: exit: ++++000: numeric argument required
+
+bash      output: bash: line 1: exit: ++++000: numeric argument required
+
+---------------------------------------------
+
+Case #68: 
+exit ---000
+
+minishell output: minishell: exit: ---000: numeric argument required
+
+bash      output: bash: line 1: exit: ---000: numeric argument required
+
+---------------------------------------------
+
+Case #69: 
+exit ----000
+
+minishell output: minishell: exit: ----000: numeric argument required
+
+bash      output: bash: line 1: exit: ----000: numeric argument required
+
+---------------------------------------------
+
+Case #70: 
+exit "something"
+
+minishell output: minishell: exit: something: numeric argument required
+
+bash      output: bash: line 1: exit: something: numeric argument required
+
+---------------------------------------------
+
+Case #71: 
+exit x
+
+minishell output: minishell: exit: x: numeric argument required
+
+bash      output: bash: line 1: exit: x: numeric argument required
+
+---------------------------------------------
+
+Case #72: 
+exit echo
+
+minishell output: minishell: exit: echo: numeric argument required
+
+bash      output: bash: line 1: exit: echo: numeric argument required
+
+---------------------------------------------
+
+Case #73: 
+exit cd ..
+
+minishell output: minishell: exit: too many arguments
+
+bash      output: bash: line 1: exit: cd: numeric argument required
+
+---------------------------------------------
+
+Case #74: 
+exit exit
+
+minishell output: minishell: exit: exit: numeric argument required
+
+bash      output: bash: line 1: exit: exit: numeric argument required
+
+---------------------------------------------
+
+/////////////////////
+//////// CD /////////
+/////////////////////
+Case #75: 
+pwd
+cd
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #76: 
+pwd
+cd ..
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #77: 
+pwd
+cd .
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #78: 
+pwd
+cd "."
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #79: 
+pwd
+cd /Users
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #80: 
+pwd
+cd //////
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #81: 
+pwd
+cd ./././
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #82: 
+pwd
+cd /
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #83: 
+pwd
+cd '/////'
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #84: 
+pwd
+cd "$PWD/file_tests"
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #85: 
+pwd
+cd "doesntexist"
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #86: 
+pwd
+cd "doesntexist"
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #87: 
+pwd
+cd ../../..
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #88: 
+pwd
+cd "wtf"
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #89: 
+pwd
+cd ..
+cd ..
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #90: 
+pwd
+cd ?
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #91: 
+pwd
+cd +
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #92: 
+pwd
+cd _
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #93: 
+pwd
+cd echo
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #94: 
+pwd
+cd echo echo
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #95: 
+pwd
+cd '/'
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #96: 
+pwd
+cd $PWD/file_tests
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #97: 
+pwd
+cd $OLDPWD/something
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+
+Case #98: 
+pwd
+cd "1$HOME"
+pwd
+
+minishell output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+bash      output: /Users/fiodaryuzhyk/coding/python_unit_test/src
+
+---------------------------------------------
+

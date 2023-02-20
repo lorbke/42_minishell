@@ -25,7 +25,7 @@
 #include <limits.h> // ARG_MAX
 #include <sys/wait.h>
 
-#define ARG_MAX (256 * 1024)
+// #define ARG_MAX (256 * 1024)
 
 extern t_sym_tab **g_sym_table;
 
