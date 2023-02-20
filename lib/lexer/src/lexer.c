@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 16:40:15 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 19:25:21 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,20 @@ t_stack	*lexer_str_to_tokstack(char *str, char *seps, char *esc)
 	t_stack	*head;
 	t_stack	*temp;
 	char	*next_word;
+	char	*temp_str;
 
 	str = ft_strdup(str);
+	temp_str = str;
 	while (*str && is_char_set(*str, seps))
 		str++;
 	next_word = get_next_word(&str, seps, esc);
 	head = create_stack_node
 		(create_token(next_word, get_word_len(next_word, esc)));
 	if (!head && !get_next_word(NULL, NULL, NULL))
+	{
+		free(temp_str);
 		return (NULL);
+	}
 	temp = head;
 	while ((str && *str) || next_word)
 	{
@@ -102,5 +107,6 @@ t_stack	*lexer_str_to_tokstack(char *str, char *seps, char *esc)
 	}
 	temp->next = NULL;
 	get_next_word(NULL, NULL, NULL);
+	free(temp_str);
 	return (head);
 }

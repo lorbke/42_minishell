@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:27:13 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/17 17:19:07 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 21:42:54 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token
 #include "../minishell.h" // ERR_* defines
+#include "garbage_collector.h" // gc_add_garbage
 #include <sys/fcntl.h> // open
 #include <string.h> // NULL
 #include <unistd.h> // pipe, write
@@ -23,6 +24,7 @@ t_cmd_table	*handle_cmd(t_ast *ast)
 	t_cmd_table	*cmd_table;
 
 	cmd_table = create_cmd_table(ast);
+	gc_add_garbage(cmd_table, &executer_free_cmd_table);
 	return (cmd_table);
 }
 

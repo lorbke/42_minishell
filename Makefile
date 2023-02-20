@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/20 17:41:10 by lorbke           ###   ########.fr        #
+#    Updated: 2023/02/20 21:28:00 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,9 @@ LEAK := $(LEAKFLAGS) $(LEAK_LINK)
 
 # library macros
 LIB_PATH := lib
+GCOLL_PATH := $(LIB_PATH)/garbage_collector
+GCOLL_LIB := garbagecollector
+GCOLL_LINK := -L$(GCOLL_PATH) -l$(GCOLL_LIB)
 LFT_PATH := $(LIB_PATH)/libft
 LFT_LIB := ft
 LFT_LINK := -L$(LFT_PATH) -l$(LFT_LIB)
@@ -59,11 +62,12 @@ VPATH := $(SRC_PATH) $(SRC_PATH)/debugger $(SRC_PATH)/executer $(SRC_PATH)/docce
 
 # file targets
 $(NAME): $(OBJ_PATH) $(OBJ)
+	@$(MAKE) -C $(GCOLL_PATH)
 	@$(MAKE) -C $(LFT_PATH)
 	@$(MAKE) -C $(LEXER_PATH)
 	@$(MAKE) -C $(PARSER_PATH)
 	@echo -e -n "$(BLUE)Creating: minishell executable: $(RESET)"
-	$(CC) $(LEAK) $(CFLAGS) $(OBJ) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) -l$(RDLN_LIB) -o $(NAME)
+	$(CC) $(LEAK) $(CFLAGS) $(OBJ) $(GCOLL_LINK) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) -l$(RDLN_LIB) -o $(NAME)
 	@echo -e "$(GREEN)make: minishell success!$(RESET)"
 
 $(OBJ_PATH):
@@ -71,7 +75,7 @@ $(OBJ_PATH):
 
 $(OBJ_PATH)/%.o: %.c Makefile $(SRC_PATH)/minishell.h $(SRC_PATH)/debugger.h $(SRC_PATH)/executer.h $(SRC_PATH)/doccer.h
 	@echo -e -n "$(YELLOW)Compiling: $(RESET)"
-	$(CC) $(LEAK) $(CFLAGS) -I$(LFT_PATH) -I$(LEXER_PATH) -I$(PARSER_PATH) -c $< -o $@
+	$(CC) $(LEAK) $(CFLAGS) -I$(GCOLL_PATH) -I$(LFT_PATH) -I$(LEXER_PATH) -I$(PARSER_PATH) -c $< -o $@
 
 # phony targets
 all: $(NAME)
@@ -80,6 +84,7 @@ clean:
 	$(RM) -r $(OBJ_PATH)
 
 fclean: clean
+	@cd $(GCOLL_PATH) && $(MAKE) fclean
 	@cd $(LFT_PATH) && $(MAKE) fclean
 	@cd $(LEXER_PATH) && $(MAKE) fclean
 	@cd $(PARSER_PATH) && $(MAKE) fclean
@@ -94,10 +99,11 @@ debug: clean all
 
 test:
 	@rm -f tester
+	@$(MAKE) -C $(GCOLL_PATH)
 	@$(MAKE) -C $(LFT_PATH)
 	@$(MAKE) -C $(LEXER_PATH)
 	@$(MAKE) -C $(PARSER_PATH)
-	$(CC) -O0 -DDEBUG -g tester.c $(SRC_PATH)/debugger/debugger.c $(SRC_PATH)/mssignal.c -I$(SRC_PATH) -I$(LFT_PATH) \
+	$(CC) $(LEAK) -O0 -DDEBUG -g tester_gc.c $(SRC_PATH)/debugger/debugger.c $(SRC_PATH)/mssignal.c -I$(SRC_PATH) -I$(LFT_PATH) \
 	-I$(LEXER_PATH) -I$(PARSER_PATH) -Iexecuter $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) -l$(RDLN_LIB) -o tester
 
 .PHONY: all clean fclean re

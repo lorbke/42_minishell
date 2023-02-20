@@ -6,17 +6,18 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 16:26:41 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 22:51:54 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_executer.h" // cmd_table
 #include "../minishell.h" // process_input, ERR_* defines
 #include "../mssignal.h" // mssignal_change_mode
+#include "garbage_collector.h" // gc_free_all_garbage
 #include "libft.h" // ft_strlen
 #include <sys/types.h> // pid_t, fork, waitpid, execve
 #include <unistd.h> // STDIN_FILENO, STDOUT_FILENO, write, read
-#include <stdio.h>
+#include <stdlib.h> // free
 
 extern char	**environ;
 
@@ -52,6 +53,7 @@ static pid_t	fork_and_execve(char *path, t_cmd_table *cmd_table, int fd_pipe)
 	pid = fork();
 	if (pid > 0)
 	{
+		free(path);
 		close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 		return (pid);
 	}
@@ -62,6 +64,7 @@ static pid_t	fork_and_execve(char *path, t_cmd_table *cmd_table, int fd_pipe)
 	if (fd_pipe != -1)
 		close(fd_pipe);
 	status = execve(path, cmd_table->cmd, environ);
+	gc_free_all_garbage();
 	exit(status);
 	return (pid);
 }

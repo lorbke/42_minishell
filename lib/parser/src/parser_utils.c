@@ -6,13 +6,14 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 12:30:50 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 14:46:36 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 22:58:58 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_parser.h" // utils
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token, t_stack, TOK_* macros
+#include "libft.h" // ft_strdup
 #include <stdlib.h> // NULL
 #include <stdbool.h> // bool, true, false
 
@@ -26,6 +27,19 @@ t_token	*create_token_empty(void)
 	return (new);
 }
 
+static t_token	*dup_token(t_token *token)
+{
+	t_token	*new;
+
+	new = malloc(sizeof(t_token));
+	new->desc = token->desc;
+	if (token->word)
+		new->word = ft_strdup(token->word);
+	else
+		new->word = NULL;
+	return (new);
+}
+
 t_ast	*create_ast_node(t_token	*token)
 {
 	t_ast	*new;
@@ -33,7 +47,10 @@ t_ast	*create_ast_node(t_token	*token)
 	if (!token)
 		return (NULL);
 	new = malloc(sizeof(t_ast));
-	new->token = token;
+	if (token->word)
+		new->token = dup_token(token);
+	else
+		new->token = token;
 	new->left = NULL;
 	new->right = NULL;
 	return (new);

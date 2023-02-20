@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer.h                                         :+:      :+:    :+:   */
+/*   garbage_collector_obj.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/23 15:45:37 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 21:41:36 by lorbke           ###   ########.fr       */
+/*   Created: 2023/02/20 21:18:46 by lorbke            #+#    #+#             */
+/*   Updated: 2023/02/20 21:27:12 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTER_H
-# define EXECUTER_H
+#include "garbage_collector.h" // t_garbage
+#include <stdlib.h> // NULL
 
-# include "parser.h" // t_ast
-# include "minishell.h" // t_status
+t_garbage	**garbage_init(void)
+{
+	static t_garbage	*garbage = NULL;
 
-t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out);
-void		executer_free_cmd_table(void *cmd_table_void);
+	return (&garbage);
+}
 
-#endif
+t_garbage	*gc_get_garbage(void)
+{
+	return (*garbage_init());
+}

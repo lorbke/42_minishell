@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/18 13:54:25 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/16 14:48:57 by lorbke           ###   ########.fr        #
+#    Updated: 2023/02/20 21:09:36 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,12 @@ RM := rm -f
 ADD_FLAGS := #-g -fsanitize=address,undefined
 FLAGS := -Wall -Wextra -Werror
 
+# library macros
+LIB_PATH := ../
+LFT_PATH := $(LIB_PATH)/libft
+LFT_LIB := ft
+LFT_LINK := -L$(LFT_PATH) -l$(LFT_LIB)
+
 # header macros
 LEXER_INC := ../lexer
 
@@ -44,6 +50,7 @@ VPATH := $(SRC_PATH)
 
 # file targets
 $(NAME): $(OBJ_PATH) $(OBJ)
+	@$(MAKE) -C $(LFT_PATH)
 	@echo -e -n "$(BLUE)Creating: parser library: $(RESET)"
 	$(AR) $(NAME) $(OBJ)
 	@echo -e "$(GREEN)make: parser success!$(RESET)"
@@ -53,7 +60,7 @@ $(OBJ_PATH):
 
 $(OBJ_PATH)/%.o: %.c Makefile parser.h $(SRC_PATH)/private_parser.h
 	@echo -e -n "$(YELLOW)Compiling: $(RESET)"
-	$(CC) $(FLAGS) $(ADD_FLAGS) -I$(LEXER_INC) -c $< -o $@
+	$(CC) $(FLAGS) $(ADD_FLAGS) -I$(LFT_PATH) -I$(LEXER_INC) -c $< -o $@
 
 # phony targets
 all: $(NAME)

@@ -6,11 +6,12 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:44:52 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 14:44:55 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 22:11:15 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "garbage_collector.h"
 
 #define PATH_ENV "PATH="
 
@@ -37,10 +38,24 @@ static char	*get_pathset(char **envp)
 	return (path_set);
 }
 
+static void	free_str_arr(char **str_arr)
+{
+	char	**temp;
+
+	temp = str_arr;
+	while (*str_arr)
+	{
+		free(*str_arr);
+		str_arr++;
+	}
+	free(temp);
+}
+
 char	*get_cmd_path(char **env, char *cmd)
 {
 	char	*path_str;
 	char	**path_arr;
+	char	**temp_arr;
 	char	*temp;
 
 	if (access(cmd, X_OK) == 0)
@@ -48,16 +63,21 @@ char	*get_cmd_path(char **env, char *cmd)
 	path_str = get_pathset(env);
 	cmd = ft_strjoin("/", cmd);
 	path_arr = ft_split(path_str, ':');
+	temp_arr = path_arr;
+	free(path_str);
 	while (*path_arr)
 	{
 		temp = ft_strjoin(*path_arr, cmd);
 		if (access(temp, X_OK) == 0)
 		{
-			free(path_str);
+			free(cmd);
+			free_str_arr(temp_arr);
 			return (temp);
 		}
 		free(temp);
 		path_arr++;
 	}
+	free(cmd);
+	free_str_arr(temp_arr);
 	return (NULL);
 }

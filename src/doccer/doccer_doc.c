@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 16:37:39 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 22:50:34 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h" // ft_strrchr
 #include "../mssignal.h" // mssignal_change_mode
 #include "../minishell.h" // exit_status functions
+#include "garbage_collector.h" // gc_free_all_garbage	
 #include <stdio.h> // FILE
 #include <readline/readline.h> // readline
 #include <stdlib.h> // malloc, free
@@ -105,6 +106,7 @@ char	*get_doc(void (*doc_func)(char *, int), char *lim)
 		close(fd[0]);
 		doc_func(lim, fd[1]);
 		close(fd[1]);
+		gc_free_all_garbage();
 		exit(0);
 		return (NULL);
 	}

@@ -6,13 +6,14 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:12:31 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 14:47:09 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 22:13:26 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_executer.h" // cmd_table
 #include "parser.h" // t_ast
 #include "lexer.h" // TOK_* defines
+#include "libft.h" // ft_strdup
 #include <stdlib.h> // malloc, free, exit
 #include <unistd.h> // STDIN_FILENO, STDOUT_FILENO, write, read
 #include <stdio.h> // printf
@@ -50,7 +51,7 @@ t_cmd_table	*create_cmd_table(t_ast *ast)
 	while (ast && (ast->token->desc == TOK_WORD
 			|| ast->token->desc == TOK_SUBSHELL))
 	{
-		cmd_table->cmd[i++] = ast->token->word;
+		cmd_table->cmd[i++] = ft_strdup(ast->token->word);
 		ast = ast->left;
 	}
 	cmd_table->cmd[i] = NULL;

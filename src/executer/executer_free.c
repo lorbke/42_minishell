@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer.h                                         :+:      :+:    :+:   */
+/*   executer_free.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/23 15:45:37 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 21:41:36 by lorbke           ###   ########.fr       */
+/*   Created: 2023/02/20 21:40:03 by lorbke            #+#    #+#             */
+/*   Updated: 2023/02/20 22:14:59 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTER_H
-# define EXECUTER_H
+#include "private_executer.h" // t_cmd_table
+#include <stdlib.h> // free
 
-# include "parser.h" // t_ast
-# include "minishell.h" // t_status
+void	executer_free_cmd_table(void *cmd_table_void)
+{
+	t_cmd_table	*cmd_table;
+	int			i;
 
-t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out);
-void		executer_free_cmd_table(void *cmd_table_void);
-
-#endif
+	cmd_table = (t_cmd_table *)cmd_table_void;
+	i = 0;
+	while (cmd_table->cmd[i])
+	{
+		free(cmd_table->cmd[i]);
+		i++;
+	}
+	free(cmd_table->cmd);
+	free(cmd_table);
+}

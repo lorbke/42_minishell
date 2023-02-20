@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 17:22:41 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/12 18:51:15 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 19:15:12 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,6 @@ typedef struct s_ast
 }	t_ast;
 
 t_ast	*parser_tokstack_to_ast(t_stack	**tokstack);
+void	parser_free_ast(void *ast_void);
 
 #endif
