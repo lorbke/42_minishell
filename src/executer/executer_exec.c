@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 00:42:04 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 14:53:09 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static void	close_in_out_fds(int fd_in[2], int fd_out[2])
 		close(fd_out[0]);
 }
 
-//	@todo pass exit status of subshell 
 static pid_t	exec_subshell(t_cmd_table *cmd_table)
 {
 	pid_t	pid;

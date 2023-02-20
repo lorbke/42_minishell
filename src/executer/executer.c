@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 14:46:36 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 14:52:01 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@
 // @todo check ping and /dev/random cases
 // @todo integrate expander
 // @todo errors into stderr
-// @todo multiple shell levels ctrl c new line printed multiple times
 
-// @todo fix echo hello | << lim cat (heredoc fd is overwritten)
-// @todo fix echo hello && << lim cat (heredoc is not interpreted first)
 t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
 {
 	t_cmd_table	*cmd_table;

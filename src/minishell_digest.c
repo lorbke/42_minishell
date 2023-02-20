@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 14:44:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 14:53:30 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ static t_ast	*parse_and_check_syntax(t_stack *tokstack)
 	return (ast);
 }
 
-// @todo new heredoc function
-// @todo whole doccer error handling
 char	*digest_input(char *input, int fd_in, int fd_out)
 {
 	t_stack	*tokstack;

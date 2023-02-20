@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:37:54 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/19 18:12:13 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 14:53:43 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	is_char_set(char c, char *seps)
 	return (0);
 }
 
-// @note quotes are not identified properly - do they have to be identified?
 unsigned char	desc_word(char *word)
 {
 	if (*word == '|' && *(word + 1) != '|')
@@ -75,7 +74,6 @@ unsigned char	desc_word(char *word)
 	return (TOK_WORD);
 }
 
-// @todo illegal function
 t_token	*create_token(char *word, int len)
 {
 	t_token	*new;
