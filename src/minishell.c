@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/19 10:20:57 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/20 16:33:31 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,21 @@ static int	init_termios(bool mode)
 	return (0);
 }
 
-int	main(int argc, char **argv, char **envp)
+void	non_interactive_mode(void)
 {
 	char	*line;
 
+	line = get_next_line(STDIN_FILENO);
+	while (line != NULL)
+	{
+		process_command(line);
+		free(line);
+		line = get_next_line(STDIN_FILENO);
+	}
+}
+
+int	main(int argc, char **argv, char **envp)
+{
 	// init global var
 	g_sym_table = init_sym_tab(envp);
 	ms_init_signals();
@@ -104,9 +115,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	else
 	{
-		line = get_next_line(STDIN_FILENO);
-		process_command(line);
-		free(line);
+		non_interactive_mode();
 		free_list(g_sym_table);
 	}
 	return (EXIT_SUCCESS);
