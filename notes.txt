@@ -340,3 +340,28 @@ get_completingdoc
 
 - all docs use pipes
 - the doc string is saved as the word of the ast node
+
+
+
+--------------LEAKS--------------
+
+- set of specific free functions
+	- free_ast
+	- free_tokstack
+	- free_cmdtable(?)
+
+- set of garbage collector functions
+	- gc_malloc(type, size)
+		- allocates pointer
+		- calls gc_add_ptr
+	- gc_add_ptr(ptr, *func_free)
+		- adds pointer to static list of pointers
+	- gc_free_all()
+		- iterates through list
+		- calls the free function of each pointer
+
+- data types
+	- struct garbage
+		- ptr to allocated memory
+		- ptr to free function
+		- ptr to next node in list

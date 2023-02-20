@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/19 15:07:26 by lorbke           ###   ########.fr        #
+#    Updated: 2023/02/20 17:41:10 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,12 @@ CC := cc
 AR := ar rcs
 RM := rm -f
 CFLAGS := -g #-Wall -Wextra -Werror
+
+# leak sanitizer
+LEAKFLAGS := -Wno-gnu-include-next
+LEAK_PATH := /Users/lorbke/Coding/TOOLS/LeakSanitizer
+LEAK_LINK := -L$(LEAK_PATH) -llsan -lc++
+LEAK := $(LEAKFLAGS) $(LEAK_LINK)
 
 # library macros
 LIB_PATH := lib
@@ -57,7 +63,7 @@ $(NAME): $(OBJ_PATH) $(OBJ)
 	@$(MAKE) -C $(LEXER_PATH)
 	@$(MAKE) -C $(PARSER_PATH)
 	@echo -e -n "$(BLUE)Creating: minishell executable: $(RESET)"
-	$(CC) $(CFLAGS) $(OBJ) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) -l$(RDLN_LIB) -o $(NAME)
+	$(CC) $(LEAK) $(CFLAGS) $(OBJ) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) -l$(RDLN_LIB) -o $(NAME)
 	@echo -e "$(GREEN)make: minishell success!$(RESET)"
 
 $(OBJ_PATH):
@@ -65,7 +71,7 @@ $(OBJ_PATH):
 
 $(OBJ_PATH)/%.o: %.c Makefile $(SRC_PATH)/minishell.h $(SRC_PATH)/debugger.h $(SRC_PATH)/executer.h $(SRC_PATH)/doccer.h
 	@echo -e -n "$(YELLOW)Compiling: $(RESET)"
-	$(CC) $(CFLAGS) -I$(LFT_PATH) -I$(LEXER_PATH) -I$(PARSER_PATH) -c $< -o $@
+	$(CC) $(LEAK) $(CFLAGS) -I$(LFT_PATH) -I$(LEXER_PATH) -I$(PARSER_PATH) -c $< -o $@
 
 # phony targets
 all: $(NAME)

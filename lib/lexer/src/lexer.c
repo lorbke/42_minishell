@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/19 20:07:55 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 16:40:15 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,6 @@ static char	*get_next_word(char **str, char *seps, char *esc)
 	return (word);
 }
 
-#include <stdio.h>
-
-// @note ugly code, fix?
 t_stack	*lexer_str_to_tokstack(char *str, char *seps, char *esc)
 {
 	t_stack	*head;

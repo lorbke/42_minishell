@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tester.c                                           :+:      :+:    :+:   */
+/*   tester_doccer.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:25 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 00:23:28 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 18:12:49 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,161 +87,6 @@
 #define BOLDMAGENTA	"\033[1m\033[35m"	/* Bold Magenta */
 #define BOLDCYAN		"\033[1m\033[36m"	/* Bold Cyan */
 #define BOLDWHITE		"\033[1m\033[37m"	/* Bold White */
-
-// static void	case_lexer(char **tests)
-// {
-// 	char	*input;
-// 	t_stack	*tokstack;
-// 	int		i;
-
-// 	input = malloc(sizeof(char) * 100);
-// 	i = 0;
-// 	while (tests[i])
-// 	{
-// 		strcpy(input, tests[i]);
-// 		tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
-// 		debug_lexer(tokstack);
-// 		printf(YELLOW "CASE %d\n\n" RESET, i);
-// 		i++;
-// 	}
-// 	free(input);
-// }
-
-// static void	case_parser(char **tests)
-// {
-// 	char	*input;
-// 	t_ast	*ast;
-// 	t_stack	*tokstack;
-// 	int		i;
-
-// 	input = malloc(sizeof(char) * 100);
-// 	i = 0;
-// 	while (tests[i])
-// 	{
-// 		printf(YELLOW "+++++++++++++++++++++++++++++\n" RESET);
-// 		printf(YELLOW "CASE %d: %s" RESET, i, tests[i]);
-// 		strcpy(input, tests[i]);
-// 		tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
-// 		ast = parser_tokstack_to_ast(&tokstack);
-// 		debug_parser(ast, tokstack);
-// 		i++;
-// 	}
-// 	free(input);
-// }
-
-// void	debug_executer(t_cmd_table *cmd_table)
-// {
-// 	printf(BLUE "\n=========Executer=========\n" RESET);
-// 	if (cmd_table)
-// 	{
-// 		while (*cmd_table->cmd)
-// 		{
-// 			printf("%s ", *cmd_table->cmd);
-// 			cmd_table->cmd++;
-// 		}
-// 	}
-// 	printf(BLUE "\n==========================\n\n\n" RESET);
-// }
-
-// // static void	case_executer(char **tests)
-// // {
-// // 	char		*input;
-// // 	t_ast		*ast;
-// // 	t_stack		*tokstack;
-// // 	t_cmd_table	*cmd_table;
-// // 	int			i;
-
-// // 	input = malloc(sizeof(char) * 100);
-// // 	i = 3;
-// // 	// while (tests[i])
-// // 	// {
-// // 		// printf(YELLOW "+++++++++++++++++++++++++++++\n" RESET);
-// // 		// printf(YELLOW "CASE %d: %s" RESET, i, tests[i]);
-// // 		strcpy(input, tests[i]);
-// // 		tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
-// // 		ast = parser_tokstack_to_ast(&tokstack);
-// // 		debug_parser(ast, tokstack);
-// // 		executer_exec_ast(ast, STDIN_FILENO, STDOUT_FILENO);
-// // 		// debug_executer(cmd_table);
-// // 		// free(cmd_table);
-// // 	// 	i++;
-// // 	// }
-// // 	free(input);
-// // }
-
-// static char	**init_tests(void)
-// {
-// 	char	**tests;
-
-// 	tests = malloc(sizeof(char *) * CASE_COUNT + 1);
-// 	tests[0] = CASE_0;
-// 	tests[1] = CASE_1;
-// 	tests[2] = CASE_2;
-// 	tests[3] = CASE_3;
-// 	tests[4] = CASE_4;
-// 	tests[5] = CASE_5;
-// 	tests[6] = CASE_6;
-// 	tests[7] = CASE_7;
-// 	tests[8] = CASE_8;
-// 	tests[9] = CASE_9;
-// 	tests[10] = CASE_10;
-// 	tests[11] = CASE_11;
-// 	tests[12] = CASE_12;
-// 	tests[13] = CASE_13;
-// 	tests[14] = CASE_14;
-// 	tests[15] = CASE_15;
-// 	tests[16] = CASE_16;
-// 	tests[17] = CASE_17;
-// 	tests[18] = CASE_18;
-// 	tests[19] = CASE_19;
-// 	tests[20] = CASE_20;
-// 	tests[21] = CASE_21;
-// 	tests[22] = CASE_22;
-// 	tests[23] = CASE_23;
-// 	tests[24] = CASE_24;
-// 	tests[25] = CASE_25;
-// 	tests[26] = CASE_26;
-// 	tests[27] = CASE_27;
-// 	tests[28] = CASE_28;
-// 	tests[29] = CASE_29;
-// 	tests[30] = CASE_30;
-// 	tests[31] = CASE_31;
-// 	tests[32] = CASE_32;
-// 	tests[33] = CASE_33;
-// 	tests[34] = CASE_34;
-// 	tests[35] = NULL;
-// 	return (tests);
-// }
-
-// int	main(int argc, char *argv[])
-// {
-// 	char	**tests;
-
-// 	if (argc != 2)
-// 	{
-// 		printf("usage: ./test [ all | lexer | parser | executer ]\n");
-// 		return (0);
-// 	}
-// 	tests = init_tests();
-// 	if (!strncmp(argv[1], "all\0", 4))
-// 	{
-// 		case_lexer(tests);
-// 		printf("\n\n\n");
-// 		case_parser(tests);
-// 		printf("\n\n\n");
-// 		// case_executer(tests);
-// 	}
-// 	else if (!strncmp(argv[1], "lexer\0", 6))
-// 		case_lexer(tests);
-// 	else if (!strncmp(argv[1], "parser\0", 7))
-// 		case_parser(tests);
-// 	// else if (!strncmp(argv[1], "executer\0", 9))
-// 	// 	case_executer(tests);
-// 	else
-// 		printf("usage: ./test [ all | lexer | parser | executer ]\n");
-// 	free(tests);
-// 	return (0);
-// }
 
 char	*interpret_docs(t_stack *tokstack, char *input);
 

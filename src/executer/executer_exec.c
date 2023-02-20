@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 14:53:09 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 16:26:41 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static pid_t	exec_subshell(t_cmd_table *cmd_table)
 		cmd_table->fd_in[0], cmd_table->fd_out[0]);
 	status = exit_status_get();
 	exit(status);
+	return (pid);
 }
 
 static pid_t	fork_and_execve(char *path, t_cmd_table *cmd_table, int fd_pipe)
@@ -62,6 +63,7 @@ static pid_t	fork_and_execve(char *path, t_cmd_table *cmd_table, int fd_pipe)
 		close(fd_pipe);
 	status = execve(path, cmd_table->cmd, environ);
 	exit(status);
+	return (pid);
 }
 
 // @note -1 as error sensible?
