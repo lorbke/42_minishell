@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 14:49:23 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 16:37:39 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <stdlib.h> // malloc, free
 #include <unistd.h> // write, read, pipe, fork
 
+#define DOC_PROMPT "> "
+
 void	doc_heredoc(char *limiter, int fd_write)
 {
 	int		limiter_len;
@@ -27,7 +29,7 @@ void	doc_heredoc(char *limiter, int fd_write)
 	limiter_len = ft_strlen(limiter);
 	while (1)
 	{
-		line = readline("> ");
+		line = readline(DOC_PROMPT);
 		if (!line || ft_strncmp(line, limiter, limiter_len + 1) == 0)
 			break ;
 		write(fd_write, line, ft_strlen(line));
@@ -43,7 +45,7 @@ void	doc_completingdoc(char *placeholder, int fd_write)
 	while (1)
 	{
 		write(fd_write, " ", 1);
-		line = readline("> ");
+		line = readline(DOC_PROMPT);
 		if (!line)
 			break ;
 		write(fd_write, line, ft_strlen(line));
@@ -64,7 +66,7 @@ void	doc_quotedoc(char *quote, int fd_write)
 	while (1)
 	{
 		write(fd_write, "\n", 1);
-		line = readline("> ");
+		line = readline(DOC_PROMPT);
 		if (!line)
 			break ;
 		write(fd_write, line, ft_strlen(line));
@@ -104,5 +106,6 @@ char	*get_doc(void (*doc_func)(char *, int), char *lim)
 		doc_func(lim, fd[1]);
 		close(fd[1]);
 		exit(0);
+		return (NULL);
 	}
 }
