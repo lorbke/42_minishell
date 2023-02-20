@@ -6,15 +6,17 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:43:00 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/18 12:44:21 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/20 16:50:44 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // t_sym_tab
 #include "libft.h" // ft_strncmp, ft_strlen, ft_strdup, ft_strjoin
-#include "../../utils.h" // ft_strcmp 
+#include "../../utils.h" // ft_strcmp
 #include <errno.h> // errno
 #include <stdio.h> // perror
+
+static char	*concat_var(char *var, char *value);
 
 int	check_for_dots(char *path, int *i)
 {
@@ -69,22 +71,34 @@ void	set_path(char *var, char *value)
 {
 	t_sym_tab	*temp;
 	char		*path;
+	char		*new_var;
 
 	temp = *g_sym_table;
 	while (temp != NULL)
 	{
 		if (ft_strncmp(temp->var, var, ft_strlen(var)) == 0)
 		{
-			temp->var = ft_strjoin(var, "=");
-			temp->var = ft_strjoin(temp->var, value);
+			free(temp->var);
+			temp->var = concat_var(var, value);
 			return ;
 		}
 		temp = temp->next;
 	}
 	if (value != NULL)
 	{
-		path = ft_strjoin(var, "=");
-		path = ft_strjoin(path, value);
-		add_to_back(g_sym_table, new_sym_tab_node(path));
+		new_var = concat_var(var, value);
+		add_to_back(g_sym_table, new_sym_tab_node(new_var));
+		free(new_var);
 	}
+}
+
+static char	*concat_var(char *var, char *value)
+{
+	char 	*new_var;
+	char	*var_name;
+
+	var_name = ft_strjoin(var, "=");
+	new_var = ft_strjoin(var_name, value);
+	free(var_name);
+	return (new_var);
 }

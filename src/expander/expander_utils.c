@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:47:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/19 10:15:16 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/20 08:41:20 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,12 @@ char	*tilde_expansion(char *result, char *arg, int *index, int *result_index)
 	if ((result || arg[*index + 1] != '/') && ft_strlen(arg) > 1)
 		expanded_home = add_char_to_string(result, '~', &(*index), &(*result_index));
 	else if (home != NULL)
+	{
 		expanded_home = add_expanded_var(result, home, &(*result_index));
+		(*index)++;
+	}
 	else
 		expanded_home = add_char_to_string(result, '~', &(*index), &(*result_index));
-	(*index)++;
 	return (expanded_home);
 }
 
