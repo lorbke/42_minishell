@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 14:12:14 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 14:15:35 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	doc_completingdoc(char *placeholder, int fd_write)
 		if (!line)
 			break ;
 		write(fd_write, line, ft_strlen(line));
-		if (is_closed(line))
+		if (!is_only_whitespace(line))
 		{
 			free(line);
 			break ;
