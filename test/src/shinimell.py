@@ -29,8 +29,20 @@ from print import pepe, shinimell
 # which are then executed by bash and the minishell, comparing output and exit status
 # it also should be easy to add new test cases, or files
 
+# Global Variables
 # path to your minishell
 minishell = "../../minishell"
+# path to infile
+infile_path = "../test_cases/input.txt"
+# path to outfile
+outfile_path = "../test_output/output.txt"
+
+# Modes
+# 1. variable expansion
+expansion = "../modes/expansion.txt"
+# 2. builtins
+builtins = "../test_cases/input.txt"
+
 
 def execute_minishell(command, minishell=minishell):
     command = f'echo "{command}" | {minishell}'
@@ -40,9 +52,9 @@ def execute_minishell(command, minishell=minishell):
     process.terminate()
     # should check if stderr is not empty
     if stderr.decode() != "":
-        return stderr.decode()
+        return stderr.decode(), 1
     else:
-        return stdout.decode()
+        return stdout.decode(), 0
 
 def execute_bash(command):
     command = f'echo "{command}" | bash'
@@ -52,9 +64,14 @@ def execute_bash(command):
     process.terminate()
     # should check if stderr is not empty
     if stderr.decode() != "":
-        return stderr.decode()
+        # format stderr
+        return stderr.decode(), 1
     else:
-        return stdout.decode()
+        return stdout.decode(), 0
+
+def format_stderr(stderr):
+    if stderr != "":
+        stderr = stderr.split("")
 
 def print_builtin_name(line, infile, outfile):
     print("\n")
@@ -79,24 +96,26 @@ def output_to_outfile(outfile, minishell_result, bash_result):
     outfile.write("---------------------------------------------\n")
     outfile.write("\n")
 
-def print_result(minishell_result, bash_result, j):
-    matcher = difflib.SequenceMatcher(None, minishell_result, bash_result)
-    ratio = matcher.ratio()
-    if ratio == 1:
-        print(colored("OK ", "green"), end="")
-    elif ratio > 0.8:
-        print(colored("OK ", "yellow"), end="")
+def print_result(minishell_result, bash_result, m_err, b_err):
+    if m_err == 1 and b_err == 1:
+        matcher = difflib.SequenceMatcher(None, minishell_result, bash_result)
+        ratio = matcher.ratio()
+        if ratio > 0.7:
+            print(colored("GUD ", "green"), end="")
+        else:
+            print(colored("BAD ", "red"), end="")
     else:
-        print(colored("KO ", "red"), end="")
-    if j % 5 == 0:
-        print()
+        if minishell_result == bash_result:
+            print(colored("GUD ", "green"), end="")
+        else:
+            print(colored("BAD ", "red"), end="")
 
-def open_files():
+def open_files(file_path):
     # clear outfile
-    with open("../test/output.txt", "w") as c:
+    with open(f"{outfile_path}", "w") as c:
         pass
-    infile = open("../test/input.txt", "r")
-    outfile = open("../test/output.txt", "a")
+    infile = open(f"{file_path}", "r")
+    outfile = open(f"{outfile_path}", "a")
     return infile, outfile
 
 menu = [
@@ -105,9 +124,8 @@ menu = [
         "name": "menu",
         "message": "Choose a mode",
         "choices": [
-            "Mandatory",
-            "Bonus",
-            "All",
+            "Builtins",
+            "Expansion",
         ]
     }
 ]
@@ -115,9 +133,12 @@ menu = [
 def test():
     print(shinimell)
     # execute cases based on answer
-    answers = prompt(menu)
-     # open files
-    infile, outfile = open_files()
+    mode = prompt(menu)
+    # open files
+    if mode["menu"] == "Builtins":
+        infile, outfile = open_files(builtins)
+    elif mode["menu"] == "Expansion":
+        infile, outfile = open_files(expansion)
     # exection loop
     i = 1
     j = 0
@@ -139,9 +160,11 @@ def test():
             outfile.write(f"{command}")
             i += 1
             j += 1
-            minishell_result = execute_minishell(command)
-            bash_result = execute_bash(command)
+            minishell_result, m_err = execute_minishell(command)
+            bash_result, b_err = execute_bash(command)
             output_to_outfile(outfile, minishell_result, bash_result)
-            print_result(minishell_result, bash_result, j)
+            print_result(minishell_result, bash_result, m_err, b_err)
+            if j % 5 == 0:
+                print()
 
 test()

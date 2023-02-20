@@ -1,0 +1,421 @@
+////////////////////////////
+//////// EXPANSION /////////
+////////////////////////////
+
+/bin/echo $?
+
+/bin/echo $HOME
+
+/bin/echo $HOME$USER
+
+/bin/echo $"HOME"$USER
+
+/bin/echo $"HOM"E$USER
+
+/bin/echo $"'HOM'E"$USER
+
+/bin/echo $'HOM'E$USER
+
+/bin/echo $"HOME"
+
+/bin/echo $'HOME'
+
+/bin/echo $
+
+/bin/echo "$"
+
+/bin/echo '$='
+
+/bin/echo "$""$"
+
+/bin/echo $"$"
+
+/bin/echo $"42$"
+
+/bin/echo "$"$
+
+/bin/echo $'$'
+
+/bin/echo '$'$
+
+/bin/echo "$ "
+
+/bin/echo '$ '
+
+/bin/echo $TESTNOTFOUND
+/bin/echo $HOME$TESTNOTFOUND
+/bin/echo $TESTNOTFOUND$HOME
+
+/bin/echo ""$?""
+/bin/echo " "$?" "
+/bin/echo $?"42"
+/bin/echo ''$?''"42"
+/bin/echo 'HELLO'$?:''"42"
+
+/bin/echo "$?"
+/bin/echo '$?'
+/bin/echo "'$?'"
+/bin/echo '"$?"'
+
+Case #1: 
+
+### UPDATE PWD ###
+
+mkdir "tmp_test_folder"
+
+/bin/echo $PWD
+
+cd "tmp_test_folder"
+
+/bin/echo $PWD
+
+cd ..
+
+/bin/echo $PWD
+
+rm -rf "tmp_test_folder"
+
+
+minishell output: 
+/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
+/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
+/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
+
+bash      output: 
+/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
+/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
+/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
+
+
+---------------------------------------------
+
+Case #2: 
+
+mkdir "tmp_test folder"
+
+/bin/echo $PWD
+
+cd "tmp_test folder"
+
+/bin/echo $PWD
+
+cd ..
+
+/bin/echo $PWD
+
+rm -rf "tmp_test folder"
+
+
+minishell output: 
+/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
+/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
+/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
+
+bash      output: 
+/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
+/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
+/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
+
+
+---------------------------------------------
+
+Case #3: 
+
+export tmp_test="/bin/echo 42"
+
+$tmp_test
+
+$tmp_test 42
+
+export tmp_test="/bin/echo"
+
+$tmp_test 42 42
+
+
+minishell output: 
+minishell: export: `42': not a valid identifier
+
+bash      output: 
+bash: line 1: export: `42': not a valid identifier
+bash: line 5: 42: command not found
+bash: line 9: 42: command not found
+
+
+---------------------------------------------
+
+Case #4: 
+
+export tmp_test="/bin/echo 42"
+
+"tmp_test"
+
+
+minishell output: 
+minishell: export: `42': not a valid identifier
+
+bash      output: 
+bash: line 1: export: `42': not a valid identifier
+bash: line 3: tmp_test: command not found
+
+
+---------------------------------------------
+
+Case #5: 
+
+export X="  A  B  "
+
+/bin/echo "1"$X'2'
+
+
+minishell output: 
+12
+
+bash      output: 
+12
+
+
+---------------------------------------------
+
+Case #6: 
+
+export X=" A  B  "
+
+/bin/echo "1"$X'2'
+
+
+minishell output: 
+12
+
+bash      output: 
+12
+
+
+---------------------------------------------
+
+Case #7: 
+
+export X="A  B  "
+
+/bin/echo "1"$X'2'
+
+
+minishell output: 
+12
+
+bash      output: 
+12
+
+
+---------------------------------------------
+
+Case #8: 
+
+export X="  A  B "
+
+/bin/echo "1"$X'2'
+
+
+minishell output: 
+12
+
+bash      output: 
+12
+
+
+---------------------------------------------
+
+Case #9: 
+
+export X="  A  B"
+
+/bin/echo "1"$X'2'
+
+
+minishell output: 
+12
+
+bash      output: 
+12
+
+
+---------------------------------------------
+
+Case #10: 
+
+export X="  A B  "
+
+/bin/echo "1"$X'2'
+
+
+minishell output: 
+12
+
+bash      output: 
+12
+
+
+---------------------------------------------
+
+Case #11: 
+
+export X="  AB  "
+
+/bin/echo "1"$X'2'
+
+
+minishell output: 
+12
+
+bash      output: 
+12
+
+
+---------------------------------------------
+
+Case #12: 
+
+export X="  A  B  "
+
+/bin/echo $X'2'
+
+
+minishell output: 
+2
+
+bash      output: 
+2
+
+
+---------------------------------------------
+
+Case #13: 
+
+export X="  A  B  "
+
+/bin/echo "1"$X
+
+
+minishell output: 
+1
+
+bash      output: 
+1
+
+
+---------------------------------------------
+
+Case #14: 
+
+export X=""
+
+/bin/echo "1"$X'2'
+
+
+minishell output: 
+12
+
+bash      output: 
+12
+
+
+---------------------------------------------
+
+Case #15: 
+
+export X=" "
+
+/bin/echo "1"$X'2'
+
+
+minishell output: 
+12
+
+bash      output: 
+12
+
+
+---------------------------------------------
+
+Case #16: 
+
+export X="   "
+
+/bin/echo "1"$X'2'
+
+
+minishell output: 
+12
+
+bash      output: 
+12
+
+
+---------------------------------------------
+
+Case #17: 
+
+export X="  A  B  "
+
+/bin/echo ?$X'2'
+
+
+minishell output: 
+?2
+
+bash      output: 
+?2
+
+
+---------------------------------------------
+
+Case #18: 
+
+export X="  A  B  "
+
+/bin/echo "1"$X?
+
+
+minishell output: 
+1?
+
+bash      output: 
+1?
+
+
+---------------------------------------------
+
+Case #19: 
+
+export X="  A  B  "
+
+/bin/echo "1"$X2?
+
+
+minishell output: 
+1?
+
+bash      output: 
+1?
+
+
+---------------------------------------------
+
+Case #20: 
+
+export test=" * "
+
+touch "$USER * ?eHallo"
+
+/bin/echo "$USER "*" ?e"*
+
+rm -f "$USER * ?eHallo"
+
+minishell output: 
+rm: __pycache__: is a directory
+
+bash      output: 
+rm: __pycache__: is a directory
+
+
+---------------------------------------------
+
