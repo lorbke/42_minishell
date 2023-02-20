@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 17:36:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/18 14:44:40 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/19 10:02:59 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*init_var_value(char *var, char *var_name)
 
 static void	print_error_msg(char *str)
 {
-	ft_putstr_fd("minishell: export: ", STDERR_FILENO);
+	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
 	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 }

@@ -6,13 +6,13 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:17:44 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/18 13:41:34 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/19 09:40:00 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // malloc, ft_strlen
 #include "globber_private.h" // globbing, is_match, concatentate_entries, add_matching_entries, find_pattern, opendir, readdir, closedir, create_new_path
-#include "../../utils.h" // realloc_string_array
+#include "../../utils.h" // realloc_string_array, get_string_array_len
 
 static void	check_char(char **arg, char **pattern, int *astrisk_control);
 static void	get_next_pattern_char(char *entry, char *pattern, int *index, char *match);
@@ -74,8 +74,7 @@ char	**pattern_over(char **result, char *entry, char *path)
 	i = 0;
 	if (result != NULL)
 	{
-		while (result[i] != NULL)
-			i++;
+		i = get_string_array_len(result);
 		result = realloc_string_array(result, 2);
 	}
 	else
@@ -119,7 +118,10 @@ static void	get_next_pattern_char(char *entry, char *pattern, int *index, char *
 	else
 	{
 		while (pattern[*index] == '*' && pattern[*index] != '\0')
-			*match = pattern[(*index)++];
+		{
+			*match = pattern[*index];
+			(*index)++;
+		}
 		if (pattern[*index] != '\0')
 			*match = pattern[*index];
 	}

@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:23:41 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/17 18:03:41 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/19 10:04:49 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,24 @@ static void	remove_node(char *var);
 int	builtin_unset(char **argv)
 {
 	int	i;
+	int	status;
 
 	i = 1;
+	status = 0;
 	while (argv[i] != NULL)
 	{
-		remove_node(argv[i]);
+		if (ft_isalpha(argv[i][0]))
+			remove_node(argv[i]);
+		else
+		{
+			ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
+			ft_putstr_fd(argv[i], STDERR_FILENO);
+			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+			status = 1;
+		}
 		i++;
 	}
-	return (0);
+	return (status);
 }
 
 static void	remove_first_node(t_sym_tab	*first)

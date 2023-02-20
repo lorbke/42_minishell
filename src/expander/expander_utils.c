@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:47:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/18 13:40:59 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/19 10:15:16 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,13 @@ char	*tilde_expansion(char *result, char *arg, int *index, int *result_index)
 	char	*home;
 	char	*expanded_home;
 
-	if ((result || arg[*index + 1] != '/') && ft_strlen(arg) > 1)
-	{
-		expanded_home = add_char_to_string(result, '~', &(*index), &(*result_index));
-		return (expanded_home);
-	}
-	// @note handle the case when HOME is not set?
 	home = expand_var("HOME");
-	expanded_home = add_expanded_var(result, home, &(*result_index));
-	free(home);
+	if ((result || arg[*index + 1] != '/') && ft_strlen(arg) > 1)
+		expanded_home = add_char_to_string(result, '~', &(*index), &(*result_index));
+	else if (home != NULL)
+		expanded_home = add_expanded_var(result, home, &(*result_index));
+	else
+		expanded_home = add_char_to_string(result, '~', &(*index), &(*result_index));
 	(*index)++;
 	return (expanded_home);
 }
