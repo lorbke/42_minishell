@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 13:45:12 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 14:44:58 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static t_ast	*parse_and_check_syntax(t_stack *tokstack)
 	ast = parser_tokstack_to_ast(&tokstack);
 	if (tokstack)
 	{
+		exit_status_set(ERR_SYNTAXERR);
 		print_syntax_error(tokstack->token->desc, tokstack->token->word);
 		return (NULL);
 	}
@@ -68,15 +69,19 @@ char	*digest_input(char *input, int fd_in, int fd_out)
 	t_ast	*ast;
 	int		exit_status;
 
+	exit_status_set(ERR_SUCCESS);
 	tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
 	debug_lexer(tokstack);
 	ast = parse_and_check_syntax(tokstack);
 	if (!ast)
 		return (input);
 	input = doccer_interpret_docs(tokstack, input);
+	if (exit_status_get() != ERR_SUCCESS)
+		return (input);
 	debug_lexer(tokstack);
 	if (is_incomplete_input(tokstack) == true)
 	{
+		exit_status_set(ERR_SYNTAXERR);
 		print_syntax_error(0, NULL);
 		return (input);
 	}
@@ -85,8 +90,7 @@ char	*digest_input(char *input, int fd_in, int fd_out)
 		return (input);
 	debug_parser(ast, NULL);
 	mssignal_change_mode(MSSIG_EXEC);
-	exit_status = executer_exec_ast(ast, fd_in, fd_out);
+	exit_status_set(executer_exec_ast(ast, fd_in, fd_out));
 	mssignal_change_mode(MSSIG_INTER);
-	printf("-----exit status: %d\n", exit_status);
 	return (input);
 }

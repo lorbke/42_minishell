@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:14:20 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/19 17:49:11 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 14:32:17 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,7 @@ t_cmd_table	*create_cmd_table(t_ast *ast);
 // path
 char		*get_cmd_path(char **env, char *cmd);
 
-// exit_status
-t_status	exit_status_get(void);
-void		exit_status_set(t_status exit_status);
+// error
 void		print_error(t_status exit_status, char *error_loc);
 
 static const t_func_handle	g_func_handle_arr[]

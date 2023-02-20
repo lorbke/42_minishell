@@ -6,12 +6,14 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 14:15:35 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 14:49:23 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_doccer.h" // utils
 #include "libft.h" // ft_strrchr
+#include "../mssignal.h" // mssignal_change_mode
+#include "../minishell.h" // exit_status functions
 #include <stdio.h> // FILE
 #include <readline/readline.h> // readline
 #include <stdlib.h> // malloc, free
@@ -80,15 +82,16 @@ char	*get_doc(void (*doc_func)(char *, int), char *lim)
 {
 	pid_t	pid;
 	int		fd[2];
-	int		status;
 	char	*doc;
 
 	pipe(fd);
 	pid = fork();
 	if (pid > 0)
 	{
+		mssignal_change_mode(MSSIG_EXEC);
 		close(fd[1]);
-		waitpid(pid, &status, 0);
+		wait_pid_and_set_exit(pid);
+		if (exit_status_get() == 0)
 		doc = ft_calloc(sizeof(char), ARG_MAX + 1);
 		read(fd[0], doc, ARG_MAX);
 		close(fd[0]);
@@ -96,6 +99,7 @@ char	*get_doc(void (*doc_func)(char *, int), char *lim)
 	}
 	else
 	{
+		mssignal_change_mode(MSSIG_DOC);
 		close(fd[0]);
 		doc_func(lim, fd[1]);
 		close(fd[1]);

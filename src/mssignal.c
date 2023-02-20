@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:37:35 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/17 17:15:43 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 14:49:23 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	mssignal_change_mode(char mode)
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, handle_ctrlc_interactive);
 	}
-	else if (mode == MSSIG_HDOC)
+	else if (mode == MSSIG_DOC)
 	{
 		set_termios(true);
 		signal(SIGQUIT, SIG_IGN);

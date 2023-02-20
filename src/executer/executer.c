@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/17 17:19:22 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 14:46:36 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,9 @@
 #include "lexer.h" // t_token
 #include "../minishell.h" // ERR_* defines
 #include <sys/types.h> // pid_t
-#include <sys/fcntl.h> // open
 #include <sys/errno.h> // errno macros
-#include <sys/wait.h> // waitpid
-#include <string.h> // NULL
 #include <unistd.h> // close, pipe
-#include <limits.h> // ARG_MAX
-#include <stdlib.h> // malloc, free
-#include <stdio.h> // printf
+#include <sys/wait.h> // waitpid, WIFEXITED, WEXITSTATUS, WIFSIGNALED, WTERMSIG
 
 // @todo free_cmd_table function and free everything
 // @todo revise code and remove unnecessary if statements
@@ -31,17 +26,6 @@
 // @todo integrate expander
 // @todo errors into stderr
 // @todo multiple shell levels ctrl c new line printed multiple times
-
-void	print_error(t_status exit_status, char *error_loc)
-{
-	if (exit_status == ERR_CMDNOTFOUND)
-		printf("%s: %s: command not found\n", SHELL_NAME, error_loc);
-	else if (exit_status >= ERR_SIGNAL && exit_status <= ERR_SIGNAL + 9)
-		return ;
-	else if (exit_status != ERR_SUCCESS
-		&& exit_status != ERR_SYNTAXERR)
-		printf("%s: %s: %s\n", SHELL_NAME, error_loc, strerror(errno));
-}
 
 // @todo fix echo hello | << lim cat (heredoc fd is overwritten)
 // @todo fix echo hello && << lim cat (heredoc is not interpreted first)

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:25:39 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 14:07:35 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 14:41:51 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ char	*doccer_interpret_docs(t_stack *tokstack, char *input)
 		if (tokstack->token->desc == TOK_REDIR_HEREDOC && tokstack->next)
 		{
 			doc = get_doc(doc_heredoc, tokstack->next->token->word);
+			if (exit_status_get() != ERR_SUCCESS)
+				return (input);
 			free(tokstack->next->token->word);
 			tokstack->next->token->word = doc;
 			tokstack = tokstack->next;
@@ -74,9 +76,11 @@ char	*doccer_interpret_docs(t_stack *tokstack, char *input)
 		input = handle_unclosed_quote('\'', input, temp_stack);
 	else if (temp_stack->token->desc == TOK_UNCLOSED_DQUOTE)
 		input = handle_unclosed_quote('\"', input, temp_stack);
-	if (temp_stack->token->desc == TOK_PIPE
+	else if (temp_stack->token->desc == TOK_PIPE
 		|| temp_stack->token->desc == TOK_AND
 		|| temp_stack->token->desc == TOK_OR)
 		input = handle_incomplete_input(input, temp_stack);
+	if (exit_status_get() != ERR_SUCCESS)
+		return (input);
 	return (input);
 }

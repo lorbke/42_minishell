@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 00:41:47 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 14:37:57 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	rep_loop(void)
 			add_history(line);
 		}
 		free(line);
+		printf("exit_status: %d\n", exit_status_get());
 	}
 	rl_clear_history();
 }
