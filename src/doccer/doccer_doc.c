@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 00:42:47 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 14:12:14 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	doc_completingdoc(char *placeholder, int fd_write)
 void	doc_quotedoc(char *quote, int fd_write)
 {
 	char	*line;
+	char	*temp;
 
 	while (1)
 	{
@@ -65,7 +66,8 @@ void	doc_quotedoc(char *quote, int fd_write)
 		if (!line)
 			break ;
 		write(fd_write, line, ft_strlen(line));
-		if (ft_strchr(line, *quote))
+		temp = ft_strchr(line, *quote);
+		if (temp && temp == ft_strrchr(line, *quote))
 		{
 			free(line);
 			break ;

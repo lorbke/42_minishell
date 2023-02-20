@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:25:39 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 00:55:23 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/20 14:07:35 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ static char	*handle_unclosed_quote(char quote, char *input, t_stack *tokstack)
 	tokstack->token->word
 		= ft_strjoin(tokstack->token->word, doc);
 	free(temp);
-	free(doc);
 	temp = input;
-	input = ft_strjoin(input, tokstack->token->word);
+	input = ft_strjoin(input, doc);
+	free(doc);
 	free(temp);
 	return (input);
 }
@@ -47,7 +47,8 @@ static char	*handle_incomplete_input(char *input, t_stack *tokstack)
 	input = ft_strjoin(input, doc);
 	free(doc);
 	free(temp_str);
-	input = doccer_interpret_docs(tokstack->next, input);
+	if (tokstack->next)
+		input = doccer_interpret_docs(tokstack->next, input);
 	return (input);
 }
 
@@ -73,7 +74,7 @@ char	*doccer_interpret_docs(t_stack *tokstack, char *input)
 		input = handle_unclosed_quote('\'', input, temp_stack);
 	else if (temp_stack->token->desc == TOK_UNCLOSED_DQUOTE)
 		input = handle_unclosed_quote('\"', input, temp_stack);
-	else if (temp_stack->token->desc == TOK_PIPE
+	if (temp_stack->token->desc == TOK_PIPE
 		|| temp_stack->token->desc == TOK_AND
 		|| temp_stack->token->desc == TOK_OR)
 		input = handle_incomplete_input(input, temp_stack);
