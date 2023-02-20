@@ -63,7 +63,7 @@ char	*init_var_name(char *var)
 	var_name = ft_substr(var, 0, i);
 	if (check_naming_convention(var_name) == 0)
 	{
-		print_error_msg(var_name);
+		print_error_msg(var);
 		free(var_name);
 		return (NULL);
 	}

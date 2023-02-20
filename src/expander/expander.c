@@ -101,7 +101,7 @@ static char	*evaluate_argv(char *arg)
 
 static char	*evaluate_char(char *result, char *arg, int *index, int *result_index)
 {
-	if (arg[*index] == '$')
+	if (arg[*index] == '$' && arg[*index + 1] != '\0')
 		result = try_expansion(result, arg, &(*index), &(*result_index));
 	else if (arg[*index] == '\'')
 		result = handle_quotes(result, arg, &(*index), &(*result_index));

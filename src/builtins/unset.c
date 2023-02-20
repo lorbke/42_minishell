@@ -15,6 +15,7 @@
 
 static void	remove_node(char *var);
 
+#include <stdio.h> // printf
 int	builtin_unset(char **argv)
 {
 	int	i;
@@ -30,7 +31,7 @@ int	builtin_unset(char **argv)
 		{
 			ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
 			ft_putstr_fd(argv[i], STDERR_FILENO);
-			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+			ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 			status = 1;
 		}
 		i++;
