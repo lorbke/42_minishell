@@ -50,7 +50,7 @@ void	rep_loop(void)
 			break ;
 		if (*line)
 		{
-			digest_input(line, STDIN_FILENO, STDOUT_FILENO);
+			line = digest_input(line, STDIN_FILENO, STDOUT_FILENO);
 			add_history(line);
 		}
 		free(line);

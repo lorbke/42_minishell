@@ -64,7 +64,7 @@ static const t_func_handle	g_func_handle_arr[]
 [TOK_PIPE] = &handle_pipe,
 [TOK_REDIR_IN] = &handle_redir_in,
 [TOK_REDIR_OUT] = &handle_redir_out,
-[TOK_REDIR_HEREDOC] = &handle_redir_in,
+[TOK_REDIR_HEREDOC] = &handle_redir_heredoc,
 [TOK_REDIR_APPEND] = &handle_redir_append,
 [TOK_UNCLOSED_SQUOTE] = &handle_cmd,
 [TOK_UNCLOSED_DQUOTE] = &handle_cmd,

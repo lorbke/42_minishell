@@ -16,6 +16,7 @@
 #include "../minishell.h" // ERR_* defines
 #include <sys/fcntl.h> // open
 #include <string.h> // NULL
+#include <unistd.h> // pipe, write
 
 t_cmd_table	*handle_cmd(t_ast *ast)
 {
@@ -25,22 +26,28 @@ t_cmd_table	*handle_cmd(t_ast *ast)
 	return (cmd_table);
 }
 
-// @todo heredocs are expanded, therefore this function must exist
-// t_cmd_table	*handle_redir_heredoc(t_ast *ast)
-// {
-// 	t_cmd_table	*cmd_table;
-// 	int			fd;
+// @todo heredocs expansion
+t_cmd_table	*handle_redir_heredoc(t_ast *ast)
+{
+	t_cmd_table	*cmd_table;
+	int			fd[2];
 
-// 	fd = get_heredoc(&heredoc_big, ast->right->token->word);
-// 	if (!ast->left)
-// 		return (NULL);
-// 	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
-// 	if (!cmd_table)
-// 		return (NULL);
-// 	cmd_table->fd_in[0] = fd;
-// 	cmd_table->fd_in[1] = FDLVL_REDIR;
-// 	return (cmd_table);
-// }
+	if (!ast->left)
+		return (NULL);
+	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
+	if (!cmd_table)
+		return (NULL);
+	pipe(fd);
+	while(*ast->right->token->word)
+	{
+		write(fd[1], ast->right->token->word, 1);
+		ast->right->token->word++;
+	}
+	close(fd[1]);
+	cmd_table->fd_in[0] = fd[0];
+	cmd_table->fd_in[1] = FDLVL_REDIR;
+	return (cmd_table);
+}
 
 t_cmd_table	*handle_redir_append(t_ast *ast)
 {

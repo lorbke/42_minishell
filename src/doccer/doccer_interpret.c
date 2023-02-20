@@ -20,13 +20,19 @@ char	*doccer_interpret_docs(t_stack *tokstack, char *input);
 
 static char	*handle_unclosed_quote(char quote, char *input, t_stack *tokstack)
 {
-	char	*temp_str;
+	char	*temp;
+	char	*doc;
 
-	free(tokstack->token->word);
-	tokstack->token->word = get_doc(doc_quotedoc, &quote);
-	temp_str = input;
+	tokstack->token->desc = TOK_WORD;
+	temp = tokstack->token->word;
+	doc = get_doc(doc_quotedoc, &quote);
+	tokstack->token->word
+		= ft_strjoin(tokstack->token->word, doc);
+	free(temp);
+	free(doc);
+	temp = input;
 	input = ft_strjoin(input, tokstack->token->word);
-	free(temp_str);
+	free(temp);
 	return (input);
 }
 
@@ -40,6 +46,7 @@ static char	*handle_incomplete_input(char *input, t_stack *tokstack)
 	temp_str = input;
 	input = ft_strjoin(input, doc);
 	free(doc);
+	free(temp_str);
 	input = doccer_interpret_docs(tokstack->next, input);
 	return (input);
 }
@@ -54,9 +61,10 @@ char	*doccer_interpret_docs(t_stack *tokstack, char *input)
 	{
 		if (tokstack->token->desc == TOK_REDIR_HEREDOC && tokstack->next)
 		{
-			free(tokstack->token->word);
-			tokstack->token->word
-				= get_doc(doc_heredoc, tokstack->next->token->word);
+			doc = get_doc(doc_heredoc, tokstack->next->token->word);
+			free(tokstack->next->token->word);
+			tokstack->next->token->word = doc;
+			tokstack = tokstack->next;
 		}
 		temp_stack = tokstack;
 		tokstack = tokstack->next;
