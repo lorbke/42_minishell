@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:14:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/18 13:36:12 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/21 14:54:14 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h" // malloc, free, ft_strlen, ft_strdup
 #include "globber/globber.h" // globber
 #include "../utils.h" // ft_realloc
-#include "expander_private.h" // handle_quotes, try_expansion, tilde_expansion, add_char_to_string
+#include "expander_private.h" // handle_quotes, try_expansion, tilde_expansion, add_char_to_string, in_closed_quotes
 
 static char	**copy_argv(char **argv);
 static char	*evaluate_argv(char *arg);
@@ -102,7 +102,14 @@ static char	*evaluate_argv(char *arg)
 static char	*evaluate_char(char *result, char *arg, int *index, int *result_index)
 {
 	if (arg[*index] == '$' && arg[*index + 1] != '\0')
+	{
+		if (in_closed_quotes(result, arg, &(*index), &(*result_index)))
+		{
+			result = add_char_to_string(result, arg[*index], &(*index), &(*result_index));
+			return (result);
+		}
 		result = try_expansion(result, arg, &(*index), &(*result_index));
+	}
 	else if (arg[*index] == '\'')
 		result = handle_quotes(result, arg, &(*index), &(*result_index));
 	else if (arg[*index] == '~')

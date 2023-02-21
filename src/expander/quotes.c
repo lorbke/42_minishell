@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:38:45 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/18 13:41:18 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/21 14:53:10 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,27 @@ int	find_closing_quote(char *str, int *index, char quote_type)
 		(*index)++;
 	}
 	return (str_len);
+}
+
+int	in_closed_quotes(char *result, char *arg, int *index, int *result_index)
+{
+	int	i;
+	int	quote_count;
+
+	i = *index;
+	quote_count = 0;
+	if (arg[*index + 1] == '"' || arg[*index + 1] == '\'')
+	{
+		while (arg[i] != '\0')
+		{
+			if (arg[i] == '"' || arg[i] == '\'')
+				quote_count++;
+			i++;
+		}
+		if (quote_count % 2 != 0)
+			return (1);
+	}
+	return (0);
 }
 
 static void	remove_quotes(char *str)

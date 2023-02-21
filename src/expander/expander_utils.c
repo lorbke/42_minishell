@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:47:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/20 08:41:20 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/21 14:37:00 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static char	*expand_var(char *arg);
 static char	*get_var(char *arg, int *index);
 static char	*add_expanded_var(char *result, char *var, int *result_index);
 
-char *try_expansion(char *result, char *arg, int *index, int *result_index)
+#include <stdio.h>
+char	*try_expansion(char *result, char *arg, int *index, int *result_index)
 {
 	char	*var;
 	char	*value;
@@ -28,7 +29,7 @@ char *try_expansion(char *result, char *arg, int *index, int *result_index)
 	(*index)++;
 	expanded_var = result;
 	var = get_var(&arg[*index], &(*index));
-	if (var == NULL && result == NULL)
+	if (var == NULL)
 		return (NULL);
 	value = expand_var(var);
 	if (value != NULL)
@@ -108,7 +109,14 @@ static char	*get_var(char *arg, int *index)
 
 	i = check_naming_convention(arg);
 	if (i == 0)
-		return (NULL);
+	{
+		var = malloc(sizeof(char) * ft_strlen(arg) - 1);
+		if (var == NULL)
+			return (NULL);
+		(*index)++;
+		ft_strlcpy(var, &arg[*index], ft_strlen(arg));
+		return (var);
+	}
 	var = malloc(sizeof(char) * (i + 1));
 	if (var == NULL)
 		return (NULL);
