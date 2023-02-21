@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 23:21:20 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 13:53:53 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	rep_loop(void)
 			line = digest_input(line, STDIN_FILENO, STDOUT_FILENO);
 			add_history(line);
 		}
+		else
+			exit_status_set(ERR_SUCCESS);
 		free(line);
 		printf("exit_status: %d\n", exit_status_get());
 	}
