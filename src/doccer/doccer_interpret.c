@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:25:39 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 16:01:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 17:17:25 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	*handle_unclosed_quote(char quote, char *input, t_stack *tokstack)
 	tokstack->token->desc = TOK_WORD;
 	temp = tokstack->token->word;
 	doc = get_doc(doc_quotedoc, &quote);
-	if (exit_status_get() != ERR_SUCCESS)
+	if (ms_exit_status_get() != ERR_SUCCESS)
 		return (input);
 	tokstack->token->word
 		= ft_strjoin(tokstack->token->word, doc);
@@ -44,7 +44,7 @@ static char	*handle_incomplete_input(char *input, t_stack *tokstack)
 	char	*doc;
 
 	doc = get_doc(doc_completingdoc, NULL);
-	if (exit_status_get() != ERR_SUCCESS)
+	if (ms_exit_status_get() != ERR_SUCCESS)
 		return (input);
 	tokstack->next = lexer_str_to_tokstack(doc, CMD_SEPS, CMD_ESCS);
 	temp_str = input;
@@ -65,7 +65,7 @@ static t_stack
 		if (tokstack->token->desc == TOK_REDIR_HEREDOC && tokstack->next)
 		{
 			doc = get_doc(doc_heredoc, tokstack->next->token->word);
-			if (exit_status_get() != ERR_SUCCESS)
+			if (ms_exit_status_get() != ERR_SUCCESS)
 				return (NULL);
 			free(tokstack->next->token->word);
 			tokstack->next->token->word = doc;

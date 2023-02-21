@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:12:31 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 17:07:15 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 17:11:06 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,8 @@
 #include "libft.h" // ft_strdup
 #include <stdlib.h> // malloc, free, exit
 #include <unistd.h> // STDIN_FILENO, STDOUT_FILENO, write, read
-#include <stdio.h> // printf
 #include <sys/errno.h> // errno macros
 #include <string.h> // strerror
-
-void	print_error(t_status exit_status, char *error_loc)
-{
-	if (exit_status == ERR_CMDNOTFOUND)
-		printf("%s: %s: command not found\n", SHELL_NAME, error_loc);
-	else if (exit_status >= ERR_SIGNAL && exit_status <= ERR_SIGNAL + 9)
-		return ;
-	else if (exit_status != ERR_SUCCESS
-		&& exit_status != ERR_SYNTAXERR)
-		printf("%s: %s: %s\n", SHELL_NAME, error_loc, strerror(errno));
-}
 
 t_cmd_table	*create_cmd_table(t_ast *ast)
 {

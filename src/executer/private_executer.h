@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:14:20 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 14:32:17 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 17:17:02 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_cmd_table	*handle_cmd(t_ast *ast);
 
 // utils
 pid_t		exec_cmd(t_cmd_table *cmd_table, int fd_pipe);
-void		wait_pid_and_set_exit(pid_t pid);
+void		ms_wait_pid_and_set_exit(pid_t pid);
 t_cmd_table	*create_cmd_table(t_ast *ast);
 
 // path

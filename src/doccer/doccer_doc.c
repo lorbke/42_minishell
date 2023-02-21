@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 16:54:51 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 17:17:25 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ char	*get_doc(void (*doc_func)(char *, int), char *lim)
 	{
 		mssignal_change_mode(MSSIG_EXEC);
 		close(fd[1]);
-		wait_pid_and_set_exit(pid);
-		if (exit_status_get() != ERR_SUCCESS)
+		ms_wait_pid_and_set_exit(pid);
+		if (ms_exit_status_get() != ERR_SUCCESS)
 		{
 			close(fd[0]);
 			return (NULL);

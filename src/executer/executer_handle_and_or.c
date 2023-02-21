@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:30:24 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/17 17:18:54 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 17:29:41 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,15 @@ t_cmd_table	*handle_and(t_ast *ast)
 
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
 	pid_l = exec_cmd(cmd_table_l, -1);
-	if (pid_l == -1 && exit_status_get() != ERR_SUCCESS)
+	if (pid_l == -1 && ms_exit_status_get() != ERR_SUCCESS)
 	{
 		if (cmd_table_l)
-			print_error(exit_status_get(), cmd_table_l->cmd[0]);
+			ms_print_error(ms_exit_status_get(), 0, cmd_table_l->cmd[0]);
 		return (NULL);
 	}
 	if (pid_l != -1)
-		wait_pid_and_set_exit(pid_l);
-	if (exit_status_get() == ERR_SUCCESS)
+		ms_wait_pid_and_set_exit(pid_l);
+	if (ms_exit_status_get() == ERR_SUCCESS)
 	{
 		cmd_table_r = g_func_handle_arr[ast->right->token->desc](ast->right);
 		return (cmd_table_r);
@@ -55,11 +55,11 @@ t_cmd_table	*handle_or(t_ast *ast)
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
 	pid_l = exec_cmd(cmd_table_l, -1);
 	if (pid_l != -1)
-		wait_pid_and_set_exit(pid_l);
-	if (exit_status_get() != ERR_SUCCESS)
+		ms_wait_pid_and_set_exit(pid_l);
+	if (ms_exit_status_get() != ERR_SUCCESS)
 	{
 		if (cmd_table_l)
-			print_error(exit_status_get(), cmd_table_l->cmd[0]);
+			ms_print_error(ms_exit_status_get(), 0, cmd_table_l->cmd[0]);
 		cmd_table_r = g_func_handle_arr[ast->right->token->desc](ast->right);
 		return (cmd_table_r);
 	}

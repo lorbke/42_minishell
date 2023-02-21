@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:29:17 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/17 17:19:00 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 17:29:21 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_cmd_table	*handle_pipe(t_ast *ast)
 		set_fd(&cmd_table_l->fd_out, pipe_fd[1]);
 		pid_l = exec_cmd(cmd_table_l, pipe_fd[0]);
 		if (pid_l == -1)
-			print_error(exit_status_get(), cmd_table_l->cmd[0]);
+			ms_print_error(ms_exit_status_get(), 0, cmd_table_l->cmd[0]);
 	}
 	else
 		close(pipe_fd[1]);

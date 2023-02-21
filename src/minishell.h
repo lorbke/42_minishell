@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:39:03 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 14:46:53 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 17:23:39 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,17 @@
 # define CMD_ESCS "\'\"()"
 
 # define ERR_SUCCESS 0
-# define ERR_GENERALERR 1 
-# define ERR_SYNTAXERR 2
+# define ERR_GENERAL 1 
+# define ERR_SYNTAX 2
 # define ERR_CMDNOTFOUND 127
 # define ERR_SIGNAL 128
 
 typedef unsigned char	t_status;
 
-char		*digest_input(char *input, int fd_in, int fd_out);
-void		wait_pid_and_set_exit(pid_t pid);
-void		exit_status_set(t_status exit_status);
-t_status	exit_status_get(void);
+char		*ms_digest_input(char *input, int fd_in, int fd_out);
+void		ms_print_error(t_status exit_status, int desc, char *error_loc);
+void		ms_wait_pid_and_set_exit(pid_t pid);
+void		ms_exit_status_set(t_status exit_status);
+t_status	ms_exit_status_get(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:27:13 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 14:31:35 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 17:31:13 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ t_cmd_table	*handle_redir_append(t_ast *ast)
 	int			fd;
 
 	fd = open(ast->right->token->word, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd == -1)
+	{
+		ms_exit_status_set(ERR_GENERAL);
+		ms_print_error(ms_exit_status_get(), 0, ast->right->token->word);
+		return (NULL);
+	}
 	if (!ast->left)
 		return (NULL);
 	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
@@ -77,8 +83,8 @@ t_cmd_table	*handle_redir_in(t_ast *ast)
 	fd = open(ast->right->token->word, O_RDONLY);
 	if (fd == -1)
 	{
-		exit_status_set(ERR_GENERALERR);
-		print_error(ERR_GENERALERR, ast->right->token->word);
+		ms_exit_status_set(ERR_GENERAL);
+		ms_print_error(ms_exit_status_get(), 0, ast->right->token->word);
 		return (NULL);
 	}
 	if (!ast->left)
@@ -97,6 +103,12 @@ t_cmd_table	*handle_redir_out(t_ast *ast)
 	int			fd;
 
 	fd = open(ast->right->token->word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+	{
+		ms_exit_status_set(ERR_GENERAL);
+		ms_print_error(ms_exit_status_get(), 0, ast->right->token->word);
+		return (NULL);
+	}
 	if (!ast->left)
 		return (NULL);
 	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 14:08:53 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 17:15:39 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static pid_t	exec_subshell(t_cmd_table *cmd_table)
 	if (pid != 0)
 		return (pid);
 	cmd_table->cmd[0][ft_strlen(cmd_table->cmd[0]) - 1] = 0;
-	digest_input(cmd_table->cmd[0] + 1,
+	ms_digest_input(cmd_table->cmd[0] + 1,
 		cmd_table->fd_in[0], cmd_table->fd_out[0]);
-	status = exit_status_get();
+	status = ms_exit_status_get();
 	exit(status);
 	return (pid);
 }
@@ -84,7 +84,7 @@ pid_t	exec_cmd(t_cmd_table *cmd_table, int fd_pipe)
 	path = get_cmd_path(environ, cmd_table->cmd[0]);
 	if (!path)
 	{
-		exit_status_set(ERR_CMDNOTFOUND);
+		ms_exit_status_set(ERR_CMDNOTFOUND);
 		return (-1);
 	}
 	pid = fork_and_execve(path, cmd_table, fd_pipe);

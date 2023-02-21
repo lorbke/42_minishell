@@ -18,3 +18,4 @@ in
 out
 pathfinder.dSYM
 tests
+lib/garbage_collector/libgarbagecollector.a
