@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:13:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/18 14:03:34 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/21 08:40:55 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int builtin_export(char **argv)
 	}
 	i = 1;
 	argc = 1;
-	// @note get_string_array_length ?
 	while (argv[argc] != NULL)
 		argc++;
 	while (i < argc)
@@ -61,7 +60,6 @@ static int	export_var(char *var)
 	var_value = init_var_value(var, var_name);
 	if (update_if_exists(var_name, var_value))
 		return (0);
-	// @note the following lines could be summed up to a "concat_var" function
 	variable = malloc(sizeof(char) * ft_strlen(var) + 1);
 	if (variable == NULL)
 		return (1);

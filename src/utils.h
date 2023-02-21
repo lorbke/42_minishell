@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:10:26 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/18 14:31:30 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/21 14:51:55 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	free_list(t_sym_tab **head);
 int		get_string_array_len(char **array);
 int		check_naming_convention(char *var_name);
 int		ft_strcmp(const char *s1, const char *s2);
-
 
 // error
 void	ft_perror(char *cmd, char *str);
