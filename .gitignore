@@ -17,3 +17,6 @@ tester.o
 in
 out
 pathfinder.dSYM
+
+# Tester
+__pycache__/
