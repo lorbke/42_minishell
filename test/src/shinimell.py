@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    test_minishell.py                                  :+:      :+:    :+:    #
+#    shinimell.py                                       :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/20 18:11:54 by fyuzhyk           #+#    #+#              #
-#    Updated: 2023/02/20 18:58:43 by fyuzhyk          ###   ########.fr        #
+#    Updated: 2023/02/21 15:01:48 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -148,7 +148,7 @@ def test():
         if line == "":
             print("\n")
             break
-        elif line[0] == "/":
+        elif line[0] == "|":
             print_builtin_name(line, infile, outfile)
             j = 0
         else:

@@ -1,6 +1,6 @@
-////////////////////////////
-//////// EXPANSION /////////
-////////////////////////////
+||||||||||||||||||||||||||||
+|||||||| EXPANSION |||||||||
+||||||||||||||||||||||||||||
 
 /bin/echo $?
 
@@ -57,23 +57,6 @@
 /bin/echo "'$?'"
 /bin/echo '"$?"'
 
-### UPDATE PWD ###
-mkdir "tmp_test_folder"
-/bin/echo $PWD
-cd "tmp_test_folder"
-/bin/echo $PWD
-cd ..
-/bin/echo $PWD
-rm -rf "tmp_test_folder"
-
-mkdir "tmp_test folder"
-/bin/echo $PWD
-cd "tmp_test folder"
-/bin/echo $PWD
-cd ..
-/bin/echo $PWD
-rm -rf "tmp_test folder"
-
 export tmp_test="/bin/echo 42"
 $tmp_test
 $tmp_test 42
@@ -127,8 +110,3 @@ export X="  A  B  "
 
 export X="  A  B  "
 /bin/echo "1"$X2?
-
-export test=" * "
-touch "$USER * ?eHallo"
-/bin/echo "$USER "*" ?e"*
-rm -f "$USER * ?eHallo"

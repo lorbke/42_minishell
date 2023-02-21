@@ -1,125 +1,366 @@
-////////////////////////////
-//////// EXPANSION /////////
-////////////////////////////
-
-/bin/echo $?
-
-/bin/echo $HOME
-
-/bin/echo $HOME$USER
-
-/bin/echo $"HOME"$USER
-
-/bin/echo $"HOM"E$USER
-
-/bin/echo $"'HOM'E"$USER
-
-/bin/echo $'HOM'E$USER
-
-/bin/echo $"HOME"
-
-/bin/echo $'HOME'
-
-/bin/echo $
-
-/bin/echo "$"
-
-/bin/echo '$='
-
-/bin/echo "$""$"
-
-/bin/echo $"$"
-
-/bin/echo $"42$"
-
-/bin/echo "$"$
-
-/bin/echo $'$'
-
-/bin/echo '$'$
-
-/bin/echo "$ "
-
-/bin/echo '$ '
-
-/bin/echo $TESTNOTFOUND
-/bin/echo $HOME$TESTNOTFOUND
-/bin/echo $TESTNOTFOUND$HOME
-
-/bin/echo ""$?""
-/bin/echo " "$?" "
-/bin/echo $?"42"
-/bin/echo ''$?''"42"
-/bin/echo 'HELLO'$?:''"42"
-
-/bin/echo "$?"
-/bin/echo '$?'
-/bin/echo "'$?'"
-/bin/echo '"$?"'
+||||||||||||||||||||||||||||
+|||||||| EXPANSION |||||||||
+||||||||||||||||||||||||||||
 
 Case #1: 
 
-### UPDATE PWD ###
-
-mkdir "tmp_test_folder"
-
-/bin/echo $PWD
-
-cd "tmp_test_folder"
-
-/bin/echo $PWD
-
-cd ..
-
-/bin/echo $PWD
-
-rm -rf "tmp_test_folder"
+/bin/echo $?
 
 
 minishell output: 
-/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
-/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
-/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
+0
 
 bash      output: 
-/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
-/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
-/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
+0
 
 
 ---------------------------------------------
 
 Case #2: 
 
-mkdir "tmp_test folder"
-
-/bin/echo $PWD
-
-cd "tmp_test folder"
-
-/bin/echo $PWD
-
-cd ..
-
-/bin/echo $PWD
-
-rm -rf "tmp_test folder"
+/bin/echo $HOME
 
 
 minishell output: 
-/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
-/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
-/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
+/Users/fyuzhyk
 
 bash      output: 
-/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
-/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
-/Users/fiodaryuzhyk/coding/42_projects/42_minishell/test/src
+/Users/fyuzhyk
 
 
 ---------------------------------------------
 
 Case #3: 
+
+/bin/echo $HOME$USER
+
+
+minishell output: 
+/Users/fyuzhykfyuzhyk
+
+bash      output: 
+/Users/fyuzhykfyuzhyk
+
+
+---------------------------------------------
+
+Case #4: 
+
+/bin/echo $"HOME"$USER
+
+
+minishell output: 
+
+
+bash      output: 
+
+
+
+---------------------------------------------
+
+Case #5: 
+
+/bin/echo $"HOM"E$USER
+
+
+minishell output: 
+
+
+bash      output: 
+
+
+
+---------------------------------------------
+
+Case #6: 
+
+/bin/echo $"'HOM'E"$USER
+
+
+minishell output: 
+
+
+bash      output: 
+
+
+
+---------------------------------------------
+
+Case #7: 
+
+/bin/echo $'HOM'E$USER
+
+
+minishell output: 
+HOMEfyuzhyk
+
+bash      output: 
+HOMEfyuzhyk
+
+
+---------------------------------------------
+
+Case #8: 
+
+/bin/echo $"HOME"
+
+
+minishell output: 
+/Users/fyuzhyk
+
+bash      output: 
+/Users/fyuzhyk
+
+
+---------------------------------------------
+
+Case #9: 
+
+/bin/echo $'HOME'
+
+
+minishell output: 
+HOME
+
+bash      output: 
+HOME
+
+
+---------------------------------------------
+
+Case #10: 
+
+/bin/echo $
+
+
+minishell output: 
+$
+
+bash      output: 
+$
+
+
+---------------------------------------------
+
+Case #11: 
+
+/bin/echo "$"
+
+
+minishell output: 
+
+
+bash      output: 
+
+
+
+---------------------------------------------
+
+Case #12: 
+
+/bin/echo '$='
+
+
+minishell output: 
+$=
+
+bash      output: 
+$=
+
+
+---------------------------------------------
+
+Case #13: 
+
+/bin/echo "$""$"
+
+
+minishell output: 
+
+
+bash      output: 
+
+
+
+---------------------------------------------
+
+Case #14: 
+
+/bin/echo $"$"
+
+
+minishell output: 
+$
+
+bash      output: 
+$
+
+
+---------------------------------------------
+
+Case #15: 
+
+/bin/echo $"42$"
+
+
+minishell output: 
+2
+
+bash      output: 
+2
+
+
+---------------------------------------------
+
+Case #16: 
+
+/bin/echo "$"$
+
+
+minishell output: 
+$
+
+bash      output: 
+$
+
+
+---------------------------------------------
+
+Case #17: 
+
+/bin/echo $'$'
+
+
+minishell output: 
+$
+
+bash      output: 
+$
+
+
+---------------------------------------------
+
+Case #18: 
+
+/bin/echo '$'$
+
+
+minishell output: 
+$$
+
+bash      output: 
+$$
+
+
+---------------------------------------------
+
+Case #19: 
+
+/bin/echo "$ "
+
+
+minishell output: 
+$
+
+bash      output: 
+$
+
+
+---------------------------------------------
+
+Case #20: 
+
+/bin/echo '$ '
+
+
+minishell output: 
+$ 
+
+bash      output: 
+$ 
+
+
+---------------------------------------------
+
+Case #21: 
+
+/bin/echo $TESTNOTFOUND
+
+/bin/echo $HOME$TESTNOTFOUND
+
+/bin/echo $TESTNOTFOUND$HOME
+
+
+minishell output: 
+
+/Users/fyuzhyk
+/Users/fyuzhyk
+
+bash      output: 
+
+/Users/fyuzhyk
+/Users/fyuzhyk
+
+
+---------------------------------------------
+
+Case #22: 
+
+/bin/echo ""$?""
+
+/bin/echo " "$?" "
+
+/bin/echo $?"42"
+
+/bin/echo ''$?''"42"
+
+/bin/echo 'HELLO'$?:''"42"
+
+
+minishell output: 
+0
+0
+042
+042
+HELLO0:42
+
+bash      output: 
+0
+0
+042
+042
+HELLO0:42
+
+
+---------------------------------------------
+
+Case #23: 
+
+/bin/echo "$?"
+
+/bin/echo '$?'
+
+/bin/echo "'$?'"
+
+/bin/echo '"$?"'
+
+
+minishell output: 
+0
+0
+
+0
+
+bash      output: 
+0
+0
+0
+0
+
+
+---------------------------------------------
+
+Case #24: 
 
 export tmp_test="/bin/echo 42"
 
@@ -143,7 +384,7 @@ bash: line 9: 42: command not found
 
 ---------------------------------------------
 
-Case #4: 
+Case #25: 
 
 export tmp_test="/bin/echo 42"
 
@@ -160,7 +401,7 @@ bash: line 3: tmp_test: command not found
 
 ---------------------------------------------
 
-Case #5: 
+Case #26: 
 
 export X="  A  B  "
 
@@ -176,7 +417,7 @@ bash      output:
 
 ---------------------------------------------
 
-Case #6: 
+Case #27: 
 
 export X=" A  B  "
 
@@ -192,7 +433,7 @@ bash      output:
 
 ---------------------------------------------
 
-Case #7: 
+Case #28: 
 
 export X="A  B  "
 
@@ -208,7 +449,7 @@ bash      output:
 
 ---------------------------------------------
 
-Case #8: 
+Case #29: 
 
 export X="  A  B "
 
@@ -224,7 +465,7 @@ bash      output:
 
 ---------------------------------------------
 
-Case #9: 
+Case #30: 
 
 export X="  A  B"
 
@@ -240,7 +481,7 @@ bash      output:
 
 ---------------------------------------------
 
-Case #10: 
+Case #31: 
 
 export X="  A B  "
 
@@ -256,7 +497,7 @@ bash      output:
 
 ---------------------------------------------
 
-Case #11: 
+Case #32: 
 
 export X="  AB  "
 
@@ -272,7 +513,7 @@ bash      output:
 
 ---------------------------------------------
 
-Case #12: 
+Case #33: 
 
 export X="  A  B  "
 
@@ -288,7 +529,7 @@ bash      output:
 
 ---------------------------------------------
 
-Case #13: 
+Case #34: 
 
 export X="  A  B  "
 
@@ -304,7 +545,7 @@ bash      output:
 
 ---------------------------------------------
 
-Case #14: 
+Case #35: 
 
 export X=""
 
@@ -320,7 +561,7 @@ bash      output:
 
 ---------------------------------------------
 
-Case #15: 
+Case #36: 
 
 export X=" "
 
@@ -336,7 +577,7 @@ bash      output:
 
 ---------------------------------------------
 
-Case #16: 
+Case #37: 
 
 export X="   "
 
@@ -352,7 +593,7 @@ bash      output:
 
 ---------------------------------------------
 
-Case #17: 
+Case #38: 
 
 export X="  A  B  "
 
@@ -368,7 +609,7 @@ bash      output:
 
 ---------------------------------------------
 
-Case #18: 
+Case #39: 
 
 export X="  A  B  "
 
@@ -384,7 +625,7 @@ bash      output:
 
 ---------------------------------------------
 
-Case #19: 
+Case #40: 
 
 export X="  A  B  "
 
@@ -396,25 +637,6 @@ minishell output:
 
 bash      output: 
 1?
-
-
----------------------------------------------
-
-Case #20: 
-
-export test=" * "
-
-touch "$USER * ?eHallo"
-
-/bin/echo "$USER "*" ?e"*
-
-rm -f "$USER * ?eHallo"
-
-minishell output: 
-rm: __pycache__: is a directory
-
-bash      output: 
-rm: __pycache__: is a directory
 
 
 ---------------------------------------------
