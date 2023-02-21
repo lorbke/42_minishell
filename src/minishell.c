@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 18:05:49 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:43:12 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@
 #include "executer.h" // executer_exec_ast
 #include "debugger.h" // debug
 #include "libft.h" // ft_strncmp
+#include "env.h" // global_var
+#include "builtins.h" // builtin_exit
+#include "utils.h" // free_list
+#include "get_next_line.h" // get_next_line
+#include <termios.h> // termios functions and struct
 #include <unistd.h> // file descriptor macros
 #include <stdio.h> // printf
 #include <readline/readline.h> // readline

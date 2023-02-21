@@ -1,0 +1,477 @@
+|||||||||||||||||||||||||||||
+||||||||| WILDCARDS |||||||||
+|||||||||||||||||||||||||||||
+
+Case #1: 
+
+/usr/bin/printf "%s\n" * | sort
+
+
+minishell output: 
+MakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
+
+bash      output: 
+MakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
+
+
+---------------------------------------------
+
+Case #2: 
+
+export ARG="*"
+
+/usr/bin/printf "%s\n" $ARG | sort
+
+
+minishell output: 
+n
+
+bash      output: 
+n
+
+
+---------------------------------------------
+
+Case #3: 
+
+ls *
+
+
+minishell output: 
+Makefile
+Makefilee
+README.txt
+minishell
+notes.txt
+shinimell.sh
+tester.c
+
+lib:
+env
+executer
+gnl
+lexer
+libft
+parser
+
+obj:
+builtins_utils.o
+cd.o
+cd_modes.o
+cd_utils.o
+debugger.o
+echo.o
+entry.o
+env.o
+error.o
+exit.o
+expander.o
+expander_utils.o
+export.o
+export_utils.o
+globber.o
+globber_outside_cwd.o
+globber_utils.o
+minishell.o
+pattern.o
+pwd.o
+quotes.o
+realloc.o
+signal.o
+unset.o
+utils.o
+
+src:
+builtins
+builtins.h
+debugger
+debugger.h
+expander
+expander.h
+minishell.c
+minishell.h
+signal.c
+utils
+utils.h
+
+test:
+modes
+src
+test_cases
+test_output
+
+bash      output: 
+Makefile
+Makefilee
+README.txt
+minishell
+notes.txt
+shinimell.sh
+tester.c
+
+lib:
+env
+executer
+gnl
+lexer
+libft
+parser
+
+obj:
+builtins_utils.o
+cd.o
+cd_modes.o
+cd_utils.o
+debugger.o
+echo.o
+entry.o
+env.o
+error.o
+exit.o
+expander.o
+expander_utils.o
+export.o
+export_utils.o
+globber.o
+globber_outside_cwd.o
+globber_utils.o
+minishell.o
+pattern.o
+pwd.o
+quotes.o
+realloc.o
+signal.o
+unset.o
+utils.o
+
+src:
+builtins
+builtins.h
+debugger
+debugger.h
+expander
+expander.h
+minishell.c
+minishell.h
+signal.c
+utils
+utils.h
+
+test:
+modes
+src
+test_cases
+test_output
+
+
+---------------------------------------------
+
+Case #4: 
+
+touch "*1"
+
+/usr/bin/printf "%s\n" "*"* | sort
+
+rm "*1"
+
+
+minishell output: 
+*1nMakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
+
+bash      output: 
+*1nMakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
+
+
+---------------------------------------------
+
+Case #5: 
+
+touch "   "
+
+ls * | grep "   "
+
+rm "   "
+
+
+minishell output: 
+usage:
+touch [-A [-][[hh]mm]SS] [-acfhm] [-r file] [-t [[CC]YY]MMDDhhmm[.SS]] file ...
+usage: grep [-abcDEFGHhIiJLlmnOoqRSsUVvwxZ] [-A num] [-B num] [-C[num]]
+	[-e pattern] [-f file] [--binary-files=value] [--color=when]
+	[--context[=num]] [--directories=action] [--label] [--line-buffered]
+	[--null] [pattern] [file ...]
+usage: rm [-f | -i] [-dPRrvW] file ...
+       unlink file
+
+bash      output: 
+usage:
+touch [-A [-][[hh]mm]SS] [-acfhm] [-r file] [-t [[CC]YY]MMDDhhmm[.SS]] file ...
+usage: grep [-abcDEFGHhIiJLlmnOoqRSsUVvwxZ] [-A num] [-B num] [-C[num]]
+	[-e pattern] [-f file] [--binary-files=value] [--color=when]
+	[--context[=num]] [--directories=action] [--label] [--line-buffered]
+	[--null] [pattern] [file ...]
+usage: rm [-f | -i] [-dPRrvW] file ...
+       unlink file
+
+
+---------------------------------------------
+
+Case #6: 
+
+touch "a" "aa"
+
+/usr/bin/printf "%s\n" *a | sort
+
+rm "a" "aa"
+
+
+minishell output: 
+anaan
+
+bash      output: 
+anaan
+
+
+---------------------------------------------
+
+Case #7: 
+
+touch "a" "aa" "aaa"
+
+/usr/bin/printf "%s\n" *a*a | sort
+
+rm "a" "aa" "aaa"
+
+
+minishell output: 
+aanaaan
+
+bash      output: 
+aanaaan
+
+
+---------------------------------------------
+
+Case #8: 
+
+/usr/bin/printf "%s\n" "Mak"'e'*'*' | sort
+
+
+minishell output: 
+Make**n
+
+bash      output: 
+Make**n
+
+
+---------------------------------------------
+
+Case #9: 
+
+/usr/bin/printf "%s\n" "Mak"'e'** | sort
+
+
+minishell output: 
+MakefilenMakefileen
+
+bash      output: 
+MakefilenMakefileen
+
+
+---------------------------------------------
+
+Case #10: 
+
+/usr/bin/printf "%s\n" ***"Mak"'e'** | sort
+
+
+minishell output: 
+MakefilenMakefileen
+
+bash      output: 
+MakefilenMakefileen
+
+
+---------------------------------------------
+
+Case #11: 
+
+/usr/bin/printf "%s\n" "."* | sort
+
+
+minishell output: 
+.n..n.gitn.gitignoren.vscoden
+
+bash      output: 
+.n..n.gitn.gitignoren.vscoden
+
+
+---------------------------------------------
+
+Case #12: 
+
+/usr/bin/printf "%s\n" *"." | sort
+
+
+minishell output: 
+*.n
+
+bash      output: 
+*.n
+
+
+---------------------------------------------
+
+Case #13: 
+
+/usr/bin/printf "%s\n" *"."* | sort
+
+
+minishell output: 
+README.txtnnotes.txtnshinimell.shntester.cn
+
+bash      output: 
+README.txtnnotes.txtnshinimell.shntester.cn
+
+
+---------------------------------------------
+
+Case #14: 
+
+/usr/bin/printf "%s\n" "*" | sort
+
+
+minishell output: 
+MakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
+
+bash      output: 
+MakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
+
+
+---------------------------------------------
+
+Case #15: 
+
+/usr/bin/printf "%s\n" '*' | sort
+
+
+minishell output: 
+*n
+
+bash      output: 
+*n
+
+
+---------------------------------------------
+
+Case #16: 
+
+/usr/bin/printf "%s\n" Minishe*l | sort
+
+
+minishell output: 
+Minishe*ln
+
+bash      output: 
+Minishe*ln
+
+
+---------------------------------------------
+
+Case #17: 
+
+/usr/bin/printf "%s\n" minishe*l | sort
+
+
+minishell output: 
+minishelln
+
+bash      output: 
+minishelln
+
+
+---------------------------------------------
+
+Case #18: 
+
+touch minishelxxxl
+
+/usr/bin/printf "%s\n" minishe*l | sort
+
+/usr/bin/printf "%s\n" minishel*l | sort
+
+/usr/bin/printf "%s\n" minishelxxx*l | sort
+
+/usr/bin/printf "%s\n" minishel*xxx*l | sort
+
+rm minishelxxxl
+
+
+minishell output: 
+minishellnminishelxxxln
+minishellnminishelxxxln
+minishelxxxln
+minishelxxxln
+
+bash      output: 
+minishellnminishelxxxln
+minishellnminishelxxxln
+minishelxxxln
+minishelxxxln
+
+
+---------------------------------------------
+
+Case #19: 
+
+touch tmp_out
+
+/bin/echo 42 >tmp_o*t*
+
+rm -f "tmp_out*"
+
+
+minishell output: 
+/bin/sh: line 6: 17271 Done                    echo "touch tmp_out
+
+/bin/echo 42 >tmp_o*t*
+
+rm -f "tmp_out*"
+
+"
+     17272 Segmentation fault: 11  | ./minishell
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #20: 
+
+touch tmp_out1
+
+touch tmp_out2
+
+/bin/echo 42 >tmp_out*
+
+rm -f "tmp_out*"
+
+
+minishell output: 
+/bin/sh: line 8: 17281 Done                    echo "touch tmp_out1
+
+touch tmp_out2
+
+/bin/echo 42 >tmp_out*
+
+rm -f "tmp_out*"
+
+"
+     17282 Segmentation fault: 11  | ./minishell
+
+bash      output: 
+bash: line 5: tmp_out*: ambiguous redirect
+
+
+---------------------------------------------
+

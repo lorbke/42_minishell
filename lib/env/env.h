@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/11 17:11:10 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 09:05:36 by fyuzhyk          ###   ########.fr       */
+/*   Created: 2023/02/06 09:20:05 by fyuzhyk           #+#    #+#             */
+/*   Updated: 2023/02/18 14:03:16 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef ENV_H
+# define ENV_H
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+typedef struct s_sym_tab
 {
-	t_list	*newlst;
+	char				*var;
+	struct s_sym_tab	*next;
+}	t_sym_tab;
 
-	if (lst == NULL)
-		return (NULL);
-	newlst = (t_list *)malloc(sizeof(t_list));
-	if (newlst == NULL)
-		return (newlst);
-	newlst->content = (*f)(lst->content);
-	newlst->next = ft_lstmap(lst->next, f, del);
-	return (newlst);
-}
+// our global var
+t_sym_tab **g_sym_table;
+
+// list operations
+t_sym_tab	**init_sym_tab(char **envp);
+t_sym_tab	*new_sym_tab_node(char *var);
+int			get_list_len(t_sym_tab **head);
+char		**create_env_list(t_sym_tab **head);
+void		add_to_back(t_sym_tab **lst, t_sym_tab *new_node);
+
+#endif

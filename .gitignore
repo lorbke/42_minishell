@@ -19,3 +19,6 @@ out
 pathfinder.dSYM
 tests
 lib/garbage_collector/libgarbagecollector.a
+
+# Tester
+__pycache__/

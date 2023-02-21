@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/11 17:11:10 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 09:05:36 by fyuzhyk          ###   ########.fr       */
+/*   Created: 2023/02/05 18:45:14 by fyuzhyk           #+#    #+#             */
+/*   Updated: 2023/02/18 14:32:04 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "libft.h" // ft_strjoin
+#include "../utils.h" // ft_perror
+#include <stdio.h> // printf
+#include <errno.h> // errno
+#include <unistd.h> // getcwd
+#include <limits.h> // PATH_MAX
+#include <string.h> // strerror
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+int builtin_pwd(char **argv)
 {
-	t_list	*newlst;
+	char	cwd[PATH_MAX];
 
-	if (lst == NULL)
-		return (NULL);
-	newlst = (t_list *)malloc(sizeof(t_list));
-	if (newlst == NULL)
-		return (newlst);
-	newlst->content = (*f)(lst->content);
-	newlst->next = ft_lstmap(lst->next, f, del);
-	return (newlst);
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+		printf("%s\n", cwd);
+	else
+	{
+		ft_perror("pwd", cwd);
+		return (errno);
+	}
+	return (0);
 }

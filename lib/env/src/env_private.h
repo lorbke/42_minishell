@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer.h                                         :+:      :+:    :+:   */
+/*   env_private.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/23 15:45:37 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 18:37:23 by lorbke           ###   ########.fr       */
+/*   Created: 2023/02/05 18:27:02 by fyuzhyk           #+#    #+#             */
+/*   Updated: 2023/02/08 11:44:52 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTER_H
-# define EXECUTER_H
+#ifndef SYMTAB_H
+# define SYMTAB_H
 
-# include "parser.h" // t_ast
-# include "minishell.h" // t_status
+#include "env.h"
 
-t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out);
-void		executer_free_cmd_table(void *cmd_table_void);
+t_sym_tab	*copy_node(t_sym_tab *node);
+t_sym_tab	*get_last_node(t_sym_tab *lst);
 
 #endif

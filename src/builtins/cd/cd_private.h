@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   cd_private.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/11 17:11:10 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 09:05:36 by fyuzhyk          ###   ########.fr       */
+/*   Created: 2023/02/08 11:39:44 by fyuzhyk           #+#    #+#             */
+/*   Updated: 2023/02/18 12:47:38 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef CD_PRIVATE_H
+# define CD_PRIVATE_H
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
-{
-	t_list	*newlst;
+// utils
+void	set_path(char *var, char *value);
+char	*get_path(char *var);
+int		change_prev_dir(void);
+int		check_for_dots(char *path, int *i);
 
-	if (lst == NULL)
-		return (NULL);
-	newlst = (t_list *)malloc(sizeof(t_list));
-	if (newlst == NULL)
-		return (newlst);
-	newlst->content = (*f)(lst->content);
-	newlst->next = ft_lstmap(lst->next, f, del);
-	return (newlst);
-}
+// modes
+int		handle_dots(char *path);
+int		handle_dash(char *oldpwd);
+
+#endif

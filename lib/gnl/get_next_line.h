@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer.h                                         :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/23 15:45:37 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 18:37:23 by lorbke           ###   ########.fr       */
+/*   Created: 2022/04/04 17:42:14 by fyuzhyk           #+#    #+#             */
+/*   Updated: 2023/02/18 18:51:36 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTER_H
-# define EXECUTER_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-# include "parser.h" // t_ast
-# include "minishell.h" // t_status
+# include <unistd.h>
+# include <stdlib.h>
 
-t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out);
-void		executer_free_cmd_table(void *cmd_table_void);
+#define BUFFER_SIZE 1000
+
+char	*get_next_line(int fd);
+char	*get_result(int fd, int j, char *buffer, char *result);
 
 #endif

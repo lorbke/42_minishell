@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/11 17:11:10 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 09:05:36 by fyuzhyk          ###   ########.fr       */
+/*   Created: 2023/02/18 14:08:00 by fyuzhyk           #+#    #+#             */
+/*   Updated: 2023/02/18 14:43:45 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "libft.h" // ft_putstr_fd
+#include "../utils.h" // ft_realloc
+#include <stdio.h> // perror
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+void	ft_perror(char *cmd, char *str)
 {
-	t_list	*newlst;
-
-	if (lst == NULL)
-		return (NULL);
-	newlst = (t_list *)malloc(sizeof(t_list));
-	if (newlst == NULL)
-		return (newlst);
-	newlst->content = (*f)(lst->content);
-	newlst->next = ft_lstmap(lst->next, f, del);
-	return (newlst);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	perror(str);
 }

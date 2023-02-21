@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   export_private.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/11 17:11:10 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 09:05:36 by fyuzhyk          ###   ########.fr       */
+/*   Created: 2023/02/15 17:37:28 by fyuzhyk           #+#    #+#             */
+/*   Updated: 2023/02/18 14:00:18 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef EXPORT_PRIVATE_H
+# define EXPORT_PRIVATE_H
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
-{
-	t_list	*newlst;
+#include "env.h"
 
-	if (lst == NULL)
-		return (NULL);
-	newlst = (t_list *)malloc(sizeof(t_list));
-	if (newlst == NULL)
-		return (newlst);
-	newlst->content = (*f)(lst->content);
-	newlst->next = ft_lstmap(lst->next, f, del);
-	return (newlst);
-}
+char	*init_var_name(char *var);
+char	*init_var_value(char *var, char *var_name);
+int		update_if_exists(char *var_name, char *var_value);
+int		check_if_var_exists(t_sym_tab *temp, char *var_name);
+
+#endif

@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer.h                                         :+:      :+:    :+:   */
+/*   expander.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/23 15:45:37 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 18:37:23 by lorbke           ###   ########.fr       */
+/*   Created: 2023/02/08 14:59:39 by fyuzhyk           #+#    #+#             */
+/*   Updated: 2023/02/12 16:31:44 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTER_H
-# define EXECUTER_H
+#ifndef EXPANDER_H
+# define EXPANDER_H
 
-# include "parser.h" // t_ast
-# include "minishell.h" // t_status
-
-t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out);
-void		executer_free_cmd_table(void *cmd_table_void);
+char	**expander(char **argv);
 
 #endif

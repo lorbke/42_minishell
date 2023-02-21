@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
+#    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/01/18 13:54:25 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/21 18:36:42 by lorbke           ###   ########.fr        #
+#    Created: 2023/02/18 18:44:15 by fyuzhyk           #+#    #+#              #
+#    Updated: 2023/02/18 18:45:59 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,14 +21,17 @@ BLUE := \033[0;34m
 RESET := \033[0m
 
 # name macro
-NAME := libgarbagecollector.a
+NAME := libgnl.a
 
 # command macros
 CC := cc
 AR := ar rcs
 RM := rm -f
 ADD_FLAGS := #-g -fsanitize=address,undefined
-FLAGS := -g #-Wall -Wextra -Werror
+FLAGS := -Wall -Wextra -Werror
+
+# header macros
+LFT_INC := ../libft
 
 # src and obj files macros
 OBJ_PATH := obj
@@ -41,16 +44,16 @@ VPATH := $(SRC_PATH)
 
 # file targets
 $(NAME): $(OBJ_PATH) $(OBJ)
-	@echo -e -n "$(BLUE)Creating: garbage_collector library: $(RESET)"
+	@echo -e -n "$(BLUE)Creating: gnl library: $(RESET)"
 	$(AR) $(NAME) $(OBJ)
-	@echo -e "$(GREEN)make: garbage_collector success!$(RESET)"
+	@echo -e "$(GREEN)make: gnl success!$(RESET)"
 
 $(OBJ_PATH):
 	@mkdir -p $(OBJ_PATH)
 
-$(OBJ_PATH)/%.o: %.c Makefile garbage_collector.h
+$(OBJ_PATH)/%.o: %.c Makefile get_next_line.h
 	@echo -e -n "$(YELLOW)Compiling: $(RESET)"
-	$(CC) $(FLAGS) $(ADD_FLAGS) -c $< -o $@
+	$(CC) $(FLAGS) $(ADD_FLAGS) -I$(LFT_INC) -I. -c $< -o $@
 
 # phony targets
 all: $(NAME)
@@ -60,7 +63,7 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME)
-	@echo -e "$(RED)make: garbage_collector cleaned!$(RESET)"
+	@echo -e "$(RED)make: gnl cleaned!$(RESET)"
 
 re: fclean all
 
