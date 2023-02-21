@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:38:45 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/21 14:53:10 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:48:26 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	quote_removal(char **argv)
 	}
 }
 
+#include <stdio.h>
 char	*handle_quotes(char *result, char *str, int *index, int *result_index)
 {
 	int		i;
@@ -38,7 +39,8 @@ char	*handle_quotes(char *result, char *str, int *index, int *result_index)
 	char	quote_type;
 
 	quote_type = str[(*index)];
-	i = *index + 1;
+	// i = *index + 1;
+	i = *index;
 	str_len = find_closing_quote(str, &(*index), quote_type);
 	if (result == NULL)
 	{

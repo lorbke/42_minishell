@@ -1,642 +1,476 @@
-||||||||||||||||||||||||||||
-|||||||| EXPANSION |||||||||
-||||||||||||||||||||||||||||
+|||||||||||||||||||||||||||||
+||||||||| WILDCARDS |||||||||
+|||||||||||||||||||||||||||||
 
 Case #1: 
 
-/bin/echo $?
+/usr/bin/printf "%s\n" * | sort
 
 
 minishell output: 
-0
+MakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
 
 bash      output: 
-0
+MakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
 
 
 ---------------------------------------------
 
 Case #2: 
 
-/bin/echo $HOME
+export ARG="*"
+
+/usr/bin/printf "%s\n" $ARG | sort
 
 
 minishell output: 
-/Users/fyuzhyk
+n
 
 bash      output: 
-/Users/fyuzhyk
+n
 
 
 ---------------------------------------------
 
 Case #3: 
 
-/bin/echo $HOME$USER
+ls *
 
 
 minishell output: 
-/Users/fyuzhykfyuzhyk
+Makefile
+Makefilee
+README.txt
+minishell
+notes.txt
+shinimell.sh
+tester.c
+
+lib:
+env
+executer
+gnl
+lexer
+libft
+parser
+
+obj:
+builtins_utils.o
+cd.o
+cd_modes.o
+cd_utils.o
+debugger.o
+echo.o
+entry.o
+env.o
+error.o
+exit.o
+expander.o
+expander_utils.o
+export.o
+export_utils.o
+globber.o
+globber_outside_cwd.o
+globber_utils.o
+minishell.o
+pattern.o
+pwd.o
+quotes.o
+realloc.o
+signal.o
+unset.o
+utils.o
+
+src:
+builtins
+builtins.h
+debugger
+debugger.h
+expander
+expander.h
+minishell.c
+minishell.h
+signal.c
+utils
+utils.h
+
+test:
+modes
+src
+test_cases
+test_output
 
 bash      output: 
-/Users/fyuzhykfyuzhyk
+Makefile
+Makefilee
+README.txt
+minishell
+notes.txt
+shinimell.sh
+tester.c
+
+lib:
+env
+executer
+gnl
+lexer
+libft
+parser
+
+obj:
+builtins_utils.o
+cd.o
+cd_modes.o
+cd_utils.o
+debugger.o
+echo.o
+entry.o
+env.o
+error.o
+exit.o
+expander.o
+expander_utils.o
+export.o
+export_utils.o
+globber.o
+globber_outside_cwd.o
+globber_utils.o
+minishell.o
+pattern.o
+pwd.o
+quotes.o
+realloc.o
+signal.o
+unset.o
+utils.o
+
+src:
+builtins
+builtins.h
+debugger
+debugger.h
+expander
+expander.h
+minishell.c
+minishell.h
+signal.c
+utils
+utils.h
+
+test:
+modes
+src
+test_cases
+test_output
 
 
 ---------------------------------------------
 
 Case #4: 
 
-/bin/echo $"HOME"$USER
+touch "*1"
+
+/usr/bin/printf "%s\n" "*"* | sort
+
+rm "*1"
 
 
 minishell output: 
-
+*1nMakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
 
 bash      output: 
-
+*1nMakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
 
 
 ---------------------------------------------
 
 Case #5: 
 
-/bin/echo $"HOM"E$USER
+touch "   "
+
+ls * | grep "   "
+
+rm "   "
 
 
 minishell output: 
-
+usage:
+touch [-A [-][[hh]mm]SS] [-acfhm] [-r file] [-t [[CC]YY]MMDDhhmm[.SS]] file ...
+usage: grep [-abcDEFGHhIiJLlmnOoqRSsUVvwxZ] [-A num] [-B num] [-C[num]]
+	[-e pattern] [-f file] [--binary-files=value] [--color=when]
+	[--context[=num]] [--directories=action] [--label] [--line-buffered]
+	[--null] [pattern] [file ...]
+usage: rm [-f | -i] [-dPRrvW] file ...
+       unlink file
 
 bash      output: 
-
+usage:
+touch [-A [-][[hh]mm]SS] [-acfhm] [-r file] [-t [[CC]YY]MMDDhhmm[.SS]] file ...
+usage: grep [-abcDEFGHhIiJLlmnOoqRSsUVvwxZ] [-A num] [-B num] [-C[num]]
+	[-e pattern] [-f file] [--binary-files=value] [--color=when]
+	[--context[=num]] [--directories=action] [--label] [--line-buffered]
+	[--null] [pattern] [file ...]
+usage: rm [-f | -i] [-dPRrvW] file ...
+       unlink file
 
 
 ---------------------------------------------
 
 Case #6: 
 
-/bin/echo $"'HOM'E"$USER
+touch "a" "aa"
+
+/usr/bin/printf "%s\n" *a | sort
+
+rm "a" "aa"
 
 
 minishell output: 
-
+anaan
 
 bash      output: 
-
+anaan
 
 
 ---------------------------------------------
 
 Case #7: 
 
-/bin/echo $'HOM'E$USER
+touch "a" "aa" "aaa"
+
+/usr/bin/printf "%s\n" *a*a | sort
+
+rm "a" "aa" "aaa"
 
 
 minishell output: 
-HOMEfyuzhyk
+aanaaan
 
 bash      output: 
-HOMEfyuzhyk
+aanaaan
 
 
 ---------------------------------------------
 
 Case #8: 
 
-/bin/echo $"HOME"
+/usr/bin/printf "%s\n" "Mak"'e'*'*' | sort
 
 
 minishell output: 
-/Users/fyuzhyk
+Make**n
 
 bash      output: 
-/Users/fyuzhyk
+Make**n
 
 
 ---------------------------------------------
 
 Case #9: 
 
-/bin/echo $'HOME'
+/usr/bin/printf "%s\n" "Mak"'e'** | sort
 
 
 minishell output: 
-HOME
+MakefilenMakefileen
 
 bash      output: 
-HOME
+MakefilenMakefileen
 
 
 ---------------------------------------------
 
 Case #10: 
 
-/bin/echo $
+/usr/bin/printf "%s\n" ***"Mak"'e'** | sort
 
 
 minishell output: 
-$
+MakefilenMakefileen
 
 bash      output: 
-$
+MakefilenMakefileen
 
 
 ---------------------------------------------
 
 Case #11: 
 
-/bin/echo "$"
+/usr/bin/printf "%s\n" "."* | sort
 
 
 minishell output: 
-
+.n..n.gitn.gitignoren.vscoden
 
 bash      output: 
-
+.n..n.gitn.gitignoren.vscoden
 
 
 ---------------------------------------------
 
 Case #12: 
 
-/bin/echo '$='
+/usr/bin/printf "%s\n" *"." | sort
 
 
 minishell output: 
-$=
+*.n
 
 bash      output: 
-$=
+*.n
 
 
 ---------------------------------------------
 
 Case #13: 
 
-/bin/echo "$""$"
+/usr/bin/printf "%s\n" *"."* | sort
 
 
 minishell output: 
-
+README.txtnnotes.txtnshinimell.shntester.cn
 
 bash      output: 
-
+README.txtnnotes.txtnshinimell.shntester.cn
 
 
 ---------------------------------------------
 
 Case #14: 
 
-/bin/echo $"$"
+/usr/bin/printf "%s\n" "*" | sort
 
 
 minishell output: 
-$
+MakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
 
 bash      output: 
-$
+MakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
 
 
 ---------------------------------------------
 
 Case #15: 
 
-/bin/echo $"42$"
+/usr/bin/printf "%s\n" '*' | sort
 
 
 minishell output: 
-2
+*n
 
 bash      output: 
-2
+*n
 
 
 ---------------------------------------------
 
 Case #16: 
 
-/bin/echo "$"$
+/usr/bin/printf "%s\n" Minishe*l | sort
 
 
 minishell output: 
-$
+Minishe*ln
 
 bash      output: 
-$
+Minishe*ln
 
 
 ---------------------------------------------
 
 Case #17: 
 
-/bin/echo $'$'
+/usr/bin/printf "%s\n" minishe*l | sort
 
 
 minishell output: 
-$
+minishelln
 
 bash      output: 
-$
+minishelln
 
 
 ---------------------------------------------
 
 Case #18: 
 
-/bin/echo '$'$
+touch minishelxxxl
+
+/usr/bin/printf "%s\n" minishe*l | sort
+
+/usr/bin/printf "%s\n" minishel*l | sort
+
+/usr/bin/printf "%s\n" minishelxxx*l | sort
+
+/usr/bin/printf "%s\n" minishel*xxx*l | sort
+
+rm minishelxxxl
 
 
 minishell output: 
-$$
+minishellnminishelxxxln
+minishellnminishelxxxln
+minishelxxxln
+minishelxxxln
 
 bash      output: 
-$$
+minishellnminishelxxxln
+minishellnminishelxxxln
+minishelxxxln
+minishelxxxln
 
 
 ---------------------------------------------
 
 Case #19: 
 
-/bin/echo "$ "
+touch tmp_out
+
+/bin/echo 42 >tmp_o*t*
+
+rm -f "tmp_out*"
 
 
 minishell output: 
-$
+/bin/sh: line 6: 17271 Done                    echo "touch tmp_out
+
+/bin/echo 42 >tmp_o*t*
+
+rm -f "tmp_out*"
+
+"
+     17272 Segmentation fault: 11  | ./minishell
 
 bash      output: 
-$
 
 
 ---------------------------------------------
 
 Case #20: 
 
-/bin/echo '$ '
+touch tmp_out1
+
+touch tmp_out2
+
+/bin/echo 42 >tmp_out*
+
+rm -f "tmp_out*"
 
 
 minishell output: 
-$ 
+/bin/sh: line 8: 17281 Done                    echo "touch tmp_out1
+
+touch tmp_out2
+
+/bin/echo 42 >tmp_out*
+
+rm -f "tmp_out*"
+
+"
+     17282 Segmentation fault: 11  | ./minishell
 
 bash      output: 
-$ 
-
-
----------------------------------------------
-
-Case #21: 
-
-/bin/echo $TESTNOTFOUND
-
-/bin/echo $HOME$TESTNOTFOUND
-
-/bin/echo $TESTNOTFOUND$HOME
-
-
-minishell output: 
-
-/Users/fyuzhyk
-/Users/fyuzhyk
-
-bash      output: 
-
-/Users/fyuzhyk
-/Users/fyuzhyk
-
-
----------------------------------------------
-
-Case #22: 
-
-/bin/echo ""$?""
-
-/bin/echo " "$?" "
-
-/bin/echo $?"42"
-
-/bin/echo ''$?''"42"
-
-/bin/echo 'HELLO'$?:''"42"
-
-
-minishell output: 
-0
-0
-042
-042
-HELLO0:42
-
-bash      output: 
-0
-0
-042
-042
-HELLO0:42
-
-
----------------------------------------------
-
-Case #23: 
-
-/bin/echo "$?"
-
-/bin/echo '$?'
-
-/bin/echo "'$?'"
-
-/bin/echo '"$?"'
-
-
-minishell output: 
-0
-0
-
-0
-
-bash      output: 
-0
-0
-0
-0
-
-
----------------------------------------------
-
-Case #24: 
-
-export tmp_test="/bin/echo 42"
-
-$tmp_test
-
-$tmp_test 42
-
-export tmp_test="/bin/echo"
-
-$tmp_test 42 42
-
-
-minishell output: 
-minishell: export: `42': not a valid identifier
-
-bash      output: 
-bash: line 1: export: `42': not a valid identifier
-bash: line 5: 42: command not found
-bash: line 9: 42: command not found
-
-
----------------------------------------------
-
-Case #25: 
-
-export tmp_test="/bin/echo 42"
-
-"tmp_test"
-
-
-minishell output: 
-minishell: export: `42': not a valid identifier
-
-bash      output: 
-bash: line 1: export: `42': not a valid identifier
-bash: line 3: tmp_test: command not found
-
-
----------------------------------------------
-
-Case #26: 
-
-export X="  A  B  "
-
-/bin/echo "1"$X'2'
-
-
-minishell output: 
-12
-
-bash      output: 
-12
-
-
----------------------------------------------
-
-Case #27: 
-
-export X=" A  B  "
-
-/bin/echo "1"$X'2'
-
-
-minishell output: 
-12
-
-bash      output: 
-12
-
-
----------------------------------------------
-
-Case #28: 
-
-export X="A  B  "
-
-/bin/echo "1"$X'2'
-
-
-minishell output: 
-12
-
-bash      output: 
-12
-
-
----------------------------------------------
-
-Case #29: 
-
-export X="  A  B "
-
-/bin/echo "1"$X'2'
-
-
-minishell output: 
-12
-
-bash      output: 
-12
-
-
----------------------------------------------
-
-Case #30: 
-
-export X="  A  B"
-
-/bin/echo "1"$X'2'
-
-
-minishell output: 
-12
-
-bash      output: 
-12
-
-
----------------------------------------------
-
-Case #31: 
-
-export X="  A B  "
-
-/bin/echo "1"$X'2'
-
-
-minishell output: 
-12
-
-bash      output: 
-12
-
-
----------------------------------------------
-
-Case #32: 
-
-export X="  AB  "
-
-/bin/echo "1"$X'2'
-
-
-minishell output: 
-12
-
-bash      output: 
-12
-
-
----------------------------------------------
-
-Case #33: 
-
-export X="  A  B  "
-
-/bin/echo $X'2'
-
-
-minishell output: 
-2
-
-bash      output: 
-2
-
-
----------------------------------------------
-
-Case #34: 
-
-export X="  A  B  "
-
-/bin/echo "1"$X
-
-
-minishell output: 
-1
-
-bash      output: 
-1
-
-
----------------------------------------------
-
-Case #35: 
-
-export X=""
-
-/bin/echo "1"$X'2'
-
-
-minishell output: 
-12
-
-bash      output: 
-12
-
-
----------------------------------------------
-
-Case #36: 
-
-export X=" "
-
-/bin/echo "1"$X'2'
-
-
-minishell output: 
-12
-
-bash      output: 
-12
-
-
----------------------------------------------
-
-Case #37: 
-
-export X="   "
-
-/bin/echo "1"$X'2'
-
-
-minishell output: 
-12
-
-bash      output: 
-12
-
-
----------------------------------------------
-
-Case #38: 
-
-export X="  A  B  "
-
-/bin/echo ?$X'2'
-
-
-minishell output: 
-?2
-
-bash      output: 
-?2
-
-
----------------------------------------------
-
-Case #39: 
-
-export X="  A  B  "
-
-/bin/echo "1"$X?
-
-
-minishell output: 
-1?
-
-bash      output: 
-1?
-
-
----------------------------------------------
-
-Case #40: 
-
-export X="  A  B  "
-
-/bin/echo "1"$X2?
-
-
-minishell output: 
-1?
-
-bash      output: 
-1?
+bash: line 5: tmp_out*: ambiguous redirect
 
 
 ---------------------------------------------

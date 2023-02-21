@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:17:44 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/21 08:51:32 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/21 18:14:27 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 static void	check_char(char **arg, char **pattern, int *astrisk_control);
 static void	get_next_pattern_char(char *entry, char *pattern, int *index, char *match);
 
+#include <stdio.h>
 char	*find_pattern(char *arg, int *index)
 {
 	char 	*tmp;
@@ -38,6 +39,26 @@ char	*find_pattern(char *arg, int *index)
 	return (pattern);
 }
 
+int	check_match_validity(char *pattern, char *entry, int *i, int *j)
+{
+	if (*j != 0 && pattern[*j] != '\0')
+	{
+		if (pattern[*j - 1] != '*')
+		{
+			if (pattern[*j - 1] == entry[*i - 1])
+				(*j)++;
+			else
+				return (0);
+		}
+		else
+			(*j)++;
+	}
+	else if (pattern[*j] != '\0')
+		(*j)++;
+	(*i)++;
+	return (1);
+}
+
 int	is_match(char *entry, char *pattern)
 {
 	int		i;
@@ -45,6 +66,7 @@ int	is_match(char *entry, char *pattern)
 	char	match;
 
 	i = 0;
+	// @note maybe rename to p_index?
 	j = 0;
 	match = 0;
 	while(entry[i] != '\0')
@@ -56,12 +78,11 @@ int	is_match(char *entry, char *pattern)
 			i++;
 		if (entry[i] == match)
 		{
-			i++;
-			if (pattern[j] != '\0')
-				j++;
+			if (check_match_validity(pattern, entry, &i, &j) == 0)
+				break ;
 		}
 	}
-	if ((pattern[j] == '\0' || pattern[j] == '*') &&
+	if ((pattern[j] == '\0' || pattern[ft_strlen(pattern) - 1] == '*') &&
 		(entry[i - 1] == match || match == '*'))
 		return (1);
 	return (0);

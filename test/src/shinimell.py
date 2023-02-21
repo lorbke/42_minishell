@@ -6,7 +6,7 @@
 #    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/20 18:11:54 by fyuzhyk           #+#    #+#              #
-#    Updated: 2023/02/21 15:01:48 by fyuzhyk          ###   ########.fr        #
+#    Updated: 2023/02/21 15:50:38 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,17 +31,19 @@ from print import pepe, shinimell
 
 # Global Variables
 # path to your minishell
-minishell = "../../minishell"
+minishell = "./minishell"
 # path to infile
-infile_path = "../test_cases/input.txt"
+infile_path = "test/test_cases/input.txt"
 # path to outfile
-outfile_path = "../test_output/output.txt"
+outfile_path = "test/test_output/output.txt"
 
 # Modes
 # 1. variable expansion
-expansion = "../modes/expansion.txt"
+expansion = "test/modes/expansion.txt"
 # 2. builtins
-builtins = "../test_cases/input.txt"
+builtins = "test/test_cases/input.txt"
+# 3. wildcards
+wildcard = "test/modes/wildcard.txt"
 
 
 def execute_minishell(command, minishell=minishell):
@@ -126,6 +128,7 @@ menu = [
         "choices": [
             "Builtins",
             "Expansion",
+            "Wildcards",
         ]
     }
 ]
@@ -139,6 +142,8 @@ def test():
         infile, outfile = open_files(builtins)
     elif mode["menu"] == "Expansion":
         infile, outfile = open_files(expansion)
+    elif mode["menu"] == "Wildcards":
+        infile, outfile = open_files(wildcard)
     # exection loop
     i = 1
     j = 0

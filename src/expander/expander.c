@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:14:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/21 14:54:14 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:52:15 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static char	**copy_argv(char **argv);
 static char	*evaluate_argv(char *arg);
 static char	*evaluate_char(char *result, char *arg, int *index, int *result_index);
 
+#include <stdio.h>
 char	**expander(char **argv)
 {
 	int		i;
@@ -41,6 +42,7 @@ char	**expander(char **argv)
 		}
 		i++;
 	}
+	// printf("new_argv[1] = %s\n", new_argv[1]);
 	new_argv[k] = NULL;
 	new_argv = globber(new_argv);
 	return (new_argv);
