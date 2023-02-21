@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 13:53:53 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 16:59:00 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	rep_loop(void)
 	mssignal_change_mode(MSSIG_INTER);
 	while (1)
 	{
+		exit_status_set(ERR_SUCCESS);
 		open(STDIN_FILENO, O_RDONLY);
 		line = readline(PROMPT);
 		if (!line || ft_strncmp(line, "exit", 5) == 0) // exit buildin will be added later
@@ -55,10 +56,8 @@ void	rep_loop(void)
 			line = digest_input(line, STDIN_FILENO, STDOUT_FILENO);
 			add_history(line);
 		}
-		else
-			exit_status_set(ERR_SUCCESS);
 		free(line);
-		printf("exit_status: %d\n", exit_status_get());
+		// printf("exit_status: %d\n", exit_status_get());
 	}
 	rl_clear_history();
 }

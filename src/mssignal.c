@@ -6,12 +6,13 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:37:35 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 14:49:23 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 15:57:27 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h" // EXEC_* defines
 #include "mssignal.h" // SIGNAL_* defines
+#include "garbage_collector.h" // gc_free_all_garbage
 #include <signal.h> // signal
 #include <termios.h> // termios functions and struct
 #include <stdio.h> // FILE type
@@ -31,9 +32,10 @@ static void	handle_ctrlc_interactive(int signal)
 	rl_redisplay();  // will display the line buffer on the terminal
 }
 
-static void	handle_ctrlc_heredoc(int signal)
+static void	handle_ctrlc_doc(int signal)
 {
 	write(STDOUT_FILENO, "\n", 1);
+	gc_free_all_garbage();
 	exit(ERR_GENERALERR);
 }
 
@@ -78,7 +80,7 @@ void	mssignal_change_mode(char mode)
 	{
 		set_termios(true);
 		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, handle_ctrlc_heredoc);
+		signal(SIGINT, handle_ctrlc_doc);
 	}
 	else if (mode == MSSIG_EXEC)
 	{

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 13:31:37 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 16:54:51 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ char	*get_doc(void (*doc_func)(char *, int), char *lim)
 		}
 		doc = ft_calloc(sizeof(char), ARG_MAX + 1);
 		read(fd[0], doc, ARG_MAX);
+		close(fd[0]);
 		return (doc);
 	}
 	else
