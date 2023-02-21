@@ -6,14 +6,14 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:14:20 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 17:17:02 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:47:51 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PRIVATE_EXECUTER_H
 # define PRIVATE_EXECUTER_H
 
-# include "../executer.h" // t_status
+# include "../executer.h" // t_status, t_cmd_table
 # include "parser.h" // t_ast
 # include <sys/types.h> // pid_t
 
@@ -21,19 +21,6 @@
 # define FDLVL_STD 0
 # define FDLVL_PIPE 1
 # define FDLVL_REDIR 2
-
-/* The file descriptor variables are arrays of two, because there has to be a
-data structure that is able to not only store the file descriptor, but also 
-information about its precedence. E.g. pipe file descriptors must not overwrite
-redirection file descriptors. */
-typedef struct s_cmd_table
-{
-	char	**cmd;
-	int		fd_in[2];
-	int		fd_out[2];
-}	t_cmd_table;
-
-typedef t_cmd_table	*(*t_func_handle)(t_ast *);
 
 // handle funcs
 t_cmd_table	*handle_or(t_ast *ast);

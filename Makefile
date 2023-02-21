@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/21 18:35:48 by lorbke           ###   ########.fr        #
+#    Updated: 2023/02/21 18:50:26 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ GLBR_PATH := expander/globber
 # src and obj files macros
 SRC_PATH := src
 OBJ_PATH := obj
-SRC := $(wildcard $(SRC_PATH)/*.c) $(wildcard $(SRC_PATH)/*/*.c) $(wildcard $(BLTN_PATH)/*/*.c) $(wildcard $(GLBR_PATH)/*.c)
+SRC := $(wildcard $(SRC_PATH)/*.c) $(wildcard $(SRC_PATH)/*/*.c) $(wildcard $(SRC_PATH)/*/*/*.c)
 OBJ := $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 
 # VPATH
@@ -76,7 +76,7 @@ $(NAME): $(OBJ_PATH) $(OBJ)
 	@$(MAKE) -C $(ENV_PATH)
 	@$(MAKE) -C $(GNL_PATH)
 	@echo -e -n "$(BLUE)Creating: minishell executable: $(RESET)"
-	$(CC) $(CFLAGS) $(OBJ) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(EXECUTER_LINK) $(ENV_LINK) $(GNL_LINK) -l$(RDLN_LIB) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(GCOLL_LINK) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(EXECUTER_LINK) $(ENV_LINK) $(GNL_LINK) -l$(RDLN_LIB) -o $(NAME)
 	@echo -e "$(GREEN)make: minishell success!$(RESET)"
 # inc when on macbook
 # -L/opt/homebrew/Cellar/readline/8.2.1/lib
