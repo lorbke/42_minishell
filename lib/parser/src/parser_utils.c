@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 12:30:50 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 22:58:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:13:53 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ t_ast	*create_ast_node(t_token	*token)
 	if (!token)
 		return (NULL);
 	new = malloc(sizeof(t_ast));
+	if (!new)
+		return (NULL);
 	if (token->word)
 		new->token = dup_token(token);
 	else

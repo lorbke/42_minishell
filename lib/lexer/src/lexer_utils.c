@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:37:54 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 19:37:19 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:09:59 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ t_token	*create_token(char *word, int len)
 	if (!word || !*word)
 		return (NULL);
 	new = malloc(sizeof(t_token));
+	if (!new)
+		return (NULL);
 	new->word = ft_strdup(word);
 	new->word[len] = 0;
 	new->desc = desc_word(word);
