@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 17:34:45 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:05:49 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,17 @@
 #include <stdio.h> // printf
 #include <readline/readline.h> // readline
 #include <readline/history.h> // add_history
-#include <fcntl.h>
+#include <fcntl.h> // STD*_FILENO defines
 
-// @todo free the ast and the tokstack
 // @todo test if all fds are closed
 // @todo exit behaviour: print exit when ctrl+d is pressed (is that handled in exit builtin?)
 // @todo documentation with some kind of tool
 // @todo improve the debugger
-// @todo rethink function names in minishell.h
 // @todo exit status handling
 // @todo error protections (malloc, open, etc.)
 // @todo fix bug: overwriting first input when term window is exceeded
-// @todo is not a terminal case handling
 // @todo turn on wall werror wextra in every makefile
-// @todo leak cases: echo | -> incomplete echo | -> incomplete, <<lim cat segfaults
-
+// @todo heredoc and doc read switch to get_next_line?
 
 /* Read-Eval-Print-Loop. */
 void	rep_loop(void)

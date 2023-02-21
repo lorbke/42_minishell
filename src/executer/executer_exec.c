@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 17:15:39 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 17:57:17 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ static pid_t	fork_and_execve(char *path, t_cmd_table *cmd_table, int fd_pipe)
 	return (pid);
 }
 
-// @note -1 as error sensible?
 pid_t	exec_cmd(t_cmd_table *cmd_table, int fd_pipe)
 {
 	char	*path;

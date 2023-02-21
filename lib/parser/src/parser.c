@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 14:46:40 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 18:01:09 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@
 
 // @note due to easier usage and because the additional memory and run time are negligible, 
 // @note the token stack will be represented by a token_list instead of just a string
-
-// @todo remove compound command rule
-// @todo newline implementation still needed (case: < -> bash error is invalid token at newline)
 
 // @note quote handling also probably incorrect
 

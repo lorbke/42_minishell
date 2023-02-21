@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 17:29:04 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 17:58:36 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,8 @@
 #include <unistd.h> // close, pipe
 #include <sys/wait.h> // waitpid, WIFEXITED, WEXITSTATUS, WIFSIGNALED, WTERMSIG
 
-// @todo free_cmd_table function and free everything
 // @todo revise code and remove unnecessary if statements
-// @todo check for leaks and unclosed fds
 // @todo check ping and /dev/random cases
-// @todo integrate expander
-// @todo errors into stderr
 
 t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
 {
