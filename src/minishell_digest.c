@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 13:46:27 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 14:03:18 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ char	*digest_input_helper(char *input, int fd_in, int fd_out)
 	ast = parse_and_check_syntax(tokstack);
 	if (!ast)
 		return (input);
+	debug_parser(ast, NULL);
 	input = doccer_interpret_docs(tokstack, input);
 	if (exit_status_get() != ERR_SUCCESS)
 		return (input);

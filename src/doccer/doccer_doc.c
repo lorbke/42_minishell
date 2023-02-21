@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 22:50:34 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 13:31:37 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,13 @@ char	*get_doc(void (*doc_func)(char *, int), char *lim)
 		mssignal_change_mode(MSSIG_EXEC);
 		close(fd[1]);
 		wait_pid_and_set_exit(pid);
-		if (exit_status_get() == 0)
+		if (exit_status_get() != ERR_SUCCESS)
+		{
+			close(fd[0]);
+			return (NULL);
+		}
 		doc = ft_calloc(sizeof(char), ARG_MAX + 1);
 		read(fd[0], doc, ARG_MAX);
-		close(fd[0]);
 		return (doc);
 	}
 	else

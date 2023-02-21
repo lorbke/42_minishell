@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/18 13:54:25 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/20 21:09:36 by lorbke           ###   ########.fr        #
+#    Updated: 2023/02/21 14:26:21 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ CC := cc
 AR := ar rcs
 RM := rm -f
 ADD_FLAGS := #-g -fsanitize=address,undefined
-FLAGS := -Wall -Wextra -Werror
+FLAGS := -g -Wall -Wextra -Werror
 
 # library macros
 LIB_PATH := ../

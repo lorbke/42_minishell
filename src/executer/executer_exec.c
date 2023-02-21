@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 22:51:54 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 14:08:53 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static pid_t	fork_and_execve(char *path, t_cmd_table *cmd_table, int fd_pipe)
 	if (fd_pipe != -1)
 		close(fd_pipe);
 	status = execve(path, cmd_table->cmd, environ);
+	free(path);
 	gc_free_all_garbage();
 	exit(status);
 	return (pid);

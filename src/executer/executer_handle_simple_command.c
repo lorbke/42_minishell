@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:27:13 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 21:42:54 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 14:31:35 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_cmd_table	*handle_cmd(t_ast *ast)
 t_cmd_table	*handle_redir_heredoc(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
+	char		*temp;
 	int			fd[2];
 
 	if (!ast->left)
@@ -40,10 +41,11 @@ t_cmd_table	*handle_redir_heredoc(t_ast *ast)
 	if (!cmd_table)
 		return (NULL);
 	pipe(fd);
-	while(*ast->right->token->word)
+	temp = ast->right->token->word;
+	while (*temp)
 	{
-		write(fd[1], ast->right->token->word, 1);
-		ast->right->token->word++;
+		write(fd[1], temp, 1);
+		temp++;
 	}
 	close(fd[1]);
 	cmd_table->fd_in[0] = fd[0];
