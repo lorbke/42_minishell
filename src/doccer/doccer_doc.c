@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 17:17:25 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 18:49:02 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	doc_quotedoc(char *quote, int fd_write)
 			break ;
 		write(fd_write, line, ft_strlen(line));
 		temp = ft_strchr(line, *quote);
-		if (temp && temp == ft_strrchr(line, *quote))
+		if (temp && ft_is_char_count_uneven(line, *quote))
 		{
 			free(line);
 			break ;
