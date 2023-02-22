@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 18:49:02 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 22:28:33 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,13 @@ void	doc_quotedoc(char *quote, int fd_write)
 	}
 }
 
-char	*get_doc(void (*doc_func)(char *, int), char *lim)
+char	*get_doc(
+	void (*doc_func)(char *, int), char *lim, t_status *exit_status)
 {
 	pid_t	pid;
 	int		fd[2];
 	char	*doc;
+	int		status;
 
 	pipe(fd);
 	pid = fork();
@@ -93,9 +95,10 @@ char	*get_doc(void (*doc_func)(char *, int), char *lim)
 	{
 		mssignal_change_mode(MSSIG_EXEC);
 		close(fd[1]);
-		ms_wait_pid_and_set_exit(pid);
-		if (ms_exit_status_get() != ERR_SUCCESS)
+		waitpid(pid, &status, 0);
+		if (WEXITSTATUS(status) != ERR_SUCCESS)
 		{
+			*exit_status = WEXITSTATUS(status);
 			close(fd[0]);
 			return (NULL);
 		}

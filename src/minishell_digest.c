@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 21:43:12 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 22:29:42 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,11 @@ char	*digest_input_helper(char *input, int fd_in, int fd_out)
 		return (input);
 	debug_parser(ast, NULL);
 	input = doccer_interpret_docs(tokstack, input, &exit_status);
-	if (ms_exit_status_get() != ERR_SUCCESS)
+	if (exit_status != ERR_SUCCESS)
+	{
+		ms_exit_status_set(exit_status);
 		return (input);
+	}
 	debug_lexer(tokstack);
 	if (is_input_incomplete(tokstack) == true)
 		return (input);
