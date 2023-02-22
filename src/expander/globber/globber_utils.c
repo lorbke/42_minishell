@@ -6,13 +6,13 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 19:04:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/18 14:09:17 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 23:01:11 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h" // malloc, free, ft_strlen, ft_strlcpy, ft_strjoin
-#include "globber_private.h" // struct dirent
-#include "../../utils.h" // realloc_string_array, ft_strcmp
+#include "libft.h" // NULL, malloc, free, ft_strlen, ft_strlcpy, ft_strjoin
+#include "globber_private.h" // struct dirent, DT_DIR
+#include "../../utils.h" // realloc_string_array, ft_strcmp, get_string_array_len
 
 static char	**add_globbed_vars(char **expanded_argv, char **result);
 static char	**add_unglobbed_vars(char **expanded_argv, char **result, char **argv);
@@ -36,7 +36,6 @@ int	is_valid_entry(struct dirent *entry, char *pattern)
 	return (0);
 }
 
-// @note as discussed with luca, *every* arg from the cmd will be copied into the expanded_argv
 static char	**add_unglobbed_vars(char **expanded_argv, char **result, char **argv)
 {
 	int i;

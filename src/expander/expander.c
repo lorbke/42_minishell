@@ -6,19 +6,18 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:14:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 13:53:54 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 23:35:25 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // g_sym_table
-#include "libft.h" // malloc, free, ft_strlen, ft_strdup
+#include "libft.h" // NULL, malloc, free, ft_strlen, ft_strdup
 #include "globber/globber.h" // globber
 #include "../utils.h" // ft_realloc
-#include "expander_private.h" // handle_quotes, try_expansion, tilde_expansion, add_char_to_string, in_closed_quotes
+#include "expander_private.h" // handle_quotes, try_expansion, tilde_expansion, add_char_to_str, in_closed_quotes
 
 static char	**copy_argv(char **argv);
-static char	*evaluate_argv(char *arg);
-static char	*evaluate_char(char *result, char *arg, int *index, int *result_index);
+static char	*eval_char(char *result, char *arg, int *index, int *result_index);
 
 char	**expander(char **argv)
 {
@@ -32,7 +31,7 @@ char	**expander(char **argv)
 	new_argv = copy_argv(argv);
 	while (new_argv[i] != NULL)
 	{
-		result = evaluate_argv(new_argv[i]);
+		result = expand_str(new_argv[i]);
 		if (result != NULL)
 		{
 			free(new_argv[i]);
@@ -46,7 +45,21 @@ char	**expander(char **argv)
 	return (new_argv);
 }
 
-char	*add_char_to_string(char *result, char c, int *index, int *result_index)
+char	*expand_str(char *arg)
+{
+	char	*result;
+	int		i;
+	int		result_index;
+
+	result = NULL;
+	i = 0;
+	result_index = 0;
+	while (arg[i] != '\0')
+		result = eval_char(result, arg, &i, &result_index);
+	return (result);
+}
+
+char	*add_char_to_str(char *result, char c, int *index, int *result_index)
 {
 	char *arg;
 
@@ -85,27 +98,13 @@ static char	**copy_argv(char **argv)
 	return (new_argv);
 }
 
-static char	*evaluate_argv(char *arg)
-{
-	char	*result;
-	int		i;
-	int		result_index;
-
-	result = NULL;
-	i = 0;
-	result_index = 0;
-	while (arg[i] != '\0')
-		result = evaluate_char(result, arg, &i, &result_index);
-	return (result);
-}
-
-static char	*evaluate_char(char *result, char *arg, int *index, int *result_index)
+static char	*eval_char(char *result, char *arg, int *index, int *result_index)
 {
 	if (arg[*index] == '$' && arg[*index + 1] != '\0')
 	{
 		if (in_closed_quotes(result, arg, &(*index), &(*result_index)))
 		{
-			result = add_char_to_string(result, arg[*index], &(*index), &(*result_index));
+			result = add_char_to_str(result, arg[*index], &(*index), &(*result_index));
 			return (result);
 		}
 		result = try_expansion(result, arg, &(*index), &(*result_index));
@@ -115,6 +114,6 @@ static char	*evaluate_char(char *result, char *arg, int *index, int *result_inde
 	else if (arg[*index] == '~')
 		result = tilde_expansion(result, arg, &(*index), &(*result_index));
 	else
-		result = add_char_to_string(result, arg[*index], &(*index), &(*result_index));
+		result = add_char_to_str(result, arg[*index], &(*index), &(*result_index));
 	return (result);
 }

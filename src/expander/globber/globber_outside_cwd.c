@@ -6,12 +6,12 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/18 10:51:19 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 22:27:16 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h" // NULL, malloc, free, access,ft_strlen, ft_strlcpy, ft_strjoin, ft_substr
-#include "globber_private.h" // opendir, readdir, closedir, get_matching_entries, create_new_path, pattern_over, is_valid_entry
+#include "libft.h" // NULL, malloc, free, access, ft_strlen, ft_strlcpy, ft_strjoin, ft_substr
+#include "globber_private.h" // stat, opendir, readdir, closedir, get_matching_entries, create_new_path, pattern_over, is_valid_entry
 #include "../expander_private.h" // find_closing_quote, quote_removal
 
 static char	**iterate_over_dir(char *path, char *pattern, char **result);

@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:17:44 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 13:55:05 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 23:23:19 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,25 @@
 #include "globber_private.h" // create_new_path
 #include "../../utils.h" // realloc_string_array, get_string_array_len
 
-static void	check_char(char **arg, char **pattern, int *astrisk_control, int *quote_control);
+static void	scan_char(char **arg, char **pattern, int *astrisk_c, int *quote_c);
+static void	set_char(char **arg, char **pattern, int *astrisk_c, int *quote_c);
 
 char	*find_pattern(char *arg, int *index)
 {
 	char 	*tmp;
 	char	*pattern;
-	int		quote_control;
-	int		astrisk_control;
+	int		quote_c;
+	int		astrisk_c;
 
 	pattern = malloc(sizeof(char) * ft_strlen(arg) + 1);
 	if (pattern == NULL)
 		return (NULL);
 	tmp = pattern;
-	quote_control = 0;
-	astrisk_control = 0;
+	quote_c = 0;
+	astrisk_c = 0;
 	while (*arg != '\0')
 	{
-		check_char(&arg, &pattern, &astrisk_control, &quote_control);
+		scan_char(&arg, &pattern, &astrisk_c, &quote_c);
 		(*index)++;
 	}
 	*pattern = '\0';
@@ -60,13 +61,13 @@ char	**pattern_over(char **result, char *entry, char *path)
 	return (result);
 }
 
-void	set_next_pattern_char(char **arg, char **pattern, int *astrisk_control, int *quote_control)
+static void	set_char(char **arg, char **pattern, int *astrisk_c, int *quote_c)
 {
-	if (**arg == '*' && *astrisk_control == 0)
+	if (**arg == '*' && *astrisk_c == 0)
 	{
-		if (*quote_control == 0)
+		if (*quote_c == 0)
 		{
-			*astrisk_control = 1;
+			*astrisk_c = 1;
 			**pattern = **arg;
 		}
 		else
@@ -78,7 +79,7 @@ void	set_next_pattern_char(char **arg, char **pattern, int *astrisk_control, int
 	{
 		if (**arg != '*')
 		{
-			*astrisk_control = 0;
+			*astrisk_c = 0;
 			**pattern = **arg;
 			(*pattern)++;
 		}
@@ -86,17 +87,17 @@ void	set_next_pattern_char(char **arg, char **pattern, int *astrisk_control, int
 	}
 }
 
-static void	check_char(char **arg, char **pattern, int *astrisk_control, int *quote_control)
+static void	scan_char(char **arg, char **pattern, int *astrisk_c, int *quote_c)
 {
 	if (**arg == '\'' || **arg == '\"')
 	{
-		if (*quote_control == 0)
-			*quote_control = 1;
+		if (*quote_c == 0)
+			*quote_c = 1;
 		else
-			*quote_control = 0;
-		*astrisk_control = 0;
+			*quote_c = 0;
+		*astrisk_c = 0;
 		(*arg)++;
 	}
 	else
-		set_next_pattern_char(arg, pattern, astrisk_control, quote_control);
+		set_char(arg, pattern, astrisk_c, quote_c);
 }

@@ -6,11 +6,11 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:38:45 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 13:56:05 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 22:23:48 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h" // ft_strlen, malloc
+#include "libft.h" // NULL, ft_strlen, malloc
 #include "../utils.h" // ft_realloc
 #include "expander_private.h" // find_closing_quote
 

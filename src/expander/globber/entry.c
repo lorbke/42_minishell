@@ -6,13 +6,13 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:20:36 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/18 13:41:29 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 22:25:46 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h" // malloc, ft_strlen, ft_strlcpy, ft_strjoin
+#include "libft.h" // NULL, malloc, free, ft_strlen, ft_strlcpy, ft_strjoin
 #include "globber_private.h" // is_match, opendir, readdir, closedir
-#include "../../utils.h" // realloc_string_array
+#include "../../utils.h" // realloc_string_array, ft_strcmp
 
 static char	**sort_entries(char **result, char *entry);
 static char	**add_first_entry(char *entry, char **result);
