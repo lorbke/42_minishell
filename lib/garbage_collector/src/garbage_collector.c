@@ -6,13 +6,14 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:14:34 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 18:07:55 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 20:44:07 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "garbage_collector.h" // t_garbage
 #include <stdlib.h> // NULL, malloc, free
 #include <sys/errno.h> // errno
+#include <unistd.h> // write
 
 t_garbage	**garbage_init(void);
 
@@ -21,7 +22,7 @@ static t_garbage	*create_garbage(void *alloc, void (*func_free)(void *))
 	t_garbage	*new;
 
 	new = malloc(sizeof(t_garbage));	
-	if (alloc == NULL)
+	if (new == NULL)
 	{
 		gc_free_all_garbage();
 		exit(errno);

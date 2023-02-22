@@ -22,6 +22,7 @@ lib/garbage_collector/libgarbagecollector.a
 cat
 lib/env/libenv.a
 lib/gnl/libgnl.a
+jimtests
 
 # Tester
 __pycache__/
