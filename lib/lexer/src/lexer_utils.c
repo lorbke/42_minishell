@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:37:54 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 17:53:19 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 18:37:18 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,15 @@ static int	is_unclosed_quote(char *str)
 		if (*str == '\'' || *str == '\"')
 		{
 			quote = *str;
-			str = skip_until_after_char(str + 1, *str);
-			if (!*str && *(str - 1) != quote)
-			{
-				if (quote == '\'')
-					return (1);
-				else if (quote == '\"')
-					return (2);
-			}
+			str++;
+			while (*str && *str != quote)
+				str++;
+			if (!*str && quote == '\'')
+				return (1);
+			else if (!*str && quote == '\"')
+				return (2);
+			else
+				str++;
 		}
 		else
 			str++;

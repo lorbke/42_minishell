@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:25 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 17:54:27 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 18:26:39 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 #define CMD_ESCS "\'\"()"
 
 // test cases
-#define CASE_COUNT 47
+#define CASE_COUNT 50
 #define CASE_0 ""
 #define CASE_1 "< in"
 #define CASE_2 "cat |ls"
@@ -80,6 +80,9 @@
 #define CASE_44 "(echo (hi)))\n"
 #define CASE_45 "adsfadfa \"\'     ddadddds\n"
 #define CASE_46 "easdfadf\"adfasdf\n"
+#define CASE_47 "\""
+#define CASE_48 "\"\""
+#define CASE_49 "\"\"\""
 
 // colors for printf
 #define RESET			"\033[0m"
@@ -275,7 +278,10 @@ static char	**init_tests(void)
 	tests[44] = CASE_44;
 	tests[45] = CASE_45;
 	tests[46] = CASE_46;
-	tests[47] = NULL;
+	tests[47] = CASE_47;
+	tests[48] = CASE_48;
+	tests[49] = CASE_49;
+	tests[50] = NULL;
 	return (tests);
 }
 
