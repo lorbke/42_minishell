@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:53:34 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/19 17:50:36 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 23:15:58 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static bool	is_word(t_stack *token)
 		return (false);
 	if (token->token->desc == TOK_WORD
 		|| token->token->desc == TOK_UNCLOSED_SQUOTE
-		|| token->token->desc == TOK_UNCLOSED_DQUOTE)
+		|| token->token->desc == TOK_UNCLOSED_DQUOTE
+		|| token->token->desc == TOK_QUOTED)
 		return (true);
 	return (false);
 }

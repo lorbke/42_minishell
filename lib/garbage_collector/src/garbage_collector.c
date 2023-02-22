@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:14:34 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 20:44:07 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 23:23:26 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ static t_garbage	*create_garbage(void *alloc, void (*func_free)(void *))
 		exit(errno);
 	}
 	new->alloc = alloc;
-	new->func_free = func_free;
+	if (func_free == NULL)
+		new->func_free = &free;
+	else
+		new->func_free = func_free;
 	new->next = NULL;
 	return (new);
 }

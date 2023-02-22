@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:27:13 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 17:31:13 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 23:35:53 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token
 #include "../minishell.h" // ERR_* defines
+#include "../expander.h" // expander
 #include "garbage_collector.h" // gc_add_garbage
 #include <sys/fcntl.h> // open
 #include <string.h> // NULL
 #include <unistd.h> // pipe, write
+#include <stdio.h> // printf
 
 t_cmd_table	*handle_cmd(t_ast *ast)
 {
@@ -41,7 +43,9 @@ t_cmd_table	*handle_redir_heredoc(t_ast *ast)
 	if (!cmd_table)
 		return (NULL);
 	pipe(fd);
-	temp = ast->right->token->word;
+	// gc_add_garbage(ast->right->token->word, NULL);
+	if (ast->right->token->desc != TOK_QUOTED)
+		temp = *expander(&ast->right->token->word);
 	while (*temp)
 	{
 		write(fd[1], temp, 1);

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:37:54 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 18:37:18 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 23:15:34 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ unsigned char	desc_word(char *word)
 		return (TOK_AND);
 	else if (*word == '|' && *(word + 1) == '|')
 		return (TOK_OR);
+	else if (ft_strchr(word, '\'') || ft_strchr(word, '\"'))
+		return (TOK_QUOTED);
 	return (TOK_WORD);
 }
 

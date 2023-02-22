@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:05:04 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 14:20:17 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 23:13:26 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ which will be useful during the execution phase. */
 # define TOK_SUBSHELL 8
 # define TOK_AND 9
 # define TOK_OR 10
+# define TOK_QUOTED 11
 
 typedef struct s_token
 {

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:25:39 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 22:27:23 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 23:10:44 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ static t_stack	*iterate_to_end_and_interpret_heredocs(
 	{
 		if (tokstack->token->desc == TOK_REDIR_HEREDOC && tokstack->next)
 		{
-			doc = get_doc(doc_heredoc, tokstack->next->token->word, exit_status);
+			doc = get_doc(
+					doc_heredoc, tokstack->next->token->word, exit_status);
 			if (*exit_status != ERR_SUCCESS)
 				return (NULL);
 			free(tokstack->next->token->word);
