@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:25:39 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 20:32:06 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 18:14:40 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*handle_incomplete_input(char *input, t_stack *tokstack)
 	doc = get_doc(doc_completingdoc, NULL);
 	if (ms_exit_status_get() != ERR_SUCCESS)
 		return (input);
-	tokstack->next = lexer_str_to_tokstack(doc, CMD_SEPS, CMD_ESCS);
+	tokstack->next = lexer_str_to_tokstack(doc);
 	temp_str = input;
 	input = ft_strjoin(input, doc);
 	free(doc);

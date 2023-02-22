@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 17:34:11 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 20:44:36 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,21 @@
 #include <stdio.h> // printf
 #include <stdbool.h> // bool
 
-static bool	check_incomplete_input(t_stack *tokstack)
+static bool	is_input_incomplete(t_stack *tokstack)
 {
 	while (tokstack && tokstack->next)
 		tokstack = tokstack->next;
-	if (tokstack && tokstack->token->desc == TOK_PIPE
-		|| tokstack && tokstack->token->desc == TOK_AND
-		|| tokstack && tokstack->token->desc == TOK_OR)
+	if (tokstack && (tokstack->token->desc == TOK_PIPE
+			|| tokstack->token->desc == TOK_AND
+			|| tokstack->token->desc == TOK_OR
+			|| tokstack->token->word && tokstack->token->word[0] == ')'))
 	{
 		ms_exit_status_set(ERR_SYNTAX);
 		ms_print_error(ms_exit_status_get(),
 			tokstack->token->desc, tokstack->token->word);
+		return (true);
 	}
-		return (1);
-	return (0);
+	return (false);
 }
 
 static t_ast	*parse_and_check_syntax(t_stack *tokstack)
@@ -62,9 +63,11 @@ char	*digest_input_helper(char *input, int fd_in, int fd_out)
 	t_ast	*ast;
 	int		exit_status;
 
-	tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
-	gc_add_garbage(tokstack, &lexer_free_tokstack);
+	tokstack = lexer_str_to_tokstack(input);
+	if (!tokstack)
+		return (input);
 	debug_lexer(tokstack);
+	gc_add_garbage(tokstack, &lexer_free_tokstack);
 	ast = parse_and_check_syntax(tokstack);
 	if (!ast)
 		return (input);
@@ -73,7 +76,7 @@ char	*digest_input_helper(char *input, int fd_in, int fd_out)
 	if (ms_exit_status_get() != ERR_SUCCESS)
 		return (input);
 	debug_lexer(tokstack);
-	if (check_incomplete_input(tokstack) == false)
+	if (is_input_incomplete(tokstack) == true)
 		return (input);
 	ast = parse_and_check_syntax(tokstack);
 	if (!ast)

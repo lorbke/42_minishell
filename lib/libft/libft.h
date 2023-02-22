@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 16:44:01 by lorbke            #+#    #+#             */
-/*   Updated: 2022/12/14 15:30:33 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 17:26:05 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,7 @@ int		ft_isspace(int c);
 int		ft_safeadd(int a, int b);
 int		ft_safemult(int a, int b);
 char	*ft_strsep(char **stringp, const char *delim);
+char	*ft_strdup_size(char *str, int size);
+int		ft_is_char_count_uneven(char *str, char c);
 
 #endif

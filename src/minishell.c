@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 20:38:41 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 20:59:19 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@
 // @todo heredoc and doc read switch to get_next_line?
 // @todo add g_sym_table to garbage collector
 
-// @todo add non-interactive mode => done
-// @todo check out why echo in quotes doesn't work => done
-// @todo cd should change dir to HOME => done
-// @todo protect env stuff (in case shell is init witoout env) => done
-// @todo add exit status expansion and related stuff
-// @todo rename functions , make stuff more readable and norm proof
-// @todo tester behaves in a weird way
+// @todo env -i ./minishell segfaults
+// @todo << "lim" -> no expansion
+// @todo expansion in heredoc and infiles, except if lim in quotes
+// @todo heredoc lim itself is not expanded
+// @todo cat | cat | invalidcmd -> piping wrong
+
+// @todo noninteractive mode -c
 
 /* Read-Eval-Print-Loop. */
 void	rep_loop(void)

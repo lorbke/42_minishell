@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:25 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 18:12:17 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 18:26:39 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@
 #define CMD_ESCS "\'\"()"
 
 // test cases
-#define CASE_COUNT 35
+#define CASE_COUNT 50
 #define CASE_0 ""
-#define CASE_1 "< in\n"
-#define CASE_2 "cat |ls\n"
-#define CASE_3 "echo a && eho b\n"
+#define CASE_1 "< in"
+#define CASE_2 "cat |ls"
+#define CASE_3 "echo a && eho b"
 #define CASE_4 "/bin/echo hi hi > out\n"
 #define CASE_5 "<in1<in2<in3 echo hi hi > out1> out2 >out4 hello hello\n"
 #define CASE_6 "echo \"hi       hi\" hi\n"
@@ -55,8 +55,8 @@
 #define CASE_19 "\'\"\n"
 #define CASE_20 "\"\"\n"
 #define CASE_21 "echo \"1 | ec\'ho 2 &\"& echo 3\n"
-#define CASE_22 "echo 1<<lim| echo 2>out|| echo 3 | echo 4\n"
-#define CASE_23 "echo ||\n"
+#define CASE_22 "e\"ch\"o\n"
+#define CASE_23 "\"echo\"\n"
 #define CASE_24 "(echo hi)\n"
 #define CASE_25 "(echo) hi\n"
 #define CASE_26 "(echo) | echo hi \n"
@@ -67,7 +67,22 @@
 #define CASE_31 "(echo hi) > out\n"
 #define CASE_32 "echo \"|(sdf)\n"
 #define CASE_33 "(< in echo hi)\n"
-#define CASE_34 "aSDasd(< in)echo hi\n"
+#define CASE_34 "e\"ch\"o|echo\n"
+#define CASE_35 "e\"ch\"o|(echo)\n"
+#define CASE_36 "e\"ch\"o(|echo)\n"
+#define CASE_37 "e\"ch\"(o|echo)\n"
+#define CASE_38 "aSDasd(< in)echo hi\n"
+#define CASE_39 "e\"adfasdf\"\"asdfadf\"\"(adfa\")"
+#define CASE_40 "e\"adsssdf\"(asssssdsf\n"
+#define CASE_41 "e\"adfasdf\"<<lim)\n"
+#define CASE_42 "(echo (hi))\n"
+#define CASE_43 "(echo (hi)\n"
+#define CASE_44 "(echo (hi)))\n"
+#define CASE_45 "adsfadfa \"\'     ddadddds\n"
+#define CASE_46 "easdfadf\"adfasdf\n"
+#define CASE_47 "\""
+#define CASE_48 "\"\""
+#define CASE_49 "\"\"\""
 
 // colors for printf
 #define RESET			"\033[0m"
@@ -88,6 +103,48 @@
 #define BOLDCYAN		"\033[1m\033[36m"	/* Bold Cyan */
 #define BOLDWHITE		"\033[1m\033[37m"	/* Bold White */
 
+// static char	*skip_until_after_char(char *str, char c)
+// {
+// 	while (*str && *str != c)
+// 		str++;
+// 	if (*str)
+// 		str++;
+// 	return (str);
+// }
+
+// static int	is_unclosed_quote(char *str)
+// {
+// 	char	quote;
+
+// 	while (*str)
+// 	{
+// 		if (*str == '\'' || *str == '\"')
+// 		{
+// 			quote = *str;
+// 			str = skip_until_after_char(str + 1, *str);
+// 			if (!*str && *(str - 1) != quote)
+// 			{
+// 				if (quote == '\'')
+// 					return (1);
+// 				else if (quote == '\"')
+// 					return (2);
+// 			}
+// 		}
+// 		else
+// 			str++;
+// 	}
+// 	return (0);
+// }
+
+// static void	case_lexer(char **tests)
+// {
+// 	printf("%d\n", is_unclosed_quote("ech'o \"hi hi\" hi\n"));
+// 	printf("%d\n", is_unclosed_quote("e\"adfasdf\""));
+// 	printf("%d\n", is_unclosed_quote("e\"adfasdf\"\"asdfadf\"\"(adfa\""));
+// 	printf("%d\n", is_unclosed_quote("echo hi hi hi\n"));
+// 	printf("%d\n", is_unclosed_quote("ec\"ho\"\" h\"\"i hi hi\n"));
+// }
+
 static void	case_lexer(char **tests)
 {
 	char	*input;
@@ -98,10 +155,10 @@ static void	case_lexer(char **tests)
 	i = 0;
 	while (tests[i])
 	{
+		printf(YELLOW "CASE %d: %s" RESET, i, tests[i]);
 		strcpy(input, tests[i]);
-		tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
+		tokstack = lexer_str_to_tokstack(input);
 		debug_lexer(tokstack);
-		printf(YELLOW "CASE %d\n\n" RESET, i);
 		i++;
 	}
 	free(input);
@@ -121,7 +178,7 @@ static void	case_parser(char **tests)
 		printf(YELLOW "+++++++++++++++++++++++++++++\n" RESET);
 		printf(YELLOW "CASE %d: %s" RESET, i, tests[i]);
 		strcpy(input, tests[i]);
-		tokstack = lexer_str_to_tokstack(input, CMD_SEPS, CMD_ESCS);
+		tokstack = lexer_str_to_tokstack(input);
 		ast = parser_tokstack_to_ast(&tokstack);
 		debug_parser(ast, tokstack);
 		i++;
@@ -209,7 +266,22 @@ static char	**init_tests(void)
 	tests[32] = CASE_32;
 	tests[33] = CASE_33;
 	tests[34] = CASE_34;
-	tests[35] = NULL;
+	tests[35] = CASE_35;
+	tests[36] = CASE_36;
+	tests[37] = CASE_37;
+	tests[38] = CASE_38;
+	tests[39] = CASE_39;
+	tests[40] = CASE_40;
+	tests[41] = CASE_41;
+	tests[42] = CASE_42;
+	tests[43] = CASE_43;
+	tests[44] = CASE_44;
+	tests[45] = CASE_45;
+	tests[46] = CASE_46;
+	tests[47] = CASE_47;
+	tests[48] = CASE_48;
+	tests[49] = CASE_49;
+	tests[50] = NULL;
 	return (tests);
 }
 

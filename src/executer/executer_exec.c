@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 16:45:15 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 21:02:14 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,16 @@ static pid_t	exec_subshell(t_cmd_table *cmd_table)
 	pid = fork();
 	if (pid != 0)
 		return (pid);
+	if (cmd_table->cmd[0][ft_strlen(cmd_table->cmd[0]) - 1] != ')')
+	{
+		gc_free_all_garbage();
+		exit(ERR_SYNTAX);
+	}
 	cmd_table->cmd[0][ft_strlen(cmd_table->cmd[0]) - 1] = 0;
 	ms_digest_input(cmd_table->cmd[0] + 1,
 		cmd_table->fd_in[0], cmd_table->fd_out[0]);
 	status = ms_exit_status_get();
+	gc_free_all_garbage();
 	exit(status);
 	return (pid);
 }

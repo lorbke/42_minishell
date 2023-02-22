@@ -365,3 +365,49 @@ get_completingdoc
 		- ptr to allocated memory
 		- ptr to free function
 		- ptr to next node in list
+
+
+
+
+----------LEXER------------
+
+strsep
+	str = skip_until_char(str, char skip)
+	if (str == quote)
+
+
+skip_subshell
+
+skip_until_char(str, char skip)
+	while *str && *str != skip
+		str++
+	return str + 1
+
+lexer_str_to_tokstack
+	head
+	temp
+	head = get_next_token(&str)
+	if (!head)
+		return NULL
+	while (*str)
+		temp->next = get_next_token(&str)
+		if (!temp->next)
+			break
+	return head
+
+get_next_word
+	while *str == delim
+		str++
+	temp = str
+	while *str
+		if *str == quote
+			str = skip_quote(str)
+		else if (*str == subshell)
+			str = skip_subshell(str)
+			break
+		else if *str == delim
+			break
+		else if *str == is_special_char
+			break
+		str++
+	lexer_strdup(temp, str, str - temp)
