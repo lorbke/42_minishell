@@ -8,10 +8,10 @@ Case #1:
 
 
 minishell output: 
-MakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
+Mak$nMakenMakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
 
 bash      output: 
-MakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
+Mak$nMakenMakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
 
 
 ---------------------------------------------
@@ -38,6 +38,8 @@ ls *
 
 
 minishell output: 
+Mak$
+Make
 Makefile
 Makefilee
 README.txt
@@ -74,6 +76,7 @@ globber_outside_cwd.o
 globber_utils.o
 minishell.o
 pattern.o
+pattern_utils.o
 pwd.o
 quotes.o
 realloc.o
@@ -101,6 +104,8 @@ test_cases
 test_output
 
 bash      output: 
+Mak$
+Make
 Makefile
 Makefilee
 README.txt
@@ -137,6 +142,7 @@ globber_outside_cwd.o
 globber_utils.o
 minishell.o
 pattern.o
+pattern_utils.o
 pwd.o
 quotes.o
 realloc.o
@@ -176,10 +182,10 @@ rm "*1"
 
 
 minishell output: 
-*1nMakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
+*1nMak$nMakenMakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
 
 bash      output: 
-*1nMakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
+*1nMak$nMakenMakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
 
 
 ---------------------------------------------
@@ -272,10 +278,10 @@ Case #9:
 
 
 minishell output: 
-MakefilenMakefileen
+MakenMakefilenMakefileen
 
 bash      output: 
-MakefilenMakefileen
+MakenMakefilenMakefileen
 
 
 ---------------------------------------------
@@ -286,10 +292,10 @@ Case #10:
 
 
 minishell output: 
-MakefilenMakefileen
+MakenMakefilenMakefileen
 
 bash      output: 
-MakefilenMakefileen
+MakenMakefilenMakefileen
 
 
 ---------------------------------------------
@@ -342,10 +348,10 @@ Case #14:
 
 
 minishell output: 
-MakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
+Mak$nMakenMakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
 
 bash      output: 
-MakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
+Mak$nMakenMakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
 
 
 ---------------------------------------------
@@ -424,53 +430,140 @@ minishelxxxln
 
 Case #19: 
 
-touch tmp_out
-
-/bin/echo 42 >tmp_o*t*
-
-rm -f "tmp_out*"
+echo *ll*
 
 
 minishell output: 
-/bin/sh: line 6: 17271 Done                    echo "touch tmp_out
-
-/bin/echo 42 >tmp_o*t*
-
-rm -f "tmp_out*"
-
-"
-     17272 Segmentation fault: 11  | ./minishell
+minishell shinimell.sh
 
 bash      output: 
+minishell shinimell.sh
 
 
 ---------------------------------------------
 
 Case #20: 
 
-touch tmp_out1
-
-touch tmp_out2
-
-/bin/echo 42 >tmp_out*
-
-rm -f "tmp_out*"
+echo *.c
 
 
 minishell output: 
-/bin/sh: line 8: 17281 Done                    echo "touch tmp_out1
-
-touch tmp_out2
-
-/bin/echo 42 >tmp_out*
-
-rm -f "tmp_out*"
-
-"
-     17282 Segmentation fault: 11  | ./minishell
+tester.c
 
 bash      output: 
-bash: line 5: tmp_out*: ambiguous redirect
+tester.c
+
+
+---------------------------------------------
+
+Case #21: 
+
+echo Make*
+
+
+minishell output: 
+Make Makefile Makefilee
+
+bash      output: 
+Make Makefile Makefilee
+
+
+---------------------------------------------
+
+Case #22: 
+
+echo Make*ee
+
+
+minishell output: 
+Makefilee
+
+bash      output: 
+Makefilee
+
+
+---------------------------------------------
+
+Case #23: 
+
+echo Mak'*'e
+
+
+minishell output: 
+Mak*e
+
+bash      output: 
+Mak*e
+
+
+---------------------------------------------
+
+Case #24: 
+
+echo Makee*e
+
+
+minishell output: 
+Makee*e
+
+bash      output: 
+Makee*e
+
+
+---------------------------------------------
+
+Case #25: 
+
+echo *lll*
+
+
+minishell output: 
+*lll*
+
+bash      output: 
+*lll*
+
+
+---------------------------------------------
+
+Case #26: 
+
+echo *llll
+
+
+minishell output: 
+*llll
+
+bash      output: 
+*llll
+
+
+---------------------------------------------
+
+Case #27: 
+
+echo *ll
+
+
+minishell output: 
+minishell
+
+bash      output: 
+minishell
+
+
+---------------------------------------------
+
+Case #28: 
+
+echo ll*
+
+
+minishell output: 
+ll*
+
+bash      output: 
+ll*
 
 
 ---------------------------------------------

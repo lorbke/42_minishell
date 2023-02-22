@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:14:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/21 16:52:15 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/21 21:16:41 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ char	**expander(char **argv)
 		}
 		i++;
 	}
-	// printf("new_argv[1] = %s\n", new_argv[1]);
 	new_argv[k] = NULL;
 	new_argv = globber(new_argv);
 	return (new_argv);

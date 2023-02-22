@@ -52,11 +52,22 @@ touch minishelxxxl
 /usr/bin/printf "%s\n" minishel*xxx*l | sort
 rm minishelxxxl
 
-touch tmp_out
-/bin/echo 42 >tmp_o*t*
-rm -f "tmp_out*"
+echo *ll*
 
-touch tmp_out1
-touch tmp_out2
-/bin/echo 42 >tmp_out*
-rm -f "tmp_out*"
+echo *.c
+
+echo Make*
+
+echo Make*ee
+
+echo Mak'*'e
+
+echo Makee*e
+
+echo *lll*
+
+echo *llll
+
+echo *ll
+
+echo ll*
