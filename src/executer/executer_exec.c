@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 21:02:14 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 22:12:41 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,22 +87,22 @@ static pid_t	exec_builtin(t_cmd_table *cmd_table)
 	pid_t	pid;
 	int		status;
 
-	if (cmd_table->fd_in[1] != FDLVL_PIPE)
+	if (cmd_table->fd_in[1] != FDLVL_PIPE
+		&& cmd_table->fd_out[1] != FDLVL_PIPE)
 	{
 		status = builtin_exec(cmd_table);
 		ms_exit_status_set(status);
 		return (0);
 	}
-	close(cmd_table->fd_in[0]);
 	pid = fork();
 	if (pid == -1)
 		return (pid);
 	if (pid > 0)
 		return (pid);
+	close(cmd_table->fd_in[0]);
+	dup2(cmd_table->fd_out[0], STDOUT_FILENO);
 	mssignal_change_mode(MSSIG_NINTER);
 	status = builtin_exec(cmd_table);
-	// @note added by fio
-	ms_exit_status_set(status);
 	gc_free_all_garbage();
 	exit(status);
 	return (pid);
