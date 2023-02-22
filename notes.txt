@@ -411,3 +411,12 @@ get_next_word
 			break
 		str++
 	lexer_strdup(temp, str, str - temp)
+
+
+
+
+----------heredoc expansion----------
+
+- heredoc lim quote removal
+	- call globber function
+- 
