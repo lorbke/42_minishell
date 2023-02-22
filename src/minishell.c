@@ -6,7 +6,11 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 01:35:31 by lorbke           ###   ########.fr       */
+<<<<<<< Updated upstream
+/*   Updated: 2023/02/22 17:57:29 by lorbke           ###   ########.fr       */
+=======
+/*   Updated: 2023/02/22 13:02:30 by lorbke           ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +46,13 @@
 // @todo turn on wall werror wextra in every makefile
 // @todo heredoc and doc read switch to get_next_line?
 // @todo add g_sym_table to garbage collector
+
+// @todo segfault on only space
+// @todo env -i ./minishell segfaults
+// @todo << "lim" -> no expansion
+// @todo expansion in heredoc and infiles, except if lim in quotes
+// @todo heredoc lim itself is not expanded
+// @todo cat | cat | invalidcmd -> piping wrong
 
 /* Read-Eval-Print-Loop. */
 void	rep_loop(void)

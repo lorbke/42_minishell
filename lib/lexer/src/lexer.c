@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 00:31:10 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 17:45:04 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,117 +17,101 @@
 #include <unistd.h> // free
 #include <stdio.h> // printf
 
-static int	ignore_delims(char *stringp, const char *ignore)
+static int	is_special_char(char *str)
 {
-	char	*esc;
-	char	*start;
-	int		count;
-
-	if (stringp + 1 && *(stringp + 1) == '(')
+	if (*str == '<' && *(str + 1) == '<')
+		return (2);
+	else if (*str == '>' && *(str + 1) == '>')
+		return (2);
+	else if (*str == '<')
 		return (1);
-	start = stringp;
-	esc = ft_strchr(ignore, *start);
-	if (esc && *esc == '(')
-		esc++;
-	if (esc)
-	{
-		if (*esc == '\"' || *esc == '\'')
-		{
-			count = 0;
-			while (*start)
-			{
-				if (*start == *esc)
-					count++;
-				start++;
-			}
-			start = stringp;
-			while (*start && count > 0)
-			{
-				if (*start == *esc)
-					count--;
-				start++;
-			}
-			if (*start == *esc)
-				start++;
-			while (*start && ft_isalpha(*start))
-				start++;
-		}
-		return (start - stringp);
-	}
+	else if (*str == '>')
+		return (1);
+	else if (*str == '|' && *(str + 1) == '|')
+		return (2);
+	else if (*str == '|')
+		return (1);
+	else if (*str == '&' && *(str + 1) == '&')
+		return (2);
+	else if (*str == '&')
+		return (1);
+	else if (*str == ')')
+		return (1);
 	return (0);
 }
 
-static int	get_word_len(char *word, char *esc)
+static char	*skip_quotes(char *str)
 {
-	int	len;
-	int	ignore;
-	int	special;
-
-	len = 0;
-	while (word && word[len])
+	while (*str)
 	{
-		ignore = ignore_delims(word + len, esc);
-		if (ignore)
-			return (len + ignore);
-		special = is_special_char(word + len);
-		if (special)
-		{
-			if (!len)
-				return (special);
-			else
-				return (len);
-		}
-		len++;
+		if (*str == '\"' || *str == '\'')
+			str = skip_until_after_char(str + 1, *str);
+		else if (ft_isspace(*str) || is_special_char(str))
+			break ;
+		else if (*str == '(')
+			break ;
+		else if (*str)
+			str++;
 	}
-	return (len);
+	return (str);
 }
 
-static char	*get_next_word(char **str, char *seps, char *esc)
+static char	*skip_subshell(char *str)
 {
-	static char	*word = NULL;
+	int		depth;
 
-	if (!str)
-		word = NULL;
-	else if (word && *word)
-		word += get_word_len(word, esc);
+	depth = 1;
+	str++;
+	while (*str && depth)
+	{
+		if (*str == '(')
+			depth++;
+		else if (*str == ')')
+			depth--;
+		str++;
+	}
+	return (str);
+}
+
+static char	*get_next_word(char **str)
+{
+	char	*temp;
+	int		special;
+
+	while (ft_isspace(**str))
+		(*str)++;
+	special = is_special_char(*str);
+	temp = *str;
+	if (special)
+	{
+		*str += special;
+		return (ft_strdup_size(temp, special + 1));
+	}
+	if (**str == '(')
+		*str = skip_subshell(*str);
 	else
-	{
-		word = lexer_ft_strsep(str, seps, esc);
-		printf("word: %s\n", word);
-	}
-	return (word);
+		*str = skip_quotes(*str);
+	return (ft_strdup_size(temp, *str - temp + 1));
 }
 
-t_stack	*lexer_str_to_tokstack(char *str, char *seps, char *esc)
+t_stack	*lexer_str_to_tokstack(char *str)
 {
 	t_stack	*head;
 	t_stack	*temp;
-	char	*next_word;
-	char	*temp_str;
+	char	*word;
 
-	str = ft_strdup(str);
-	temp_str = str;
-	while (*str && is_char_set(*str, seps))
-		str++;
-	next_word = get_next_word(&str, seps, esc);
-	head = create_stack_node
-		(create_token(next_word, get_word_len(next_word, esc)));
-	if (!head && !get_next_word(NULL, NULL, NULL))
-	{
-		free(temp_str);
+	word = get_next_word(&str);
+	head = create_stack_node(create_token(word));
+	if (!head)
 		return (NULL);
-	}
 	temp = head;
-	while ((str && *str) || next_word)
+	while (*str)
 	{
-		next_word = get_next_word(&str, seps, esc);
-		temp->next = create_stack_node
-			(create_token(next_word, get_word_len(next_word, esc)));
-		if (temp->next)
-			temp = temp->next;
+		word = get_next_word(&str);
+		temp->next = create_stack_node(create_token(word));
+		if (!temp->next)
+			break ;
+		temp = temp->next;
 	}
-	temp->next = NULL;
-	get_next_word(NULL, NULL, NULL);
-	free(temp_str);
 	return (head);
 }

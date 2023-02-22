@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:05:04 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 19:16:11 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 14:20:17 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_stack
 	struct s_stack	*next;
 }	t_stack;
 
-t_stack	*lexer_str_to_tokstack(char *str, char *seps, char *esc);
+t_stack	*lexer_str_to_tokstack(char *str);
 void	lexer_free_tokstack(void *tokstack_void);
 
 #endif
