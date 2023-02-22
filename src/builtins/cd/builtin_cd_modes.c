@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd_modes.c                                         :+:      :+:    :+:   */
+/*   builtin_cd_modes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:48:10 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/19 09:36:29 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 15:21:45 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,32 @@ static int	cd_back(int count, int i, char *path, char *cwd)
 		}
 	}
 	return (0);
+}
+
+int	cd_home(void)
+{
+	t_sym_tab	*temp;
+	char		*path;
+
+	temp = *g_sym_table;
+	while (temp != NULL)
+	{
+		if (ft_strncmp(temp->var, "HOME=", ft_strlen("HOME=")) == 0)
+		{
+			path = get_path(temp->var);
+			if (path == NULL)
+				break ;
+			if (chdir(path) != 0)
+			{
+				ft_perror("cd", path);
+				free(path);
+				return (errno);
+			}
+			free(path);
+			return (0);
+		}
+		temp = temp->next;
+	}
+	ft_putstr_fd("minishell: cd: HOME not set\n", STDERR_FILENO);
+	return (1);
 }
