@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 14:29:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 20:33:02 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 21:10:00 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_status	ms_exit_status_get(void)
 		}
 		tmp = tmp->next;
 	}
+	return (ERR_SUCCESS);
 }
 
 // @todo parent processs builtin exit status is overwritten
