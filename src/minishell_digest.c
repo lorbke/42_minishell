@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 20:44:36 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 21:43:12 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ static t_ast	*parse_and_check_syntax(t_stack *tokstack)
 
 char	*digest_input_helper(char *input, int fd_in, int fd_out)
 {
-	t_stack	*tokstack;
-	t_ast	*ast;
-	int		exit_status;
+	t_stack		*tokstack;
+	t_ast		*ast;
+	t_status	exit_status;
 
 	tokstack = lexer_str_to_tokstack(input);
 	if (!tokstack)
@@ -72,7 +72,7 @@ char	*digest_input_helper(char *input, int fd_in, int fd_out)
 	if (!ast)
 		return (input);
 	debug_parser(ast, NULL);
-	input = doccer_interpret_docs(tokstack, input);
+	input = doccer_interpret_docs(tokstack, input, &exit_status);
 	if (ms_exit_status_get() != ERR_SUCCESS)
 		return (input);
 	debug_lexer(tokstack);

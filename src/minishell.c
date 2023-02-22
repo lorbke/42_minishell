@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 20:59:19 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 21:41:33 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@
 #include <readline/readline.h> // readline
 #include <readline/history.h> // add_history
 #include <fcntl.h> // STD*_FILENO defines
-
-#define EXIT "exit"
+#include <stdbool.h> // bool
 
 // @todo test if all fds are closed
 // @todo exit behaviour: print exit when ctrl+d is pressed (is that handled in exit builtin?)
@@ -51,30 +50,35 @@
 
 // @todo noninteractive mode -c
 
+static bool	is_empty_str(char *str)
+{
+	while (*str)
+	{
+		if (!ft_isspace(*str))
+			return (false);
+		str++;
+	}
+	return (true);
+}
+
 /* Read-Eval-Print-Loop. */
 void	rep_loop(void)
 {
 	char	*line;
-	char	*exit;
 
-	exit = EXIT;
 	mssignal_change_mode(MSSIG_INTER);
 	while (1)
 	{
-		// ms_exit_status_set(ERR_SUCCESS);
 		line = readline(PROMPT);
 		if (!line)
-		{
-			// @note can simply pass NULL here
-			builtin_exit_b(&exit);
-		}
+			builtin_exit_b(NULL);
 		if (*line)
 		{
 			line = ms_digest_input(line, STDIN_FILENO, STDOUT_FILENO);
-			add_history(line);
+			if (!is_empty_str(line))
+				add_history(line);
 		}
 		free(line);
-		// printf("exit_status: %d\n", ms_exit_status_get());
 	}
 	rl_clear_history();
 }

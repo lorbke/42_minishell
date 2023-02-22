@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:25:39 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 18:14:40 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 21:45:18 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 #include "libft.h" // ft_strjoin
 #include "../minishell.h" // CMD_SEPS, CMD_ESCS
 #include <stdlib.h> // free
-
-char	*doccer_interpret_docs(t_stack *tokstack, char *input);
 
 static char	*handle_unclosed_quote(char quote, char *input, t_stack *tokstack)
 {
@@ -78,7 +76,8 @@ static t_stack
 }
 
 // @todo weird history bug (echo "hi" -> history concatenates first ")
-char	*doccer_interpret_docs(t_stack *tokstack, char *input)
+char	*doccer_interpret_docs(
+			t_stack *tokstack, char *input, t_status *exit_status)
 {
 	t_stack	*temp_stack;
 
@@ -95,7 +94,7 @@ char	*doccer_interpret_docs(t_stack *tokstack, char *input)
 	{
 		input = handle_incomplete_input(input, temp_stack);
 		if (temp_stack->next)
-			input = doccer_interpret_docs(temp_stack->next, input);
+			input = doccer_interpret_docs(temp_stack->next, input, exit_status);
 	}
 	return (input);
 }
