@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 14:29:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 17:17:25 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 19:42:59 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <unistd.h> // STDIN_FILENO, STDOUT_FILENO, write, read
 #include <sys/wait.h> // waitpid, WIFEXITED, WEXITSTATUS, WIFSIGNALED, WTERMSIG
 
+
+// @todo restructure so that static exit status is changed to sym_table
 static t_status	*ms_exit_status_init(void)
 {
 	static t_status	exit_status = ERR_SUCCESS;
@@ -36,6 +38,7 @@ t_status	ms_exit_status_get(void)
 	return (*ms_exit_status_init());
 }
 
+// @todo parent processs builtin exit status is overwritten
 void	ms_wait_pid_and_set_exit(pid_t pid)
 {
 	int	status;

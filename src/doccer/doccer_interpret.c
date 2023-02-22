@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:25:39 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 17:17:25 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 20:32:06 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ static t_stack
 	return (temp_stack);
 }
 
+// @todo weird history bug (echo "hi" -> history concatenates first ")
 char	*doccer_interpret_docs(t_stack *tokstack, char *input)
 {
 	t_stack	*temp_stack;

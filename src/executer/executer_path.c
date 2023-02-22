@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:44:52 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 22:11:15 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/21 19:55:31 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,6 @@ static char	*get_pathset(char **envp)
 	return (path_set);
 }
 
-static void	free_str_arr(char **str_arr)
-{
-	char	**temp;
-
-	temp = str_arr;
-	while (*str_arr)
-	{
-		free(*str_arr);
-		str_arr++;
-	}
-	free(temp);
-}
-
 char	*get_cmd_path(char **env, char *cmd)
 {
 	char	*path_str;
@@ -71,13 +58,13 @@ char	*get_cmd_path(char **env, char *cmd)
 		if (access(temp, X_OK) == 0)
 		{
 			free(cmd);
-			free_str_arr(temp_arr);
+			gc_free_str_arr(temp_arr);
 			return (temp);
 		}
 		free(temp);
 		path_arr++;
 	}
 	free(cmd);
-	free_str_arr(temp_arr);
+	gc_free_str_arr(temp_arr);
 	return (NULL);
 }

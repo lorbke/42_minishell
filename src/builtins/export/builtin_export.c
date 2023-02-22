@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:13:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/21 08:40:55 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/21 19:35:53 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	print_sorted_list(t_sym_tab *head);
 static void	insertion_sort(t_sym_tab **head, t_sym_tab *node);
 static void	print_var(t_sym_tab *node, char *equal);
 
-int builtin_export(char **argv)
+int export_b(char **argv)
 {
 	int		i;
 	int		argc;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/20 08:58:30 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/21 20:34:03 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static long long	ft_atoi_long(char *str);
 static void			print_to_stderr(char *str, char *arg);
 
 // @note I guess later, exit_code needs to be initialised to "global" exit status?
-int	builtin_exit(char **argv)
+int	builtin_exit_b(char **argv)
 {
 	int			argc;
 	long long	exit_code;

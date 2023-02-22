@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/21 18:50:26 by lorbke           ###   ########.fr        #
+#    Updated: 2023/02/22 01:31:50 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,7 @@ $(NAME): $(OBJ_PATH) $(OBJ)
 	@$(MAKE) -C $(ENV_PATH)
 	@$(MAKE) -C $(GNL_PATH)
 	@echo -e -n "$(BLUE)Creating: minishell executable: $(RESET)"
-	$(CC) $(CFLAGS) $(OBJ) $(GCOLL_LINK) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(EXECUTER_LINK) $(ENV_LINK) $(GNL_LINK) -l$(RDLN_LIB) -o $(NAME)
+	$(CC) $(LEAK) $(CFLAGS) $(OBJ) $(GCOLL_LINK) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(EXECUTER_LINK) $(ENV_LINK) $(GNL_LINK) -l$(RDLN_LIB) -o $(NAME)
 	@echo -e "$(GREEN)make: minishell success!$(RESET)"
 # inc when on macbook
 # -L/opt/homebrew/Cellar/readline/8.2.1/lib
@@ -120,7 +120,7 @@ test:
 	@$(MAKE) -C $(PARSER_PATH)
 	@$(MAKE) -C $(ENV_PATH)
 	@$(MAKE) -C $(GNL_PATH)
-	$(CC) -O0 -DDEBUG -g tester_gc.c $(SRC_PATH)/debugger/debugger.c -I$(SRC_PATH) -I$(LFT_PATH) \
-	-I$(LEXER_PATH) -I$(PARSER_PATH) -I$(ENV_PATH) -I$(GNL_PATH) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(ENV_LINK) $(GNL_LINK) -l$(RDLN_LIB) -o tester
+	$(CC) -O0 -DDEBUG -g tester_gc.c $(SRC_PATH)/debugger/debugger.c $(LEAK) -I$(GCOLL_PATH) -I$(SRC_PATH) -I$(LFT_PATH) \
+	-I$(LEXER_PATH) -I$(PARSER_PATH) -I$(ENV_PATH) -I$(GNL_PATH) $(GCOLL_LINK) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(ENV_LINK) $(GNL_LINK) -l$(RDLN_LIB) -o tester
 
 .PHONY: all clean fclean re

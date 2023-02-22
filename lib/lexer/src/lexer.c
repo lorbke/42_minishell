@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 19:25:21 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 00:31:10 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 #include "libft.h" // ft_strchr
 #include <stdlib.h> // NULL
 #include <unistd.h> // free
+#include <stdio.h> // printf
 
 static int	ignore_delims(char *stringp, const char *ignore)
 {
 	char	*esc;
 	char	*start;
+	int		count;
 
 	if (stringp + 1 && *(stringp + 1) == '(')
 		return (1);
@@ -29,12 +31,28 @@ static int	ignore_delims(char *stringp, const char *ignore)
 		esc++;
 	if (esc)
 	{
-		start++;
-		while (*start && *start != *esc)
-			start++;
-		if (!*start)
-			start++;
-		return (start - stringp + 1);
+		if (*esc == '\"' || *esc == '\'')
+		{
+			count = 0;
+			while (*start)
+			{
+				if (*start == *esc)
+					count++;
+				start++;
+			}
+			start = stringp;
+			while (*start && count > 0)
+			{
+				if (*start == *esc)
+					count--;
+				start++;
+			}
+			if (*start == *esc)
+				start++;
+			while (*start && ft_isalpha(*start))
+				start++;
+		}
+		return (start - stringp);
 	}
 	return (0);
 }
@@ -73,7 +91,10 @@ static char	*get_next_word(char **str, char *seps, char *esc)
 	else if (word && *word)
 		word += get_word_len(word, esc);
 	else
+	{
 		word = lexer_ft_strsep(str, seps, esc);
+		printf("word: %s\n", word);
+	}
 	return (word);
 }
 
