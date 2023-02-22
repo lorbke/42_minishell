@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_utils.c                                     :+:      :+:    :+:   */
+/*   builtin_export_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 17:36:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/19 10:02:59 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 21:55:46 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // t_sym_tab, g_sym_table
-#include "libft.h" // ft_strncmp, ft_strjoin, ft_substr, ft_isalpha, ft_isalnum, ft_strlen
+#include "libft.h" // free, NULL, ft_strncmp, ft_strjoin, ft_substr, ft_strlen. ft_putstr_fd
 #include "../../utils.h" // check_naming_convention
 #include <stdio.h> // printf
 

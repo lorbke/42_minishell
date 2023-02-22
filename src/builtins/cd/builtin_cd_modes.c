@@ -6,11 +6,11 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:48:10 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 17:25:47 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 21:53:29 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h" // t_sym_tab
+#include "env.h" // t_sym_tab, g_sym_table
 #include "libft.h" // free, ft_strncmp, ft_strlen, ft_putstr_fd
 #include "../../utils.h" // ft_perror
 #include "cd_private.h" // check_for_dots, set_path, get_path
@@ -112,10 +112,7 @@ int	cd_home(void)
 	t_sym_tab	*temp;
 	char		*path;
 
-	if (*g_sym_table == NULL)
-		temp = NULL;
-	else
-		temp = *g_sym_table;
+	temp = *g_sym_table;
 	while (temp != NULL)
 	{
 		if (ft_strncmp(temp->var, "HOME=", ft_strlen("HOME=")) == 0)
