@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 10:44:19 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/18 10:44:51 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 22:28:59 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 #include <dirent.h> // opendir, readdir, closedir
 #include <sys/stat.h> // stat
-#include <sys/types.h> // stat
 
 // globbing
 char	*create_new_path(char *path, char *entry);

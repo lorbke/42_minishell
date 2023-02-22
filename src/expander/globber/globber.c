@@ -6,11 +6,9 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:29:31 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/21 18:17:51 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 23:02:01 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// @note remove one function from this file
 
 #include "libft.h" // NULL, free, ft_substr
 #include "../../utils.h" // free_split, ft_strcmp

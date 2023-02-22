@@ -6,16 +6,15 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:20:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 18:43:30 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 21:46:16 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h" // malloc, NULL, ft_strchr
+#include "libft.h" // malloc, NULL, ft_strchr, ft_strdup, ft_strncmp
 #include "env_private.h" // get_list_len
 
 static int	check_value(t_sym_tab *node);
 
-#include <stdio.h>
 char **create_env_list(t_sym_tab **head)
 {
 	int			i;
@@ -23,8 +22,6 @@ char **create_env_list(t_sym_tab **head)
 	t_sym_tab	*temp;
 	char		**env_list;
 
-	if (*head == NULL)
-		return (NULL);
 	len = get_list_len(head);
 	env_list = malloc(sizeof(char *) * (len + 1));
 	if (env_list == NULL) {
@@ -37,7 +34,6 @@ char **create_env_list(t_sym_tab **head)
 			temp = temp->next;
 		else
 		{
-			// @note is this dup necessary or not?
 			env_list[i] = ft_strdup(temp->var);
 			temp = temp->next;
 			i++;

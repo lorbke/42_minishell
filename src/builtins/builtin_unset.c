@@ -6,16 +6,15 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:23:41 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 20:18:58 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 22:02:31 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // g_sym_table
-#include "libft.h" // ft_strchr, ft_strncmp
+#include "libft.h" // STDERR_FILENO, NULL, free, ft_strchr, ft_strncmp
 
 static void	remove_node(char *var);
 
-#include <stdio.h> // printf
 int	unset_b(char **argv)
 {
 	int	i;

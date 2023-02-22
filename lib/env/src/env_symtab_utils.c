@@ -6,13 +6,12 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:03:21 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 17:19:23 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 21:48:06 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "env_private.h"
-#include <stdlib.h>
+#include "libft.h" // malloc, NULL, ft_strdup
+#include "env.h" // t_sym_tab
 
 int get_list_len(t_sym_tab **head)
 {

@@ -6,12 +6,12 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:17:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 18:50:47 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 21:58:34 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // g_sym_table
-#include "libft.h" // free
+#include "libft.h" // ft_putstr_fd
 #include "../utils.h" // free_split
 #include <stdio.h> // printf
 
@@ -27,12 +27,6 @@ int	env_b(char **argv)
 		print_error_msg(argv[1]);
 		return (127);
 	}
-	// @note can be removed, bc the exit status will always be in the list (first node never will be empty)
-	// if (*g_sym_table == NULL)
-	// {
-	// 	ft_putstr_fd("minishell: env: environment not set\n", STDERR_FILENO);
-	// 	return (-1);
-	// }
 	env_list = create_env_list(g_sym_table);
 	if (env_list == NULL)
 	{

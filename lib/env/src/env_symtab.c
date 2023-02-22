@@ -6,17 +6,12 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:00:37 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 20:36:04 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 21:45:41 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "libft.h"
-#include "env_private.h"
-#include <stdlib.h>
-#include <stdio.h>
-
-t_sym_tab	*new_sym_tab_node(char *var);
+#include "env.h" // t_sym_tab, add_to_back
+#include "libft.h" // free, ft_strdup, ft_strlcpy
 
 t_sym_tab	**init_sym_tab(char **envp)
 {

@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 17:49:26 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 22:00:27 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static long long	ft_atoi_long(char *str);
 static void			print_to_stderr(char *str, char *arg);
 
 // @note I guess later, exit_code needs to be initialised to "global" exit status?
+// @todo short function
 int	builtin_exit_b(char **argv)
 {
 	int			argc;
