@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 18:20:53 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 18:43:20 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ static bool	is_input_incomplete(t_stack *tokstack)
 {
 	while (tokstack && tokstack->next)
 		tokstack = tokstack->next;
-	if (tokstack && tokstack->token->desc == TOK_PIPE
-		|| tokstack && tokstack->token->desc == TOK_AND
-		|| tokstack && tokstack->token->desc == TOK_OR)
+	if (tokstack && (tokstack->token->desc == TOK_PIPE
+			|| tokstack->token->desc == TOK_AND
+			|| tokstack->token->desc == TOK_OR
+			|| tokstack->token->word && tokstack->token->word[0] == ')'))
 	{
 		ms_exit_status_set(ERR_SYNTAX);
 		ms_print_error(ms_exit_status_get(),
