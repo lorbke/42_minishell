@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:13:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/21 19:35:53 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 18:41:36 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,8 @@ static void insertion_sort(t_sym_tab **head, t_sym_tab *node)
 
 static void	print_var(t_sym_tab *node, char *equal)
 {
+	if (ft_strncmp(node->var, "?=", 2) == 0)
+		return ;
 	printf("declare -x ");
 	if (equal)
 	{

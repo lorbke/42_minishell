@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:23:41 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/21 19:35:48 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 20:18:58 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ static void	remove_node(char *var)
 	t_sym_tab	*prev;
 	int			key_len;
 
+	if (*g_sym_table == NULL)
+		return ;
 	prev = *g_sym_table;
 	temp = prev->next;
 	key_len = (int)(ft_strchr(prev->var, '=') - prev->var);

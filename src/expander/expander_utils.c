@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:47:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/21 14:37:00 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 20:35:27 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,23 @@ static char	*add_expanded_var(char *result, char *var, int *result_index)
 	return (arg);
 }
 
+// @note write another function for $? expansion
 static char	*get_var(char *arg, int *index)
 {
 	int		i;
 	int		len;
 	char	*var;
 
+	// @note exit status expansion
+	if (arg[0] == '?')
+	{
+		var = malloc(sizeof(char) * 2);
+		if (var == NULL)
+			return (NULL);
+		ft_strlcpy(var, "?", 2);
+		(*index)++;
+		return (var);
+	}
 	i = check_naming_convention(arg);
 	if (i == 0)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_path.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:44:52 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 19:55:31 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 17:39:12 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ static char	*get_pathset(char **envp)
 	char	*path_set;
 
 	path_set = ft_strnstr_arr(envp, PATH_ENV);
+	// @note protected
+	if (path_set == NULL)
+		return (NULL);
 	path_set = ft_strtrim(path_set, PATH_ENV);
 	return (path_set);
 }
@@ -48,6 +51,9 @@ char	*get_cmd_path(char **env, char *cmd)
 	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
 	path_str = get_pathset(env);
+	// @note protected
+	if (path_str == NULL)
+		return (NULL);
 	cmd = ft_strjoin("/", cmd);
 	path_arr = ft_split(path_str, ':');
 	temp_arr = path_arr;

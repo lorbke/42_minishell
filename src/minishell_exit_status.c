@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_exit_status.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 14:29:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 19:42:59 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 20:33:02 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h" // t_status
 #include "parser.h" // t_ast
+#include "../lib/env/env.h" // g_sym_table
+#include "libft.h"
 #include <string.h> // NULL
 #include <stdio.h> // printf
 #include <string.h> // strerror
@@ -19,23 +21,41 @@
 #include <unistd.h> // STDIN_FILENO, STDOUT_FILENO, write, read
 #include <sys/wait.h> // waitpid, WIFEXITED, WEXITSTATUS, WIFSIGNALED, WTERMSIG
 
-
-// @todo restructure so that static exit status is changed to sym_table
-static t_status	*ms_exit_status_init(void)
-{
-	static t_status	exit_status = ERR_SUCCESS;
-
-	return (&exit_status);
-}
-
 void	ms_exit_status_set(t_status exit_status)
 {
-	*ms_exit_status_init() = exit_status;
+	t_sym_tab	*tmp;
+	char		*exit_status_str;
+
+	tmp = *g_sym_table;
+	while (tmp != NULL)
+	{
+		if (ft_strncmp(tmp->var, "?=", 2) == 0)
+		{
+			free(tmp->var);
+			exit_status_str = ft_itoa(exit_status);
+			tmp->var = ft_strjoin("?=", exit_status_str);
+			free(exit_status_str);
+			return ;
+		}
+		tmp = tmp->next;
+	}
 }
 
 t_status	ms_exit_status_get(void)
 {
-	return (*ms_exit_status_init());
+	t_sym_tab	*tmp;
+	t_status	exit_status;
+
+	tmp = *g_sym_table;
+	while (tmp != NULL)
+	{
+		if (ft_strncmp(tmp->var, "?=", 2) == 0)
+		{
+			exit_status = ft_atoi(tmp->var + 2);
+			return (exit_status);
+		}
+		tmp = tmp->next;
+	}
 }
 
 // @todo parent processs builtin exit status is overwritten

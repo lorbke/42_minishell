@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 00:31:10 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 14:11:49 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ static char	*get_next_word(char **str, char *seps, char *esc)
 	else
 	{
 		word = lexer_ft_strsep(str, seps, esc);
-		printf("word: %s\n", word);
 	}
 	return (word);
 }

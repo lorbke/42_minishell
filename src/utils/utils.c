@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:17:47 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/21 10:15:28 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 16:33:48 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	free_split(char **split)
 	int		i;
 	char	**temp;
 
+	if (split == NULL)
+		return ;
 	i = 0;
 	temp = split;
 	while (temp[i] != NULL)
@@ -41,6 +43,8 @@ void	free_list(t_sym_tab **head)
 		free(temp->var);
 		free(temp);
 	}
+	if (head == NULL)
+		return ;
 	free(head);
 }
 

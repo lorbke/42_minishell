@@ -3,7 +3,7 @@
 BLUE='\033[0;34m'
 
 # path to test script
-test_script="test/src/shinimell.py"
+test_script="shelltest/src/shinimell.py"
 
 echo -e "${BLUE}Running 'make re'..."
 # just comment the next line if you don't want to run make re every time

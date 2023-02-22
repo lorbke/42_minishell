@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 14:53:45 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 20:38:41 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "debugger.h" // debug
 #include "garbage_collector.h" // gc_add_garbage
 #include "libft.h" // ft_strncmp
-#include "env.h" // global_var
+#include "env.h" // global_var, init_exit_status, init_sym_tab
 #include "builtins.h" // builtin_exit
 #include "utils.h" // free_list
 #include "get_next_line.h" // get_next_line
@@ -45,11 +45,11 @@
 
 // @todo add non-interactive mode => done
 // @todo check out why echo in quotes doesn't work => done
+// @todo cd should change dir to HOME => done
+// @todo protect env stuff (in case shell is init witoout env) => done
 // @todo add exit status expansion and related stuff
-// @todo rename functions , make stuff more rea dable and norm proof
-// @todo protect env stuff (in case shell is init witoout env)
+// @todo rename functions , make stuff more readable and norm proof
 // @todo tester behaves in a weird way
-// @todo cd should change dir to user
 
 /* Read-Eval-Print-Loop. */
 void	rep_loop(void)
@@ -61,10 +61,11 @@ void	rep_loop(void)
 	mssignal_change_mode(MSSIG_INTER);
 	while (1)
 	{
-		ms_exit_status_set(ERR_SUCCESS);
+		// ms_exit_status_set(ERR_SUCCESS);
 		line = readline(PROMPT);
 		if (!line)
 		{
+			// @note can simply pass NULL here
 			builtin_exit_b(&exit);
 		}
 		if (*line)
@@ -94,6 +95,7 @@ void	non_interactive_mode(void)
 int	main(int argc, char **argv, char **envp)
 {
 	g_sym_table = init_sym_tab(envp);
+	init_exit_status(g_sym_table);
 	// gc_add_garbage(g_sym_table, &free_list);
 	if (isatty(STDIN_FILENO)) // check if stdin is a terminal
 		rep_loop();

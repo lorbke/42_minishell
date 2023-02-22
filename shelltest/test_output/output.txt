@@ -1,476 +1,1760 @@
-|||||||||||||||||||||||||||||
-||||||||| WILDCARDS |||||||||
-|||||||||||||||||||||||||||||
+||||||||||||||||||||||||
+||||||||| ECHO |||||||||
+||||||||||||||||||||||||
 
 Case #1: 
 
-/usr/bin/printf "%s\n" * | sort
+echo
 
 
 minishell output: 
-MakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
+
 
 bash      output: 
-MakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
+
 
 
 ---------------------------------------------
 
 Case #2: 
 
-export ARG="*"
-
-/usr/bin/printf "%s\n" $ARG | sort
+echo ''
 
 
 minishell output: 
-n
+
 
 bash      output: 
-n
+
 
 
 ---------------------------------------------
 
 Case #3: 
 
-ls *
+echo ""
 
 
 minishell output: 
-Makefile
-Makefilee
-README.txt
-minishell
-notes.txt
-shinimell.sh
-tester.c
 
-lib:
-env
-executer
-gnl
-lexer
-libft
-parser
-
-obj:
-builtins_utils.o
-cd.o
-cd_modes.o
-cd_utils.o
-debugger.o
-echo.o
-entry.o
-env.o
-error.o
-exit.o
-expander.o
-expander_utils.o
-export.o
-export_utils.o
-globber.o
-globber_outside_cwd.o
-globber_utils.o
-minishell.o
-pattern.o
-pwd.o
-quotes.o
-realloc.o
-signal.o
-unset.o
-utils.o
-
-src:
-builtins
-builtins.h
-debugger
-debugger.h
-expander
-expander.h
-minishell.c
-minishell.h
-signal.c
-utils
-utils.h
-
-test:
-modes
-src
-test_cases
-test_output
 
 bash      output: 
-Makefile
-Makefilee
-README.txt
-minishell
-notes.txt
-shinimell.sh
-tester.c
 
-lib:
-env
-executer
-gnl
-lexer
-libft
-parser
-
-obj:
-builtins_utils.o
-cd.o
-cd_modes.o
-cd_utils.o
-debugger.o
-echo.o
-entry.o
-env.o
-error.o
-exit.o
-expander.o
-expander_utils.o
-export.o
-export_utils.o
-globber.o
-globber_outside_cwd.o
-globber_utils.o
-minishell.o
-pattern.o
-pwd.o
-quotes.o
-realloc.o
-signal.o
-unset.o
-utils.o
-
-src:
-builtins
-builtins.h
-debugger
-debugger.h
-expander
-expander.h
-minishell.c
-minishell.h
-signal.c
-utils
-utils.h
-
-test:
-modes
-src
-test_cases
-test_output
 
 
 ---------------------------------------------
 
 Case #4: 
 
-touch "*1"
-
-/usr/bin/printf "%s\n" "*"* | sort
-
-rm "*1"
+echo '' ""
 
 
 minishell output: 
-*1nMakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
+
 
 bash      output: 
-*1nMakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
+
 
 
 ---------------------------------------------
 
 Case #5: 
 
-touch "   "
-
-ls * | grep "   "
-
-rm "   "
+echo echo
 
 
 minishell output: 
-usage:
-touch [-A [-][[hh]mm]SS] [-acfhm] [-r file] [-t [[CC]YY]MMDDhhmm[.SS]] file ...
-usage: grep [-abcDEFGHhIiJLlmnOoqRSsUVvwxZ] [-A num] [-B num] [-C[num]]
-	[-e pattern] [-f file] [--binary-files=value] [--color=when]
-	[--context[=num]] [--directories=action] [--label] [--line-buffered]
-	[--null] [pattern] [file ...]
-usage: rm [-f | -i] [-dPRrvW] file ...
-       unlink file
+echo
 
 bash      output: 
-usage:
-touch [-A [-][[hh]mm]SS] [-acfhm] [-r file] [-t [[CC]YY]MMDDhhmm[.SS]] file ...
-usage: grep [-abcDEFGHhIiJLlmnOoqRSsUVvwxZ] [-A num] [-B num] [-C[num]]
-	[-e pattern] [-f file] [--binary-files=value] [--color=when]
-	[--context[=num]] [--directories=action] [--label] [--line-buffered]
-	[--null] [pattern] [file ...]
-usage: rm [-f | -i] [-dPRrvW] file ...
-       unlink file
+echo
 
 
 ---------------------------------------------
 
 Case #6: 
 
-touch "a" "aa"
-
-/usr/bin/printf "%s\n" *a | sort
-
-rm "a" "aa"
+echo test1
 
 
 minishell output: 
-anaan
+test1
 
 bash      output: 
-anaan
+test1
 
 
 ---------------------------------------------
 
 Case #7: 
 
-touch "a" "aa" "aaa"
-
-/usr/bin/printf "%s\n" *a*a | sort
-
-rm "a" "aa" "aaa"
+echo 'test1'
 
 
 minishell output: 
-aanaaan
+test1
 
 bash      output: 
-aanaaan
+test1
 
 
 ---------------------------------------------
 
 Case #8: 
 
-/usr/bin/printf "%s\n" "Mak"'e'*'*' | sort
+echo "echo hallo"
 
 
 minishell output: 
-Make**n
+echo hallo
 
 bash      output: 
-Make**n
+echo hallo
 
 
 ---------------------------------------------
 
 Case #9: 
 
-/usr/bin/printf "%s\n" "Mak"'e'** | sort
+echo echo"1"
 
 
 minishell output: 
-MakefilenMakefileen
+echo1
 
 bash      output: 
-MakefilenMakefileen
+echo1
 
 
 ---------------------------------------------
 
 Case #10: 
 
-/usr/bin/printf "%s\n" ***"Mak"'e'** | sort
+echo "test1 test2"
 
 
 minishell output: 
-MakefilenMakefileen
+test1 test2
 
 bash      output: 
-MakefilenMakefileen
+test1 test2
 
 
 ---------------------------------------------
 
 Case #11: 
 
-/usr/bin/printf "%s\n" "."* | sort
+echo "test1  test2" test3
 
 
 minishell output: 
-.n..n.gitn.gitignoren.vscoden
+test1 test2 test3
 
 bash      output: 
-.n..n.gitn.gitignoren.vscoden
+test1 test2 test3
 
 
 ---------------------------------------------
 
 Case #12: 
 
-/usr/bin/printf "%s\n" *"." | sort
+echo " test1 test2 " 'test3 '
 
 
 minishell output: 
-*.n
+test1 test2 test3 
 
 bash      output: 
-*.n
+test1 test2 test3 
 
 
 ---------------------------------------------
 
 Case #13: 
 
-/usr/bin/printf "%s\n" *"."* | sort
+echo test1		test2
 
 
 minishell output: 
-README.txtnnotes.txtnshinimell.shntester.cn
+test1 test2
 
 bash      output: 
-README.txtnnotes.txtnshinimell.shntester.cn
+test1 test2
 
 
 ---------------------------------------------
 
 Case #14: 
 
-/usr/bin/printf "%s\n" "*" | sort
+echo -n test1
 
 
 minishell output: 
-MakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
-
+test1
 bash      output: 
-MakefilenMakefileenREADME.txtnlibnminishellnnotes.txtnobjnshinimell.shnsrcntestntester.cn
-
+test1
 
 ---------------------------------------------
 
 Case #15: 
 
-/usr/bin/printf "%s\n" '*' | sort
+echo -n "test1 test2"
 
 
 minishell output: 
-*n
-
+test1 test2
 bash      output: 
-*n
-
+test1 test2
 
 ---------------------------------------------
 
 Case #16: 
 
-/usr/bin/printf "%s\n" Minishe*l | sort
+echo -n "test1 test2" test3
 
 
 minishell output: 
-Minishe*ln
-
+test1 test2 test3
 bash      output: 
-Minishe*ln
-
+test1 test2 test3
 
 ---------------------------------------------
 
 Case #17: 
 
-/usr/bin/printf "%s\n" minishe*l | sort
+echo -n " test1 test2 " 'test3 '
 
 
 minishell output: 
-minishelln
-
+test1 test2 test3 
 bash      output: 
-minishelln
-
+test1 test2 test3 
 
 ---------------------------------------------
 
 Case #18: 
 
-touch minishelxxxl
-
-/usr/bin/printf "%s\n" minishe*l | sort
-
-/usr/bin/printf "%s\n" minishel*l | sort
-
-/usr/bin/printf "%s\n" minishelxxx*l | sort
-
-/usr/bin/printf "%s\n" minishel*xxx*l | sort
-
-rm minishelxxxl
+echo -n test1		test2
 
 
 minishell output: 
-minishellnminishelxxxln
-minishellnminishelxxxln
-minishelxxxln
-minishelxxxln
-
+test1 test2
 bash      output: 
-minishellnminishelxxxln
-minishellnminishelxxxln
-minishelxxxln
-minishelxxxln
-
+test1 test2
 
 ---------------------------------------------
 
 Case #19: 
 
-touch tmp_out
-
-/bin/echo 42 >tmp_o*t*
-
-rm -f "tmp_out*"
+echo test1 -n
 
 
 minishell output: 
-/bin/sh: line 6: 17271 Done                    echo "touch tmp_out
-
-/bin/echo 42 >tmp_o*t*
-
-rm -f "tmp_out*"
-
-"
-     17272 Segmentation fault: 11  | ./minishell
+test1 -n
 
 bash      output: 
+test1 -n
 
 
 ---------------------------------------------
 
 Case #20: 
 
-touch tmp_out1
-
-touch tmp_out2
-
-/bin/echo 42 >tmp_out*
-
-rm -f "tmp_out*"
+echo "test1 -n"
 
 
 minishell output: 
-/bin/sh: line 8: 17281 Done                    echo "touch tmp_out1
-
-touch tmp_out2
-
-/bin/echo 42 >tmp_out*
-
-rm -f "tmp_out*"
-
-"
-     17282 Segmentation fault: 11  | ./minishell
+test1 -n
 
 bash      output: 
-bash: line 5: tmp_out*: ambiguous redirect
+test1 -n
+
+
+---------------------------------------------
+
+Case #21: 
+
+echo -n -n test1
+
+
+minishell output: 
+test1
+bash      output: 
+test1
+
+---------------------------------------------
+
+Case #22: 
+
+echo -n -n -n -n -n test1
+
+
+minishell output: 
+test1
+bash      output: 
+test1
+
+---------------------------------------------
+
+Case #23: 
+
+echo "-n test1 -n test2"
+
+
+minishell output: 
+test1 -n test2
+bash      output: 
+test1 -n test2
+
+---------------------------------------------
+
+Case #24: 
+
+echo "test1 -n test2"
+
+
+minishell output: 
+test1 -n test2
+
+bash      output: 
+test1 -n test2
+
+
+---------------------------------------------
+
+Case #25: 
+
+echo ~42
+
+
+minishell output: 
+~42
+
+bash      output: 
+~42
+
+
+---------------------------------------------
+
+Case #26: 
+
+eCho
+
+
+minishell output: 
+
+
+bash      output: 
+
+
+
+---------------------------------------------
+
+Case #27: 
+
+eChO
+
+
+minishell output: 
+
+
+bash      output: 
+
+
+
+---------------------------------------------
+
+Case #28: 
+
+eCHO
+
+
+minishell output: 
+
+
+bash      output: 
+
+
+
+---------------------------------------------
+
+Case #29: 
+
+ECHO
+
+
+minishell output: 
+
+
+bash      output: 
+
+
+
+---------------------------------------------
+
+|||||||||||||||||||||||
+||||||||| PWD |||||||||
+|||||||||||||||||||||||
+
+Case #30: 
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+/Users/fyuzhyk/minishell_master
+
+
+---------------------------------------------
+
+Case #31: 
+
+"pwd"
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+/Users/fyuzhyk/minishell_master
+
+
+---------------------------------------------
+
+Case #32: 
+
+pw"d"
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+/Users/fyuzhyk/minishell_master
+
+
+---------------------------------------------
+
+Case #33: 
+
+pwd test42
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+/Users/fyuzhyk/minishell_master
+
+
+---------------------------------------------
+
+Case #34: 
+
+pwd 42 42 42
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+/Users/fyuzhyk/minishell_master
+
+
+---------------------------------------------
+
+Case #35: 
+
+pwd pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+/Users/fyuzhyk/minishell_master
+
+
+---------------------------------------------
+
+Case #36: 
+
+pwd pwd pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+/Users/fyuzhyk/minishell_master
+
+
+---------------------------------------------
+
+||||||||||||||||||||||||
+||||||||| EXIT |||||||||
+||||||||||||||||||||||||
+
+Case #37: 
+
+exit
+
+
+minishell output: 
+exit
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #38: 
+
+exit ""
+
+
+minishell output: 
+exit
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #39: 
+
+exit 0
+
+
+minishell output: 
+exit
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #40: 
+
+exit 10
+
+
+minishell output: 
+exit
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #41: 
+
+exit 42
+
+
+minishell output: 
+exit
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #42: 
+
+exit 1
+
+
+minishell output: 
+exit
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #43: 
+
+exit +++++
+
+
+minishell output: 
+minishell: exit: +++++: numeric argument required
+
+bash      output: 
+bash: line 1: exit: +++++: numeric argument required
+
+
+---------------------------------------------
+
+Case #44: 
+
+exit ++++++
+
+
+minishell output: 
+minishell: exit: ++++++: numeric argument required
+
+bash      output: 
+bash: line 1: exit: ++++++: numeric argument required
+
+
+---------------------------------------------
+
+Case #45: 
+
+exit +1
+
+
+minishell output: 
+exit
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #46: 
+
+exit ++1
+
+
+minishell output: 
+minishell: exit: ++1: numeric argument required
+
+bash      output: 
+bash: line 1: exit: ++1: numeric argument required
+
+
+---------------------------------------------
+
+Case #47: 
+
+exit ++12560
+
+
+minishell output: 
+minishell: exit: ++12560: numeric argument required
+
+bash      output: 
+bash: line 1: exit: ++12560: numeric argument required
+
+
+---------------------------------------------
+
+Case #48: 
+
+exit -----
+
+
+minishell output: 
+minishell: exit: -----: numeric argument required
+
+bash      output: 
+bash: line 1: exit: -----: numeric argument required
+
+
+---------------------------------------------
+
+Case #49: 
+
+exit ------
+
+
+minishell output: 
+minishell: exit: ------: numeric argument required
+
+bash      output: 
+bash: line 1: exit: ------: numeric argument required
+
+
+---------------------------------------------
+
+Case #50: 
+
+exit -1
+
+
+minishell output: 
+exit
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #51: 
+
+exit --1
+
+
+minishell output: 
+minishell: exit: --1: numeric argument required
+
+bash      output: 
+bash: line 1: exit: --1: numeric argument required
+
+
+---------------------------------------------
+
+Case #52: 
+
+exit -12560
+
+
+minishell output: 
+exit
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #53: 
+
+exit --12560
+
+
+minishell output: 
+minishell: exit: --12560: numeric argument required
+
+bash      output: 
+bash: line 1: exit: --12560: numeric argument required
+
+
+---------------------------------------------
+
+Case #54: 
+
+exit 255
+
+
+minishell output: 
+exit
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #55: 
+
+exit 1 2
+
+
+minishell output: 
+minishell: exit: too many arguments
+
+bash      output: 
+bash: line 1: exit: too many arguments
+
+
+---------------------------------------------
+
+Case #56: 
+
+exit 1 2 3
+
+
+minishell output: 
+minishell: exit: too many arguments
+
+bash      output: 
+bash: line 1: exit: too many arguments
+
+
+---------------------------------------------
+
+Case #57: 
+
+exit A
+
+
+minishell output: 
+minishell: exit: A: numeric argument required
+
+bash      output: 
+bash: line 1: exit: A: numeric argument required
+
+
+---------------------------------------------
+
+Case #58: 
+
+exit A 2 3
+
+
+minishell output: 
+minishell: exit: too many arguments
+
+bash      output: 
+bash: line 1: exit: A: numeric argument required
+
+
+---------------------------------------------
+
+Case #59: 
+
+exit "A"
+
+
+minishell output: 
+minishell: exit: A: numeric argument required
+
+bash      output: 
+bash: line 1: exit: A: numeric argument required
+
+
+---------------------------------------------
+
+Case #60: 
+
+exit "+++"
+
+
+minishell output: 
+minishell: exit: +++: numeric argument required
+
+bash      output: 
+bash: line 1: exit: +++: numeric argument required
+
+
+---------------------------------------------
+
+Case #61: 
+
+exit ++++3193912939
+
+
+minishell output: 
+minishell: exit: ++++3193912939: numeric argument required
+
+bash      output: 
+bash: line 1: exit: ++++3193912939: numeric argument required
+
+
+---------------------------------------------
+
+Case #62: 
+
+exit 01
+
+
+minishell output: 
+exit
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #63: 
+
+exit 001
+
+
+minishell output: 
+exit
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #64: 
+
+exit 0001
+
+
+minishell output: 
+exit
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #65: 
+
+exit +++000
+
+
+minishell output: 
+minishell: exit: +++000: numeric argument required
+
+bash      output: 
+bash: line 1: exit: +++000: numeric argument required
+
+
+---------------------------------------------
+
+Case #66: 
+
+exit ++++000
+
+
+minishell output: 
+minishell: exit: ++++000: numeric argument required
+
+bash      output: 
+bash: line 1: exit: ++++000: numeric argument required
+
+
+---------------------------------------------
+
+Case #67: 
+
+exit ---000
+
+
+minishell output: 
+minishell: exit: ---000: numeric argument required
+
+bash      output: 
+bash: line 1: exit: ---000: numeric argument required
+
+
+---------------------------------------------
+
+Case #68: 
+
+exit ----000
+
+
+minishell output: 
+minishell: exit: ----000: numeric argument required
+
+bash      output: 
+bash: line 1: exit: ----000: numeric argument required
+
+
+---------------------------------------------
+
+Case #69: 
+
+exit "something"
+
+
+minishell output: 
+minishell: exit: something: numeric argument required
+
+bash      output: 
+bash: line 1: exit: something: numeric argument required
+
+
+---------------------------------------------
+
+Case #70: 
+
+exit x
+
+
+minishell output: 
+minishell: exit: x: numeric argument required
+
+bash      output: 
+bash: line 1: exit: x: numeric argument required
+
+
+---------------------------------------------
+
+Case #71: 
+
+exit echo
+
+
+minishell output: 
+minishell: exit: echo: numeric argument required
+
+bash      output: 
+bash: line 1: exit: echo: numeric argument required
+
+
+---------------------------------------------
+
+Case #72: 
+
+exit cd ..
+
+
+minishell output: 
+minishell: exit: too many arguments
+
+bash      output: 
+bash: line 1: exit: cd: numeric argument required
+
+
+---------------------------------------------
+
+Case #73: 
+
+exit exit
+
+
+minishell output: 
+minishell: exit: exit: numeric argument required
+
+bash      output: 
+bash: line 1: exit: exit: numeric argument required
+
+
+---------------------------------------------
+
+||||||||||||||||||||||
+||||||||| CD |||||||||
+||||||||||||||||||||||
+
+Case #74: 
+
+pwd
+
+cd
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+/Users/fyuzhyk/minishell_master
+/Users/fyuzhyk
+
+
+---------------------------------------------
+
+Case #75: 
+
+pwd
+
+cd ..
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+/Users/fyuzhyk/minishell_master
+/Users/fyuzhyk
+
+
+---------------------------------------------
+
+Case #76: 
+
+pwd
+
+cd .
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+/Users/fyuzhyk/minishell_master
+/Users/fyuzhyk/minishell_master
+
+
+---------------------------------------------
+
+Case #77: 
+
+pwd
+
+cd "."
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+/Users/fyuzhyk/minishell_master
+/Users/fyuzhyk/minishell_master
+
+
+---------------------------------------------
+
+Case #78: 
+
+pwd
+
+cd /Users
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+/Users/fyuzhyk/minishell_master
+/Users
+
+
+---------------------------------------------
+
+Case #79: 
+
+pwd
+
+cd //////
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+/Users/fyuzhyk/minishell_master
+/
+
+
+---------------------------------------------
+
+Case #80: 
+
+pwd
+
+cd ./././
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+/Users/fyuzhyk/minishell_master
+/Users/fyuzhyk/minishell_master
+
+
+---------------------------------------------
+
+Case #81: 
+
+pwd
+
+cd /
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+/Users/fyuzhyk/minishell_master
+/
+
+
+---------------------------------------------
+
+Case #82: 
+
+pwd
+
+cd '/////'
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+/Users/fyuzhyk/minishell_master
+/
+
+
+---------------------------------------------
+
+Case #83: 
+
+pwd
+
+cd "$PWD/file_tests"
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+bash: line 3: cd: /Users/fyuzhyk/minishell_master/file_tests: No such file or directory
+
+
+---------------------------------------------
+
+Case #84: 
+
+pwd
+
+cd "doesntexist"
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+bash: line 3: cd: doesntexist: No such file or directory
+
+
+---------------------------------------------
+
+Case #85: 
+
+pwd
+
+cd "doesntexist"
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+bash: line 3: cd: doesntexist: No such file or directory
+
+
+---------------------------------------------
+
+Case #86: 
+
+pwd
+
+cd ../../..
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+/Users/fyuzhyk/minishell_master
+/
+
+
+---------------------------------------------
+
+Case #87: 
+
+pwd
+
+cd "wtf"
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+bash: line 3: cd: wtf: No such file or directory
+
+
+---------------------------------------------
+
+Case #88: 
+
+pwd
+
+cd ..
+
+cd ..
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+/Users/fyuzhyk/minishell_master
+/Users
+
+
+---------------------------------------------
+
+Case #89: 
+
+pwd
+
+cd ?
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+bash: line 3: cd: ?: No such file or directory
+
+
+---------------------------------------------
+
+Case #90: 
+
+pwd
+
+cd +
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+bash: line 3: cd: +: No such file or directory
+
+
+---------------------------------------------
+
+Case #91: 
+
+pwd
+
+cd _
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+bash: line 3: cd: _: No such file or directory
+
+
+---------------------------------------------
+
+Case #92: 
+
+pwd
+
+cd echo
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+bash: line 3: cd: echo: No such file or directory
+
+
+---------------------------------------------
+
+Case #93: 
+
+pwd
+
+cd echo echo
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+bash: line 3: cd: echo: No such file or directory
+
+
+---------------------------------------------
+
+Case #94: 
+
+pwd
+
+cd '/'
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+/Users/fyuzhyk/minishell_master
+/
+
+
+---------------------------------------------
+
+Case #95: 
+
+pwd
+
+cd $PWD/file_tests
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+bash: line 3: cd: /Users/fyuzhyk/minishell_master/file_tests: No such file or directory
+
+
+---------------------------------------------
+
+Case #96: 
+
+pwd
+
+cd $OLDPWD/something
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+bash: line 3: cd: /something: No such file or directory
+
+
+---------------------------------------------
+
+Case #97: 
+
+pwd
+
+cd "1$HOME"
+
+pwd
+
+
+minishell output: 
+/Users/fyuzhyk/minishell_master
+
+bash      output: 
+bash: line 3: cd: 1/Users/fyuzhyk: No such file or directory
+
+
+---------------------------------------------
+
+||||||||||||||||||||||||||
+||||||||| EXPORT |||||||||
+||||||||||||||||||||||||||
+
+Case #98: 
+
+export =============123
+
+
+minishell output: 
+minishell: export: `=============123': not a valid identifier
+
+bash      output: 
+bash: line 1: export: `=============123': not a valid identifier
+
+
+---------------------------------------------
+
+Case #99: 
+
+export =
+
+
+minishell output: 
+minishell: export: `=': not a valid identifier
+
+bash      output: 
+bash: line 1: export: `=': not a valid identifier
+
+
+---------------------------------------------
+
+Case #100: 
+
+export =42
+
+
+minishell output: 
+minishell: export: `=42': not a valid identifier
+
+bash      output: 
+bash: line 1: export: `=42': not a valid identifier
+
+
+---------------------------------------------
+
+Case #101: 
+
+export ''=''
+
+
+minishell output: 
+minishell: export: `=': not a valid identifier
+
+bash      output: 
+bash: line 1: export: `=': not a valid identifier
+
+
+---------------------------------------------
+
+Case #102: 
+
+export ""=""
+
+
+minishell output: 
+minishell: export: `=': not a valid identifier
+
+bash      output: 
+bash: line 1: export: `=': not a valid identifier
+
+
+---------------------------------------------
+
+Case #103: 
+
+export export
+
+
+minishell output: 
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #104: 
+
+export echo
+
+
+minishell output: 
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #105: 
+
+export cd
+
+
+minishell output: 
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #106: 
+
+export test
+
+
+minishell output: 
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #107: 
+
+export TEST
+
+
+minishell output: 
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #108: 
+
+echo $?
+
+export ?=hallo
+
+echo $?
+
+
+minishell output: 
+0
+
+bash      output: 
+bash: line 3: export: `?=hallo': not a valid identifier
+
+
+---------------------------------------------
+
+|||||||||||||||||||||||||
+||||||||| UNSET |||||||||
+|||||||||||||||||||||||||
+
+Case #109: 
+
+unset ""
+
+
+minishell output: 
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #110: 
+
+unset =
+
+
+minishell output: 
+minishell: unset: `=': not a valid identifier
+
+bash      output: 
+bash: line 1: unset: `=': not a valid identifier
+
+
+---------------------------------------------
+
+Case #111: 
+
+unset "="
+
+
+minishell output: 
+minishell: unset: `=': not a valid identifier
+
+bash      output: 
+bash: line 1: unset: `=': not a valid identifier
+
+
+---------------------------------------------
+
+Case #112: 
+
+unset ""=
+
+
+minishell output: 
+minishell: unset: `=': not a valid identifier
+
+bash      output: 
+bash: line 1: unset: `=': not a valid identifier
+
+
+---------------------------------------------
+
+Case #113: 
+
+unset =""
+
+
+minishell output: 
+minishell: unset: `=': not a valid identifier
+
+bash      output: 
+bash: line 1: unset: `=': not a valid identifier
+
+
+---------------------------------------------
+
+Case #114: 
+
+unset ==
+
+
+minishell output: 
+minishell: unset: `==': not a valid identifier
+
+bash      output: 
+bash: line 1: unset: `==': not a valid identifier
+
+
+---------------------------------------------
+
+Case #115: 
+
+unset ?
+
+
+minishell output: 
+minishell: unset: `?': not a valid identifier
+
+bash      output: 
+bash: line 1: unset: `?': not a valid identifier
+
+
+---------------------------------------------
+
+Case #116: 
+
+unset "?"
+
+
+minishell output: 
+minishell: unset: `?': not a valid identifier
+
+bash      output: 
+bash: line 1: unset: `?': not a valid identifier
+
+
+---------------------------------------------
+
+Case #117: 
+
+unset $
+
+
+minishell output: 
+minishell: unset: `$': not a valid identifier
+
+bash      output: 
+bash: line 1: unset: `$': not a valid identifier
+
+
+---------------------------------------------
+
+Case #118: 
+
+unset "$"
+
+
+minishell output: 
+
+bash      output: 
+
+
+---------------------------------------------
+
+Case #119: 
+
+unset $""
+
+
+minishell output: 
+minishell: unset: `$': not a valid identifier
+
+bash      output: 
+bash: line 1: unset: `$': not a valid identifier
 
 
 ---------------------------------------------

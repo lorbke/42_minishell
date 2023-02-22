@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:17:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/21 19:46:30 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 18:50:47 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ int	env_b(char **argv)
 		print_error_msg(argv[1]);
 		return (127);
 	}
+	// @note can be removed, bc the exit status will always be in the list (first node never will be empty)
+	// if (*g_sym_table == NULL)
+	// {
+	// 	ft_putstr_fd("minishell: env: environment not set\n", STDERR_FILENO);
+	// 	return (-1);
+	// }
 	env_list = create_env_list(g_sym_table);
 	if (env_list == NULL)
 	{

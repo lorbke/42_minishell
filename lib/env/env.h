@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:20:05 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/18 14:03:16 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 20:13:59 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,9 @@ t_sym_tab	*new_sym_tab_node(char *var);
 int			get_list_len(t_sym_tab **head);
 char		**create_env_list(t_sym_tab **head);
 void		add_to_back(t_sym_tab **lst, t_sym_tab *new_node);
+
+// exit status
+void	init_exit_status(t_sym_tab **head);
+void	set_exit_status(int	exit_status);
 
 #endif

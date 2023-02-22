@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd_utils.c                                         :+:      :+:    :+:   */
+/*   builtin_cd_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:43:00 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/20 16:50:44 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 17:11:21 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ void	set_path(char *var, char *value)
 	char		*path;
 	char		*new_var;
 
-	temp = *g_sym_table;
+	if (g_sym_table == NULL)
+		temp = NULL;
+	else
+		temp = *g_sym_table;
 	while (temp != NULL)
 	{
 		if (ft_strncmp(temp->var, var, ft_strlen(var)) == 0)

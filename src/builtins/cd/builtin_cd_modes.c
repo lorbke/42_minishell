@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:48:10 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 15:21:45 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 17:25:47 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ int	handle_dash(char *oldpwd)
 	t_sym_tab	*temp;
 	int			status;
 
-	temp = *g_sym_table;
+	if (*g_sym_table == NULL)
+		temp = NULL;
+	else
+		temp = *g_sym_table;
 	while (temp != NULL)
 	{
 		if (ft_strncmp(temp->var, "OLDPWD=", ft_strlen("OLDPWD=")) == 0)
@@ -36,7 +39,7 @@ int	handle_dash(char *oldpwd)
 		}
 		temp = temp->next;
 	}
-	ft_perror("cd", "OLDPWD not set");
+	ft_putstr_fd("minishell: cd: OLDPWD not set\n", STDERR_FILENO);
 	return (1);
 }
 
@@ -109,7 +112,10 @@ int	cd_home(void)
 	t_sym_tab	*temp;
 	char		*path;
 
-	temp = *g_sym_table;
+	if (*g_sym_table == NULL)
+		temp = NULL;
+	else
+		temp = *g_sym_table;
 	while (temp != NULL)
 	{
 		if (ft_strncmp(temp->var, "HOME=", ft_strlen("HOME=")) == 0)

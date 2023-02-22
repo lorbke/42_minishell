@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:50:47 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 15:19:13 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 17:12:25 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ static int	exec_cd(char *path, char *oldpwd)
 		}
 		set_path("OLDPWD", oldpwd);
 	}
-	set_path("PWD", getcwd(NULL, 0));
+	if (status == 0)
+		set_path("PWD", getcwd(NULL, 0));
 	free(oldpwd);
 	return (status);
 }

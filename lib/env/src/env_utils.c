@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:20:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/18 13:52:25 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 18:43:30 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 static int	check_value(t_sym_tab *node);
 
+#include <stdio.h>
 char **create_env_list(t_sym_tab **head)
 {
 	int			i;
@@ -22,6 +23,8 @@ char **create_env_list(t_sym_tab **head)
 	t_sym_tab	*temp;
 	char		**env_list;
 
+	if (*head == NULL)
+		return (NULL);
 	len = get_list_len(head);
 	env_list = malloc(sizeof(char *) * (len + 1));
 	if (env_list == NULL) {
@@ -30,7 +33,7 @@ char **create_env_list(t_sym_tab **head)
 	temp = *head;
 	i = 0;
 	while (temp != NULL) {
-		if (check_value(temp) == 0)
+		if (check_value(temp) == 0 || ft_strncmp(temp->var, "?=", 2) == 0)
 			temp = temp->next;
 		else
 		{

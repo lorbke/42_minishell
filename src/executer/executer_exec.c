@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 20:28:08 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 16:45:15 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ static pid_t	exec_builtin(t_cmd_table *cmd_table)
 		return (pid);
 	mssignal_change_mode(MSSIG_NINTER);
 	status = builtin_exec(cmd_table);
+	// @note added by fio
+	ms_exit_status_set(status);
 	gc_free_all_garbage();
 	exit(status);
 	return (pid);
@@ -112,20 +114,26 @@ pid_t	exec_cmd(t_cmd_table *cmd_table, int fd_pipe)
 	if (*cmd_table->cmd[0] == '(')
 		return (exec_subshell(cmd_table));
 	env = create_env_list(g_sym_table);
-	path = get_cmd_path(env, cmd_table->cmd[0]);
+	cmd_table->cmd = expander(cmd_table->cmd);
+	if (builtin_is_builtin(cmd_table->cmd[0]))
+	{
+		// @note needs to be protected
+		if (env != NULL)
+			gc_free_str_arr(env);
+		return (exec_builtin(cmd_table));
+	}
+	// @note also needs to be protected if env == NULL
+	if (env != NULL)
+		path = get_cmd_path(env, cmd_table->cmd[0]);
+	else
+		path = NULL;
 	if (!path)
 	{
-		gc_free_str_arr(env);
+		if (env != NULL)
+			gc_free_str_arr(env);
 		ms_exit_status_set(ERR_CMDNOTFOUND);
 		return (-1);
 	}
-	cmd_table->cmd = expander(cmd_table->cmd);
 	// gc_add_garbage(cmd_table->cmd, &gc_free_str_arr);
-	if (builtin_is_builtin(cmd_table->cmd[0]))
-	{
-		free(path);
-		gc_free_str_arr(env);
-		return (exec_builtin(cmd_table));
-	}
 	return (fork_and_execve(path, env, cmd_table, fd_pipe));
 }

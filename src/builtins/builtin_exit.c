@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/21 20:34:03 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/22 17:49:26 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../minishell.h" // ms_exit_status_set
 #include "libft.h" // ft_putstr_fd, ft_strjoin
 #include "../utils.h" // free_list
 #include "env.h" // g_sym_table
@@ -29,6 +30,14 @@ int	builtin_exit_b(char **argv)
 	long long	exit_code;
 
 	exit_code = errno;
+	// @note in case exit is called from inside rep-loop
+	// can be put in seperate function
+	if (argv == NULL)
+	{
+		printf("exit\n");
+		free_list(g_sym_table);
+		exit(exit_code);
+	}
 	argc = 0;
 	while(argv[argc] != NULL)
 		argc++;

@@ -6,7 +6,7 @@
 #    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/20 18:11:54 by fyuzhyk           #+#    #+#              #
-#    Updated: 2023/02/21 15:50:38 by fyuzhyk          ###   ########.fr        #
+#    Updated: 2023/02/22 14:37:01 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,17 +33,17 @@ from print import pepe, shinimell
 # path to your minishell
 minishell = "./minishell"
 # path to infile
-infile_path = "test/test_cases/input.txt"
+infile_path = "shelltest/test_cases/input.txt"
 # path to outfile
-outfile_path = "test/test_output/output.txt"
+outfile_path = "shelltest/test_output/output.txt"
 
 # Modes
 # 1. variable expansion
-expansion = "test/modes/expansion.txt"
+expansion = "shelltest/modes/expansion.txt"
 # 2. builtins
-builtins = "test/test_cases/input.txt"
+builtins = "shelltest/test_cases/input.txt"
 # 3. wildcards
-wildcard = "test/modes/wildcard.txt"
+wildcard = "shelltest/modes/wildcard.txt"
 
 
 def execute_minishell(command, minishell=minishell):
