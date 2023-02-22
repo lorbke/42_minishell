@@ -47,6 +47,13 @@
 // @todo heredoc and doc read switch to get_next_line?
 // @todo add g_sym_table to garbage collector
 
+// @todo segfault on only space
+// @todo env -i ./minishell segfaults
+// @todo << "lim" -> no expansion
+// @todo expansion in heredoc and infiles, except if lim in quotes
+// @todo heredoc lim itself is not expanded
+// @todo cat | cat | invalidcmd -> piping wrong
+
 /* Read-Eval-Print-Loop. */
 void	rep_loop(void)
 {
