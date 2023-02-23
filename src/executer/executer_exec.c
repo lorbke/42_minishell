@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 19:39:26 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 22:05:19 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include <stdlib.h> // free
 #include <sys/errno.h> // errno
 
+#include <stdio.h>
 static void	close_in_out_fds(int fd_in[2], int fd_out[2])
 {
 	if (fd_in[1] != FDLVL_STD)
@@ -47,8 +48,6 @@ static pid_t	exec_subshell(t_cmd_table *cmd_table, int fd_pipe)
 	if (pid > 0)
 	{
 		close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
-		if (fd_pipe != -1)
-			close(fd_pipe);
 		return (pid);
 	}
 	cmd_table->cmd[0][ft_strlen(cmd_table->cmd[0]) - 1] = 0;
@@ -103,11 +102,17 @@ static pid_t	exec_builtin(t_cmd_table *cmd_table)
 {
 	pid_t	pid;
 	int		status;
+	int		fd_temp;
 
 	if (cmd_table->fd_in[1] != FDLVL_PIPE
 		&& cmd_table->fd_out[1] != FDLVL_PIPE)
 	{
+		fd_temp = dup(STDOUT_FILENO);
+		dup2(cmd_table->fd_out[0], STDOUT_FILENO);
 		status = builtin_exec(cmd_table);
+		dup2(fd_temp, STDOUT_FILENO);
+		close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
+		close(fd_temp);
 		ms_exit_status_set(status);
 		return (-1);
 	}
@@ -119,8 +124,8 @@ static pid_t	exec_builtin(t_cmd_table *cmd_table)
 		close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 		return (pid);
 	}
-	close(cmd_table->fd_in[0]);
 	dup2(cmd_table->fd_out[0], STDOUT_FILENO);
+	close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 	mssignal_change_mode(MSSIG_NINTER);
 	status = builtin_exec(cmd_table);
 	gc_free_all_garbage();
