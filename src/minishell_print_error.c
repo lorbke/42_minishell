@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 17:10:28 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 15:17:15 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 19:44:53 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ static void	exec_error(t_status exit_status, char *error_loc)
 	else if (exit_status != ERR_SUCCESS
 		&& exit_status != ERR_SYNTAX && error_loc)
 	{
+		if (exit_status == ERR_DIRNOTFOUND)
+		{
+			ms_exit_status_set(ERR_CMDNOTFOUND);
+			errno = ENOENT;
+		}
 		ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putstr_fd(error_loc, STDERR_FILENO);
