@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 00:43:16 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 01:29:43 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@
 // @todo add g_sym_table to garbage collector
 
 // @todo env -i ./minishell leaks?
-// @todo cat | cat | invalidcmd -> piping wrong
 // @todo << "lim' cat -> never ending doc
 
 // @todo noninteractive mode -c
