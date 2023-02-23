@@ -84,6 +84,7 @@ char	*doccer_interpret_docs(
 {
 	t_stack	*temp_stack;
 
+	*exit_status = ERR_SUCCESS;
 	temp_stack
 		= iterate_to_end_and_interpret_heredocs(tokstack, input, exit_status);
 	if (!temp_stack)
