@@ -6,12 +6,13 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 01:46:26 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 23:24:30 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_doccer.h" // utils
 #include "libft.h" // ft_strrchr
+#include "get_next_line.h"
 #include "../mssignal.h" // mssignal_change_mode
 #include "../minishell.h" // exit_status functions
 #include "garbage_collector.h" // gc_free_all_garbage
@@ -32,11 +33,13 @@ int	doc_heredoc(char *limiter, int fd_write)
 	limiter_len = ft_strlen(limiter);
 	while (1)
 	{
-		line = readline(DOC_PROMPT);
-		if (!line || ft_strncmp(line, limiter, limiter_len + 1) == 0)
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, DOC_PROMPT, 2);
+		line = get_next_line(STDIN_FILENO);
+		if (!line || (ft_strncmp(line, limiter, limiter_len) == 0
+				&& ft_strlen(line) - 1 == limiter_len))
 			break ;
 		write(fd_write, line, ft_strlen(line));
-		write(fd_write, "\n", 1);
 		free(line);
 	}
 	return (ERR_SUCCESS);
@@ -88,6 +91,19 @@ int	doc_quotedoc(char *quote, int fd_write)
 	return (ERR_SUCCESS);
 }
 
+static void	empty_fd(int fd)
+{
+	char	*line;
+
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		free(line);
+	}
+}
+
 char	*get_doc(
 	int (*doc_func)(char *, int), char *lim, t_status *exit_status)
 {
@@ -109,6 +125,8 @@ char	*get_doc(
 			close(fd[0]);
 			return (NULL);
 		}
+		if (!isatty(STDIN_FILENO))
+			empty_fd(STDIN_FILENO);
 		doc = ft_calloc(sizeof(char), ARG_MAX + 1);
 		read(fd[0], doc, ARG_MAX);
 		close(fd[0]);
