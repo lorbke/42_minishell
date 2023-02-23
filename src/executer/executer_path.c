@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_path.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:44:52 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 17:39:12 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/23 17:22:49 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ char	*get_cmd_path(char **env, char *cmd)
 
 	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
+	if (!cmd || !*cmd)
+		return (NULL);
 	path_str = get_pathset(env);
 	// @note protected
 	if (path_str == NULL)
