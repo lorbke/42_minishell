@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 15:25:22 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 15:37:08 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static pid_t	exec_builtin(t_cmd_table *cmd_table)
 	{
 		status = builtin_exec(cmd_table);
 		ms_exit_status_set(status);
-		return (0);
+		return (-1);
 	}
 	pid = fork();
 	if (pid == -1)

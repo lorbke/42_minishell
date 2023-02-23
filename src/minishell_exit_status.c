@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_exit_status.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 14:29:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 23:41:36 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/23 15:37:04 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	ms_wait_pid_and_set_exit(pid_t pid)
 {
 	int	status;
 
+	if (pid == -1)
+		return ;
 	status = 0;
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
