@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:10:26 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/21 14:51:55 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/23 18:02:09 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ int		ft_strcmp(const char *s1, const char *s2);
 
 // error
 void	ft_perror(char *cmd, char *str);
+void	exit_print_to_stderr(char *str, char *arg);
 
 #endif

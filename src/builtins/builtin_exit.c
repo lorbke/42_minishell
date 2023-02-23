@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 22:00:27 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/23 18:00:31 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,42 +20,30 @@
 #include <string.h> // strerror
 
 static int			is_num(char *str);
+static void			exit_non_numeric(char **argv);
 static long long	ft_atoi_long(char *str);
-static void			print_to_stderr(char *str, char *arg);
 
-// @note I guess later, exit_code needs to be initialised to "global" exit status?
-// @todo short function
 int	builtin_exit_b(char **argv)
 {
 	int			argc;
 	long long	exit_code;
 
-	exit_code = errno;
-	// @note in case exit is called from inside rep-loop
-	// can be put in seperate function
-	if (argv == NULL)
+	exit_code = ms_exit_status_get();
+	argc = get_string_array_len(argv);
+	ft_putstr_fd("exit\n", STDIN_FILENO);
+	if (argc >= 2)
 	{
-		printf("exit\n");
-		free_list(g_sym_table);
-		exit(exit_code);
-	}
-	argc = 0;
-	while(argv[argc] != NULL)
-		argc++;
-	printf("exit\n");
-	if (argc > 2)
-	{
-		print_to_stderr("too many arguments\n", NULL);
-		return (1);
-	}
-	else if (argv[1] == NULL)
-		exit_code = exit_code % 256;
-	else if (argc == 2)
-	{
-		if (is_num(argv[1]))
+		if (is_num(argv[1]) == 0)
+			exit_non_numeric(argv);
+		else if (argc == 2)
 			exit_code = ft_atoi_long(argv[1]) % 256;
-		else
-			print_to_stderr(NULL, argv[1]);
+		else if (argc > 2)
+		{
+			exit_print_to_stderr("too many arguments\n", NULL);
+			ms_exit_status_set(1);
+			exit_code = ms_exit_status_get();
+			return (exit_code);
+		}
 	}
 	free_list(g_sym_table);
 	free_split(argv);
@@ -67,7 +55,7 @@ static int	is_num(char *str)
 	int	i;
 
 	i = 0;
-	if (str == NULL)
+	if (str == NULL || str[i] == '\0')
 		return (0);
 	if (str[i] == '-' || str[i] == '+' && str[i + 1] != '\0')
 		i++;
@@ -87,7 +75,7 @@ static int	check_value(long long number, int sign, char *str)
 	if (number > 0 && sign == -1
 	|| number < 0 && sign == 1)
 	{
-		print_to_stderr(NULL, str);
+		exit_print_to_stderr(NULL, str);
 		return (-1);
 	}
 	return (number);
@@ -121,21 +109,13 @@ static long long	ft_atoi_long(char *str)
 	return (number);
 }
 
-static void	print_to_stderr(char *str, char *arg)
+static void	exit_non_numeric(char **argv)
 {
-	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-	if (str != NULL && arg != NULL)
-	{
-		ft_putstr_fd(arg, STDERR_FILENO);
-		ft_putstr_fd(":", STDERR_FILENO);
-		ft_putstr_fd(str, STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
-	}
-	else if (str != NULL && arg == NULL)
-		ft_putstr_fd(str, STDERR_FILENO);
-	else if (str == NULL && arg != NULL)
-	{
-		ft_putstr_fd(arg, STDERR_FILENO);
-		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-	}
+	long long	exit_code;
+
+	exit_print_to_stderr(NULL, argv[1]);
+	exit_code = ms_exit_status_get();
+	free_list(g_sym_table);
+	free_split(argv);
+	exit(exit_code);
 }
