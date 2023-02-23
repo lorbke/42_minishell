@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:39:03 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 18:38:06 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 02:22:26 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "parser.h" // t_ast
 # include <sys/types.h> // pid_t
 
-# define SHELL_NAME "shinimell"
+# define SHELL_NAME "minishell"
 # define PROMPT "mini🐚~ "
 # define CMD_SEPS " \t\n\r"
 # define CMD_ESCS "\'\"()"

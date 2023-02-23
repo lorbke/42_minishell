@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 01:20:35 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 02:09:55 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,10 @@ static pid_t	exec_builtin(t_cmd_table *cmd_table)
 	if (pid == -1)
 		return (pid);
 	if (pid > 0)
+	{
+		close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 		return (pid);
+	}
 	close(cmd_table->fd_in[0]);
 	dup2(cmd_table->fd_out[0], STDOUT_FILENO);
 	mssignal_change_mode(MSSIG_NINTER);
