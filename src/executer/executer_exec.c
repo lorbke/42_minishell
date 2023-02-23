@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 15:15:49 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 15:22:44 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,17 @@ static void	close_in_out_fds(int fd_in[2], int fd_out[2])
 		close(fd_out[0]);
 }
 
-static pid_t	exec_subshell(t_cmd_table *cmd_table)
+static pid_t	exec_subshell(t_cmd_table *cmd_table, int fd_pipe)
 {
 	pid_t	pid;
 	int		status;
 
 	pid = fork();
-	if (pid != 0)
+	if (pid > 0)
+	{
+		close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 		return (pid);
+	}
 	if (cmd_table->cmd[0][ft_strlen(cmd_table->cmd[0]) - 1] != ')')
 	{
 		gc_free_all_garbage();
@@ -47,6 +50,9 @@ static pid_t	exec_subshell(t_cmd_table *cmd_table)
 	cmd_table->cmd[0][ft_strlen(cmd_table->cmd[0]) - 1] = 0;
 	ms_digest_input(cmd_table->cmd[0] + 1,
 		cmd_table->fd_in[0], cmd_table->fd_out[0]);
+	close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
+	if (fd_pipe != -1)
+		close(fd_pipe);
 	status = ms_exit_status_get();
 	gc_free_all_garbage();
 	exit(status);
@@ -121,7 +127,7 @@ pid_t	exec_cmd(t_cmd_table *cmd_table, int fd_pipe)
 	if (!cmd_table)
 		return (-1);
 	if (*cmd_table->cmd[0] == '(')
-		return (exec_subshell(cmd_table));
+		return (exec_subshell(cmd_table, fd_pipe));
 	env = create_env_list(g_sym_table);
 	cmd_table->cmd = expander(cmd_table->cmd);
 	if (builtin_is_builtin(cmd_table->cmd[0]))
