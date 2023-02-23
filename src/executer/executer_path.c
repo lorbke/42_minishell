@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:44:52 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 19:19:15 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 20:56:17 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,16 @@ static char	*get_pathset(char **envp)
 
 char	*get_cmd_path(char **env, char *cmd)
 {
-	char	*path_str;
-	char	**path_arr;
-	char	**temp_arr;
-	char	*temp;
+	char		*path_str;
+	char		**path_arr;
+	char		**temp_arr;
+	char		*temp;
 	struct stat s;
 
 	path_str = get_pathset(env);
 	// @note protected
 	if (path_str == NULL)
-		return (NULL);
+		return (ft_strdup(cmd));
 	cmd = ft_strjoin("/", cmd);
 	path_arr = ft_split(path_str, ':');
 	temp_arr = path_arr;
@@ -64,11 +64,6 @@ char	*get_cmd_path(char **env, char *cmd)
 	while (*path_arr)
 	{
 		temp = ft_strjoin(*path_arr, cmd);
-		// printf("temp: %s\n", temp);
-		// printf("access: %d\n", access(temp, X_OK | F_OK));
-		// printf("stat: %d\n", stat(temp, &s));
-		// printf("S_ISDIR: %d\n", S_ISDIR(s.st_mode));
-		// printf("S_ISREG: %d\n", S_ISREG(s.st_mode));
 		if (access(temp, F_OK) == 0 && (!stat(temp, &s) && !S_ISDIR(s.st_mode)))
 		{
 			free(cmd);
