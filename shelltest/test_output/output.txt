@@ -1018,6 +1018,7 @@ pwd
 
 minishell output: 
 /Users/fyuzhyk/minishell_master
+/Users/fyuzhyk
 
 bash      output: 
 /Users/fyuzhyk/minishell_master
@@ -1037,6 +1038,7 @@ pwd
 
 minishell output: 
 /Users/fyuzhyk/minishell_master
+/Users/fyuzhyk
 
 bash      output: 
 /Users/fyuzhyk/minishell_master
@@ -1055,6 +1057,7 @@ pwd
 
 
 minishell output: 
+/Users/fyuzhyk/minishell_master
 /Users/fyuzhyk/minishell_master
 
 bash      output: 
@@ -1075,6 +1078,7 @@ pwd
 
 minishell output: 
 /Users/fyuzhyk/minishell_master
+/Users/fyuzhyk/minishell_master
 
 bash      output: 
 /Users/fyuzhyk/minishell_master
@@ -1094,6 +1098,7 @@ pwd
 
 minishell output: 
 /Users/fyuzhyk/minishell_master
+/Users
 
 bash      output: 
 /Users/fyuzhyk/minishell_master
@@ -1113,6 +1118,7 @@ pwd
 
 minishell output: 
 /Users/fyuzhyk/minishell_master
+/
 
 bash      output: 
 /Users/fyuzhyk/minishell_master
@@ -1131,6 +1137,7 @@ pwd
 
 
 minishell output: 
+/Users/fyuzhyk/minishell_master
 /Users/fyuzhyk/minishell_master
 
 bash      output: 
@@ -1151,6 +1158,7 @@ pwd
 
 minishell output: 
 /Users/fyuzhyk/minishell_master
+/
 
 bash      output: 
 /Users/fyuzhyk/minishell_master
@@ -1170,6 +1178,7 @@ pwd
 
 minishell output: 
 /Users/fyuzhyk/minishell_master
+/
 
 bash      output: 
 /Users/fyuzhyk/minishell_master
@@ -1188,7 +1197,7 @@ pwd
 
 
 minishell output: 
-/Users/fyuzhyk/minishell_master
+minishell: cd: /Users/fyuzhyk/minishell_master/file_tests: No such file or directory
 
 bash      output: 
 bash: line 3: cd: /Users/fyuzhyk/minishell_master/file_tests: No such file or directory
@@ -1206,7 +1215,7 @@ pwd
 
 
 minishell output: 
-/Users/fyuzhyk/minishell_master
+minishell: cd: doesntexist: No such file or directory
 
 bash      output: 
 bash: line 3: cd: doesntexist: No such file or directory
@@ -1224,7 +1233,7 @@ pwd
 
 
 minishell output: 
-/Users/fyuzhyk/minishell_master
+minishell: cd: doesntexist: No such file or directory
 
 bash      output: 
 bash: line 3: cd: doesntexist: No such file or directory
@@ -1243,6 +1252,7 @@ pwd
 
 minishell output: 
 /Users/fyuzhyk/minishell_master
+/
 
 bash      output: 
 /Users/fyuzhyk/minishell_master
@@ -1261,7 +1271,7 @@ pwd
 
 
 minishell output: 
-/Users/fyuzhyk/minishell_master
+minishell: cd: wtf: No such file or directory
 
 bash      output: 
 bash: line 3: cd: wtf: No such file or directory
@@ -1282,6 +1292,7 @@ pwd
 
 minishell output: 
 /Users/fyuzhyk/minishell_master
+/Users
 
 bash      output: 
 /Users/fyuzhyk/minishell_master
@@ -1300,7 +1311,7 @@ pwd
 
 
 minishell output: 
-/Users/fyuzhyk/minishell_master
+minishell: cd: ?: No such file or directory
 
 bash      output: 
 bash: line 3: cd: ?: No such file or directory
@@ -1318,7 +1329,7 @@ pwd
 
 
 minishell output: 
-/Users/fyuzhyk/minishell_master
+minishell: cd: +: No such file or directory
 
 bash      output: 
 bash: line 3: cd: +: No such file or directory
@@ -1336,7 +1347,7 @@ pwd
 
 
 minishell output: 
-/Users/fyuzhyk/minishell_master
+minishell: cd: _: No such file or directory
 
 bash      output: 
 bash: line 3: cd: _: No such file or directory
@@ -1354,7 +1365,7 @@ pwd
 
 
 minishell output: 
-/Users/fyuzhyk/minishell_master
+minishell: cd: echo: No such file or directory
 
 bash      output: 
 bash: line 3: cd: echo: No such file or directory
@@ -1372,7 +1383,7 @@ pwd
 
 
 minishell output: 
-/Users/fyuzhyk/minishell_master
+minishell: cd: echo: No such file or directory
 
 bash      output: 
 bash: line 3: cd: echo: No such file or directory
@@ -1391,6 +1402,7 @@ pwd
 
 minishell output: 
 /Users/fyuzhyk/minishell_master
+/
 
 bash      output: 
 /Users/fyuzhyk/minishell_master
@@ -1409,7 +1421,7 @@ pwd
 
 
 minishell output: 
-/Users/fyuzhyk/minishell_master
+minishell: cd: /Users/fyuzhyk/minishell_master/file_tests: No such file or directory
 
 bash      output: 
 bash: line 3: cd: /Users/fyuzhyk/minishell_master/file_tests: No such file or directory
@@ -1427,7 +1439,7 @@ pwd
 
 
 minishell output: 
-/Users/fyuzhyk/minishell_master
+minishell: cd: /something: No such file or directory
 
 bash      output: 
 bash: line 3: cd: /something: No such file or directory
@@ -1445,7 +1457,7 @@ pwd
 
 
 minishell output: 
-/Users/fyuzhyk/minishell_master
+minishell: cd: 1/Users/fyuzhyk: No such file or directory
 
 bash      output: 
 bash: line 3: cd: 1/Users/fyuzhyk: No such file or directory
@@ -1597,7 +1609,7 @@ echo $?
 
 
 minishell output: 
-0
+minishell: export: `?=hallo': not a valid identifier
 
 bash      output: 
 bash: line 3: export: `?=hallo': not a valid identifier
