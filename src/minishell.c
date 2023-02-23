@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 01:29:43 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 01:53:16 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@
 
 // @todo env -i ./minishell leaks?
 // @todo << "lim' cat -> never ending doc
+// @todo echo " EOF -> no syntax err, implement proper quote identification in quote doc
 
 // @todo noninteractive mode -c
 

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 17:10:28 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 17:38:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 01:36:56 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	exec_error(t_status exit_status, char *error_loc)
 	else if (exit_status >= ERR_SIGNAL && exit_status <= ERR_SIGNAL + 9)
 		return ;
 	else if (exit_status != ERR_SUCCESS
-		&& exit_status != ERR_SYNTAX)
+		&& exit_status != ERR_SYNTAX && error_loc)
 		printf("%s: %s: %s\n", SHELL_NAME, error_loc, strerror(errno));
 }
 

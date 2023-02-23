@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 22:29:42 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 01:35:51 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ char	*digest_input_helper(char *input, int fd_in, int fd_out)
 	if (exit_status != ERR_SUCCESS)
 	{
 		ms_exit_status_set(exit_status);
+		ms_print_error(ms_exit_status_get(), 0, NULL);
 		return (input);
 	}
 	debug_lexer(tokstack);

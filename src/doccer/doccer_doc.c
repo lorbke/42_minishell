@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 00:37:59 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 01:46:26 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 #define DOC_PROMPT "> "
 
-void	doc_heredoc(char *limiter, int fd_write)
+int	doc_heredoc(char *limiter, int fd_write)
 {
 	int		limiter_len;
 	char	*line;
@@ -39,9 +39,10 @@ void	doc_heredoc(char *limiter, int fd_write)
 		write(fd_write, "\n", 1);
 		free(line);
 	}
+	return (ERR_SUCCESS);
 }
 
-void	doc_completingdoc(char *placeholder, int fd_write)
+int	doc_completingdoc(char *placeholder, int fd_write)
 {
 	char	*line;
 
@@ -59,9 +60,10 @@ void	doc_completingdoc(char *placeholder, int fd_write)
 		}
 		free(line);
 	}
+	return (ERR_SUCCESS);
 }
 
-void	doc_quotedoc(char *quote, int fd_write)
+int	doc_quotedoc(char *quote, int fd_write)
 {
 	char	*line;
 	char	*temp;
@@ -81,10 +83,13 @@ void	doc_quotedoc(char *quote, int fd_write)
 		}
 		free(line);
 	}
+	if (!ft_is_char_count_uneven(line, *quote))
+		return (ERR_SYNTAX);
+	return (ERR_SUCCESS);
 }
 
 char	*get_doc(
-	void (*doc_func)(char *, int), char *lim, t_status *exit_status)
+	int (*doc_func)(char *, int), char *lim, t_status *exit_status)
 {
 	pid_t	pid;
 	int		fd[2];
@@ -113,10 +118,10 @@ char	*get_doc(
 	{
 		mssignal_change_mode(MSSIG_DOC);
 		close(fd[0]);
-		doc_func(lim, fd[1]);
+		status = doc_func(lim, fd[1]);
 		close(fd[1]);
 		gc_free_all_garbage();
-		exit(0);
+		exit(status);
 		return (NULL);
 	}
 }
