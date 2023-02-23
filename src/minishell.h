@@ -27,7 +27,7 @@
 # define ERR_CMDNOTFOUND 127
 # define ERR_SIGNAL 128
 
-typedef unsigned int	t_status;
+typedef unsigned char	t_status;
 
 char		*ms_digest_input(char *input, int fd_in, int fd_out);
 void		ms_print_error(t_status exit_status, int desc, char *error_loc);
