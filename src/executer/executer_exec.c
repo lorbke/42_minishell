@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 15:22:44 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 15:25:22 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static pid_t	exec_subshell(t_cmd_table *cmd_table, int fd_pipe)
 	if (pid > 0)
 	{
 		close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
+		ms_wait_pid_and_set_exit(pid);
+		ms_print_error(ms_exit_status_get(), TOK_SUBSHELL, cmd_table->cmd[0]);
 		return (pid);
 	}
 	if (cmd_table->cmd[0][ft_strlen(cmd_table->cmd[0]) - 1] != ')')
