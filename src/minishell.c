@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 01:53:16 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 12:45:20 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static bool	is_empty_str(char *str)
 }
 
 /* Read-Eval-Print-Loop. */
-void	rep_loop(void)
+void	interactive_mode(void)
 {
 	char	*line;
 
@@ -96,18 +96,17 @@ void	non_interactive_mode(void)
 
 int	main(int argc, char **argv, char **envp)
 {
+	t_status	exit_status;
+
 	g_sym_table = init_sym_tab(envp);
 	init_exit_status(g_sym_table);
 	// gc_add_garbage(g_sym_table, &free_list);
 	if (isatty(STDIN_FILENO)) // check if stdin is a terminal
-		rep_loop();
+		interactive_mode();
 	else
-	{
 		non_interactive_mode();
-		// @note replace by gc later on?
-		free_list(g_sym_table);
-	}
-	// else put input directly from STDIN to parser, executer etc
+	exit_status = ms_exit_status_get();
+	// gc_free_all();
 	mssignal_change_mode(MSSIG_NINTER);
-	return (EXIT_SUCCESS);
+	return (exit_status);
 }
