@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 22:05:19 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 22:15:14 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static pid_t	exec_subshell(t_cmd_table *cmd_table, int fd_pipe)
 	pid_t	pid;
 	int		status;
 
-	if (cmd_table->cmd[0][ft_strlen(cmd_table->cmd[0]) - 1] != ')')
+	if (cmd_table->cmd[0][ft_strlen(cmd_table->cmd[0]) - 1] != ')'
+		|| ft_strlen(cmd_table->cmd[0]) < 3)
 	{
 		ms_exit_status_set(ERR_SYNTAX);
 		ms_print_error(ms_exit_status_get(), 0, cmd_table->cmd[0]);
