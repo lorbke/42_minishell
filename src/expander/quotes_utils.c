@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 13:17:06 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/23 13:21:55 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/23 15:09:04 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,8 @@ void	skip_quotes_in_quotes(char *str, int *i, int *j)
 
 	quote_type = str[*i];
 	(*i)++;
-	while (str[*i] != '\0' || str[*i] != quote_type)
+	while (str[*i] != '\0' && str[*i] != quote_type)
 	{
-		if (str[*i] == quote_type)
-			break ;
 		str[*j] = str[*i];
 		(*i)++;
 		(*j)++;

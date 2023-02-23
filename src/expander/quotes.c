@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:38:45 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/23 13:23:13 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/23 15:09:06 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,20 @@ void	expander_remove_quotes(char *str)
 	j = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] != '\'' && str[i] != '\"')
+		if (str[i] != '\'' && str[i] != '"')
 		{
 			str[j] = str[i];
 			j++;
 		}
-		else if (str[i] == '\'' || str[i] == '\"')
-			skip_quotes_in_quotes(str, &i, &j);
+		else if (str[i] == '\'' || str[i] == '"')
+		{
+			if (ft_strchr(&str[i + 1], str[i]) != NULL)
+			{
+				skip_quotes_in_quotes(str, &i, &j);
+				if (str[i] == '\0')
+					break ;
+			}
+		}
 		i++;
 	}
 	str[j] = '\0';
