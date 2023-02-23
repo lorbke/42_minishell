@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 23:40:50 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/23 01:20:35 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ pid_t	exec_cmd(t_cmd_table *cmd_table, int fd_pipe)
 	{
 		if (env != NULL)
 			gc_free_str_arr(env);
+		close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 		ms_exit_status_set(ERR_CMDNOTFOUND);
 		return (-1);
 	}

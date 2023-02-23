@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 22:28:33 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 00:37:59 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include "libft.h" // ft_strrchr
 #include "../mssignal.h" // mssignal_change_mode
 #include "../minishell.h" // exit_status functions
-#include "garbage_collector.h" // gc_free_all_garbage	
+#include "garbage_collector.h" // gc_free_all_garbage
+#include "../expander.h" // expander_remove_quotes
 #include <stdio.h> // FILE
 #include <readline/readline.h> // readline
 #include <stdlib.h> // malloc, free
@@ -27,6 +28,7 @@ void	doc_heredoc(char *limiter, int fd_write)
 	int		limiter_len;
 	char	*line;
 
+	expander_remove_quotes(limiter);
 	limiter_len = ft_strlen(limiter);
 	while (1)
 	{

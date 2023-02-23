@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:25:39 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 23:10:44 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 00:50:12 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	*handle_unclosed_quote(
 	char	*temp;
 	char	*doc;
 
-	tokstack->token->desc = TOK_WORD;
+	tokstack->token->desc = TOK_QUOTED;
 	temp = tokstack->token->word;
 	doc = get_doc(doc_quotedoc, &quote, exit_status);
 	if (*exit_status != ERR_SUCCESS)

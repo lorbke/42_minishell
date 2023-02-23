@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:14:20 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 18:47:51 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 00:48:25 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static const t_func_handle	g_func_handle_arr[]
 [TOK_SUBSHELL] = &handle_cmd,
 [TOK_AND] = &handle_and,
 [TOK_OR] = &handle_or,
+[TOK_QUOTED] = &handle_cmd,
 };
 
 #endif

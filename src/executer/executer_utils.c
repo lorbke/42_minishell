@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:12:31 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 17:11:06 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 00:57:18 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_cmd_table	*create_cmd_table(t_ast *ast)
 	temp = ast;
 	i = 0;
 	while (temp && (temp->token->desc == TOK_WORD
+			|| temp->token->desc == TOK_QUOTED
 			|| temp->token->desc == TOK_SUBSHELL))
 	{
 		temp = temp->left;
@@ -37,6 +38,7 @@ t_cmd_table	*create_cmd_table(t_ast *ast)
 	cmd_table->cmd = malloc(sizeof(char *) * (i + 1));
 	i = 0;
 	while (ast && (ast->token->desc == TOK_WORD
+			|| ast->token->desc == TOK_QUOTED
 			|| ast->token->desc == TOK_SUBSHELL))
 	{
 		cmd_table->cmd[i++] = ft_strdup(ast->token->word);

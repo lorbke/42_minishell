@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:27:13 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 23:35:53 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/23 00:52:17 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_cmd_table	*handle_cmd(t_ast *ast)
 	t_cmd_table	*cmd_table;
 
 	cmd_table = create_cmd_table(ast);
+	if (!cmd_table)
+		return (NULL);
 	gc_add_garbage(cmd_table, &executer_free_cmd_table);
 	return (cmd_table);
 }
@@ -44,9 +46,12 @@ t_cmd_table	*handle_redir_heredoc(t_ast *ast)
 		return (NULL);
 	pipe(fd);
 	// gc_add_garbage(ast->right->token->word, NULL);
-	if (ast->right->token->desc != TOK_QUOTED)
-		temp = *expander(&ast->right->token->word);
-	while (*temp)
+	temp = ast->right->token->word;
+	if (ast->right->token->desc != TOK_QUOTED
+		&& ast->right->token->desc != TOK_UNCLOSED_DQUOTE
+		&& ast->right->token->desc != TOK_UNCLOSED_SQUOTE)
+		temp = expand_str(ast->right->token->word);
+	while (temp && *temp)
 	{
 		write(fd[1], temp, 1);
 		temp++;

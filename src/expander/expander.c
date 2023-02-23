@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:14:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 23:40:39 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/22 23:49:16 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // g_sym_table
 #include "libft.h" // NULL, malloc, free, ft_strlen, ft_strdup
+#include "../expander.h" // expander, expand_str
 #include "globber/globber.h" // globber
 #include "../utils.h" // ft_realloc
 #include "expander_private.h" // handle_quotes, try_expansion, tilde_expansion, add_char_to_str, in_closed_quotes

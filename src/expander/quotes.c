@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:38:45 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 22:23:48 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/23 00:34:04 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../utils.h" // ft_realloc
 #include "expander_private.h" // find_closing_quote
 
-static void	remove_quotes(char *str);
+void	expander_remove_quotes(char *str);
 
 void	quote_removal(char **argv)
 {
@@ -25,7 +25,7 @@ void	quote_removal(char **argv)
 	i = 0;
 	while (argv[i] != NULL)
 	{
-		remove_quotes(argv[i]);
+		expander_remove_quotes(argv[i]);
 		i++;
 	}
 }
@@ -95,7 +95,7 @@ int	in_closed_quotes(char *result, char *arg, int *index, int *result_index)
 	return (0);
 }
 
-static void	remove_quotes(char *str)
+void	expander_remove_quotes(char *str)
 {
 	int	i;
 	int	j;
