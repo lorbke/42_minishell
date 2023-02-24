@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:14:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/23 23:33:52 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/24 18:39:03 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ char	**expander(char **argv)
 	k = 0;
 	while (new_argv[k] != NULL)
 	{
+		result = new_argv[k];
 		new_argv[k] = ft_strtrim(new_argv[k], " ");
+		if (new_argv[k])
+			free(result);
 		// printf("new_argv[%d] = %s\n", k, new_argv[k]);
 		k++;
 	}

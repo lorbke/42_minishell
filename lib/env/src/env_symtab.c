@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:00:37 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/24 18:28:17 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/24 18:30:12 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	init_exit_status(t_sym_tab **head)
 		return ;
 	ft_strlcpy(var, "?=0", 6);
 	node = new_sym_tab_node(var);
-	free(var);
+	if (node && var)
+		free(var);
 	add_to_back(head, node);
 }
