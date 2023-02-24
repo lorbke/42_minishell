@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:29:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/20 16:18:11 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/24 20:17:17 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,12 @@ char	*get_next_line(int fd)
 	static char	*buffer;
 	char		*next_line;
 	char		*result;
-	int			j;
 
-	j = 0;
+	if (fd < 0)
+	{
+		free(buffer);
+		return (NULL);
+	}
 	result = malloc(BUFFER_SIZE);
 	if (result == NULL)
 		return (NULL);
@@ -28,7 +31,7 @@ char	*get_next_line(int fd)
 		buffer = malloc(BUFFER_SIZE);
 	if (buffer == NULL)
 		return (NULL);
-	next_line = get_result(fd, j, buffer, result);
+	next_line = get_result(fd, 0, buffer, result);
 	if (next_line == NULL)
 	{
 		free(buffer);

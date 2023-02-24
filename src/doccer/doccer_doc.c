@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/24 19:23:44 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/24 20:18:29 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	doc_heredoc(char *limiter, int fd_write)
 	}
 	if (line)
 		free(line);
+	get_next_line(GNL_ERR);
 	return (ERR_SUCCESS);
 }
 
