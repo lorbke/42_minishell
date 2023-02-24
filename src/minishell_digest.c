@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 15:48:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/24 21:24:17 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,15 @@ static bool	is_input_incomplete(t_stack *tokstack)
 		ms_exit_status_set(ERR_SYNTAX);
 		ms_print_error(ms_exit_status_get(),
 			tokstack->token->desc, tokstack->token->word);
+		return (true);
+	}
+	if ((tokstack && tokstack->token->desc == TOK_UNCLOSED_DQUOTE
+			&& ft_is_char_count_uneven(tokstack->token->word, '\"'))
+		|| (tokstack->token->desc == TOK_UNCLOSED_SQUOTE
+			&& ft_is_char_count_uneven(tokstack->token->word, '\'')))
+	{
+		ms_exit_status_set(ERR_SYNTAX);
+		ms_print_error(ms_exit_status_get(), 0, NULL);
 		return (true);
 	}
 	return (false);

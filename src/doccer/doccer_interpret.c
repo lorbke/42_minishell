@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:25:39 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/24 19:04:32 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/24 21:26:35 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ static char	*handle_unclosed_quote(
 	char	*temp;
 	char	*doc;
 
-	tokstack->token->desc = TOK_QUOTED;
+	if ((tokstack && tokstack->token->desc == TOK_UNCLOSED_DQUOTE
+			&& !ft_is_char_count_uneven(tokstack->token->word, '\"'))
+		|| (tokstack->token->desc == TOK_UNCLOSED_SQUOTE
+			&& !ft_is_char_count_uneven(tokstack->token->word, '\'')))
+		tokstack->token->desc = TOK_QUOTED;
 	temp = tokstack->token->word;
 	doc = get_doc(doc_quotedoc, &quote, exit_status);
 	if (*exit_status != ERR_SUCCESS)

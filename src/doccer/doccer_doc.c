@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/24 20:18:29 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/24 21:13:37 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,12 @@ int	doc_completingdoc(char *placeholder, int fd_write)
 	while (1)
 	{
 		write(fd_write, " ", 1);
-		line = readline(DOC_PROMPT);
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, DOC_PROMPT, 2);
+		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			break ;
+		line[ft_strlen(line) - 1] = 0;
 		write(fd_write, line, ft_strlen(line));
 		if (!is_only_whitespace(line))
 		{
@@ -81,6 +84,7 @@ int	doc_completingdoc(char *placeholder, int fd_write)
 		}
 		free(line);
 	}
+	get_next_line(GNL_ERR);
 	return (ERR_SUCCESS);
 }
 
@@ -92,9 +96,12 @@ int	doc_quotedoc(char *quote, int fd_write)
 	while (1)
 	{
 		write(fd_write, "\n", 1);
-		line = readline(DOC_PROMPT);
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, DOC_PROMPT, 2);
+		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			break ;
+		line[ft_strlen(line) - 1] = 0;
 		write(fd_write, line, ft_strlen(line));
 		temp = ft_strchr(line, *quote);
 		if (temp && ft_is_char_count_uneven(line, *quote))
@@ -104,8 +111,7 @@ int	doc_quotedoc(char *quote, int fd_write)
 		}
 		free(line);
 	}
-	if (!ft_is_char_count_uneven(line, *quote))
-		return (ERR_SYNTAX);
+	get_next_line(GNL_ERR);
 	return (ERR_SUCCESS);
 }
 

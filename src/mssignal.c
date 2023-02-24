@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:37:35 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/24 20:56:13 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/24 21:21:00 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "garbage_collector.h" // gc_free_all_garbage
 #include "env.h" // g_sym_table
 #include "utils.h" // env_free_sym_tab
+#include "get_next_line.h" // get_next_line
 #include <signal.h> // signal
 #include <termios.h> // termios functions and struct
 #include <stdio.h> // FILE type
@@ -39,6 +40,7 @@ static void	handle_ctrlc_doc(int signal)
 	write(STDOUT_FILENO, "\n", 1);
 	gc_free_all_garbage();
 	env_free_sym_tab(g_sym_table);
+	get_next_line(-1);
 	exit(ERR_GENERAL);
 }
 
