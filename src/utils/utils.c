@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:17:47 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 16:33:48 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/23 20:36:15 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int	get_string_array_len(char **array)
 {
 	int i;
 
+	if (array == NULL)
+		return (0);
 	i = 0;
 	while (array[i] != NULL)
 		i++;

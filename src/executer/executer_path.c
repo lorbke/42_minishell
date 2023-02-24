@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   executer_path.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:44:52 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 17:39:12 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/23 20:56:17 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "garbage_collector.h"
+#include "libft.h" // ft_strlen, ft_strncmp, ft_strjoin
+#include "garbage_collector.h" // gc_free_* functions
+#include <sys/stat.h> // stat, S_ISDIR, S_ISREG
+
 
 #define PATH_ENV "PATH="
 
@@ -41,19 +43,20 @@ static char	*get_pathset(char **envp)
 	return (path_set);
 }
 
+#include <stdio.h>
+
 char	*get_cmd_path(char **env, char *cmd)
 {
-	char	*path_str;
-	char	**path_arr;
-	char	**temp_arr;
-	char	*temp;
+	char		*path_str;
+	char		**path_arr;
+	char		**temp_arr;
+	char		*temp;
+	struct stat s;
 
-	if (access(cmd, X_OK) == 0)
-		return (ft_strdup(cmd));
 	path_str = get_pathset(env);
 	// @note protected
 	if (path_str == NULL)
-		return (NULL);
+		return (ft_strdup(cmd));
 	cmd = ft_strjoin("/", cmd);
 	path_arr = ft_split(path_str, ':');
 	temp_arr = path_arr;
@@ -61,7 +64,7 @@ char	*get_cmd_path(char **env, char *cmd)
 	while (*path_arr)
 	{
 		temp = ft_strjoin(*path_arr, cmd);
-		if (access(temp, X_OK) == 0)
+		if (access(temp, F_OK) == 0 && (!stat(temp, &s) && !S_ISDIR(s.st_mode)))
 		{
 			free(cmd);
 			gc_free_str_arr(temp_arr);
