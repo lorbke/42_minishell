@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:27:13 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 00:52:17 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/24 19:12:52 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <string.h> // NULL
 #include <unistd.h> // pipe, write
 #include <stdio.h> // printf
+#include <stdlib.h> // malloc, free
 
 t_cmd_table	*handle_cmd(t_ast *ast)
 {
@@ -37,6 +38,7 @@ t_cmd_table	*handle_redir_heredoc(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
 	char		*temp;
+	char		*expand;
 	int			fd[2];
 
 	if (!ast->left)
@@ -45,18 +47,20 @@ t_cmd_table	*handle_redir_heredoc(t_ast *ast)
 	if (!cmd_table)
 		return (NULL);
 	pipe(fd);
-	// gc_add_garbage(ast->right->token->word, NULL);
 	temp = ast->right->token->word;
 	if (ast->right->token->desc != TOK_QUOTED
 		&& ast->right->token->desc != TOK_UNCLOSED_DQUOTE
 		&& ast->right->token->desc != TOK_UNCLOSED_SQUOTE)
 		temp = expand_str(ast->right->token->word);
+	expand = temp;
 	while (temp && *temp)
 	{
 		write(fd[1], temp, 1);
 		temp++;
 	}
 	close(fd[1]);
+	if (expand != ast->right->token->word)
+		free(expand);
 	cmd_table->fd_in[0] = fd[0];
 	cmd_table->fd_in[1] = FDLVL_REDIR;
 	return (cmd_table);
