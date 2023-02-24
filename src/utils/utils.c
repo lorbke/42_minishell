@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:17:47 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/23 20:36:15 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/24 18:53:16 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	free_split(char **split)
 	free(temp);
 }
 
-void	free_list(t_sym_tab **head)
+void	env_free_sym_tab(t_sym_tab **head)
 {
 	t_sym_tab *temp;
 

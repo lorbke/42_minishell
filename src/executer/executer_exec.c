@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/24 18:21:19 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/24 18:54:16 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ static pid_t
 	free(path);
 	free_split(env);
 	gc_free_all_garbage();
+	env_free_sym_tab(g_sym_table);
 	exit(status);
 	return (pid);
 }
@@ -130,6 +131,7 @@ static pid_t	exec_builtin(t_cmd_table *cmd_table)
 	mssignal_change_mode(MSSIG_NINTER);
 	status = builtin_exec(cmd_table);
 	gc_free_all_garbage();
+	env_free_sym_tab(g_sym_table);
 	exit(status);
 	return (pid);
 }

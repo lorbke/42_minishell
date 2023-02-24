@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/24 17:54:21 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/24 18:53:16 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	builtin_exit_b(char **argv)
 		}
 	}
 	gc_free_all_garbage();
-	free_list(g_sym_table);
+	env_free_sym_tab(g_sym_table);
 	exit(exit_code);
 }
 
@@ -117,6 +117,6 @@ static void	exit_non_numeric(char **argv)
 	exit_print_to_stderr(NULL, argv[1]);
 	exit_code = ms_exit_status_get();
 	gc_free_all_garbage();
-	free_list(g_sym_table);
+	env_free_sym_tab(g_sym_table);
 	exit(exit_code);
 }
