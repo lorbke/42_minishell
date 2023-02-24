@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 12:30:50 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 18:13:53 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 00:13:59 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_token	*create_token_empty(void)
 {
 	t_token	*new;
 
-	new = malloc(sizeof(t_token));
+	new = ft_malloc_safe(sizeof(t_token), 1);
 	new->desc = TOK_WORD;
 	new->word = NULL;
 	return (new);
@@ -31,7 +31,7 @@ static t_token	*dup_token(t_token *token)
 {
 	t_token	*new;
 
-	new = malloc(sizeof(t_token));
+	new = ft_malloc_safe(sizeof(t_token), 1);
 	new->desc = token->desc;
 	if (token->word)
 		new->word = ft_strdup(token->word);
@@ -46,9 +46,7 @@ t_ast	*create_ast_node(t_token	*token)
 
 	if (!token)
 		return (NULL);
-	new = malloc(sizeof(t_ast));
-	if (!new)
-		return (NULL);
+	new = ft_malloc_safe(sizeof(t_ast), 1);
 	if (token->word)
 		new->token = dup_token(token);
 	else
