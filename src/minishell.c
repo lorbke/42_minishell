@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 22:18:12 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/24 18:23:38 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	main(int argc, char **argv, char **envp)
 	else
 		non_interactive_mode();
 	exit_status = ms_exit_status_get();
-	// gc_free_all();
+	gc_free_all_garbage();
 	mssignal_change_mode(MSSIG_NINTER);
 	return (exit_status);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/24 01:38:57 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/24 18:21:19 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ pid_t	exec_cmd(t_cmd_table *cmd_table, int fd_pipe)
 	if (*cmd_table->cmd[0] == '(')
 		return (exec_subshell(cmd_table, fd_pipe));
 	env = create_env_list(g_sym_table);
+	gc_add_garbage(cmd_table->cmd, gc_free_str_arr);
 	cmd_table->cmd = expander(cmd_table->cmd);
 	if (builtin_is_builtin(cmd_table->cmd[0]))
 	{

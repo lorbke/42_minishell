@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/23 18:00:31 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/24 17:54:21 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h" // ft_putstr_fd, ft_strjoin
 #include "../utils.h" // free_list
 #include "env.h" // g_sym_table
+#include "garbage_collector.h" // gc_free_all_garbage
 #include <errno.h> // errno
 #include <stdio.h> // printf
 #include <unistd.h> // NULL
@@ -45,8 +46,8 @@ int	builtin_exit_b(char **argv)
 			return (exit_code);
 		}
 	}
+	gc_free_all_garbage();
 	free_list(g_sym_table);
-	free_split(argv);
 	exit(exit_code);
 }
 
@@ -115,7 +116,7 @@ static void	exit_non_numeric(char **argv)
 
 	exit_print_to_stderr(NULL, argv[1]);
 	exit_code = ms_exit_status_get();
+	gc_free_all_garbage();
 	free_list(g_sym_table);
-	free_split(argv);
 	exit(exit_code);
 }
