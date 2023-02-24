@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:47:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 23:33:14 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/23 22:28:40 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,34 @@
 static char	*expand_var(char *arg);
 static char	*get_var(char *arg, int *index);
 static char	*add_expanded_var(char *result, char *var, int *result_index);
+
+#include <stdio.h>
+
+void	trim_whitespaces(char *expanded_var, char *result)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	if (result == NULL)
+	{
+		while (expanded_var[i] == ' ')
+			i++;
+	}
+	while (expanded_var[i] != '\0')
+	{
+		if (expanded_var[i] == ' ' && expanded_var[i + 1] == ' ')
+			i++;
+		else
+		{
+			expanded_var[j] = expanded_var[i];
+			i++;
+			j++;
+		}
+	}
+	expanded_var[j] = '\0';
+}
 
 char	*try_expansion(char *result, char *arg, int *index, int *result_index)
 {
@@ -35,13 +63,24 @@ char	*try_expansion(char *result, char *arg, int *index, int *result_index)
 		ft_strlcpy(var, "?", 2);
 		(*index)++;
 	}
+	else if (arg[(*index)] == '\'' || arg[(*index)] == '"')
+	{
+		// expanded_var = handle_quotes(result, arg, index, result_index);
+		return (result);
+	}
 	else
 		var = get_var(&arg[*index], &(*index));
 	if (var == NULL)
 		return (NULL);
 	value = expand_var(var);
 	if (value != NULL)
+	{
+		// printf("expanded_var = %s\n", value);
+		// @note consecutive spaces are "trimmed" to one!
+		trim_whitespaces(value, result);
 		expanded_var = add_expanded_var(result, value, &(*result_index));
+		free(value);
+	}
 	free(var);
 	return (expanded_var);
 }
@@ -82,7 +121,12 @@ static char	*expand_var(char *arg)
 		if (ft_strncmp(arg, temp->var, len) == 0)
 		{
 			if (ft_strchr(temp->var, '=') != NULL)
-				value = ft_strchr(temp->var, '=') + 1;
+			{
+				value = malloc(sizeof(char) * (ft_strlen(ft_strchr(temp->var, '=')) + 1));
+				if (value == NULL)
+					return (NULL);
+				ft_strlcpy(value, ft_strchr(temp->var, '=') + 1, ft_strlen(ft_strchr(temp->var, '=') + 1) + 1);
+			}
 			else
 				value = NULL;
 			break ;

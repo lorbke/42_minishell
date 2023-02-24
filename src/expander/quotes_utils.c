@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 13:17:06 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/23 15:09:04 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/23 23:08:28 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "../utils.h" // ft_realloc
 #include "expander_private.h" // find_closing_quote, skip_quotes_in_quotes
 
+#include <stdio.h>
 char	*handle_quotes(char *result, char *str, int *index, int *result_index)
 {
 	int		i;
@@ -32,6 +33,7 @@ char	*handle_quotes(char *result, char *str, int *index, int *result_index)
 	}
 	else
 		arg = ft_realloc(result, ft_strlen(result) + str_len + 1);
+	(*index)++;
 	while (i < *index)
 	{
 		arg[*result_index] = str[i];
@@ -51,7 +53,9 @@ int	find_closing_quote(char *str, int *index, char quote_type)
 	while (str[*index] != '\0')
 	{
 		if (str[*index] == quote_type)
+		{
 			break ;
+		}
 		str_len++;
 		(*index)++;
 	}

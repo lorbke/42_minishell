@@ -110,3 +110,48 @@ export X="  A  B  "
 
 export X="  A  B  "
 /bin/echo "1"$X2?
+
+export X="  A  B  "
+/bin/echo ?$X'2'
+
+export X="  A  B  "
+/bin/echo "1"$X?
+
+unset PATH
+echo $PATH
+cat
+ls
+echo 1
+/bin/echo 42
+
+unset PATH
+/bin/echo 42
+unset PATH
+unset PATH
+unset PATH
+echo $PATH
+cat
+ls
+echo 1
+/bin/echo 42
+
+export PATH=""
+echo $PATH
+cat
+ls
+echo 1
+/bin/echo 42
+
+export PATH=
+echo $PATH
+cat
+ls
+echo 1
+/bin/echo 42
+
+export PATH=1
+echo $PATH
+cat
+ls
+echo 1
+/bin/echo 42

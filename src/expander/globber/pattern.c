@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:17:44 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 23:23:19 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/23 23:39:54 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ static void	scan_char(char **arg, char **pattern, int *astrisk_c, int *quote_c)
 		else
 			*quote_c = 0;
 		*astrisk_c = 0;
+		// **pattern = **arg;
+		// (*pattern)++;
 		(*arg)++;
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:14:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/23 14:20:15 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/23 23:33:52 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 static char	**copy_argv(char **argv);
 static char	*eval_char(char *result, char *arg, int *index, int *result_index);
 
+#include <stdio.h>
+
 char	**expander(char **argv)
 {
 	int		i;
@@ -30,6 +32,12 @@ char	**expander(char **argv)
 	i = 1;
 	k = 1;
 	new_argv = copy_argv(argv);
+	result = expand_str(new_argv[0]);
+	if (result != NULL)
+	{
+		free(new_argv[0]);
+		new_argv[0] = result;
+	}
 	while (new_argv[i] != NULL)
 	{
 		result = expand_str(new_argv[i]);
@@ -42,6 +50,13 @@ char	**expander(char **argv)
 		i++;
 	}
 	new_argv[k] = NULL;
+	k = 0;
+	while (new_argv[k] != NULL)
+	{
+		new_argv[k] = ft_strtrim(new_argv[k], " ");
+		// printf("new_argv[%d] = %s\n", k, new_argv[k]);
+		k++;
+	}
 	new_argv = globber(new_argv);
 	return (new_argv);
 }
@@ -101,7 +116,9 @@ static char	**copy_argv(char **argv)
 
 static char	*eval_char(char *result, char *arg, int *index, int *result_index)
 {
-	if (arg[*index] == '$' && arg[*index + 1] != '\0')
+	static int	d_quotes;
+
+	if (arg[*index] == '$' && arg[*index + 1] != '\0' && ft_isspace(arg[*index + 1]) == 0)
 	{
 		if (in_closed_quotes(result, arg, &(*index), &(*result_index)))
 		{
@@ -111,10 +128,27 @@ static char	*eval_char(char *result, char *arg, int *index, int *result_index)
 		result = try_expansion(result, arg, &(*index), &(*result_index));
 	}
 	else if (arg[*index] == '\'')
-		result = handle_quotes(result, arg, &(*index), &(*result_index));
+	{
+		if (d_quotes == 1)
+			result = add_char_to_str(result, arg[*index], &(*index), &(*result_index));
+		else
+			result = handle_quotes(result, arg, &(*index), &(*result_index));
+	}
 	else if (arg[*index] == '~')
 		result = tilde_expansion(result, arg, &(*index), &(*result_index));
-	else
+	else if (arg[*index] == '"')
+	{
+		if (d_quotes == 0)
+			d_quotes = 1;
+		else
+			d_quotes = 0;
 		result = add_char_to_str(result, arg[*index], &(*index), &(*result_index));
+		// (*index)++;
+	}
+	else
+	{
+		result = add_char_to_str(result, arg[*index], &(*index), &(*result_index));
+	}
 	return (result);
 }
+
