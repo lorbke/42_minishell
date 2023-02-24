@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 16:44:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 00:17:03 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 00:34:23 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ char	*ft_strsep(char **stringp, const char *delim);
 char	*ft_strdup_size(char *str, int size);
 int		ft_is_char_count_uneven(char *str, char c);
 void	ft_perror_and_exit(char *msg);
-void	ft_free_safe(void **ptr);
 void	*ft_malloc_safe(size_t size, size_t count);
 
 #endif

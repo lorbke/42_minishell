@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:44:52 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 20:56:17 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 00:43:11 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static char	*get_pathset(char **envp)
 	if (path_set == NULL)
 		return (NULL);
 	path_set = ft_strtrim(path_set, PATH_ENV);
+	if (!path_set)
+		ft_perror_and_exit("executer: ft_strtrim: malloc: ");
 	return (path_set);
 }
 
@@ -58,12 +60,18 @@ char	*get_cmd_path(char **env, char *cmd)
 	if (path_str == NULL)
 		return (ft_strdup(cmd));
 	cmd = ft_strjoin("/", cmd);
+	if (!cmd)
+		ft_perror_and_exit("executer: ft_strjoin: malloc: ");
 	path_arr = ft_split(path_str, ':');
+	if (!path_arr)
+		ft_perror_and_exit("executer: ft_split: malloc: ");
 	temp_arr = path_arr;
 	free(path_str);
 	while (*path_arr)
 	{
 		temp = ft_strjoin(*path_arr, cmd);
+		if (!temp)
+			ft_perror_and_exit("executer: ft_strjoin: malloc: ");
 		if (access(temp, F_OK) == 0 && (!stat(temp, &s) && !S_ISDIR(s.st_mode)))
 		{
 			free(cmd);

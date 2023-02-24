@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 12:30:50 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 00:13:59 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 00:19:17 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,11 @@ static t_token	*dup_token(t_token *token)
 	new = ft_malloc_safe(sizeof(t_token), 1);
 	new->desc = token->desc;
 	if (token->word)
+	{
 		new->word = ft_strdup(token->word);
+		if (!new->word)
+			ft_perror_and_exit("parser: ft_strdup: malloc: ");
+	}
 	else
 		new->word = NULL;
 	return (new);

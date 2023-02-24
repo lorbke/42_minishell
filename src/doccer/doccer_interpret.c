@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:25:39 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/24 21:26:35 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 00:38:22 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ static char	*handle_unclosed_quote(
 	free(temp);
 	temp = input;
 	input = ft_strjoin(input, doc);
+	if (!input || !tokstack->token->word)
+		ft_perror_and_exit("doccer: ft_strjoin: malloc: ");
 	free(doc);
 	free(temp);
 	return (input);
@@ -59,6 +61,8 @@ static char	*handle_incomplete_input(
 	tokstack->next = lexer_str_to_tokstack(doc);
 	temp_str = input;
 	input = ft_strjoin(input, doc);
+	if (!input)
+		ft_perror_and_exit("doccer: ft_strjoin: malloc: ");
 	free(doc);
 	free(temp_str);
 	return (input);
