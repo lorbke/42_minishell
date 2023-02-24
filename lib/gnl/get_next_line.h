@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 17:42:14 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/24 20:18:36 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/24 20:57:09 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-#define BUFFER_SIZE 1000
+#define BUFFER_SIZE 42
 #define GNL_ERR -1
 
 char	*get_next_line(int fd);
