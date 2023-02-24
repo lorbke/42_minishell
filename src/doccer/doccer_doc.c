@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/24 21:13:37 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 00:53:12 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,11 @@ char	*get_doc(
 
 	pipe(fd);
 	pid = fork();
+	if (fd[0] == -1 || fd[1] == -1 || pid == -1)
+	{
+		*exit_status = ERR_GENERAL;
+		return (NULL);
+	}
 	if (pid > 0)
 	{
 		mssignal_change_mode(MSSIG_EXEC);

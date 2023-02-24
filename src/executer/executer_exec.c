@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/24 20:55:44 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 00:51:52 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ static pid_t	exec_subshell(t_cmd_table *cmd_table, int fd_pipe)
 		return (-1);
 	}
 	pid = fork();
+	if (pid == -1)
+	{
+		ms_exit_status_set(ERR_GENERAL);
+		return (pid);
+	}
 	if (pid > 0)
 	{
 		close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
@@ -71,6 +76,11 @@ static pid_t
 	int		status;
 
 	pid = fork();
+	if (pid == -1)
+	{
+		ms_exit_status_set(ERR_GENERAL);
+		return (pid);
+	}
 	if (pid > 0)
 	{
 		free(path);
@@ -121,7 +131,10 @@ static pid_t	exec_builtin(t_cmd_table *cmd_table)
 	}
 	pid = fork();
 	if (pid == -1)
+	{
+		ms_exit_status_set(ERR_GENERAL);
 		return (pid);
+	}
 	if (pid > 0)
 	{
 		close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
