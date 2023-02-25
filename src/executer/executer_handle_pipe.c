@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:29:17 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 23:18:52 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 23:35:29 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include <sys/types.h> // pid_t
 #include <string.h> // NULL
 #include <unistd.h> // close, pipe
-#include <stdio.h>
 
 static void	set_fd(int fd[][2], int fd_new)
 {

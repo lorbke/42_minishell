@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 17:05:34 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 17:19:39 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 00:14:35 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ static pid_t	case_pipeline(t_cmd_table *cmd_table, int fd_pipe)
 
 	pid = fork();
 	if (pid == RETURN_ERROR)
-		return (fork_error(pid, cmd_table));
+		return (exec_fork_error(pid, cmd_table));
 	if (pid == 0)
 	{
-		prepare_child_for_exec(cmd_table, fd_pipe);
+		exec_prepare_fds_for_exec(cmd_table, fd_pipe);
 		if (fd_pipe != RETURN_ERROR)
 			close(fd_pipe);
 		status = builtin_exec(cmd_table);
@@ -43,7 +43,7 @@ static pid_t	case_pipeline(t_cmd_table *cmd_table, int fd_pipe)
 		exit(status);
 		return (pid);
 	}
-	close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
+	exec_close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 	return (pid);
 }
 
@@ -57,7 +57,7 @@ static pid_t	case_not_pipeline(t_cmd_table *cmd_table)
 	status = builtin_exec(cmd_table);
 	ms_exit_status_set(status);
 	dup2(fd_temp, STDOUT_FILENO);
-	close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
+	exec_close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 	close(fd_temp);
 	return (RETURN_ERROR);
 }

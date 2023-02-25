@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 18:34:40 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 00:14:35 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ static pid_t	fork_and_execve(
 
 	pid = fork();
 	if (pid == RETURN_ERROR)
-		return (fork_error(pid, cmd_table));
-	if (pid == 0)
+		return (exec_fork_error(pid, cmd_table));
+	else if (pid == 0)
 	{
-		prepare_child_for_exec(cmd_table, fd_pipe);
+		exec_prepare_fds_for_exec(cmd_table, fd_pipe);
 		status = execve(path, cmd_table->cmd, env);
 		if (errno == ENOENT)
 			status = ERR_DIRNOTFOUND;
@@ -49,7 +49,7 @@ static pid_t	fork_and_execve(
 	}
 	free(path);
 	gc_free_str_arr(env);
-	close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
+	exec_close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 	return (pid);
 }
 
@@ -61,13 +61,17 @@ pid_t	exec_execve(t_cmd_table *cmd_table, int fd_pipe)
 
 	env = create_env_list(g_sym_table);
 	if (!env || ft_strchr(cmd_table->cmd[0], '/'))
+	{
 		path = ft_strdup(cmd_table->cmd[0]);
+		if (!path)
+			ft_perror_and_exit("exec_execve: ft_strup: malloc: ");
+	}
 	else
 	{
-		path = get_cmd_path(env, cmd_table->cmd[0]);
+		path = exec_get_cmd_path(env, cmd_table->cmd[0]);
 		if (path == NULL)
 		{
-			close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
+			exec_close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 			gc_free_str_arr(env);
 			ms_exit_status_set(ERR_CMDNOTFOUND);
 			return (RETURN_ERROR);

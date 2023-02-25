@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 17:56:21 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 00:15:54 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	interactive_mode(void)
 			builtin_exit_b(NULL);
 		if (*line)
 		{
-			line = ms_digest_input(line, STDIN_FILENO, STDOUT_FILENO);
+			line = ms_digest_input(line);
 			if (!is_empty_str(line))
 				add_history(line);
 		}
@@ -92,7 +92,7 @@ void	non_interactive_mode(void)
 	line = get_next_line(STDIN_FILENO);
 	while (line != NULL)
 	{
-		line = ms_digest_input(line, STDIN_FILENO, STDOUT_FILENO);
+		line = ms_digest_input(line);
 		free(line);
 		line = get_next_line(STDIN_FILENO);
 	}

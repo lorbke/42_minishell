@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 14:24:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 00:11:02 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,11 @@
 #include <sys/wait.h> // waitpid, WIFEXITED, WEXITSTATUS, WIFSIGNALED, WTERMSIG
 #include <stdio.h> // printf
 
-// @todo revise code and remove unnecessary if statements
-// @todo check ping and /dev/random cases
-
-t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
+t_status	executer_exec_ast(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
 	pid_t		pid;
 
-	dup2(fd_in, STDIN_FILENO);
-	dup2(fd_out, STDOUT_FILENO);
 	cmd_table = g_func_handle_arr[ast->token->desc](ast);
 	if (!cmd_table)
 		return (ms_exit_status_get());

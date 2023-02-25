@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 15:45:37 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 18:47:44 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 00:11:23 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_cmd_table
 
 typedef t_cmd_table	*(*t_func_handle)(t_ast *);
 
-t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out);
+t_status	executer_exec_ast(t_ast *ast);
 void		executer_free_cmd_table(void *cmd_table_void);
 
 #endif

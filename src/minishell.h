@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:39:03 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 14:25:03 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 00:03:52 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 
 typedef unsigned char	t_status;
 
-char		*ms_digest_input(char *input, int fd_in, int fd_out);
+char		*ms_digest_input(char *input);
 void		ms_print_error(t_status exit_status, int desc, char *error_loc);
 void		ms_wait_pid_and_set_exit(pid_t pid);
 void		ms_exit_status_set(t_status exit_status);

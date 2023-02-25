@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer_exec.c                                    :+:      :+:    :+:   */
+/*   executer_exec_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 18:05:53 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 00:14:35 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #include <stdlib.h> // free
 #include <sys/errno.h> // errno
 
-void	close_in_out_fds(int fd_in[2], int fd_out[2])
+void	exec_close_in_out_fds(int fd_in[2], int fd_out[2])
 {
 	if (fd_in[1] != FDLVL_STD)
 		close(fd_in[0]);
@@ -32,53 +32,20 @@ void	close_in_out_fds(int fd_in[2], int fd_out[2])
 		close(fd_out[0]);
 }
 
-void	prepare_child_for_exec(t_cmd_table *cmd_table, int fd_pipe)
+void	exec_prepare_fds_for_exec(t_cmd_table *cmd_table, int fd_pipe)
 {
 	mssignal_change_mode(MSSIG_NINTER);
 	dup2(cmd_table->fd_in[0], STDIN_FILENO);
 	dup2(cmd_table->fd_out[0], STDOUT_FILENO);
-	close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
+	exec_close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 	if (fd_pipe != RETURN_ERROR)
 		close(fd_pipe);
 }
 
-pid_t	fork_error(pid_t pid, t_cmd_table *cmd_table)
+pid_t	exec_fork_error(pid_t pid, t_cmd_table *cmd_table)
 {
 	ms_exit_status_set(ERR_GENERAL);
-	close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
-	return (pid);
-}
-
-static pid_t	exec_subshell(t_cmd_table *cmd_table, int fd_pipe)
-{
-	pid_t	pid;
-	int		status;
-
-	if (cmd_table->cmd[0][ft_strlen(cmd_table->cmd[0]) - 1] != ')'
-		|| ft_strlen(cmd_table->cmd[0]) < 3)
-	{
-		ms_exit_status_set(ERR_SYNTAX);
-		ms_print_error(ms_exit_status_get(), 0, cmd_table->cmd[0]);
-		return (RETURN_ERROR);
-	}
-	pid = fork();
-	if (pid == RETURN_ERROR)
-		return (fork_error(pid, cmd_table));
-	if (pid > 0)
-	{
-		close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
-		return (pid);
-	}
-	cmd_table->cmd[0][ft_strlen(cmd_table->cmd[0]) - 1] = 0;
-	ms_digest_input(cmd_table->cmd[0] + 1,
-		cmd_table->fd_in[0], cmd_table->fd_out[0]);
-	close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
-	if (fd_pipe != RETURN_ERROR)
-		close(fd_pipe);
-	status = ms_exit_status_get();
-	gc_free_all_garbage();
-	env_free_sym_tab(g_sym_table);
-	exit(status);
+	exec_close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 	return (pid);
 }
 

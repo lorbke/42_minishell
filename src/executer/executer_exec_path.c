@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer_path.c                                    :+:      :+:    :+:   */
+/*   executer_exec_path.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:44:52 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 00:43:11 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 23:38:55 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*get_pathset(char **envp)
 
 #include <stdio.h>
 
-char	*get_cmd_path(char **env, char *cmd)
+char	*exec_get_cmd_path(char **env, char *cmd)
 {
 	char		*path_str;
 	char		**path_arr;

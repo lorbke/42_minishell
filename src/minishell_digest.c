@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/24 21:24:17 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 00:03:30 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static t_ast	*parse_and_check_syntax(t_stack *tokstack)
 	return (ast);
 }
 
-char	*digest_input_helper(char *input, int fd_in, int fd_out)
+char	*digest_input_helper(char *input)
 {
 	t_stack		*tokstack;
 	t_ast		*ast;
@@ -96,16 +96,16 @@ char	*digest_input_helper(char *input, int fd_in, int fd_out)
 		return (input);
 	debug_parser(ast, NULL);
 	mssignal_change_mode(MSSIG_EXEC);
-	ms_exit_status_set(executer_exec_ast(ast, fd_in, fd_out));
+	ms_exit_status_set(executer_exec_ast(ast));
 	mssignal_change_mode(MSSIG_INTER);
 	return (input);
 }
 
-char	*ms_digest_input(char *input, int fd_in, int fd_out)
+char	*ms_digest_input(char *input)
 {
 	char	*final;
 
-	final = digest_input_helper(input, fd_in, fd_out);
+	final = digest_input_helper(input);
 	gc_free_all_garbage();
 	return (final);
 }
