@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:12:31 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 00:41:09 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 23:32:17 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,34 @@
 #include <unistd.h> // STDIN_FILENO, STDOUT_FILENO, write, read
 #include <sys/errno.h> // errno macros
 #include <string.h> // strerror
+#include <stdbool.h> // bool
+
+t_cmd_table	*redir_get_cmd_table(int redir_fd, t_ast *ast)
+{
+	t_cmd_table	*cmd_table;
+
+	if (redir_fd == RETURN_ERROR)
+	{
+		ms_exit_status_set(ERR_GENERAL);
+		ms_print_error(ms_exit_status_get(), 0, ast->right->token->word);
+		return (NULL);
+	}
+	if (!ast->left)
+		return (NULL);
+	cmd_table = g_func_handle_arr[ast->left->token->desc](ast->left);
+	if (!cmd_table)
+		return (NULL);
+	return (cmd_table);
+}
+
+bool	is_quoted(char desc)
+{
+	if (desc == TOK_QUOTED
+		|| desc == TOK_UNCLOSED_SQUOTE
+		|| desc == TOK_UNCLOSED_DQUOTE)
+		return (true);
+	return (false);
+}
 
 t_cmd_table	*create_cmd_table(t_ast *ast)
 {

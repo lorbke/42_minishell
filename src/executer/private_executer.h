@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:14:20 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 18:06:39 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 23:32:28 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../executer.h" // t_status, t_cmd_table
 # include "parser.h" // t_ast
 # include <sys/types.h> // pid_t
+# include <stdbool.h> // bool
 
 /* Precedence levels for file descriptor prioritization. */
 # define FDLVL_STD 0
@@ -33,14 +34,15 @@ t_cmd_table	*handle_redir_out(t_ast *ast);
 t_cmd_table	*handle_cmd(t_ast *ast);
 
 // utils
-pid_t		exec_cmd(t_cmd_table *cmd_table, int fd_pipe);
-void		ms_wait_pid_and_set_exit(pid_t pid);
+bool		is_quoted(char desc);
+t_cmd_table	*redir_get_cmd_table(int redir_fd, t_ast *ast);
 t_cmd_table	*create_cmd_table(t_ast *ast);
 
 // path
 char		*get_cmd_path(char **env, char *cmd);
 
 // exec
+pid_t		exec_cmd(t_cmd_table *cmd_table, int fd_pipe);
 pid_t		exec_execve(t_cmd_table *cmd_table, int fd_pipe);
 pid_t		exec_builtin(t_cmd_table *cmd_table, int fd_pipe);
 void		close_in_out_fds(int fd_in[2], int fd_out[2]);

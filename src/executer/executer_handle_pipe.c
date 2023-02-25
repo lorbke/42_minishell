@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:29:17 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 14:40:31 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 23:18:52 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ t_cmd_table	*handle_pipe(t_ast *ast)
 	pid_t		pid_l;
 
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
-	pipe(fd_pipe);
-	if (fd_pipe[0] == RETURN_ERROR || fd_pipe[1] == RETURN_ERROR)
+	if (pipe(fd_pipe) == RETURN_ERROR)
 	{
 		ms_exit_status_set(ERR_GENERAL);
 		return (NULL);
