@@ -47,14 +47,12 @@ char	**globber(char **argv)
 	return (expanded_argv);
 }
 
-#include <stdio.h>
 static char **globbing(char *arg, int *index)
 {
 	char	*pattern;
 	char	**result;
 
 	result = NULL;
-	// printf("arg: %s\n", arg);
 	pattern = find_pattern(arg, &(*index));
 	result = check_for_path(pattern, result);
 	if (ft_strcmp(pattern, "*/") != 0)

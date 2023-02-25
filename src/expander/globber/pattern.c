@@ -14,25 +14,26 @@
 #include "globber_private.h" // create_new_path
 #include "../../utils.h" // realloc_string_array, get_string_array_len
 
-static void	scan_char(char **arg, char **pattern, int *astrisk_c, int *quote_c);
-static void	set_char(char **arg, char **pattern, int *astrisk_c, int *quote_c);
+static void	scan_char(char **arg, char **pattern, int *asterisk_c, int *quote_c);
+static void	set_char(char **arg, char **pattern, int *asterisk_c, int *quote_c);
+static void	set_literal_asterisk(char **pattern);
 
 char	*find_pattern(char *arg, int *index)
 {
 	char 	*tmp;
 	char	*pattern;
 	int		quote_c;
-	int		astrisk_c;
+	int		asterisk_c;
 
 	pattern = malloc(sizeof(char) * ft_strlen(arg) + 1);
 	if (pattern == NULL)
 		return (NULL);
 	tmp = pattern;
 	quote_c = 0;
-	astrisk_c = 0;
+	asterisk_c = 0;
 	while (*arg != '\0')
 	{
-		scan_char(&arg, &pattern, &astrisk_c, &quote_c);
+		scan_char(&arg, &pattern, &asterisk_c, &quote_c);
 		(*index)++;
 	}
 	*pattern = '\0';
@@ -61,33 +62,32 @@ char	**pattern_over(char **result, char *entry, char *path)
 	return (result);
 }
 
-static void	set_char(char **arg, char **pattern, int *astrisk_c, int *quote_c)
+static void	set_char(char **arg, char **pattern, int *asterisk_c, int *quote_c)
 {
-	if (**arg == '*' && *astrisk_c == 0)
+	if (**arg == '*' && *asterisk_c == 0)
 	{
 		if (*quote_c == 0)
 		{
-			*astrisk_c = 1;
+			*asterisk_c = 1;
 			**pattern = **arg;
 		}
 		else
-			**pattern = '\'';
-		(*arg)++;
+			set_literal_asterisk(&(*pattern));
 		(*pattern)++;
 	}
 	else
 	{
 		if (**arg != '*')
 		{
-			*astrisk_c = 0;
+			*asterisk_c = 0;
 			**pattern = **arg;
 			(*pattern)++;
 		}
-		(*arg)++;
 	}
+	(*arg)++;
 }
 
-static void	scan_char(char **arg, char **pattern, int *astrisk_c, int *quote_c)
+static void	scan_char(char **arg, char **pattern, int *asterisk_c, int *quote_c)
 {
 	if (**arg == '\'' || **arg == '\"')
 	{
@@ -95,11 +95,18 @@ static void	scan_char(char **arg, char **pattern, int *astrisk_c, int *quote_c)
 			*quote_c = 1;
 		else
 			*quote_c = 0;
-		*astrisk_c = 0;
-		// **pattern = **arg;
-		// (*pattern)++;
+		*asterisk_c = 0;
 		(*arg)++;
 	}
 	else
-		set_char(arg, pattern, astrisk_c, quote_c);
+		set_char(arg, pattern, asterisk_c, quote_c);
+}
+
+static void	set_literal_asterisk(char **pattern)
+{
+	**pattern = '\'';
+	(*pattern)++;
+	**pattern = '*';
+	(*pattern)++;
+	**pattern = '\'';
 }
