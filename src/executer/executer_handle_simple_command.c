@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:27:13 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 00:52:17 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 14:24:58 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <string.h> // NULL
 #include <unistd.h> // pipe, write
 #include <stdio.h> // printf
+#include <stdlib.h> // malloc, free
 
 t_cmd_table	*handle_cmd(t_ast *ast)
 {
@@ -37,6 +38,7 @@ t_cmd_table	*handle_redir_heredoc(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
 	char		*temp;
+	char		*expand;
 	int			fd[2];
 
 	if (!ast->left)
@@ -45,18 +47,20 @@ t_cmd_table	*handle_redir_heredoc(t_ast *ast)
 	if (!cmd_table)
 		return (NULL);
 	pipe(fd);
-	// gc_add_garbage(ast->right->token->word, NULL);
 	temp = ast->right->token->word;
 	if (ast->right->token->desc != TOK_QUOTED
 		&& ast->right->token->desc != TOK_UNCLOSED_DQUOTE
 		&& ast->right->token->desc != TOK_UNCLOSED_SQUOTE)
 		temp = expand_str(ast->right->token->word);
+	expand = temp;
 	while (temp && *temp)
 	{
 		write(fd[1], temp, 1);
 		temp++;
 	}
 	close(fd[1]);
+	if (expand != ast->right->token->word)
+		free(expand);
 	cmd_table->fd_in[0] = fd[0];
 	cmd_table->fd_in[1] = FDLVL_REDIR;
 	return (cmd_table);
@@ -68,7 +72,7 @@ t_cmd_table	*handle_redir_append(t_ast *ast)
 	int			fd;
 
 	fd = open(ast->right->token->word, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd == -1)
+	if (fd == RETURN_ERROR)
 	{
 		ms_exit_status_set(ERR_GENERAL);
 		ms_print_error(ms_exit_status_get(), 0, ast->right->token->word);
@@ -90,7 +94,7 @@ t_cmd_table	*handle_redir_in(t_ast *ast)
 	int			fd;
 
 	fd = open(ast->right->token->word, O_RDONLY);
-	if (fd == -1)
+	if (fd == RETURN_ERROR)
 	{
 		ms_exit_status_set(ERR_GENERAL);
 		ms_print_error(ms_exit_status_get(), 0, ast->right->token->word);
@@ -112,7 +116,7 @@ t_cmd_table	*handle_redir_out(t_ast *ast)
 	int			fd;
 
 	fd = open(ast->right->token->word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
+	if (fd == RETURN_ERROR)
 	{
 		ms_exit_status_set(ERR_GENERAL);
 		ms_print_error(ms_exit_status_get(), 0, ast->right->token->word);

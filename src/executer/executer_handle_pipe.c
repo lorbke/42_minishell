@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:29:17 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 01:26:19 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 14:40:31 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,28 @@ t_cmd_table	*handle_pipe(t_ast *ast)
 {
 	t_cmd_table	*cmd_table_l;
 	t_cmd_table	*cmd_table_r;
-	int			pipe_fd[2];
+	int			fd_pipe[2];
 	pid_t		pid_l;
 
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
-	pipe(pipe_fd);
+	pipe(fd_pipe);
+	if (fd_pipe[0] == RETURN_ERROR || fd_pipe[1] == RETURN_ERROR)
+	{
+		ms_exit_status_set(ERR_GENERAL);
+		return (NULL);
+	}
 	if (cmd_table_l)
 	{
-		set_fd(&cmd_table_l->fd_out, pipe_fd[1]);
-		pid_l = exec_cmd(cmd_table_l, pipe_fd[0]);
-		if (pid_l == -1)
+		set_fd(&cmd_table_l->fd_out, fd_pipe[1]);
+		pid_l = exec_cmd(cmd_table_l, fd_pipe[0]);
+		if (pid_l == RETURN_ERROR)
 			ms_print_error(ms_exit_status_get(), 0, cmd_table_l->cmd[0]);
 	}
 	else
-		close(pipe_fd[1]);
+		close(fd_pipe[1]);
 	cmd_table_r = g_func_handle_arr[ast->right->token->desc](ast->right);
 	if (!cmd_table_r)
 		return (NULL);
-	set_fd(&cmd_table_r->fd_in, pipe_fd[0]);
+	set_fd(&cmd_table_r->fd_in, fd_pipe[0]);
 	return (cmd_table_r);
 }

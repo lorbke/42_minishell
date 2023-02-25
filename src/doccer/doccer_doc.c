@@ -6,13 +6,15 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 23:24:30 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 15:40:02 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_doccer.h" // utils
 #include "libft.h" // ft_strrchr
 #include "get_next_line.h"
+#include "env.h" // g_env
+#include "../utils.h" // env_free_sym_tab
 #include "../mssignal.h" // mssignal_change_mode
 #include "../minishell.h" // exit_status functions
 #include "garbage_collector.h" // gc_free_all_garbage
@@ -23,6 +25,19 @@
 #include <unistd.h> // write, read, pipe, fork
 
 #define DOC_PROMPT "> "
+
+static void	empty_fd(int fd)
+{
+	char	*line;
+
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		free(line);
+	}
+}
 
 int	doc_heredoc(char *limiter, int fd_write)
 {
@@ -42,6 +57,9 @@ int	doc_heredoc(char *limiter, int fd_write)
 		write(fd_write, line, ft_strlen(line));
 		free(line);
 	}
+	if (line)
+		free(line);
+	get_next_line(GNL_ERR);
 	return (ERR_SUCCESS);
 }
 
@@ -52,9 +70,12 @@ int	doc_completingdoc(char *placeholder, int fd_write)
 	while (1)
 	{
 		write(fd_write, " ", 1);
-		line = readline(DOC_PROMPT);
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, DOC_PROMPT, 2);
+		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			break ;
+		line[ft_strlen(line) - 1] = 0;
 		write(fd_write, line, ft_strlen(line));
 		if (!is_only_whitespace(line))
 		{
@@ -63,6 +84,7 @@ int	doc_completingdoc(char *placeholder, int fd_write)
 		}
 		free(line);
 	}
+	get_next_line(GNL_ERR);
 	return (ERR_SUCCESS);
 }
 
@@ -74,9 +96,12 @@ int	doc_quotedoc(char *quote, int fd_write)
 	while (1)
 	{
 		write(fd_write, "\n", 1);
-		line = readline(DOC_PROMPT);
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, DOC_PROMPT, 2);
+		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			break ;
+		line[ft_strlen(line) - 1] = 0;
 		write(fd_write, line, ft_strlen(line));
 		temp = ft_strchr(line, *quote);
 		if (temp && ft_is_char_count_uneven(line, *quote))
@@ -86,22 +111,32 @@ int	doc_quotedoc(char *quote, int fd_write)
 		}
 		free(line);
 	}
-	if (!ft_is_char_count_uneven(line, *quote))
-		return (ERR_SYNTAX);
+	get_next_line(GNL_ERR);
 	return (ERR_SUCCESS);
 }
 
-static void	empty_fd(int fd)
+static char	*case_parent(pid_t pid, int fd_pipe[2], t_status *exit_status)
 {
-	char	*line;
+	char	*doc;
+	int		status;
 
-	while (1)
+	mssignal_change_mode(MSSIG_EXEC);
+	close(fd_pipe[1]);
+	waitpid(pid, &status, 0);
+	if (WEXITSTATUS(status) != ERR_SUCCESS)
 	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		free(line);
+		*exit_status = WEXITSTATUS(status);
+		close(fd_pipe[0]);
+		return (NULL);
 	}
+	if (!isatty(STDIN_FILENO))
+		empty_fd(STDIN_FILENO);
+	doc = ft_calloc(sizeof(char), ARG_MAX + 1);
+	if (!doc)
+		ft_perror_and_exit("case_parent: ft_calloc: malloc:");
+	read(fd_pipe[0], doc, ARG_MAX);
+	close(fd_pipe[0]);
+	return (doc);
 }
 
 char	*get_doc(
@@ -109,37 +144,26 @@ char	*get_doc(
 {
 	pid_t	pid;
 	int		fd[2];
-	char	*doc;
 	int		status;
 
 	pipe(fd);
 	pid = fork();
-	if (pid > 0)
+	if (fd[0] == RETURN_ERROR || fd[1] == RETURN_ERROR || pid == RETURN_ERROR)
 	{
-		mssignal_change_mode(MSSIG_EXEC);
-		close(fd[1]);
-		waitpid(pid, &status, 0);
-		if (WEXITSTATUS(status) != ERR_SUCCESS)
-		{
-			*exit_status = WEXITSTATUS(status);
-			close(fd[0]);
-			return (NULL);
-		}
-		if (!isatty(STDIN_FILENO))
-			empty_fd(STDIN_FILENO);
-		doc = ft_calloc(sizeof(char), ARG_MAX + 1);
-		read(fd[0], doc, ARG_MAX);
-		close(fd[0]);
-		return (doc);
+		*exit_status = ERR_GENERAL;
+		return (NULL);
 	}
-	else
+	if (pid == 0)
 	{
 		mssignal_change_mode(MSSIG_DOC);
 		close(fd[0]);
 		status = doc_func(lim, fd[1]);
 		close(fd[1]);
+		env_free_sym_tab(g_sym_table);
 		gc_free_all_garbage();
 		exit(status);
 		return (NULL);
 	}
+	else
+		return (case_parent(pid, fd, exit_status));
 }

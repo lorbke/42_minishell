@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 17:10:26 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/23 18:02:09 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/24 18:53:16 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	**realloc_string_array(char **ptr, int size);
 
 // utils
 void	free_split(char **split);
-void	free_list(t_sym_tab **head);
+void	env_free_sym_tab(t_sym_tab **head);
 int		get_string_array_len(char **array);
 int		check_naming_convention(char *var_name);
 int		ft_strcmp(const char *s1, const char *s2);

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:39:03 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 19:39:13 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 14:25:03 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,15 @@
 # define CMD_SEPS " \t\n\r"
 # define CMD_ESCS "\'\"()"
 
+# define RETURN_ERROR -1
+
 # define ERR_SUCCESS 0
 # define ERR_GENERAL 1 
 # define ERR_SYNTAX 2
+# define ERR_DIRNOTFOUND 125
 # define ERR_NOPERM 126
 # define ERR_CMDNOTFOUND 127
 # define ERR_SIGNAL 128
-# define ERR_DIRNOTFOUND 3
 
 typedef unsigned char	t_status;
 

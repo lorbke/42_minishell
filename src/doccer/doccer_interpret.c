@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:25:39 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 00:50:12 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 00:38:22 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,25 @@ static char	*handle_unclosed_quote(
 	char	*temp;
 	char	*doc;
 
-	tokstack->token->desc = TOK_QUOTED;
+	if ((tokstack && tokstack->token->desc == TOK_UNCLOSED_DQUOTE
+			&& !ft_is_char_count_uneven(tokstack->token->word, '\"'))
+		|| (tokstack->token->desc == TOK_UNCLOSED_SQUOTE
+			&& !ft_is_char_count_uneven(tokstack->token->word, '\'')))
+		tokstack->token->desc = TOK_QUOTED;
 	temp = tokstack->token->word;
 	doc = get_doc(doc_quotedoc, &quote, exit_status);
 	if (*exit_status != ERR_SUCCESS)
+	{
+		free(doc);
 		return (input);
+	}
 	tokstack->token->word
 		= ft_strjoin(tokstack->token->word, doc);
 	free(temp);
 	temp = input;
 	input = ft_strjoin(input, doc);
+	if (!input || !tokstack->token->word)
+		ft_perror_and_exit("doccer: ft_strjoin: malloc: ");
 	free(doc);
 	free(temp);
 	return (input);
@@ -45,10 +54,15 @@ static char	*handle_incomplete_input(
 
 	doc = get_doc(doc_completingdoc, NULL, exit_status);
 	if (*exit_status != ERR_SUCCESS)
+	{
+		free(doc);
 		return (input);
+	}
 	tokstack->next = lexer_str_to_tokstack(doc);
 	temp_str = input;
 	input = ft_strjoin(input, doc);
+	if (!input)
+		ft_perror_and_exit("doccer: ft_strjoin: malloc: ");
 	free(doc);
 	free(temp_str);
 	return (input);
@@ -67,7 +81,10 @@ static t_stack	*iterate_to_end_and_interpret_heredocs(
 			doc = get_doc(
 					doc_heredoc, tokstack->next->token->word, exit_status);
 			if (*exit_status != ERR_SUCCESS)
+			{
+				free(doc);
 				return (NULL);
+			}
 			free(tokstack->next->token->word);
 			tokstack->next->token->word = doc;
 			tokstack = tokstack->next;

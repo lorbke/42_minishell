@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:17:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 21:58:34 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/25 14:25:58 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../minishell.h" // RETURN_ERROR
 #include "env.h" // g_sym_table
 #include "libft.h" // ft_putstr_fd
 #include "../utils.h" // free_split
@@ -31,7 +32,7 @@ int	env_b(char **argv)
 	if (env_list == NULL)
 	{
 		ft_putstr_fd("env: couldn't fetch env\n", 2);
-		return (-1);
+		return (RETURN_ERROR);
 	}
 	i = 0;
 	while (env_list[i] != NULL) {

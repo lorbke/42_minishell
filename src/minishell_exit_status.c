@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 14:29:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 15:37:04 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 14:22:58 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	ms_exit_status_set(t_status exit_status)
 			free(tmp->var);
 			exit_status_str = ft_itoa(exit_status);
 			tmp->var = ft_strjoin("?=", exit_status_str);
+			if (!tmp->var)
+				ft_perror_and_exit("ms_exit_status_set: ft_strjoin: malloc: ");
 			free(exit_status_str);
 			return ;
 		}
@@ -64,7 +66,7 @@ void	ms_wait_pid_and_set_exit(pid_t pid)
 {
 	int	status;
 
-	if (pid == -1)
+	if (pid == RETURN_ERROR)
 		return ;
 	status = 0;
 	waitpid(pid, &status, 0);

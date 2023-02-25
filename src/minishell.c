@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 22:18:12 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/24 18:51:35 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,12 @@ int	main(int argc, char **argv, char **envp)
 
 	g_sym_table = init_sym_tab(envp);
 	init_exit_status(g_sym_table);
-	// gc_add_garbage(g_sym_table, &free_list);
 	if (isatty(STDIN_FILENO)) // check if stdin is a terminal
 		interactive_mode();
 	else
 		non_interactive_mode();
 	exit_status = ms_exit_status_get();
-	// gc_free_all();
 	mssignal_change_mode(MSSIG_NINTER);
+	env_free_sym_tab(g_sym_table);
 	return (exit_status);
 }

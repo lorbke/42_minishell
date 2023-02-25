@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:37:54 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 23:15:34 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 00:10:48 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,7 @@ t_token	*create_token(char *word)
 
 	if (!word || !*word)
 		return (NULL);
-	new = malloc(sizeof(t_token));
-	if (!new)
-	{
-		free(word);
-		return (NULL);
-	}
+	new = ft_malloc_safe(sizeof(t_token), 1);
 	new->word = word;
 	new->desc = desc_word(word);
 	return (new);
@@ -99,12 +94,7 @@ t_stack	*create_stack_node(t_token *token)
 
 	if (!token)
 		return (NULL);
-	new = malloc(sizeof(t_stack));
-	if (!new)
-	{
-		free(token);
-		return (NULL);
-	}
+	new = ft_malloc_safe(sizeof(t_stack), 1);
 	new->token = token;
 	new->next = NULL;
 	return (new);

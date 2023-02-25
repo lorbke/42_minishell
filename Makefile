@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
+#    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/22 20:58:14 by fyuzhyk          ###   ########.fr        #
+#    Updated: 2023/02/24 17:50:43 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,6 +110,10 @@ re: fclean all
 
 debug: CFLAGS += -O0 -DDEBUG -g
 debug: clean all
+	@$(MAKE) clean
+
+leak: CFLAGS += $(LEAK)
+leak: clean all
 	@$(MAKE) clean
 
 test:

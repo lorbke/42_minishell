@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/23 18:00:31 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/25 14:23:46 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h" // ft_putstr_fd, ft_strjoin
 #include "../utils.h" // free_list
 #include "env.h" // g_sym_table
+#include "garbage_collector.h" // gc_free_all_garbage
 #include <errno.h> // errno
 #include <stdio.h> // printf
 #include <unistd.h> // NULL
@@ -45,8 +46,8 @@ int	builtin_exit_b(char **argv)
 			return (exit_code);
 		}
 	}
-	free_list(g_sym_table);
-	free_split(argv);
+	gc_free_all_garbage();
+	env_free_sym_tab(g_sym_table);
 	exit(exit_code);
 }
 
@@ -72,11 +73,11 @@ static int	is_num(char *str)
 static int	check_value(long long number, int sign, char *str)
 {
 	number *= sign;
-	if (number > 0 && sign == -1
+	if (number > 0 && sign == RETURN_ERROR
 	|| number < 0 && sign == 1)
 	{
 		exit_print_to_stderr(NULL, str);
-		return (-1);
+		return (RETURN_ERROR);
 	}
 	return (number);
 }
@@ -93,7 +94,7 @@ static long long	ft_atoi_long(char *str)
 	sign = 1;
 	if (str[i] == '-')
 	{
-		sign = -1;
+		sign = RETURN_ERROR;
 		i++;
 	}
 	else if (str[i] == '+')
@@ -115,7 +116,7 @@ static void	exit_non_numeric(char **argv)
 
 	exit_print_to_stderr(NULL, argv[1]);
 	exit_code = ms_exit_status_get();
-	free_list(g_sym_table);
-	free_split(argv);
+	gc_free_all_garbage();
+	env_free_sym_tab(g_sym_table);
 	exit(exit_code);
 }

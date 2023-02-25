@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 22:08:40 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 14:24:58 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ t_status	executer_exec_ast(t_ast *ast, int fd_in, int fd_out)
 	cmd_table = g_func_handle_arr[ast->token->desc](ast);
 	if (!cmd_table)
 		return (ms_exit_status_get());
-	pid = exec_cmd(cmd_table, -1);
+	pid = exec_cmd(cmd_table, RETURN_ERROR);
 	ms_wait_pid_and_set_exit(pid);
 	if (ms_exit_status_get() == ERR_CMDNOTFOUND
 		|| ms_exit_status_get() == ERR_NOPERM
 		|| ms_exit_status_get() == ERR_DIRNOTFOUND)
 		ms_print_error(ms_exit_status_get(), 0, cmd_table->cmd[0]);
-	while (waitpid(-1, NULL, WUNTRACED) != -1)
+	while (waitpid(RETURN_ERROR, NULL, WUNTRACED) != RETURN_ERROR)
 		;
 	return (ms_exit_status_get());
 }
