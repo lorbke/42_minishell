@@ -6,14 +6,13 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:44:52 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 23:38:55 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 00:51:36 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // ft_strlen, ft_strncmp, ft_strjoin
 #include "garbage_collector.h" // gc_free_* functions
 #include <sys/stat.h> // stat, S_ISDIR, S_ISREG
-
 
 #define PATH_ENV "PATH="
 
@@ -31,12 +30,11 @@ static char	*ft_strnstr_arr(char **str_arr, char *needle)
 	return (NULL);
 }
 
-static char	*get_pathset(char **envp)
+static char	*get_pathset(char **env)
 {
 	char	*path_set;
 
-	path_set = ft_strnstr_arr(envp, PATH_ENV);
-	// @note protected
+	path_set = ft_strnstr_arr(env, PATH_ENV);
 	if (path_set == NULL)
 		return (NULL);
 	path_set = ft_strtrim(path_set, PATH_ENV);
@@ -45,43 +43,51 @@ static char	*get_pathset(char **envp)
 	return (path_set);
 }
 
-#include <stdio.h>
+static char	*get_valid_cmd_str(char **path_arr, char *cmd)
+{
+	char		*temp_str;
+	char		**temp_arr;
+	struct stat	file_stats;
+
+	temp_arr = path_arr;
+	while (*temp_arr)
+	{
+		temp_str = ft_strjoin(*temp_arr, cmd);
+		if (!temp_str)
+			ft_perror_and_exit("executer: ft_strjoin: malloc: ");
+		if (access(temp_str, F_OK) == 0
+			&& (!stat(temp_str, &file_stats)
+				&& !S_ISDIR(file_stats.st_mode)))
+			return (temp_str);
+		free(temp_str);
+		temp_arr++;
+	}
+	return (NULL);
+}
 
 char	*exec_get_cmd_path(char **env, char *cmd)
 {
 	char		*path_str;
 	char		**path_arr;
-	char		**temp_arr;
-	char		*temp;
-	struct stat s;
+	char		*valid_cmd;
 
 	path_str = get_pathset(env);
-	// @note protected
 	if (path_str == NULL)
-		return (ft_strdup(cmd));
+	{
+		valid_cmd = ft_strdup(cmd);
+		if (!valid_cmd)
+			ft_perror_and_exit("executer: ft_strdup: malloc: ");
+		return (valid_cmd);
+	}
+	path_arr = ft_split(path_str, ':');
+	free(path_str);
+	if (!path_arr)
+		ft_perror_and_exit("executer: ft_split: malloc: ");
 	cmd = ft_strjoin("/", cmd);
 	if (!cmd)
 		ft_perror_and_exit("executer: ft_strjoin: malloc: ");
-	path_arr = ft_split(path_str, ':');
-	if (!path_arr)
-		ft_perror_and_exit("executer: ft_split: malloc: ");
-	temp_arr = path_arr;
-	free(path_str);
-	while (*path_arr)
-	{
-		temp = ft_strjoin(*path_arr, cmd);
-		if (!temp)
-			ft_perror_and_exit("executer: ft_strjoin: malloc: ");
-		if (access(temp, F_OK) == 0 && (!stat(temp, &s) && !S_ISDIR(s.st_mode)))
-		{
-			free(cmd);
-			gc_free_str_arr(temp_arr);
-			return (temp);
-		}
-		free(temp);
-		path_arr++;
-	}
+	valid_cmd = get_valid_cmd_str(path_arr, cmd);
 	free(cmd);
-	gc_free_str_arr(temp_arr);
-	return (NULL);
+	gc_free_str_arr(path_arr);
+	return (valid_cmd);
 }
