@@ -422,13 +422,17 @@ fn exec_cmd_table_to_output
 	if subshell
 		exec subshell
 
+	gc_add_garbage(cmd_table)
 	expand cmd
 
 	if builtin
 		exec builtin
 
 	else
-		exec scmd
+		exec execve
+
+
+
 
 fn exec_subshell
 	if !syntax
@@ -437,9 +441,7 @@ fn exec_subshell
 	
 	fork
 		if error
-			close_in_out_fds
-			set_error(general)
-			return pid
+			fork_error
 		if child
 			remove brackets from cmd
 			digest_input
@@ -447,10 +449,13 @@ fn exec_subshell
 			close fd_pipe
 			gc_free_all_garbage
 			env_free_sym_tab
-			exit
+			exit(status)
 		if parent
 			close_in_out_fds
 			return pid
+
+
+
 
 fn exec_builtin
 	if !pipe
@@ -463,7 +468,60 @@ fn exec_builtin
 	else
 		fork
 			if error
-				close_in_out_fds
-				set_error(general)
-				return pid
+				fork_error
 			if child
+				prepare_child_for_exec
+				status = builtin_exec cmd
+				gc_add_garbage
+				env_free_sym_tab
+				exit(status)
+			if parent
+				close_in_out_fds
+				return pid
+
+
+
+
+fn exec_execve
+
+	fork
+		if error
+			fork_error
+		if child
+			prepare_child_for_exec
+
+			status = 0;
+			env = create_env_list
+			if !env || ft_strchr(cmd, '/')
+				execve(cmd, args, env)
+			else
+				path = get_path(cmd)
+				if path
+					execve(path, args, env)
+				else
+					status = ERR_CMDNOTFOUND
+			free(path)
+			free env list
+			gc_free_all_garbage
+			env_free_sym_tab
+			if errno ENOENT && status != ERR_CMDNOTFOUND
+				status ERR_DIRNOTFOUND
+			else
+				status ERR_NOPERM
+			exit stauts
+
+
+
+fn fork_error
+	close_in_out_fds
+	set_error(general)
+	return pid
+
+
+
+fn prepare_child_for_exec
+	mode NINTER
+	dup out
+	dup in
+	close_in_out_fds
+	close fd_pipe

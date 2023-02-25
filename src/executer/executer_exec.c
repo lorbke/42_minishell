@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 15:19:08 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 17:12:01 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,29 @@
 #include <stdlib.h> // free
 #include <sys/errno.h> // errno
 
-static void	close_in_out_fds(int fd_in[2], int fd_out[2])
+void	close_in_out_fds(int fd_in[2], int fd_out[2])
 {
 	if (fd_in[1] != FDLVL_STD)
 		close(fd_in[0]);
 	if (fd_out[1] != FDLVL_STD)
 		close(fd_out[0]);
+}
+
+void	prepare_child_for_exec(t_cmd_table *cmd_table, int fd_pipe)
+{
+	mssignal_change_mode(MSSIG_NINTER);
+	dup2(cmd_table->fd_in[0], STDIN_FILENO);
+	dup2(cmd_table->fd_out[0], STDOUT_FILENO);
+	close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
+	if (fd_pipe != RETURN_ERROR)
+		close(fd_pipe);
+}
+
+pid_t	fork_error(pid_t pid, t_cmd_table *cmd_table)
+{
+	ms_exit_status_set(ERR_GENERAL);
+	close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
+	return (pid);
 }
 
 static pid_t	exec_subshell(t_cmd_table *cmd_table, int fd_pipe)
@@ -46,11 +63,7 @@ static pid_t	exec_subshell(t_cmd_table *cmd_table, int fd_pipe)
 	}
 	pid = fork();
 	if (pid == RETURN_ERROR)
-	{
-		ms_exit_status_set(ERR_GENERAL);
-		close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
-		return (pid);
-	}
+		return (fork_error(pid, cmd_table));
 	if (pid > 0)
 	{
 		close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
@@ -77,10 +90,7 @@ static pid_t
 
 	pid = fork();
 	if (pid == RETURN_ERROR)
-	{
-		ms_exit_status_set(ERR_GENERAL);
-		return (pid);
-	}
+		return (fork_error(pid, cmd_table));
 	if (pid > 0)
 	{
 		free(path);
@@ -88,12 +98,7 @@ static pid_t
 		close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 		return (pid);
 	}
-	mssignal_change_mode(MSSIG_NINTER);
-	dup2(cmd_table->fd_in[0], STDIN_FILENO);
-	dup2(cmd_table->fd_out[0], STDOUT_FILENO);
-	close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
-	if (fd_pipe != RETURN_ERROR)
-		close(fd_pipe);
+	prepare_child_for_exec(cmd_table, fd_pipe);
 	if (!path)
 		status = execve(cmd_table->cmd[0], cmd_table->cmd, env);
 	else
@@ -104,46 +109,6 @@ static pid_t
 		status = ERR_NOPERM;
 	free(path);
 	free_split(env);
-	gc_free_all_garbage();
-	env_free_sym_tab(g_sym_table);
-	exit(status);
-	return (pid);
-}
-
-// @todo pid error handling
-static pid_t	exec_builtin(t_cmd_table *cmd_table)
-{
-	pid_t	pid;
-	int		status;
-	int		fd_temp;
-
-	if (cmd_table->fd_in[1] != FDLVL_PIPE
-		&& cmd_table->fd_out[1] != FDLVL_PIPE)
-	{
-		fd_temp = dup(STDOUT_FILENO);
-		dup2(cmd_table->fd_out[0], STDOUT_FILENO);
-		status = builtin_exec(cmd_table);
-		dup2(fd_temp, STDOUT_FILENO);
-		close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
-		close(fd_temp);
-		ms_exit_status_set(status);
-		return (RETURN_ERROR);
-	}
-	pid = fork();
-	if (pid == RETURN_ERROR)
-	{
-		ms_exit_status_set(ERR_GENERAL);
-		return (pid);
-	}
-	if (pid > 0)
-	{
-		close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
-		return (pid);
-	}
-	dup2(cmd_table->fd_out[0], STDOUT_FILENO);
-	close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
-	mssignal_change_mode(MSSIG_NINTER);
-	status = builtin_exec(cmd_table);
 	gc_free_all_garbage();
 	env_free_sym_tab(g_sym_table);
 	exit(status);
@@ -168,7 +133,7 @@ pid_t	exec_cmd(t_cmd_table *cmd_table, int fd_pipe)
 	{
 		if (env != NULL)
 			gc_free_str_arr(env);
-		return (exec_builtin(cmd_table));
+		return (exec_builtin(cmd_table, fd_pipe));
 	}
 	path = NULL;
 	if (env != NULL && !ft_strchr(cmd_table->cmd[0], '/'))
