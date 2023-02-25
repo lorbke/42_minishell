@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:14:20 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 00:14:35 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 00:20:10 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_cmd_table	*handle_cmd(t_ast *ast);
 
 // utils
 bool		is_quoted(char desc);
+bool		is_word(char desc);
 t_cmd_table	*redir_get_cmd_table(int redir_fd, t_ast *ast);
 t_cmd_table	*create_cmd_table(t_ast *ast);
 

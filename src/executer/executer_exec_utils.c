@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 00:14:35 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 00:26:47 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,11 @@
 #include "../minishell.h" // process_input, ERR_* defines
 #include "../mssignal.h" // mssignal_change_mode
 #include "env.h" // g_sym_table
-#include "../utils.h"
 #include "../expander.h" // expander
 #include "../builtins.h" // all builtins
 #include "garbage_collector.h" // gc_free_all_garbage
-#include "libft.h" // ft_strlen
 #include <sys/types.h> // pid_t, fork, waitpid, execve
 #include <unistd.h> // STDIN_FILENO, STDOUT_FILENO, write, read
-#include <stdlib.h> // free
-#include <sys/errno.h> // errno
 
 void	exec_close_in_out_fds(int fd_in[2], int fd_out[2])
 {
@@ -57,7 +53,7 @@ pid_t	exec_cmd(t_cmd_table *cmd_table, int fd_pipe)
 
 	if (!cmd_table)
 		return (RETURN_ERROR);
-	if (*cmd_table->cmd[0] == '(')
+	else if (*cmd_table->cmd[0] == '(')
 		return (exec_subshell(cmd_table, fd_pipe));
 	gc_add_garbage(cmd_table->cmd, &gc_free_str_arr);
 	cmd_table->cmd = expander(cmd_table->cmd);
