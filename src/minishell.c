@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/24 18:51:35 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 17:56:21 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@
 // @todo random syntax error at case <echo< -> check with valgrind?
 
 // @todo noninteractive mode -c
+
+// @todo bash invalid command -> syntax error printed twice
 
 static bool	is_empty_str(char *str)
 {
