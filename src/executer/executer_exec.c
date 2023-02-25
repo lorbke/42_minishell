@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 14:24:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 14:58:19 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 #include <stdlib.h> // free
 #include <sys/errno.h> // errno
 
-#include <stdio.h>
 static void	close_in_out_fds(int fd_in[2], int fd_out[2])
 {
 	if (fd_in[1] != FDLVL_STD)

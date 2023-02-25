@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 14:24:01 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 14:48:11 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,35 @@ int	doc_quotedoc(char *quote, int fd_write)
 	return (ERR_SUCCESS);
 }
 
+static char	*case_parent(pid_t pid, int fd_pipe[2], t_status *exit_status)
+{
+	char	*doc;
+	int		status;
+
+	mssignal_change_mode(MSSIG_EXEC);
+	close(fd_pipe[1]);
+	waitpid(pid, &status, 0);
+	if (WEXITSTATUS(status) != ERR_SUCCESS)
+	{
+		*exit_status = WEXITSTATUS(status);
+		close(fd_pipe[0]);
+		return (NULL);
+	}
+	if (!isatty(STDIN_FILENO))
+		empty_fd(STDIN_FILENO);
+	doc = ft_calloc(sizeof(char), ARG_MAX + 1);
+	if (!doc)
+		ft_perror_and_exit("case_parent: ft_calloc: malloc:");
+	read(fd_pipe[0], doc, ARG_MAX);
+	close(fd_pipe[0]);
+	return (doc);
+}
+
 char	*get_doc(
 	int (*doc_func)(char *, int), char *lim, t_status *exit_status)
 {
 	pid_t	pid;
 	int		fd[2];
-	char	*doc;
 	int		status;
 
 	pipe(fd);
@@ -131,23 +154,7 @@ char	*get_doc(
 		return (NULL);
 	}
 	if (pid > 0)
-	{
-		mssignal_change_mode(MSSIG_EXEC);
-		close(fd[1]);
-		waitpid(pid, &status, 0);
-		if (WEXITSTATUS(status) != ERR_SUCCESS)
-		{
-			*exit_status = WEXITSTATUS(status);
-			close(fd[0]);
-			return (NULL);
-		}
-		if (!isatty(STDIN_FILENO))
-			empty_fd(STDIN_FILENO);
-		doc = ft_calloc(sizeof(char), ARG_MAX + 1);
-		read(fd[0], doc, ARG_MAX);
-		close(fd[0]);
-		return (doc);
-	}
+		return (case_parent(pid, fd, exit_status));
 	else
 	{
 		mssignal_change_mode(MSSIG_DOC);
