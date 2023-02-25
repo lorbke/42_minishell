@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 00:53:12 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 14:24:01 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ char	*get_doc(
 
 	pipe(fd);
 	pid = fork();
-	if (fd[0] == -1 || fd[1] == -1 || pid == -1)
+	if (fd[0] == RETURN_ERROR || fd[1] == RETURN_ERROR || pid == RETURN_ERROR)
 	{
 		*exit_status = ERR_GENERAL;
 		return (NULL);

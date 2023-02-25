@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:30:24 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 17:20:28 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 14:24:58 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ t_cmd_table	*handle_and(t_ast *ast)
 	int			status;
 
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
-	pid_l = exec_cmd(cmd_table_l, -1);
-	if (pid_l == -1 && ms_exit_status_get() != ERR_SUCCESS)
+	pid_l = exec_cmd(cmd_table_l, RETURN_ERROR);
+	if (pid_l == RETURN_ERROR && ms_exit_status_get() != ERR_SUCCESS)
 	{
 		if (cmd_table_l)
 			ms_print_error(ms_exit_status_get(), 0, cmd_table_l->cmd[0]);
 		return (NULL);
 	}
-	if (pid_l != -1)
+	if (pid_l != RETURN_ERROR)
 		ms_wait_pid_and_set_exit(pid_l);
 	if (ms_exit_status_get() == ERR_SUCCESS)
 	{
@@ -53,8 +53,8 @@ t_cmd_table	*handle_or(t_ast *ast)
 	int			status;
 
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
-	pid_l = exec_cmd(cmd_table_l, -1);
-	if (pid_l != -1)
+	pid_l = exec_cmd(cmd_table_l, RETURN_ERROR);
+	if (pid_l != RETURN_ERROR)
 		ms_wait_pid_and_set_exit(pid_l);
 	if (ms_exit_status_get() != ERR_SUCCESS)
 	{

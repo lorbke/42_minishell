@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:39:03 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/24 22:53:20 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 14:25:03 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # define PROMPT "mini🐚~ "
 # define CMD_SEPS " \t\n\r"
 # define CMD_ESCS "\'\"()"
+
+# define RETURN_ERROR -1
 
 # define ERR_SUCCESS 0
 # define ERR_GENERAL 1 

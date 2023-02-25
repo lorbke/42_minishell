@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 00:51:52 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 14:24:58 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ static pid_t	exec_subshell(t_cmd_table *cmd_table, int fd_pipe)
 	{
 		ms_exit_status_set(ERR_SYNTAX);
 		ms_print_error(ms_exit_status_get(), 0, cmd_table->cmd[0]);
-		return (-1);
+		return (RETURN_ERROR);
 	}
 	pid = fork();
-	if (pid == -1)
+	if (pid == RETURN_ERROR)
 	{
 		ms_exit_status_set(ERR_GENERAL);
 		return (pid);
@@ -60,7 +60,7 @@ static pid_t	exec_subshell(t_cmd_table *cmd_table, int fd_pipe)
 	ms_digest_input(cmd_table->cmd[0] + 1,
 		cmd_table->fd_in[0], cmd_table->fd_out[0]);
 	close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
-	if (fd_pipe != -1)
+	if (fd_pipe != RETURN_ERROR)
 		close(fd_pipe);
 	status = ms_exit_status_get();
 	gc_free_all_garbage();
@@ -76,7 +76,7 @@ static pid_t
 	int		status;
 
 	pid = fork();
-	if (pid == -1)
+	if (pid == RETURN_ERROR)
 	{
 		ms_exit_status_set(ERR_GENERAL);
 		return (pid);
@@ -92,7 +92,7 @@ static pid_t
 	dup2(cmd_table->fd_in[0], STDIN_FILENO);
 	dup2(cmd_table->fd_out[0], STDOUT_FILENO);
 	close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
-	if (fd_pipe != -1)
+	if (fd_pipe != RETURN_ERROR)
 		close(fd_pipe);
 	if (!path)
 		status = execve(cmd_table->cmd[0], cmd_table->cmd, env);
@@ -127,10 +127,10 @@ static pid_t	exec_builtin(t_cmd_table *cmd_table)
 		close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 		close(fd_temp);
 		ms_exit_status_set(status);
-		return (-1);
+		return (RETURN_ERROR);
 	}
 	pid = fork();
-	if (pid == -1)
+	if (pid == RETURN_ERROR)
 	{
 		ms_exit_status_set(ERR_GENERAL);
 		return (pid);
@@ -158,7 +158,7 @@ pid_t	exec_cmd(t_cmd_table *cmd_table, int fd_pipe)
 	int		status;
 
 	if (!cmd_table)
-		return (-1);
+		return (RETURN_ERROR);
 	if (*cmd_table->cmd[0] == '(')
 		return (exec_subshell(cmd_table, fd_pipe));
 	env = create_env_list(g_sym_table);
@@ -182,7 +182,7 @@ pid_t	exec_cmd(t_cmd_table *cmd_table, int fd_pipe)
 				gc_free_str_arr(env);
 			close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 			ms_exit_status_set(ERR_CMDNOTFOUND);
-			return (-1);
+			return (RETURN_ERROR);
 		}
 	}
 	// gc_add_garbage(cmd_table->cmd, &gc_free_str_arr);

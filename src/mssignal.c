@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:37:35 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/24 21:21:00 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 14:23:24 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	handle_ctrlc_doc(int signal)
 	write(STDOUT_FILENO, "\n", 1);
 	gc_free_all_garbage();
 	env_free_sym_tab(g_sym_table);
-	get_next_line(-1);
+	get_next_line(GNL_ERR);
 	exit(ERR_GENERAL);
 }
 
@@ -56,13 +56,13 @@ static int	set_termios(bool interactive)
 {
 	struct termios	term_set;
 
-	if (tcgetattr(STDIN_FILENO, &term_set) == -1)
+	if (tcgetattr(STDIN_FILENO, &term_set) == RETURN_ERROR)
 		return (EXIT_FAILURE);
 	if (interactive)
 		term_set.c_lflag &= ~ECHOCTL; // this will prevent ^C from being printed (bitwise NOT)
 	else
 		term_set.c_lflag |= ECHOCTL; // restore ^C printing
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &term_set) == -1) // TCSANOW: change attributes immediately
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &term_set) == RETURN_ERROR) // TCSANOW: change attributes immediately
 		return (EXIT_FAILURE);
 	return (0);
 }

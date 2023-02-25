@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 14:29:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 00:45:05 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 14:22:58 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ms_wait_pid_and_set_exit(pid_t pid)
 {
 	int	status;
 
-	if (pid == -1)
+	if (pid == RETURN_ERROR)
 		return ;
 	status = 0;
 	waitpid(pid, &status, 0);

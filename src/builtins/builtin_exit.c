@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/24 18:53:16 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 14:23:46 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ static int	is_num(char *str)
 static int	check_value(long long number, int sign, char *str)
 {
 	number *= sign;
-	if (number > 0 && sign == -1
+	if (number > 0 && sign == RETURN_ERROR
 	|| number < 0 && sign == 1)
 	{
 		exit_print_to_stderr(NULL, str);
-		return (-1);
+		return (RETURN_ERROR);
 	}
 	return (number);
 }
@@ -94,7 +94,7 @@ static long long	ft_atoi_long(char *str)
 	sign = 1;
 	if (str[i] == '-')
 	{
-		sign = -1;
+		sign = RETURN_ERROR;
 		i++;
 	}
 	else if (str[i] == '+')

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 11:31:19 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/21 20:38:00 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 14:23:50 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	builtin_exec(t_cmd_table *cmd_table)
 	char	*cmd;
 
 	i = 0;
-	status = -1;
+	status = RETURN_ERROR;
 	cmd = cmd_table->cmd[0];
 	if (ft_strcmp(cmd, "echo") == 0)
 		status = echo_b(cmd_table->cmd);
