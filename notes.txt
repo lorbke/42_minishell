@@ -415,8 +415,55 @@ get_next_word
 
 
 
-----------heredoc expansion----------
+----------EXEC_CMD------------
 
-- heredoc lim quote removal
-	- call globber function
-- 
+
+fn exec_cmd_table_to_output
+	if subshell
+		exec subshell
+
+	expand cmd
+
+	if builtin
+		exec builtin
+
+	else
+		exec scmd
+
+fn exec_subshell
+	if !syntax
+		set_error(syntax)
+		return ERROR
+	
+	fork
+		if error
+			close_in_out_fds
+			set_error(general)
+			return pid
+		if child
+			remove brackets from cmd
+			digest_input
+			close_in_out_fds
+			close fd_pipe
+			gc_free_all_garbage
+			env_free_sym_tab
+			exit
+		if parent
+			close_in_out_fds
+			return pid
+
+fn exec_builtin
+	if !pipe
+		dup fd_temp
+		set_exit_status = builtin_exec cmd
+		close fd_temp
+		close_in_out_fds
+		return error
+
+	else
+		fork
+			if error
+				close_in_out_fds
+				set_error(general)
+				return pid
+			if child

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 14:48:11 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 15:40:02 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,9 +153,7 @@ char	*get_doc(
 		*exit_status = ERR_GENERAL;
 		return (NULL);
 	}
-	if (pid > 0)
-		return (case_parent(pid, fd, exit_status));
-	else
+	if (pid == 0)
 	{
 		mssignal_change_mode(MSSIG_DOC);
 		close(fd[0]);
@@ -166,4 +164,6 @@ char	*get_doc(
 		exit(status);
 		return (NULL);
 	}
+	else
+		return (case_parent(pid, fd, exit_status));
 }

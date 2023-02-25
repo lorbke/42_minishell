@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 14:58:19 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/25 15:19:08 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static pid_t	exec_subshell(t_cmd_table *cmd_table, int fd_pipe)
 	if (pid == RETURN_ERROR)
 	{
 		ms_exit_status_set(ERR_GENERAL);
+		close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 		return (pid);
 	}
 	if (pid > 0)
@@ -165,13 +166,11 @@ pid_t	exec_cmd(t_cmd_table *cmd_table, int fd_pipe)
 	cmd_table->cmd = expander(cmd_table->cmd);
 	if (builtin_is_builtin(cmd_table->cmd[0]))
 	{
-		// @note needs to be protected
 		if (env != NULL)
 			gc_free_str_arr(env);
 		return (exec_builtin(cmd_table));
 	}
 	path = NULL;
-	// @note also needs to be protected if env == NULL
 	if (env != NULL && !ft_strchr(cmd_table->cmd[0], '/'))
 	{
 		path = get_cmd_path(env, cmd_table->cmd[0]);
@@ -184,6 +183,5 @@ pid_t	exec_cmd(t_cmd_table *cmd_table, int fd_pipe)
 			return (RETURN_ERROR);
 		}
 	}
-	// gc_add_garbage(cmd_table->cmd, &gc_free_str_arr);
 	return (fork_and_execve(path, env, cmd_table, fd_pipe));
 }
