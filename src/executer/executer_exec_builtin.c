@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 17:05:34 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 22:29:49 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 00:16:10 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,11 @@ static pid_t	case_no_fork(t_cmd_table *cmd_table)
 
 pid_t	exec_builtin(t_cmd_table *cmd_table, int fd_pipe)
 {
-	pid_t	pid;
-
+	if (!isatty(STDOUT_FILENO) && ft_strcmp(cmd_table->cmd[0], "echo") == 0)
+		return (case_fork(cmd_table, fd_pipe));
 	if (cmd_table->fd_in[1] != FDLVL_PIPE
 		&& cmd_table->fd_out[1] != FDLVL_PIPE)
-		pid = case_no_fork(cmd_table);
+		return (case_no_fork(cmd_table));
 	else
-		pid = case_fork(cmd_table, fd_pipe);
-	return (pid);
+		return (case_fork(cmd_table, fd_pipe));
 }

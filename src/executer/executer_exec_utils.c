@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 00:26:47 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 23:47:23 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ void	exec_close_in_out_fds(int fd_in[2], int fd_out[2])
 void	exec_prepare_fds_for_exec(t_cmd_table *cmd_table, int fd_pipe)
 {
 	mssignal_change_mode(MSSIG_NINTER);
-	dup2(cmd_table->fd_in[0], STDIN_FILENO);
-	dup2(cmd_table->fd_out[0], STDOUT_FILENO);
+	if (cmd_table->fd_in[1] != FDLVL_STD)
+		dup2(cmd_table->fd_in[0], STDIN_FILENO);
+	if (cmd_table->fd_out[1] != FDLVL_STD)
+		dup2(cmd_table->fd_out[0], STDOUT_FILENO);
 	exec_close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 	if (fd_pipe != RETURN_ERROR)
 		close(fd_pipe);
