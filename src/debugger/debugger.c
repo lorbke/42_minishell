@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:19 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 16:00:37 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 17:12:52 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,35 +18,6 @@
 #include <stdio.h> // printf
 #include <string.h> // strlen
 #include <termios.h> // termios struct
-
-void	print_tokstack(t_stack *head)
-{
-	t_stack	*temp;
-
-	temp = head;
-	printf("stack: ");
-	while (head)
-	{
-		printf("[ %s ]->", head->token->word);
-		head = head->next;
-	}
-	printf("\n");
-	printf("ident: ");
-	while (temp)
-	{
-		printf("[ %*i ]->", (int)strlen(temp->token->word), temp->token->desc);
-		temp = temp->next;
-	}
-}
-
-void	print_ast(t_ast *ast, int width)
-{
-	if (!ast)
-		return ;
-	print_ast(ast->right, width + 7);
-	printf("%*s\n", width, ast->token->word);
-	print_ast(ast->left, width + 7);
-}
 
 void	debug_lexer(t_stack *tokstack)
 {

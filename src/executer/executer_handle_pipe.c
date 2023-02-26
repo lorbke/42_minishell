@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:29:17 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 15:57:47 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 16:53:24 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@ static void	set_fd(int fd[][2], int fd_new)
 		close(fd_new);
 }
 
+static t_cmd_table	*pipe_error(void)
+{
+	ms_exit_status_set(ERR_GENERAL);
+	return (NULL);
+}
+
 t_cmd_table	*handle_pipe(t_ast *ast)
 {
 	t_cmd_table	*cmd_table_l;
@@ -40,10 +46,7 @@ t_cmd_table	*handle_pipe(t_ast *ast)
 	debug_message("handling pipeline..........\n", 1);
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
 	if (pipe(fd_pipe) == RETURN_ERROR)
-	{
-		ms_exit_status_set(ERR_GENERAL);
-		return (NULL);
-	}
+		return (pipe_error());
 	if (cmd_table_l)
 	{
 		set_fd(&cmd_table_l->fd_out, fd_pipe[1]);
