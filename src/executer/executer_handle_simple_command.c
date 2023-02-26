@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:27:13 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 23:32:08 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 15:48:48 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "lexer.h" // t_token
 #include "libft.h" // ft_strlen
 #include "../minishell.h" // ERR_* defines
+#include "../debugger.h" // debug functions
 #include "../expander.h" // expander
 #include "garbage_collector.h" // gc_add_garbage
 #include <sys/fcntl.h> // open
@@ -39,6 +40,7 @@ t_cmd_table	*handle_redir_heredoc(t_ast *ast)
 	t_cmd_table	*cmd_table;
 	int			fd[2];
 
+	debug_message("handling heredoc...........\n", 1);
 	cmd_table = redir_get_cmd_table(0, ast);
 	if (!cmd_table)
 		return (NULL);
@@ -52,7 +54,9 @@ t_cmd_table	*handle_redir_heredoc(t_ast *ast)
 		gc_add_garbage(ast->right->token->word, NULL);
 		ast->right->token->word = expand_str(ast->right->token->word);
 	}
-	write(fd[1], ast->right->token->word, ft_strlen(ast->right->token->word));
+	if (ast->right->token->word)
+		write(fd[1], ast->right->token->word,
+			ft_strlen(ast->right->token->word));
 	close(fd[1]);
 	cmd_table->fd_in[0] = fd[0];
 	cmd_table->fd_in[1] = FDLVL_REDIR;
