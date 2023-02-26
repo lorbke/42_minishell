@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/24 17:50:43 by lorbke           ###   ########.fr        #
+#    Updated: 2023/02/26 18:24:13 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,10 +107,6 @@ fclean: clean
 	@echo -e "$(RED)make: minishell cleaned!$(RESET)"
 
 re: fclean all
-
-debug: CFLAGS += -O0 -DDEBUG -g
-debug: clean all
-	@$(MAKE) clean
 
 leak: CFLAGS += $(LEAK)
 leak: clean all

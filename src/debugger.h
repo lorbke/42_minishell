@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:34:24 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 15:40:44 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 18:20:34 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@
 # include "executer.h"
 # include "executer/private_executer.h"
 
-# ifndef DEBUG
-#  define DEBUG 0
-# endif
+# define DEBUG "DEBUG"
 
 // colors for printf
 # define RESET       "\033[39;49m"

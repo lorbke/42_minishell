@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
+#    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/06 16:19:43 by fyuzhyk           #+#    #+#              #
-#    Updated: 2023/02/16 09:37:39 by fyuzhyk          ###   ########.fr        #
+#    Updated: 2023/02/26 18:05:45 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,11 @@ RM := rm -f
 ADD_FLAGS := #-g -fsanitize=address,undefined
 FLAGS := -Wall -Wextra -Werror
 
-# header macros
-LFT_INC := ../libft
+# library macros
+LIB_PATH := ../
+LFT_PATH := $(LIB_PATH)/libft
+LFT_LIB := ft
+LFT_LINK := -L$(LFT_PATH) -l$(LFT_LIB)
 
 # src and obj files macros
 OBJ_PATH := obj
@@ -44,6 +47,7 @@ VPATH := $(SRC_PATH)
 
 # file targets
 $(NAME): $(OBJ_PATH) $(OBJ)
+	@$(MAKE) -C $(LFT_PATH)
 	@echo -e -n "$(BLUE)Creating: env library: $(RESET)"
 	$(AR) $(NAME) $(OBJ)
 	@echo -e "$(GREEN)make: env success!$(RESET)"
@@ -53,7 +57,7 @@ $(OBJ_PATH):
 
 $(OBJ_PATH)/%.o: %.c Makefile env.h $(SRC_PATH)/env_private.h
 	@echo -e -n "$(YELLOW)Compiling: $(RESET)"
-	$(CC) $(FLAGS) $(ADD_FLAGS) -I$(LFT_INC) -I. -c $< -o $@
+	$(CC) $(FLAGS) $(ADD_FLAGS) -I$(LFT_PATH) -I. -c $< -o $@
 
 # phony targets
 all: $(NAME)

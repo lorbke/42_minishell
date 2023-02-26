@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:19 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 17:12:52 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 18:15:51 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 #include "../executer/private_executer.h" // t_cmd_table
 #include "lexer.h" // lexer functions
 #include "parser.h" // parser functions
+#include "env.h" // env_is_var_value
 #include <stdio.h> // printf
 #include <string.h> // strlen
-#include <termios.h> // termios struct
 
 void	debug_lexer(t_stack *tokstack)
 {
-	if (!DEBUG)
+	if (!env_is_var_value(DEBUG, "1"))
 		return ;
 	printf(BLUE "\n=========Token Stack=========\n" RESET);
 	print_tokstack(tokstack);
@@ -31,7 +31,7 @@ void	debug_lexer(t_stack *tokstack)
 
 void	debug_message(char *message, int type)
 {
-	if (!DEBUG)
+	if (!env_is_var_value(DEBUG, "1"))
 		return ;
 	if (type == 0)
 		printf(BLUE "%s" RESET, message);
@@ -43,7 +43,7 @@ void	debug_cmd_table(t_cmd_table *cmd_table)
 {
 	int			i;
 
-	if (!DEBUG)
+	if (!env_is_var_value(DEBUG, "1"))
 		return ;
 	printf(YELLOW "executing command table....\n" RESET);
 	if (!cmd_table)
@@ -68,7 +68,7 @@ void	debug_cmd_table(t_cmd_table *cmd_table)
 
 void	debug_parser(t_ast *ast)
 {
-	if (!DEBUG)
+	if (!env_is_var_value(DEBUG, "1"))
 		return ;
 	printf(BLUE "\n=========Abstract Syntax Tree=========\n" RESET);
 	print_ast(ast, 0);

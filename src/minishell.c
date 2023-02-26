@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 17:19:29 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 17:51:58 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 // @todo bash invalid command -> syntax error printed twice
 // @todo use valgrind for tests
 // @todo fix tester path fails
+// @todo shell level env var
 
 static bool	is_empty_str(char *str)
 {
