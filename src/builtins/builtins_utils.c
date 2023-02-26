@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 11:31:19 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/25 14:23:50 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 00:19:57 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,17 @@ int	builtin_is_builtin(char *cmd)
 {
 	if (ft_strcmp(cmd, "echo") == 0)
 		return (1);
-	else if (ft_strcmp(cmd, "cd") == 0)
-		return (1);
 	else if (ft_strcmp(cmd, "pwd") == 0)
-		return (1);
-	else if (ft_strcmp(cmd, "export") == 0)
-		return (1);
-	else if (ft_strcmp(cmd, "unset") == 0)
-		return (1);
+		return (2);
 	else if (ft_strcmp(cmd, "env") == 0)
-		return (1);
+		return (3);
+	else if (ft_strcmp(cmd, "cd") == 0)
+		return (4);
+	else if (ft_strcmp(cmd, "export") == 0)
+		return (5);
+	else if (ft_strcmp(cmd, "unset") == 0)
+		return (6);
 	else if (ft_strcmp(cmd, "exit") == 0)
-		return (1);
+		return (7);
 	return (0);
 }

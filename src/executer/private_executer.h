@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:14:20 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 01:20:08 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 00:21:01 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_cmd_table	*create_cmd_table(t_ast *ast);
 // exec
 pid_t		exec_cmd(t_cmd_table *cmd_table, int fd_pipe);
 pid_t		exec_execve(t_cmd_table *cmd_table, int fd_pipe);
-pid_t		exec_builtin(t_cmd_table *cmd_table, int fd_pipe);
+pid_t		exec_builtin(t_cmd_table *cmd_table, int fd_pipe, int builtin_id);
 pid_t		exec_subshell(t_cmd_table *cmd_table, int fd_pipe);
 char		*exec_get_cmd_path(char **env, char *cmd);
 void		exec_close_in_out_fds(int fd_in[2], int fd_out[2]);

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 23:47:23 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 00:25:27 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ pid_t	exec_cmd(t_cmd_table *cmd_table, int fd_pipe)
 	char	*path;
 	pid_t	pid;
 	int		status;
+	int		builtin_id;
 
 	debug_cmd_table(cmd_table);
 	if (!cmd_table)
@@ -61,8 +62,9 @@ pid_t	exec_cmd(t_cmd_table *cmd_table, int fd_pipe)
 		return (exec_subshell(cmd_table, fd_pipe));
 	gc_add_garbage(cmd_table->cmd, &gc_free_str_arr);
 	cmd_table->cmd = expander(cmd_table->cmd);
-	if (builtin_is_builtin(cmd_table->cmd[0]))
-		return (exec_builtin(cmd_table, fd_pipe));
+	builtin_id = builtin_is_builtin(cmd_table->cmd[0]);
+	if (builtin_id)
+		return (exec_builtin(cmd_table, fd_pipe, builtin_id));
 	else
 		return (exec_execve(cmd_table, fd_pipe));
 }

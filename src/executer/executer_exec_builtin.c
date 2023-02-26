@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 17:05:34 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/27 00:16:10 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 00:29:27 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,16 @@ static pid_t	case_no_fork(t_cmd_table *cmd_table)
 	return (RETURN_ERROR);
 }
 
-pid_t	exec_builtin(t_cmd_table *cmd_table, int fd_pipe)
+/* Doing some shenanigans with the third parameter here to fork whenever
+STDOUT is not a terminal and also not a builtin that changes the state
+of the program, like cd. 
+This had to be done to fix incorrect order of buffer flushing when executing
+multiple commands in the same instance through noninteractive mode
+(forked commands will exit earlier than the parent and therefore
+flush earlier and thus display earlier). */
+pid_t	exec_builtin(t_cmd_table *cmd_table, int fd_pipe, int builtin_id)
 {
-	if (!isatty(STDOUT_FILENO) && ft_strcmp(cmd_table->cmd[0], "echo") == 0)
+	if (!isatty(STDOUT_FILENO) && builtin_id >= 1 && builtin_id <= 3)
 		return (case_fork(cmd_table, fd_pipe));
 	if (cmd_table->fd_in[1] != FDLVL_PIPE
 		&& cmd_table->fd_out[1] != FDLVL_PIPE)
