@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 00:15:54 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 02:31:30 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,17 @@
 #include <fcntl.h> // STD*_FILENO defines
 #include <stdbool.h> // bool
 
-// @todo test if all fds are closed
-// @todo exit behaviour: print exit when ctrl+d is pressed (is that handled in exit builtin?)
 // @todo documentation with some kind of tool
 // @todo improve the debugger
-// @todo exit status handling
-// @todo error protections (malloc, open, etc.)
 // @todo fix bug: overwriting first input when term window is exceeded
 // @todo turn on wall werror wextra in every makefile
-// @todo heredoc and doc read switch to get_next_line?
-// @todo add g_sym_table to garbage collector
-
 // @todo env -i ./minishell leaks?
-// @todo << "lim' cat -> never ending doc
-// @todo echo " EOF -> no syntax err, implement proper quote identification in quote doc
-
+// @todo implement proper quote identification in quote doc (<< "lim' cat -> never ending doc)
 // @todo random syntax error at case <echo< -> check with valgrind?
-
 // @todo noninteractive mode -c
-
 // @todo bash invalid command -> syntax error printed twice
+// @todo use valgrind for tests
+// @todo fix tester path fails
 
 static bool	is_empty_str(char *str)
 {
@@ -104,7 +95,7 @@ int	main(int argc, char **argv, char **envp)
 
 	g_sym_table = init_sym_tab(envp);
 	init_exit_status(g_sym_table);
-	if (isatty(STDIN_FILENO)) // check if stdin is a terminal
+	if (isatty(STDIN_FILENO))
 		interactive_mode();
 	else
 		non_interactive_mode();

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:37:54 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 00:10:48 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 02:27:38 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static int	is_unclosed_quote(char *str)
 	return (0);
 }
 
-// @todo unclosed quote handling is broken
 unsigned char	desc_word(char *word)
 {
 	if (*word == '|' && *(word + 1) != '|')

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 14:29:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 14:22:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 02:26:24 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ t_status	ms_exit_status_get(void)
 	return (ERR_SUCCESS);
 }
 
-// @todo parent processs builtin exit status is overwritten
 void	ms_wait_pid_and_set_exit(pid_t pid)
 {
 	int	status;

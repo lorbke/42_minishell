@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:15:38 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 17:45:36 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 02:27:30 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "lexer.h" // t_token, t_stack
 
-// @todo change overly complicated and ugly handling of parentheses
 char			*lexer_ft_strsep(
 					char **stringp, const char *delim, const char *ignore);
 char			*skip_until_after_char(char *str, char c);

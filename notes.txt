@@ -415,113 +415,57 @@ get_next_word
 
 
 
-----------EXEC_CMD------------
+----------REFACTORING------------
+
+fn digest_lexer
+	lexer_str_to_tokstack
+	debug_lexer
+	gc_add_garbage lexer
 
 
-fn exec_cmd_table_to_output
-	if subshell
-		exec subshell
-
-	gc_add_garbage(cmd_table)
-	expand cmd
-
-	if builtin
-		exec builtin
-
-	else
-		exec execve
-
+fn digest_parser
+	parser_tokstack_to_ast
+	debug_parser
+	gc_add_garbage ast
+	check syntax
 
 
 
-fn exec_subshell
-	if !syntax
-		set_error(syntax)
-		return ERROR
-	
-	fork
-		if error
-			fork_error
-		if child
-			remove brackets from cmd
-			digest_input
-			close_in_out_fds
-			close fd_pipe
-			gc_free_all_garbage
-			env_free_sym_tab
-			exit(status)
-		if parent
-			close_in_out_fds
-			return pid
+fn digest_docs
+	interpret_docs
+	debug_lexer
+	check status && check incomplete
+		set status
+		print error
+		return
 
 
+fn digest_executer
+	change_mode EXEC
+	executer_ast
+	change mode NINTER
+	set status
+	debug_executer
 
+fn digest_input
+	digest_lexer
+	if !lexer
+		return
 
-fn exec_builtin
-	if !pipe
-		dup fd_temp
-		set_exit_status = builtin_exec cmd
-		close fd_temp
-		close_in_out_fds
-		return error
+	digest_parser
+	if !parser
+		return
+	free ast
 
-	else
-		fork
-			if error
-				fork_error
-			if child
-				prepare_child_for_exec
-				status = builtin_exec cmd
-				gc_add_garbage
-				env_free_sym_tab
-				exit(status)
-			if parent
-				close_in_out_fds
-				return pid
+	digest_docs
+		if !docs
+			return
 
+	digest_lexer
+		if !lexer
+			return
 
-
-
-fn exec_execve
-
-	fork
-		if error
-			fork_error
-		if child
-			prepare_child_for_exec
-
-			status = 0;
-			env = create_env_list
-			if !env || ft_strchr(cmd, '/')
-				execve(cmd, args, env)
-			else
-				path = get_path(cmd)
-				if path
-					execve(path, args, env)
-				else
-					status = ERR_CMDNOTFOUND
-			free(path)
-			free env list
-			gc_free_all_garbage
-			env_free_sym_tab
-			if errno ENOENT && status != ERR_CMDNOTFOUND
-				status ERR_DIRNOTFOUND
-			else
-				status ERR_NOPERM
-			exit stauts
-
-
-
-fn fork_error
-	close_in_out_fds
-	set_error(general)
-	return pid
-
-
-
-fn prepare_child_for_exec
-	mode NINTER
-	dup out
-	dup in
-	close_in_out_fds
-	close fd_pipe
+	change_mode EXEC
+	status = executer_ast
+	set_exit
+	change_mode NINTER

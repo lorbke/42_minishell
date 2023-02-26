@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:53:34 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 23:15:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 02:26:38 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ static t_ast	*connect_simple_cmd(
 	return (head);
 }
 
-// @note implementation of subshell case feels a bit hacky
-// @note this is extremely unreadable
 t_ast	*rule_simple_cmd(t_stack **tokstack)
 {
 	t_ast	*redirs_in;

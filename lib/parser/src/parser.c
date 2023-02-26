@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 18:04:42 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 00:20:31 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 02:27:09 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token, t_stack, TOK_* macros
 
-// @note every function gets the stack as input and returns a sub-ast that is then connected to the main ast
+/*
+every function gets the stack as input and returns a sub-ast that is then connected to the main ast
 
-// @note due to easier usage and because the additional memory and run time are negligible, 
-// @note the token stack will be represented by a token_list instead of just a string
+due to easier usage and because the additional memory and run time are negligible, 
+the token stack will be represented by a token_list instead of just a string
 
-// @note quote handling also probably incorrect
+quote handling also probably incorrect
+*/
 
 t_ast	*parser_tokstack_to_ast(t_stack	**tokstack)
 {
