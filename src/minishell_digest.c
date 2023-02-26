@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 00:03:30 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 02:12:41 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include <stdio.h> // printf
 #include <stdbool.h> // bool
 
-static bool	is_input_incomplete(t_stack *tokstack)
+static bool	is_input_incomplete_print_error(t_stack *tokstack)
 {
 	while (tokstack && tokstack->next)
 		tokstack = tokstack->next;
@@ -49,13 +49,14 @@ static bool	is_input_incomplete(t_stack *tokstack)
 	return (false);
 }
 
-static t_ast	*parse_and_check_syntax(t_stack *tokstack)
+static t_ast	*digest_parser(t_stack *tokstack)
 {
 	t_ast	*ast;
 
 	ast = parser_tokstack_to_ast(&tokstack);
 	if (ast)
 		gc_add_garbage(ast, &parser_free_ast);
+	debug_parser(ast, NULL);
 	if (tokstack)
 	{
 		ms_exit_status_set(ERR_SYNTAX);
@@ -66,6 +67,19 @@ static t_ast	*parse_and_check_syntax(t_stack *tokstack)
 	return (ast);
 }
 
+static char	*digest_docs(t_stack *tokstack, char *input, t_status *exit_status)
+{
+	input = doccer_interpret_docs(tokstack, input, exit_status);
+	debug_lexer(tokstack);
+	if (*exit_status != ERR_SUCCESS)
+	{
+		ms_exit_status_set(*exit_status);
+		ms_print_error(ms_exit_status_get(), 0, NULL);
+		return (input);
+	}
+	return (input);
+}
+
 char	*digest_input_helper(char *input)
 {
 	t_stack		*tokstack;
@@ -74,27 +88,18 @@ char	*digest_input_helper(char *input)
 
 	tokstack = lexer_str_to_tokstack(input);
 	if (!tokstack)
-		return (input);
-	debug_lexer(tokstack);
+		return (NULL);
 	gc_add_garbage(tokstack, &lexer_free_tokstack);
-	ast = parse_and_check_syntax(tokstack);
-	if (!ast)
-		return (input);
-	debug_parser(ast, NULL);
-	input = doccer_interpret_docs(tokstack, input, &exit_status);
-	if (exit_status != ERR_SUCCESS)
-	{
-		ms_exit_status_set(exit_status);
-		ms_print_error(ms_exit_status_get(), 0, NULL);
-		return (input);
-	}
 	debug_lexer(tokstack);
-	if (is_input_incomplete(tokstack) == true)
-		return (input);
-	ast = parse_and_check_syntax(tokstack);
+	ast = digest_parser(tokstack);
 	if (!ast)
 		return (input);
-	debug_parser(ast, NULL);
+	input = digest_docs(tokstack, input, &exit_status);
+	if (exit_status != ERR_SUCCESS || is_input_incomplete_print_error(tokstack))
+		return (input);
+	ast = digest_parser(tokstack);
+	if (!ast)
+		return (input);
 	mssignal_change_mode(MSSIG_EXEC);
 	ms_exit_status_set(executer_exec_ast(ast));
 	mssignal_change_mode(MSSIG_INTER);
