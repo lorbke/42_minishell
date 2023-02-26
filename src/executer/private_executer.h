@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:14:20 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 00:20:10 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 01:20:08 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../executer.h" // t_status, t_cmd_table
 # include "parser.h" // t_ast
+# include "lexer.h" // TOK_* defines
 # include <sys/types.h> // pid_t
 # include <stdbool.h> // bool
 
