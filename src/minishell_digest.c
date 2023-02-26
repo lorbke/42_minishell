@@ -100,9 +100,11 @@ char	*digest_input_helper(char *input)
 	ast = digest_parser(tokstack);
 	if (!ast)
 		return (input);
+	debug_message("\n=========Execution=========\n");
 	mssignal_change_mode(MSSIG_EXEC);
 	ms_exit_status_set(executer_exec_ast(ast));
 	mssignal_change_mode(MSSIG_INTER);
+	debug_message("\n===========================\n");
 	return (input);
 }
 

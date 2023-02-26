@@ -58,7 +58,7 @@ static int	set_termios(bool interactive)
 		term_set.c_lflag |= ECHOCTL; // restore ^C printing
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &term_set) == RETURN_ERROR) // TCSANOW: change attributes immediately
 		return (EXIT_FAILURE);
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 void	mssignal_change_mode(char mode)

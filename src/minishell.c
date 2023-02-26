@@ -54,7 +54,6 @@ static bool	is_empty_str(char *str)
 	return (true);
 }
 
-/* Read-Eval-Print-Loop. */
 void	interactive_mode(void)
 {
 	char	*line;

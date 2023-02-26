@@ -16,6 +16,7 @@
 #include "env.h" // g_sym_table
 #include "../expander.h" // expander
 #include "../builtins.h" // all builtins
+#include "../debugger.h" // debug functions
 #include "garbage_collector.h" // gc_free_all_garbage
 #include <sys/types.h> // pid_t, fork, waitpid, execve
 #include <unistd.h> // STDIN_FILENO, STDOUT_FILENO, write, read
@@ -51,6 +52,7 @@ pid_t	exec_cmd(t_cmd_table *cmd_table, int fd_pipe)
 	pid_t	pid;
 	int		status;
 
+	debug_cmd_table(cmd_table);
 	if (!cmd_table)
 		return (RETURN_ERROR);
 	else if (*cmd_table->cmd[0] == '(')

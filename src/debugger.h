@@ -15,7 +15,8 @@
 
 # include "lexer.h" // t_token, t_stack
 # include "parser.h" // t_ast
-# include <termios.h> // struct termios
+# include "executer.h"
+# include "executer/private_executer.h"
 
 # ifndef DEBUG
 #  define DEBUG 0
@@ -23,6 +24,7 @@
 
 void	debug_parser(t_ast *ast, t_stack *tokstack);
 void	debug_lexer(t_stack *tokstack);
-void	debug_print_termios(struct termios *termios);
+void	debug_message(char *message);
+void	debug_cmd_table(t_cmd_table *cmd_table);
 
 #endif

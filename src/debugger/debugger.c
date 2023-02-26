@@ -12,6 +12,7 @@
 
 #include "private_debugger.h" // main header
 #include "../debugger.h" // DEBUG macro
+#include "../executer/private_executer.h" // t_cmd_table
 #include "lexer.h" // lexer functions
 #include "parser.h" // parser functions
 #include <stdio.h> // printf
@@ -47,23 +48,6 @@ void	print_ast(t_ast *ast, int width)
 	print_ast(ast->left, width + 7);
 }
 
-/* Debug function to print the terminal settings. */
-void	debug_print_termios(struct termios *termios)
-{
-	if (!DEBUG)
-		return ;
-	printf(BLUE "\n=========Termios=========\n" RESET);
-	printf("input mode:    %lx\n", termios->c_iflag);
-	printf("output mode:   %lx\n", termios->c_oflag);
-	printf("control mode:  %lx\n", termios->c_cflag);
-	printf("local mode:    %lx\n", termios->c_lflag);
-	printf("control chars: %hhu\n", termios->c_cc[VQUIT]);
-	printf("input speed:   %lu\n", termios->c_ispeed);
-	printf("output speed:  %lu\n", termios->c_ospeed);
-	printf(BLUE "=========================" RESET);
-	printf("\n\n\n");
-}
-
 void	debug_lexer(t_stack *tokstack)
 {
 	if (!DEBUG)
@@ -72,6 +56,40 @@ void	debug_lexer(t_stack *tokstack)
 	print_tokstack(tokstack);
 	printf(BLUE "\n=============================" RESET);
 	printf("\n\n\n");
+}
+
+void	debug_message(char *message)
+{
+	if (!DEBUG)
+		return ;
+	printf(BLUE "%s" RESET, message);
+}
+
+void	debug_cmd_table(t_cmd_table *cmd_table)
+{
+	int			i;
+
+	if (!DEBUG)
+		return ;
+	printf(BLUE "\nexecuting command table....\n" RESET);
+	if (!cmd_table)
+	{
+		printf("     [NULL]\n");
+		return ;
+	}
+	i = 0;
+	printf("     command:");
+	while (cmd_table->cmd[i])
+	{
+		printf(" [%s]", cmd_table->cmd[i]);
+		i++;
+	}
+	printf("\n");
+	printf("     in file descriptor:  %d\n", cmd_table->fd_in[0]);
+	printf("       precedence level:  %d\n", cmd_table->fd_in[1]);
+	printf("     out file descriptor: %d\n", cmd_table->fd_out[0]);
+	printf("       precedence level:  %d\n", cmd_table->fd_out[1]);
+	printf(BLUE "....................output:\n" RESET);
 }
 
 void	debug_parser(t_ast *ast, t_stack *tokstack)
