@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 16:00:13 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 21:07:49 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	*digest_input_helper(char *input)
 
 	tokstack = lexer_str_to_tokstack(input);
 	if (!tokstack)
-		return (NULL);
+		return (input);
 	gc_add_garbage(tokstack, &lexer_free_tokstack);
 	debug_lexer(tokstack);
 	ast = digest_parser(tokstack);

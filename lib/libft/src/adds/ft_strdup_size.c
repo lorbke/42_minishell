@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 17:10:54 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 17:11:18 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 21:08:50 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_strdup_size(char *str, int size)
 {
 	char	*new_str;
 
-	if (!size)
+	if (size <= 1)
 		return (NULL);
 	new_str = malloc(sizeof(char) * size);
 	if (!new_str)

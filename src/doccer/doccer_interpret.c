@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:25:39 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 02:20:37 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 21:41:06 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,8 @@ char	*doccer_interpret_docs(
 	else if (temp_stack->token->desc == TOK_PIPE
 		|| temp_stack->token->desc == TOK_AND
 		|| temp_stack->token->desc == TOK_OR)
-	{
 		input = handle_incomplete_input(input, temp_stack, exit_status);
-		if (temp_stack->next)
-			input = doccer_interpret_docs(temp_stack->next, input, exit_status);
-	}
+	if (temp_stack->next)
+		input = doccer_interpret_docs(temp_stack->next, input, exit_status);
 	return (input);
 }
