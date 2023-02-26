@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 15:40:02 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 17:23:38 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ static char	*case_parent(pid_t pid, int fd_pipe[2], t_status *exit_status)
 	mssignal_change_mode(MSSIG_EXEC);
 	close(fd_pipe[1]);
 	waitpid(pid, &status, 0);
+	mssignal_change_mode(MSSIG_INTER);
 	if (WEXITSTATUS(status) != ERR_SUCCESS)
 	{
 		*exit_status = WEXITSTATUS(status);
