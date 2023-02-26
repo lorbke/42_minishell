@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:13:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 18:41:36 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/26 20:32:53 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ static int	export_var(char *var)
 		return (1);
 	ft_strlcpy(variable, var, ft_strlen(var) + 1);
 	if (var_value != NULL)
+	{
+		free(variable);
 		variable = ft_strjoin(var_name, var_value);
+	}
 	add_to_back(g_sym_table, new_sym_tab_node(variable));
 	free(var_name);
 	free(var_value);

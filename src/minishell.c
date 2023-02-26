@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 17:51:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 20:37:02 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 // @todo turn on wall werror wextra in every makefile
 // @todo env -i ./minishell leaks?
 // @todo implement proper quote identification in quote doc (<< "lim' cat -> never ending doc)
-// @todo random syntax error at case <echo< -> check with valgrind?
+// @todo random segfault at case <echo< and echo "test1 -n" -> check with valgrind?
 // @todo bash invalid command -> syntax error printed twice
 // @todo use valgrind for tests
 // @todo fix tester path fails
