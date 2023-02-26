@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 17:10:28 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/24 21:06:59 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 22:54:23 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ static void	exec_error(t_status exit_status, char *error_loc)
 		ft_putstr_fd(error_loc, STDERR_FILENO);
 		ft_putstr_fd(STR_CMDNOTFOUND, STDERR_FILENO);
 		ft_putchar_fd('\n', STDERR_FILENO);
+	}
+	if (exit_status == ERR_NOPERM)
+	{
+		ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(error_loc, STDERR_FILENO);
+		ft_putstr_fd(": permission denied\n", STDERR_FILENO);
 	}
 	else if (exit_status >= ERR_SIGNAL && exit_status <= ERR_SIGNAL + 9)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 17:05:34 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 00:14:35 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 22:29:49 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #include <stdlib.h> // free
 #include <sys/errno.h> // errno
 
-static pid_t	case_pipeline(t_cmd_table *cmd_table, int fd_pipe)
+static pid_t	case_fork(t_cmd_table *cmd_table, int fd_pipe)
 {
 	pid_t	pid;
 	int		status;
@@ -47,7 +47,7 @@ static pid_t	case_pipeline(t_cmd_table *cmd_table, int fd_pipe)
 	return (pid);
 }
 
-static pid_t	case_not_pipeline(t_cmd_table *cmd_table)
+static pid_t	case_no_fork(t_cmd_table *cmd_table)
 {
 	int		fd_temp;
 	int		status;
@@ -68,8 +68,8 @@ pid_t	exec_builtin(t_cmd_table *cmd_table, int fd_pipe)
 
 	if (cmd_table->fd_in[1] != FDLVL_PIPE
 		&& cmd_table->fd_out[1] != FDLVL_PIPE)
-		pid = case_not_pipeline(cmd_table);
+		pid = case_no_fork(cmd_table);
 	else
-		pid = case_pipeline(cmd_table, fd_pipe);
+		pid = case_fork(cmd_table, fd_pipe);
 	return (pid);
 }

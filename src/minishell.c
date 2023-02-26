@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 21:39:28 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 22:50:46 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	non_interactive_mode(void)
 	while (line != NULL)
 	{
 		line = ms_digest_input(line);
+		fflush(stdout);
 		free(line);
 		line = get_next_line(STDIN_FILENO);
 	}
