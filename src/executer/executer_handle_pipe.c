@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:29:17 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 23:35:29 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 15:57:47 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token
 #include "../minishell.h" // ERR_* defines
+#include "../debugger.h" // debug functions
 #include <sys/types.h> // pid_t
 #include <string.h> // NULL
 #include <unistd.h> // close, pipe
@@ -36,6 +37,7 @@ t_cmd_table	*handle_pipe(t_ast *ast)
 	int			fd_pipe[2];
 	pid_t		pid_l;
 
+	debug_message("handling pipeline..........\n", 1);
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
 	if (pipe(fd_pipe) == RETURN_ERROR)
 	{

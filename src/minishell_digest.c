@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 02:12:41 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 16:00:13 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static t_ast	*digest_parser(t_stack *tokstack)
 	ast = parser_tokstack_to_ast(&tokstack);
 	if (ast)
 		gc_add_garbage(ast, &parser_free_ast);
-	debug_parser(ast, NULL);
+	debug_parser(ast);
 	if (tokstack)
 	{
 		ms_exit_status_set(ERR_SYNTAX);
@@ -100,11 +100,11 @@ char	*digest_input_helper(char *input)
 	ast = digest_parser(tokstack);
 	if (!ast)
 		return (input);
-	debug_message("\n=========Execution=========\n");
+	debug_message("\n=========Execution=========\n", 0);
 	mssignal_change_mode(MSSIG_EXEC);
 	ms_exit_status_set(executer_exec_ast(ast));
 	mssignal_change_mode(MSSIG_INTER);
-	debug_message("\n===========================\n");
+	debug_message("===========================\n", 0);
 	return (input);
 }
 

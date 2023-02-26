@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:27:13 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 15:48:48 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 16:29:59 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_cmd_table	*handle_cmd(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
 
+	debug_message("creating command table.....\n", 1);
 	cmd_table = create_cmd_table(ast);
 	if (!cmd_table)
 		return (NULL);
@@ -68,6 +69,7 @@ t_cmd_table	*handle_redir_append(t_ast *ast)
 	t_cmd_table	*cmd_table;
 	int			fd;
 
+	debug_message("handling redirection append\n", 1);
 	fd = open(ast->right->token->word, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	cmd_table = redir_get_cmd_table(fd, ast);
 	if (!cmd_table)
@@ -82,6 +84,7 @@ t_cmd_table	*handle_redir_in(t_ast *ast)
 	t_cmd_table	*cmd_table;
 	int			fd;
 
+	debug_message("handling redirection in....\n", 1);
 	fd = open(ast->right->token->word, O_RDONLY);
 	cmd_table = redir_get_cmd_table(fd, ast);
 	if (!cmd_table)
@@ -96,6 +99,7 @@ t_cmd_table	*handle_redir_out(t_ast *ast)
 	t_cmd_table	*cmd_table;
 	int			fd;
 
+	debug_message("handling redirection out...\n", 1);
 	fd = open(ast->right->token->word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	cmd_table = redir_get_cmd_table(fd, ast);
 	if (!cmd_table)

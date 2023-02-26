@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:14:19 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/16 14:48:09 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 16:00:37 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,14 @@ void	debug_lexer(t_stack *tokstack)
 	printf("\n\n\n");
 }
 
-void	debug_message(char *message)
+void	debug_message(char *message, int type)
 {
 	if (!DEBUG)
 		return ;
-	printf(BLUE "%s" RESET, message);
+	if (type == 0)
+		printf(BLUE "%s" RESET, message);
+	else if (type == 1)
+		printf(YELLOW "%s" RESET, message);
 }
 
 void	debug_cmd_table(t_cmd_table *cmd_table)
@@ -71,7 +74,7 @@ void	debug_cmd_table(t_cmd_table *cmd_table)
 
 	if (!DEBUG)
 		return ;
-	printf(BLUE "\nexecuting command table....\n" RESET);
+	printf(YELLOW "executing command table....\n" RESET);
 	if (!cmd_table)
 	{
 		printf("     [NULL]\n");
@@ -89,19 +92,15 @@ void	debug_cmd_table(t_cmd_table *cmd_table)
 	printf("       precedence level:  %d\n", cmd_table->fd_in[1]);
 	printf("     out file descriptor: %d\n", cmd_table->fd_out[0]);
 	printf("       precedence level:  %d\n", cmd_table->fd_out[1]);
-	printf(BLUE "....................output:\n" RESET);
+	printf(YELLOW "....................output:\n" RESET);
 }
 
-void	debug_parser(t_ast *ast, t_stack *tokstack)
+void	debug_parser(t_ast *ast)
 {
 	if (!DEBUG)
 		return ;
 	printf(BLUE "\n=========Abstract Syntax Tree=========\n" RESET);
 	print_ast(ast, 0);
-	if (tokstack)
-		printf(RED "minishell: syntax error near unexpected token `%s'\n" RESET, tokstack->token->word);
-	else
-		printf(GREEN "minishell: syntax valid!\n" RESET);
 	printf(BLUE "======================================" RESET);
 	printf("\n\n\n");
 }

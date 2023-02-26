@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:30:24 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 14:24:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 15:57:32 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "parser.h" // t_ast
 #include "lexer.h" // t_token
 #include "../minishell.h" // ERR_* defines
+#include "../debugger.h" // debug functions
 #include <sys/types.h> // pid_t
 #include <sys/fcntl.h> // open
 #include <sys/wait.h> // waitpid
@@ -27,6 +28,7 @@ t_cmd_table	*handle_and(t_ast *ast)
 	pid_t		pid_l;
 	int			status;
 
+	debug_message("handling and operation.....\n", 1);
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
 	pid_l = exec_cmd(cmd_table_l, RETURN_ERROR);
 	if (pid_l == RETURN_ERROR && ms_exit_status_get() != ERR_SUCCESS)
@@ -52,6 +54,7 @@ t_cmd_table	*handle_or(t_ast *ast)
 	pid_t		pid_l;
 	int			status;
 
+	debug_message("handling or operation......\n", 1);
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
 	pid_l = exec_cmd(cmd_table_l, RETURN_ERROR);
 	if (pid_l != RETURN_ERROR)

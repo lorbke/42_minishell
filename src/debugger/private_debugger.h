@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debugger_private.h                                 :+:      :+:    :+:   */
+/*   private_debugger.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:31:22 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/09 14:21:03 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/26 15:36:17 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEBUGGER_PRIVATE_H
-# define DEBUGGER_PRIVATE_H
+#ifndef PRIVATE_DEBUGGER_H
+# define PRIVATE_DEBUGGER_H
 
 # include "lexer.h" // t_token, t_stack
 # include "parser.h" // t_ast
