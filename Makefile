@@ -6,7 +6,7 @@
 #    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/27 17:55:16 by fyuzhyk          ###   ########.fr        #
+#    Updated: 2023/02/27 18:59:57 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -120,7 +120,7 @@ test:
 	@$(MAKE) -C $(PARSER_PATH)
 	@$(MAKE) -C $(ENV_PATH)
 	@$(MAKE) -C $(GNL_PATH)
-	$(CC) -O0 -DDEBUG -g tester_parser_lexer.c $(SRC_PATH)/debugger/debugger.c -I$(GCOLL_PATH) -I$(SRC_PATH) -I$(LFT_PATH) \
+	$(CC) -g tester_gc.c -I$(GCOLL_PATH) -I$(SRC_PATH) -I$(LFT_PATH) \
 	-I$(LEXER_PATH) -I$(PARSER_PATH) -I$(ENV_PATH) -I$(GNL_PATH) $(GCOLL_LINK) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(ENV_LINK) $(GNL_LINK) -l$(RDLN_LIB) -o tester
 
 .PHONY: all clean fclean re

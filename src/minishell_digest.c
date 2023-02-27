@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 21:07:49 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 17:01:06 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ static bool	is_input_incomplete_print_error(t_stack *tokstack)
 			|| tokstack->token->word && tokstack->token->word[0] == ')'))
 	{
 		ms_exit_status_set(ERR_SYNTAX);
-		ms_print_error(ms_exit_status_get(),
-			tokstack->token->desc, tokstack->token->word);
+		ms_print_syntax_error(0, NULL);
 		return (true);
 	}
 	if ((tokstack && tokstack->token->desc == TOK_UNCLOSED_DQUOTE
@@ -43,8 +42,48 @@ static bool	is_input_incomplete_print_error(t_stack *tokstack)
 			&& ft_is_char_count_uneven(tokstack->token->word, '\'')))
 	{
 		ms_exit_status_set(ERR_SYNTAX);
-		ms_print_error(ms_exit_status_get(), 0, NULL);
+		ms_print_syntax_error(0, NULL);
 		return (true);
+	}
+	return (false);
+}
+
+static bool	is_subshell_closed(char *str)
+{
+	int		depth;
+
+	depth = 0;
+	while (*str)
+	{
+		if (*str == '(')
+			depth++;
+		else if (*str == ')')
+			depth--;
+		str++;
+	}
+	if (!depth)
+		return (true);
+	return (false);
+}
+
+static bool	check_subshell_syntax(t_stack *tokstack)
+{
+	while (tokstack)
+	{
+		if (tokstack->token->desc == TOK_SUBSHELL)
+		{
+			if (tokstack->token->word[0] != '('
+				|| tokstack->token->word
+				[ft_strlen(tokstack->token->word) - 1] != ')'
+				|| ft_strlen(tokstack->token->word) < 3
+				|| !is_subshell_closed(tokstack->token->word))
+			{
+				ms_exit_status_set(ERR_SYNTAX);
+				ms_print_syntax_error(TOK_SUBSHELL, tokstack->token->word);
+				return (true);
+			}
+		}
+		tokstack = tokstack->next;
 	}
 	return (false);
 }
@@ -53,6 +92,8 @@ static t_ast	*digest_parser(t_stack *tokstack)
 {
 	t_ast	*ast;
 
+	if (check_subshell_syntax(tokstack))
+		return (NULL);
 	ast = parser_tokstack_to_ast(&tokstack);
 	if (ast)
 		gc_add_garbage(ast, &parser_free_ast);
@@ -60,8 +101,7 @@ static t_ast	*digest_parser(t_stack *tokstack)
 	if (tokstack)
 	{
 		ms_exit_status_set(ERR_SYNTAX);
-		ms_print_error(ms_exit_status_get(),
-			tokstack->token->desc, tokstack->token->word);
+		ms_print_syntax_error(tokstack->token->desc, tokstack->token->word);
 		return (NULL);
 	}
 	return (ast);
@@ -74,7 +114,6 @@ static char	*digest_docs(t_stack *tokstack, char *input, t_status *exit_status)
 	if (*exit_status != ERR_SUCCESS)
 	{
 		ms_exit_status_set(*exit_status);
-		ms_print_error(ms_exit_status_get(), 0, NULL);
 		return (input);
 	}
 	return (input);

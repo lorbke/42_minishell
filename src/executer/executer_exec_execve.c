@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 00:14:35 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 17:30:41 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ static pid_t	fork_and_execve(
 		exec_prepare_fds_for_exec(cmd_table, fd_pipe);
 		status = execve(path, cmd_table->cmd, env);
 		if (errno == ENOENT)
-			status = ERR_DIRNOTFOUND;
+			status = ERR_CMDNOTFOUND;
 		else
 			status = ERR_NOPERM;
+		ms_print_errno(status, cmd_table->cmd[0]);
 		free(path);
 		free_split(env);
 		gc_free_all_garbage();
@@ -74,6 +75,7 @@ pid_t	exec_execve(t_cmd_table *cmd_table, int fd_pipe)
 			exec_close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 			gc_free_str_arr(env);
 			ms_exit_status_set(ERR_CMDNOTFOUND);
+			ms_print_exec_error(ms_exit_status_get(), cmd_table->cmd[0]);
 			return (RETURN_ERROR);
 		}
 	}

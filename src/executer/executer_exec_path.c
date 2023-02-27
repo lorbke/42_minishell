@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:44:52 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 00:51:36 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 17:39:37 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static char	*get_valid_cmd_str(char **path_arr, char *cmd)
 		temp_str = ft_strjoin(*temp_arr, cmd);
 		if (!temp_str)
 			ft_perror_and_exit("executer: ft_strjoin: malloc: ");
-		if (access(temp_str, F_OK) == 0
+		if (access(temp_str, X_OK) == 0
 			&& (!stat(temp_str, &file_stats)
 				&& !S_ISDIR(file_stats.st_mode)))
 			return (temp_str);
