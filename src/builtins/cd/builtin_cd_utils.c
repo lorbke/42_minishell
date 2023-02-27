@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:43:00 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 17:11:21 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/27 15:10:28 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	set_path(char *var, char *value)
 
 static char	*concat_var(char *var, char *value)
 {
-	char 	*new_var;
+	char	*new_var;
 	char	*var_name;
 
 	var_name = ft_strjoin(var, "=");

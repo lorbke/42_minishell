@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:17:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/25 14:25:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 15:08:51 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static void	print_error_msg(char *str);
 
 int	env_b(char **argv)
 {
-	int	i;
-	char **env_list;
+	int		i;
+	char	**env_list;
 
 	if (argv[1] != NULL)
 	{
@@ -35,7 +35,8 @@ int	env_b(char **argv)
 		return (RETURN_ERROR);
 	}
 	i = 0;
-	while (env_list[i] != NULL) {
+	while (env_list[i] != NULL)
+	{
 		printf("%s\n", env_list[i]);
 		i++;
 	}

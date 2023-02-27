@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_free.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:40:03 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/20 22:14:59 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 14:35:45 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ void	executer_free_cmd_table(void *cmd_table_void)
 	int			i;
 
 	cmd_table = (t_cmd_table *)cmd_table_void;
+	if (cmd_table->cmd == NULL)
+	{
+		free(cmd_table);
+		return ;
+	}
 	i = 0;
 	while (cmd_table->cmd[i])
 	{

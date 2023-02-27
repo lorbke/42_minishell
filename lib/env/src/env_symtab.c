@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   env_symtab.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:00:37 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/24 18:30:12 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 18:56:02 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h" // t_sym_tab, add_to_back
-#include "libft.h" // free, ft_strdup, ft_strlcpy
+#include "env.h" // t_sym_tab, add_to_back, get_value, increase_shlvl
+#include "libft.h" // free, ft_strdup, ft_strlcpy, ft_strncmp
 
 t_sym_tab	**init_sym_tab(char **envp)
 {
@@ -21,14 +21,15 @@ t_sym_tab	**init_sym_tab(char **envp)
 	head = malloc(sizeof(t_sym_tab));
 	if (head == NULL)
 		return (NULL);
+	*head = NULL;
 	if (envp[0] == NULL)
-	{
-		*head = NULL;
 		return (head);
-	}
 	while (*envp != NULL)
 	{
-		var = ft_strdup(*envp);
+		if (ft_strncmp(*envp, "SHLVL=", ft_strlen("SHLVL=")) == 0)
+			var = increase_shlvl(get_value(*envp));
+		else
+			var = ft_strdup(*envp);
 		add_to_back(head, new_sym_tab_node(var));
 		free(var);
 		envp++;

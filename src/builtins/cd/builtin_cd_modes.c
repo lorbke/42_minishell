@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:48:10 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 21:53:29 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/27 15:10:13 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <unistd.h> // chdir, getcwd
 #include <stdio.h> // perror
 
-static int	cd_oldpwd(char *var, char  *oldpwd);
+static int	cd_oldpwd(char *var, char *oldpwd);
 static int	cd_back(int count, int i, char *path, char *cwd);
 
 int	handle_dash(char *oldpwd)
@@ -61,7 +61,7 @@ int	handle_dots(char *path)
 	return (status);
 }
 
-static int	cd_oldpwd(char *var, char  *oldpwd)
+static int	cd_oldpwd(char *var, char *oldpwd)
 {
 	char	*path;
 

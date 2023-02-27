@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:20:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/26 18:23:01 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 18:40:32 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ char	**create_env_list(t_sym_tab **head)
 
 	len = get_list_len(head);
 	env_list = malloc(sizeof(char *) * (len + 1));
-	if (env_list == NULL) {
+	if (env_list == NULL)
 		return (NULL);
-	}
 	temp = *head;
 	i = 0;
-	while (temp != NULL) {
+	while (temp != NULL)
+	{
 		if (check_value(temp) == 0 || ft_strncmp(temp->var, "?=", 2) == 0)
 			temp = temp->next;
 		else
@@ -43,6 +43,19 @@ char	**create_env_list(t_sym_tab **head)
 	}
 	env_list[i] = NULL;
 	return (env_list);
+}
+
+char	*get_value(char *var)
+{
+	char	*value;
+	char	*ptr_to_value;
+
+	ptr_to_value = ft_strchr(var, '=');
+	value = malloc(sizeof(char) * (ft_strlen(ptr_to_value) + 1));
+	if (value == NULL)
+		return (NULL);
+	ft_strlcpy(value, ptr_to_value + 1, ft_strlen(ptr_to_value + 1) + 1);
+	return (value);
 }
 
 static int	check_value(t_sym_tab *node)

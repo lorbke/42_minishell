@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:39:44 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 15:07:25 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/27 15:10:42 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int		change_prev_dir(void);
 int		check_for_dots(char *path, int *i);
 
 // modes
-int	cd_home(void);
-int	handle_dots(char *path);
-int	handle_dash(char *oldpwd);
+int		cd_home(void);
+int		handle_dots(char *path);
+int		handle_dash(char *oldpwd);
 
 #endif

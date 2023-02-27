@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:20:05 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/26 18:08:48 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 18:44:17 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,9 @@ bool		env_is_var_value(char *var, char *value);
 
 // exit status
 void		init_exit_status(t_sym_tab **head);
+
+// env
+char	*get_value(char *var);
+char	*increase_shlvl(char *shlvl);
 
 #endif
