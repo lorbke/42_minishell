@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/27 00:31:26 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 18:48:12 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,6 @@
 // @todo fix bug: overwriting first input when term window is exceeded
 // @todo turn on wall werror wextra in every makefile
 // @todo implement proper quote identification in quote doc (<< "lim' cat -> never ending doc)
-// @todo invalid command -> syntax error printed twice (after exit from bash everything is printed..)
-// @todo random segfault at case <echo< and echo "test1 -n" -> check with valgrind?
-// @todo use valgrind for tests
-// @todo shell level env var
 
 static bool	is_empty_str(char *str)
 {
@@ -64,6 +60,7 @@ void	interactive_mode(void)
 		if (*line)
 		{
 			line = ms_digest_input(line);
+			gc_free_all_garbage();
 			if (!is_empty_str(line))
 				add_history(line);
 		}
@@ -80,6 +77,7 @@ void	non_interactive_mode(void)
 	while (line != NULL)
 	{
 		line = ms_digest_input(line);
+		gc_free_all_garbage();
 		free(line);
 		line = get_next_line(STDIN_FILENO);
 	}

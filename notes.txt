@@ -417,55 +417,11 @@ get_next_word
 
 ----------REFACTORING------------
 
-fn digest_lexer
-	lexer_str_to_tokstack
-	debug_lexer
-	gc_add_garbage lexer
-
-
-fn digest_parser
-	parser_tokstack_to_ast
-	debug_parser
-	gc_add_garbage ast
-	check syntax
-
-
-
-fn digest_docs
-	interpret_docs
-	debug_lexer
-	check status && check incomplete
-		set status
-		print error
-		return
-
-
-fn digest_executer
-	change_mode EXEC
-	executer_ast
-	change mode NINTER
-	set status
-	debug_executer
-
 fn digest_input
-	digest_lexer
-	if !lexer
-		return
+	create tokstack
 
-	digest_parser
-	if !parser
-		return
-	free ast
+	get docs
 
-	digest_docs
-		if !docs
-			return
+	create ast
 
-	digest_lexer
-		if !lexer
-			return
-
-	change_mode EXEC
-	status = executer_ast
-	set_exit
-	change_mode NINTER
+	

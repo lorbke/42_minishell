@@ -3,10 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
+#    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2023/02/27 20:16:57 by fyuzhyk          ###   ########.fr        #
+=======
+#    Updated: 2023/02/27 19:01:43 by lorbke           ###   ########.fr        #
+>>>>>>> ac46261ef94eb0fcd2a1f67376968268f2b90a78
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +31,7 @@ NAME := minishell
 CC := gcc
 AR := ar rcs
 RM := rm -f
-CFLAGS := -fsanitize=address,undefined -g #-Wall -Wextra -Werror
+CFLAGS := -g #-fsanitize=address,undefined #-Wall -Wextra -Werror
 
 # leak sanitizer
 LEAKFLAGS := -Wno-gnu-include-next
