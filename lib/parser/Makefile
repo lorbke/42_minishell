@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
+#    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/18 13:54:25 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/21 18:37:18 by lorbke           ###   ########.fr        #
+#    Updated: 2023/02/27 17:07:35 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ $(OBJ_PATH):
 
 $(OBJ_PATH)/%.o: %.c Makefile parser.h $(SRC_PATH)/private_parser.h
 	@echo -e -n "$(YELLOW)Compiling: $(RESET)"
-	$(CC) $(FLAGS) $(ADD_FLAGS) -I$(LFT_PATH) -I$(LEXER_INC) -c $< -o $@
+	$(CC) $(FLAGS) $(ADD_FLAGS) -I$(LFT_PATH) -I$(LEXER_INC) -I. -c $< -o $@
 
 # phony targets
 all: $(NAME)

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:17:47 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/24 18:53:16 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 16:53:13 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // t_sym_tab
 #include "libft.h" // free, ft_isalpha, ft_isalnum
-#include "../utils.h" // free_split, free_list, ft_perror, ft_strcmp, check_naming_convention
+#include "../utils.h" // free_split, free_list, ft_perror, ft_strcmp
 #include <stdio.h> // perror
 
 void	free_split(char **split)
@@ -34,7 +34,7 @@ void	free_split(char **split)
 
 void	env_free_sym_tab(t_sym_tab **head)
 {
-	t_sym_tab *temp;
+	t_sym_tab	*temp;
 
 	while (*head != NULL)
 	{
@@ -58,14 +58,14 @@ int	ft_strcmp(const char *s1, const char *s2)
 	return (s1[i] - s2[i]);
 }
 
-int	check_naming_convention(char *var_name)
+int	check_naming_convention(char *var)
 {
 	int	i;
 
 	i = 0;
-	if (var_name[i] != '\0' && (ft_isalpha(var_name[i]) || var_name[i] == '_'))
+	if (var[i] != '\0' && (ft_isalpha(var[i]) || var[i] == '_'))
 	{
-		while (var_name[i] != '\0' && (ft_isalnum(var_name[i]) || var_name[i] == '_'))
+		while (var[i] != '\0' && (ft_isalnum(var[i]) || var[i] == '_'))
 			i++;
 	}
 	if (i == 0)
@@ -75,7 +75,7 @@ int	check_naming_convention(char *var_name)
 
 int	get_string_array_len(char **array)
 {
-	int i;
+	int	i;
 
 	if (array == NULL)
 		return (0);

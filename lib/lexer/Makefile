@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
+#    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/18 13:54:25 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/21 18:37:05 by lorbke           ###   ########.fr        #
+#    Updated: 2023/02/27 17:11:28 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ VPATH := $(SRC_PATH)
 $(NAME): $(OBJ_PATH) $(OBJ)
 	@$(MAKE) -C $(LFT_PATH)
 	@echo -e -n "$(BLUE)Creating: lexer library: $(RESET)"
-	$(AR) $(NAME) $(OBJ)
+	$(AR) $(NAME) $(OBJ) $(LFT_PATH)/obj/ft_strdup_size.o
 	@echo -e "$(GREEN)make: lexer success!$(RESET)"
 
 $(OBJ_PATH):
@@ -57,7 +57,7 @@ $(OBJ_PATH):
 
 $(OBJ_PATH)/%.o: %.c Makefile lexer.h $(SRC_PATH)/private_lexer.h
 	@echo -e -n "$(YELLOW)Compiling: $(RESET)"
-	$(CC) $(FLAGS) $(ADD_FLAGS) -I$(LFT_PATH) -c $< -o $@
+	$(CC) $(FLAGS) $(ADD_FLAGS) -I$(LFT_PATH) -I. -c $< -o $@
 
 # phony targets
 all: $(NAME)

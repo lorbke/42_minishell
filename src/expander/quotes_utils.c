@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 13:17:06 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/23 23:08:28 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/27 16:39:09 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,16 @@
 #include "../utils.h" // ft_realloc
 #include "expander_private.h" // find_closing_quote, skip_quotes_in_quotes
 
-#include <stdio.h>
-char	*handle_quotes(char *result, char *str, int *index, int *result_index)
+char	*handle_quotes(char *result, char *str, int *i, int *result_i)
 {
-	int		i;
+	int		j;
 	int		str_len;
 	char	*arg;
 	char	quote_type;
 
-	quote_type = str[(*index)];
-	i = *index;
-	str_len = find_closing_quote(str, &(*index), quote_type);
+	quote_type = str[(*i)];
+	j = *i;
+	str_len = find_closing_quote(str, &(*i), quote_type);
 	if (result == NULL)
 	{
 		arg = malloc(sizeof(char) * str_len + 1);
@@ -33,49 +32,49 @@ char	*handle_quotes(char *result, char *str, int *index, int *result_index)
 	}
 	else
 		arg = ft_realloc(result, ft_strlen(result) + str_len + 1);
-	(*index)++;
-	while (i < *index)
+	(*i)++;
+	while (j < *i)
 	{
-		arg[*result_index] = str[i];
-		i++;
-		(*result_index)++;
+		arg[*result_i] = str[j];
+		j++;
+		(*result_i)++;
 	}
-	arg[*result_index] = '\0';
+	arg[*result_i] = '\0';
 	return (arg);
 }
 
-int	find_closing_quote(char *str, int *index, char quote_type)
+int	find_closing_quote(char *str, int *i, char quote_type)
 {
 	int	str_len;
 
 	str_len = 0;
-	(*index)++;
-	while (str[*index] != '\0')
+	(*i)++;
+	while (str[*i] != '\0')
 	{
-		if (str[*index] == quote_type)
+		if (str[*i] == quote_type)
 		{
 			break ;
 		}
 		str_len++;
-		(*index)++;
+		(*i)++;
 	}
 	return (str_len);
 }
 
-int	in_closed_quotes(char *result, char *arg, int *index, int *result_index)
+int	in_closed_quotes(char *result, char *arg, int *i, int *result_i)
 {
-	int	i;
+	int	j;
 	int	quote_count;
 
-	i = *index;
+	j = *i;
 	quote_count = 0;
-	if (arg[*index + 1] == '"' || arg[*index + 1] == '\'')
+	if (arg[*i + 1] == '"' || arg[*i + 1] == '\'')
 	{
-		while (arg[i] != '\0')
+		while (arg[j] != '\0')
 		{
-			if (arg[i] == '"' || arg[i] == '\'')
+			if (arg[j] == '"' || arg[j] == '\'')
 				quote_count++;
-			i++;
+			j++;
 		}
 		if (quote_count % 2 != 0)
 			return (1);

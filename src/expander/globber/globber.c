@@ -6,16 +6,18 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:29:31 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/23 23:34:29 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/27 16:43:33 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // NULL, free, ft_substr
 #include "../../utils.h" // free_split, ft_strcmp
-#include "globber_private.h" // is_match, concatentate_entries, add_matching_entries, find_pattern, opendir, readdir, closedir, expand_cwd_dir, globbing_outside_cwd
+#include "globber_private.h" // is_match, concatentate_entries,
+// add_matching_entries, find_pattern, opendir, readdir, closedir,
+// expand_cwd_dir, globbing_outside_cwd
 #include "../expander_private.h" // find_closing_quote, quote_removal
 
-static char	**globbing(char *arg, int *index);
+static char	**globbing(char *arg, int *i);
 static char	**check_for_path(char *pattern, char **result);
 
 char	**globber(char **argv)
@@ -23,10 +25,10 @@ char	**globber(char **argv)
 	int		i;
 	int		j;
 	char	**result;
-	char	**expanded_argv;
+	char	**exp_argv;
 
 	i = 0;
-	expanded_argv = NULL;
+	exp_argv = NULL;
 	while (argv[i] != NULL)
 	{
 		result = NULL;
@@ -39,21 +41,21 @@ char	**globber(char **argv)
 				result = globbing(argv[i], &j);
 			j++;
 		}
-		expanded_argv = add_vars(expanded_argv, result, &argv[i]);
+		exp_argv = add_vars(exp_argv, result, &argv[i]);
 		i++;
 	}
-	quote_removal(expanded_argv);
+	quote_removal(exp_argv);
 	free_split(argv);
-	return (expanded_argv);
+	return (exp_argv);
 }
 
-static char **globbing(char *arg, int *index)
+static char	**globbing(char *arg, int *i)
 {
 	char	*pattern;
 	char	**result;
 
 	result = NULL;
-	pattern = find_pattern(arg, &(*index));
+	pattern = find_pattern(arg, &(*i));
 	result = check_for_path(pattern, result);
 	if (ft_strcmp(pattern, "*/") != 0)
 		result = get_matching_entries(NULL, pattern, result);

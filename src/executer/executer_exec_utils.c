@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_exec_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/27 00:25:27 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 14:40:38 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ pid_t	exec_cmd(t_cmd_table *cmd_table, int fd_pipe)
 		return (exec_subshell(cmd_table, fd_pipe));
 	gc_add_garbage(cmd_table->cmd, &gc_free_str_arr);
 	cmd_table->cmd = expander(cmd_table->cmd);
+	if (cmd_table->cmd == NULL)
+		return (0);
 	builtin_id = builtin_is_builtin(cmd_table->cmd[0]);
 	if (builtin_id)
 		return (exec_builtin(cmd_table, fd_pipe, builtin_id));

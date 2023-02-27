@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:57:59 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 00:15:17 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 15:07:36 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../utils.h" // ft_strcmp
 #include <stdio.h> // printf
 
-int echo_b(char **argv)
+int	echo_b(char **argv)
 {
-	int i;
+	int	i;
 	int	n_flag;
 
 	i = 1;

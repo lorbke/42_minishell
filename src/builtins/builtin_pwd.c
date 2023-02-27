@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:45:14 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 22:01:08 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/27 15:09:43 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <unistd.h> // getcwd
 #include <limits.h> // PATH_MAX
 
-int pwd_b(char **argv)
+int	pwd_b(char **argv)
 {
 	char	cwd[PATH_MAX];
 

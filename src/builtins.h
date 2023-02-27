@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 14:33:34 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/21 20:34:17 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 15:07:58 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "../../lib/env/env.h"
 #include <stdlib.h>
 
-int cd_b(char **argv);
+int	cd_b(char **argv);
 int	pwd_b(char **argv);
 int	env_b(char **argv);
 int	echo_b(char **argv);

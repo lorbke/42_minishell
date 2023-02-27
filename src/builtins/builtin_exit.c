@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/25 14:23:46 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 15:09:32 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	check_value(long long number, int sign, char *str)
 {
 	number *= sign;
 	if (number > 0 && sign == RETURN_ERROR
-	|| number < 0 && sign == 1)
+		|| number < 0 && sign == 1)
 	{
 		exit_print_to_stderr(NULL, str);
 		return (RETURN_ERROR);
@@ -84,9 +84,9 @@ static int	check_value(long long number, int sign, char *str)
 
 static long long	ft_atoi_long(char *str)
 {
-	int	i;
-	int	sign;
-	long long number;
+	int			i;
+	int			sign;
+	long long	number;
 
 	i = 0;
 	while ((str[i] >= 9 && str[i] <= 13 && str[i] != 0) || str[i] == ' ')
