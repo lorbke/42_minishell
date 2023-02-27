@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 23:54:19 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 00:15:32 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 14:39:47 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,6 @@
 #include <unistd.h> // STDIN_FILENO, STDOUT_FILENO, write, read
 #include <stdlib.h> // free
 #include <sys/errno.h> // errno
-
-static int	check_subshell_syntax(t_cmd_table *cmd_table)
-{
-	if (cmd_table->cmd[0][ft_strlen(cmd_table->cmd[0]) - 1] != ')'
-		|| ft_strlen(cmd_table->cmd[0]) < 3)
-	{
-		ms_exit_status_set(ERR_SYNTAX);
-		ms_print_error(ms_exit_status_get(), 0, cmd_table->cmd[0]);
-		return (RETURN_ERROR);
-	}
-	return (1);
-}
 
 static void	case_child(t_cmd_table *cmd_table, int fd_pipe)
 {
@@ -53,8 +41,6 @@ pid_t	exec_subshell(t_cmd_table *cmd_table, int fd_pipe)
 {
 	pid_t	pid;
 
-	if (check_subshell_syntax(cmd_table) == RETURN_ERROR)
-		return (RETURN_ERROR);
 	pid = fork();
 	if (pid == RETURN_ERROR)
 		return (exec_fork_error(pid, cmd_table));

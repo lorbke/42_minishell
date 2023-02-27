@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:12:31 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 00:25:15 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 13:45:52 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "parser.h" // t_ast
 #include "lexer.h" // TOK_* defines
 #include "libft.h" // ft_strdup
+#include "../minishell.h" // print_error
 #include <stdlib.h> // malloc, free, exit
 #include <unistd.h> // STDIN_FILENO, STDOUT_FILENO, write, read
 #include <sys/errno.h> // errno macros
@@ -27,7 +28,7 @@ t_cmd_table	*redir_get_cmd_table(int redir_fd, t_ast *ast)
 	if (redir_fd == RETURN_ERROR)
 	{
 		ms_exit_status_set(ERR_GENERAL);
-		ms_print_error(ms_exit_status_get(), 0, ast->right->token->word);
+		ms_print_errno(0, ast->right->token->word);
 		return (NULL);
 	}
 	if (!ast->left)

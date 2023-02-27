@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 16:44:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 00:34:23 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 16:51:04 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdint.h>
 # include <limits.h>
 # include <errno.h>
+# include <stdbool.h>
 
 typedef struct s_list
 {

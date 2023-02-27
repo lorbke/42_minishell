@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:39:03 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 00:03:52 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 17:29:07 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # define ERR_SUCCESS 0
 # define ERR_GENERAL 1 
 # define ERR_SYNTAX 2
-# define ERR_DIRNOTFOUND 125
 # define ERR_NOPERM 126
 # define ERR_CMDNOTFOUND 127
 # define ERR_SIGNAL 128
@@ -34,7 +33,9 @@
 typedef unsigned char	t_status;
 
 char		*ms_digest_input(char *input);
-void		ms_print_error(t_status exit_status, int desc, char *error_loc);
+void		ms_print_syntax_error(int desc, char *error_loc);
+void		ms_print_exec_error(t_status exit_status, char *error_loc);
+void		ms_print_errno(t_status exit_status, char *error_loc);
 void		ms_wait_pid_and_set_exit(pid_t pid);
 void		ms_exit_status_set(t_status exit_status);
 t_status	ms_exit_status_get(void);

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 17:10:28 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 22:54:23 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 17:28:58 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 #define STR_SYNTAXERR ": syntax error near unexpected token `"
 #define STR_SYNTAXERR2 ": syntax error: unexpected end of file"
 #define STR_CMDNOTFOUND ": command not found"
+#define STR_ERRDELIM ": "
 
-static void	syntax_error(int desc, char *error_loc)
+void	ms_print_syntax_error(int desc, char *error_loc)
 {
 	if (!desc && !error_loc)
 	{
@@ -32,7 +33,10 @@ static void	syntax_error(int desc, char *error_loc)
 	{
 		ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
 		ft_putstr_fd(STR_SYNTAXERR, STDERR_FILENO);
-		ft_putchar_fd(')', STDERR_FILENO);
+		if (ft_strchr(error_loc, '(') > ft_strchr(error_loc, ')'))
+			ft_putchar_fd('(', STDERR_FILENO);
+		else
+			ft_putchar_fd(')', STDERR_FILENO);
 		ft_putstr_fd("'\n", STDERR_FILENO);
 	}
 	else
@@ -44,12 +48,12 @@ static void	syntax_error(int desc, char *error_loc)
 	}
 }
 
-static void	exec_error(t_status exit_status, char *error_loc)
+void	ms_print_exec_error(t_status exit_status, char *error_loc)
 {
 	if (exit_status == ERR_CMDNOTFOUND)
 	{
 		ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(STR_ERRDELIM, STDERR_FILENO);
 		ft_putstr_fd(error_loc, STDERR_FILENO);
 		ft_putstr_fd(STR_CMDNOTFOUND, STDERR_FILENO);
 		ft_putchar_fd('\n', STDERR_FILENO);
@@ -57,33 +61,18 @@ static void	exec_error(t_status exit_status, char *error_loc)
 	if (exit_status == ERR_NOPERM)
 	{
 		ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(STR_ERRDELIM, STDERR_FILENO);
 		ft_putstr_fd(error_loc, STDERR_FILENO);
 		ft_putstr_fd(": permission denied\n", STDERR_FILENO);
 	}
-	else if (exit_status >= ERR_SIGNAL && exit_status <= ERR_SIGNAL + 9)
-		return ;
-	else if (exit_status != ERR_SUCCESS
-		&& exit_status != ERR_SYNTAX && error_loc)
-	{
-		if (exit_status == ERR_DIRNOTFOUND)
-		{
-			ms_exit_status_set(ERR_CMDNOTFOUND);
-			errno = ENOENT;
-		}
-		ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-		ft_putstr_fd(error_loc, STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-		ft_putstr_fd(strerror(errno), STDERR_FILENO);
-		ft_putchar_fd('\n', STDERR_FILENO);
-	}
 }
 
-void	ms_print_error(t_status exit_status, int desc, char *error_loc)
+void	ms_print_errno(t_status exit_status, char *error_loc)
 {
-	if (exit_status == ERR_SYNTAX)
-		syntax_error(desc, error_loc);
-	else
-		exec_error(exit_status, error_loc);
+	ft_putstr_fd(SHELL_NAME, STDERR_FILENO);
+	ft_putstr_fd(STR_ERRDELIM, STDERR_FILENO);
+	ft_putstr_fd(error_loc, STDERR_FILENO);
+	ft_putstr_fd(STR_ERRDELIM, STDERR_FILENO);
+	ft_putstr_fd(strerror(errno), STDERR_FILENO);
+	ft_putchar_fd('\n', STDERR_FILENO);
 }
