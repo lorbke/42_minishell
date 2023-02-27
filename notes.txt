@@ -432,19 +432,14 @@ fn digest_input
 
 	execute
 
-
-fn get_complete_tokstack (**input)
-	while tokstack
-		input lexer
-		get_doc_token
-		if !doc_token
-			return NULL
-		tokstack
-		tokstack = tokstack->next
-	return tokstack
-
-
-
+fn get_docs
+	lexer tokstack
+	check heredocs
+	move to end of tokstack
+	if last unclosed or incomplete
+		get_docs
+	- complete tokstack
+	- complete input
 
 ------info
 - doc termination
