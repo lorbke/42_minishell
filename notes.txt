@@ -422,6 +422,32 @@ fn digest_input
 
 	get docs
 
+	check subshell syntax
+
+	check unclosed
+
 	create ast
 
-	
+	check syntax
+
+	execute
+
+
+fn get_complete_tokstack (**input)
+	while tokstack
+		input lexer
+		get_doc_token
+		if !doc_token
+			return NULL
+		tokstack
+		tokstack = tokstack->next
+	return tokstack
+
+
+
+
+------info
+- doc termination
+	- no error printed
+- doc EOF and still invalid
+	- unexpected end of file

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/27 18:58:24 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 20:59:10 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static bool	is_subshell_closed(char *str)
 	return (false);
 }
 
+// do this during parsing
 static bool	check_subshell_syntax(t_stack *tokstack)
 {
 	while (tokstack)
