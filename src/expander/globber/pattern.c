@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:17:44 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 16:48:30 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/27 21:30:56 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,23 @@ char	*find_pattern(char *arg, int *i)
 {
 	char	*tmp;
 	char	*pattern;
+	int		j;
 	int		quote_c;
 	int		astrsk_c;
 
-	pattern = malloc(sizeof(char) * ft_strlen(arg) + 1);
+	pattern = malloc(sizeof(char) * ft_strlen(arg) + 10);
 	if (pattern == NULL)
 		return (NULL);
 	tmp = pattern;
 	quote_c = 0;
 	astrsk_c = 0;
+	j = 0;
 	while (*arg != '\0')
 	{
 		scan_char(&arg, &pattern, &astrsk_c, &quote_c);
-		(*i)++;
+		j++;
 	}
+	*i = j - 1;
 	*pattern = '\0';
 	pattern = tmp;
 	return (pattern);

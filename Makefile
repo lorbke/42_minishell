@@ -6,7 +6,7 @@
 #    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/27 18:59:57 by fyuzhyk          ###   ########.fr        #
+#    Updated: 2023/02/27 20:16:57 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ NAME := minishell
 CC := gcc
 AR := ar rcs
 RM := rm -f
-CFLAGS := -g #-Wall -Wextra -Werror
+CFLAGS := -fsanitize=address,undefined -g #-Wall -Wextra -Werror
 
 # leak sanitizer
 LEAKFLAGS := -Wno-gnu-include-next

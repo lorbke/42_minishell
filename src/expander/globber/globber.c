@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:29:31 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 16:43:33 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/27 21:34:04 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static char	**globbing(char *arg, int *i)
 	result = NULL;
 	pattern = find_pattern(arg, &(*i));
 	result = check_for_path(pattern, result);
-	if (ft_strcmp(pattern, "*/") != 0)
+	if (ft_strncmp(pattern, "*/", ft_strlen("*/")) != 0)
 		result = get_matching_entries(NULL, pattern, result);
 	free(pattern);
 	return (result);
@@ -77,7 +77,7 @@ static char	**check_for_path(char *pattern, char **result)
 	{
 		new_path = ft_substr(pattern, 0, i + 1);
 		new_pattern = ft_substr(pattern, i + 1, ft_strlen(pattern));
-		if (ft_strcmp(new_path, "*/") == 0)
+		if (ft_strncmp(new_path, "*/", ft_strlen("*/")) == 0)
 			result = expand_cwd_dir(new_path, new_pattern, result);
 		else if (stat(new_path, &buf) == 0)
 			result = globbing_outside_cwd(new_path, new_pattern, result);
