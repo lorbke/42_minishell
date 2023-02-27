@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/27 17:01:06 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 18:58:24 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ static char	*digest_docs(t_stack *tokstack, char *input, t_status *exit_status)
 	return (input);
 }
 
-char	*digest_input_helper(char *input)
+char	*ms_digest_input(char *input)
 {
 	t_stack		*tokstack;
 	t_ast		*ast;
@@ -130,11 +130,14 @@ char	*digest_input_helper(char *input)
 		return (input);
 	gc_add_garbage(tokstack, &lexer_free_tokstack);
 	debug_lexer(tokstack);
-	ast = digest_parser(tokstack);
-	if (!ast)
+	input = doccer_interpret_docs(tokstack, input, &exit_status);
+	debug_lexer(tokstack);
+	if (exit_status != ERR_SUCCESS)
+	{
+		ms_exit_status_set(exit_status);
 		return (input);
-	input = digest_docs(tokstack, input, &exit_status);
-	if (exit_status != ERR_SUCCESS || is_input_incomplete_print_error(tokstack))
+	}
+	if (is_input_incomplete_print_error(tokstack))
 		return (input);
 	ast = digest_parser(tokstack);
 	if (!ast)
@@ -145,13 +148,4 @@ char	*digest_input_helper(char *input)
 	mssignal_change_mode(MSSIG_INTER);
 	debug_message("===========================\n", 0);
 	return (input);
-}
-
-char	*ms_digest_input(char *input)
-{
-	char	*final;
-
-	final = digest_input_helper(input);
-	gc_free_all_garbage();
-	return (final);
 }
