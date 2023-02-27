@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:43:00 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 15:10:28 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/27 20:36:11 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	check_for_dots(char *path, int *i)
 	int	count;
 
 	count = 0;
-	while (ft_strcmp(&path[*i], "..") == 0)
+	while (ft_strncmp(&path[*i], "..", ft_strlen("..")) == 0)
 	{
 		count++;
 		*i += 3;

@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 13:17:06 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 16:39:09 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/27 20:38:05 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ char	*handle_quotes(char *result, char *str, int *i, int *result_i)
 	str_len = find_closing_quote(str, &(*i), quote_type);
 	if (result == NULL)
 	{
-		arg = malloc(sizeof(char) * str_len + 1);
+		arg = malloc(sizeof(char) * str_len + 2);
 		if (arg == NULL)
 			return (NULL);
 	}
 	else
-		arg = ft_realloc(result, ft_strlen(result) + str_len + 1);
+		arg = ft_realloc(result, ft_strlen(result) + str_len + 2);
 	(*i)++;
 	while (j < *i)
 	{
@@ -51,11 +51,9 @@ int	find_closing_quote(char *str, int *i, char quote_type)
 	(*i)++;
 	while (str[*i] != '\0')
 	{
-		if (str[*i] == quote_type)
-		{
-			break ;
-		}
 		str_len++;
+		if (str[*i] == quote_type)
+			break ;
 		(*i)++;
 	}
 	return (str_len);
