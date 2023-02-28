@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 14:07:38 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 16:55:45 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@
 #include <stdbool.h> // bool
 
 // @todo documentation with some kind of tool
-// @todo fix bug: overwriting first input when term window is exceeded
 // @todo turn on wall werror wextra in every makefile
-// @todo implement proper quote identification in quote doc (<< "lim' cat -> never ending doc)
+// @todo fix norm
+// @todo standardization of file structure
 
 static bool	is_empty_str(char *str)
 {

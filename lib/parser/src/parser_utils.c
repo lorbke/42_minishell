@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 12:30:50 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 00:19:17 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 15:58:22 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,6 @@
 #include "libft.h" // ft_strdup
 #include <stdlib.h> // NULL
 #include <stdbool.h> // bool, true, false
-
-t_token	*create_token_empty(void)
-{
-	t_token	*new;
-
-	new = ft_malloc_safe(sizeof(t_token), 1);
-	new->desc = TOK_WORD;
-	new->word = NULL;
-	return (new);
-}
 
 static t_token	*dup_token(t_token *token)
 {
@@ -73,13 +63,24 @@ t_ast	*append_left_ast(t_ast *main, t_ast *append)
 	return (main);
 }
 
-t_ast	*handle_subshell(t_stack **tokstack)
+bool	is_word(t_stack *token)
 {
-	t_ast	*new;
+	if (!token)
+		return (false);
+	if (token->token->desc == TOK_WORD
+		|| token->token->desc == TOK_QUOTED)
+		return (true);
+	return (false);
+}
 
-	if (!tokstack || !*tokstack || (*tokstack)->token->desc != TOK_SUBSHELL)
-		return (NULL);
-	new = create_ast_node((*tokstack)->token);
-	*tokstack = (*tokstack)->next;
-	return (new);
+bool	is_redirect(t_stack *token)
+{
+	if (!token)
+		return (false);
+	if (token->token->desc == TOK_REDIR_IN
+		|| token->token->desc == TOK_REDIR_OUT
+		|| token->token->desc == TOK_REDIR_APPEND
+		|| token->token->desc == TOK_REDIR_HEREDOC)
+		return (true);
+	return (false);
 }

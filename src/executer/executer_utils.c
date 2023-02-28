@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:12:31 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 16:30:49 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:09:43 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_cmd_table	*redir_get_cmd_table(int redir_fd, t_ast *ast)
 	return (cmd_table);
 }
 
-bool	is_quoted(char desc)
+bool	executer_is_quoted(char desc)
 {
 	if (desc == TOK_QUOTED
 		|| desc == TOK_UNCLOSED_SQUOTE
@@ -48,10 +48,10 @@ bool	is_quoted(char desc)
 	return (false);
 }
 
-bool	is_word(char desc)
+bool	executer_is_word(char desc)
 {
 	if (desc == TOK_WORD || desc == TOK_SUBSHELL
-		|| is_quoted(desc))
+		|| executer_is_quoted(desc))
 		return (true);
 	return (false);
 }
@@ -64,14 +64,14 @@ static char	**create_cmd_arr(t_ast *ast)
 
 	temp = ast;
 	i = 0;
-	while (temp && is_word(temp->token->desc))
+	while (temp && executer_is_word(temp->token->desc))
 	{
 		temp = temp->left;
 		i++;
 	}
 	cmd_arr = ft_malloc_safe(sizeof(char *), i + 1);
 	i = 0;
-	while (ast && is_word(ast->token->desc))
+	while (ast && executer_is_word(ast->token->desc))
 	{
 		cmd_arr[i] = ft_strdup(ast->token->word);
 		if (!cmd_arr[i])

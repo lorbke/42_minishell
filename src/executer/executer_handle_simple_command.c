@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:27:13 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 18:25:40 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:09:52 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_cmd_table	*handle_redir_heredoc(t_ast *ast)
 		ms_exit_status_set(ERR_GENERAL);
 		return (NULL);
 	}
-	if (!is_quoted(ast->right->token->desc))
+	if (!executer_is_quoted(ast->right->token->desc))
 	{
 		gc_add_garbage(ast->right->token->word, NULL);
 		ast->right->token->word = expand_str(ast->right->token->word);

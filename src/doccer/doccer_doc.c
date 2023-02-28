@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doccer_doc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 14:50:13 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 16:40:11 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ static char	*case_parent(pid_t pid, int fd_pipe[2], t_status *exit_status)
 {
 	char	*doc;
 	int		status;
-	int		ret;
 
 	mssignal_change_mode(MSSIG_EXEC);
 	close(fd_pipe[1]);
@@ -96,18 +95,14 @@ static char	*case_parent(pid_t pid, int fd_pipe[2], t_status *exit_status)
 		close(fd_pipe[0]);
 		return (NULL);
 	}
+	else
+		*exit_status = ERR_SUCCESS;
 	if (!isatty(STDIN_FILENO))
 		empty_fd(STDIN_FILENO);
 	doc = ft_calloc(sizeof(char), ARG_MAX + 1);
 	if (!doc)
 		ft_perror_and_exit("case_parent: ft_calloc: malloc:");
-	ret = read(fd_pipe[0], doc, ARG_MAX);
-	if (ret == 0)
-	{
-		free(doc);
-		close(fd_pipe[0]);
-		return (NULL);
-	}
+	read(fd_pipe[0], doc, ARG_MAX);
 	close(fd_pipe[0]);
 	return (doc);
 }
