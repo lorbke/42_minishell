@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:47:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 21:39:18 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 22:02:21 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ char	*add_expanded_var(char *result, char *var, int *result_i)
 		arg = ft_strdup(var);
 	else
 	{
-		arg = utils_ft_realloc(result, ft_strlen(result) + ft_strlen(var) + 1);
-		ft_strlcat(arg, var, ft_strlen(arg) + ft_strlen(var) + 1);
+		arg = ft_strjoin(result, var);
+		free(result);
 	}
 	*result_i = ft_strlen(arg);
 	return (arg);

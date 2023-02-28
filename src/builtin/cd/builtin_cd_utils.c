@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:43:00 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 21:37:59 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:49:51 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,15 @@ int	check_for_dots(char *path, int *i)
 	int	count;
 
 	count = 0;
+	if (path[*i + 1] == '\0' || path[*i + 2] == '\0'
+		|| path[*i + 3] == '\0')
+		return (0);
 	while (ft_strncmp(&path[*i], "..", ft_strlen("..")) == 0)
 	{
 		count++;
+		if (path[*i + 1] == '\0' || path[*i + 2] == '\0'
+			|| path[*i + 3] == '\0')
+			break ;
 		*i += 3;
 	}
 	return (count);
