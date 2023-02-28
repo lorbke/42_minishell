@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_exec_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:50:15 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/27 14:40:38 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:18:01 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,6 @@ pid_t	exec_fork_error(pid_t pid, t_cmd_table *cmd_table)
 
 pid_t	exec_cmd(t_cmd_table *cmd_table, int fd_pipe)
 {
-	char	*path;
-	pid_t	pid;
-	int		status;
 	int		builtin_id;
 
 	debug_cmd_table(cmd_table);

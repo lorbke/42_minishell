@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_try_expansion.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 15:00:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 16:31:20 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:05:49 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ char	*try_expansion(char *result, char *arg, int *i, int *result_i)
 	if (var == NULL)
 		return (NULL);
 	value = expand_var(var);
+	// if (*value == '\0')
+	// {
+	// 	free(value);
+	// 	return (expanded_var);
+	// }
 	if (value != NULL)
 	{
 		trim_whitespaces(value, result);

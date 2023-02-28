@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd_modes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:48:10 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 23:00:48 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:20:04 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static int	cd_back(int count, int i, char *path, char *cwd)
 		}
 		count--;
 	}
-	if (ft_strlen(path) > i)
+	if ((int)ft_strlen(path) > i)
 	{
 		if (chdir(&path[i]) != 0)
 		{

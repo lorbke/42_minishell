@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:30:24 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/27 17:27:16 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 19:18:12 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ t_cmd_table	*handle_and(t_ast *ast)
 	t_cmd_table	*cmd_table_l;
 	t_cmd_table	*cmd_table_r;
 	pid_t		pid_l;
-	int			status;
 
 	debug_message("handling and operation.....\n", 1);
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
@@ -48,7 +47,6 @@ t_cmd_table	*handle_or(t_ast *ast)
 	t_cmd_table	*cmd_table_l;
 	t_cmd_table	*cmd_table_r;
 	pid_t		pid_l;
-	int			status;
 
 	debug_message("handling or operation......\n", 1);
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:47:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 23:22:56 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:18:53 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ char	*add_expanded_var(char *result, char *var, int *result_i)
 char	*get_var(char *arg, int *i)
 {
 	int		j;
-	int		len;
 	char	*var;
 
 	j = check_naming_convention(arg);
@@ -78,7 +77,7 @@ char	*get_var(char *arg, int *i)
 char	*expand_var(char *arg)
 {
 	t_sym_tab	*temp;
-	int			len;
+	size_t		len;
 	char		*value;
 
 	temp = *g_sym_table;

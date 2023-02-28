@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:14:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 14:23:06 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:30:52 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static char	*eval_char(char *result, char *arg, int *i, int *result_i)
 
 	if (arg[*i] == '$' && arg[*i + 1] != '\0' && ft_isspace(arg[*i + 1]) == 0)
 	{
-		if (in_closed_quotes(result, arg, &(*i), &(*result_i)))
+		if (in_closed_quotes(arg, &(*i)))
 			result = add_char_to_str(result, arg[*i], &(*i), &(*result_i));
 		else
 			result = try_expansion(result, arg, &(*i), &(*result_i));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_private.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:33:05 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 13:44:17 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:30:33 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ void	quote_removal(char **argv);
 char	*handle_quotes(char *result, char *str, int *i, int *result_i);
 int		find_closing_quote(char *str, int *i, char quote_type);
 void	skip_quotes_in_quotes(char *str, int *i, int *j);
-int		in_closed_quotes(char *result, char *arg, int *i, int *result_i);
+int		in_closed_quotes(char *arg, int *i);
 
 #endif

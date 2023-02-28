@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   globber_private.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 10:44:19 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 14:10:50 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:22:00 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**get_matching_entries(char *path, char *pattern, char **result);
 
 // globber_outside_cwd
 char	**globbing_outside_cwd(char *path, char *pattern, char **result);
-char	**expand_cwd_dir(char *path, char *pattern, char **result);
+char	**expand_cwd_dir(char *path, char **result);
 char	*create_new_path(char *path, char *entry);
 
 // globber_utils

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   globber_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 19:04:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 16:47:09 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:22:52 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 // get_string_array_len
 
 static char	**add_globbed_vars(char **exp_argv, char **result);
-static char	**add_unglobbed_vars(char **exp_argv, char **result, char **argv);
+static char	**add_unglobbed_vars(char **exp_argv, char **argv);
 
 char	**add_vars(char **exp_argv, char **result, char **argv)
 {
 	if (result != NULL)
 		exp_argv = add_globbed_vars(exp_argv, result);
 	else
-		exp_argv = add_unglobbed_vars(exp_argv, result, argv);
+		exp_argv = add_unglobbed_vars(exp_argv, argv);
 	return (exp_argv);
 }
 
@@ -37,7 +37,7 @@ int	is_valid_entry(struct dirent *entry, char *pattern)
 	return (0);
 }
 
-static char	**add_unglobbed_vars(char **exp_argv, char **result, char **argv)
+static char	**add_unglobbed_vars(char **exp_argv, char **argv)
 {
 	int	i;
 

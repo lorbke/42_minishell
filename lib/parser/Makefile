@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
+#    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/18 13:54:25 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/27 17:07:35 by fyuzhyk          ###   ########.fr        #
+#    Updated: 2023/02/28 18:59:19 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ CC := cc
 AR := ar rcs
 RM := rm -f
 ADD_FLAGS := #-g -fsanitize=address,undefined
-FLAGS := -g -Wall -Wextra -Werror
+FLAGS := -Wall -Wextra -Werror
 
 # library macros
 LIB_PATH := ../

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:25:39 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 16:52:56 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 19:17:31 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdlib.h> // free
 
 static t_stack	*iterate_to_end_and_interpret_heredocs(
-	t_stack *tokstack, char *input, t_status *exit_status)
+	t_stack *tokstack, t_status *exit_status)
 {
 	char	*doc;
 	t_stack	*temp_stack;
@@ -80,7 +80,7 @@ t_stack	*doccer_get_complete_tokstack(char **input, t_status *exit_status)
 	tokstack = lexer_str_to_tokstack(*input);
 	if (!tokstack || !tokstack->next)
 		return (tokstack);
-	prev = iterate_to_end_and_interpret_heredocs(tokstack, *input, exit_status);
+	prev = iterate_to_end_and_interpret_heredocs(tokstack, exit_status);
 	if (!prev)
 		return (tokstack);
 	if (!is_incomplete_input(prev))

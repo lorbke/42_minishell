@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 15:09:32 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:02:02 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	is_num(char *str)
 	i = 0;
 	if (str == NULL || str[i] == '\0')
 		return (0);
-	if (str[i] == '-' || str[i] == '+' && str[i + 1] != '\0')
+	if ((str[i] == '-' || str[i] == '+') && str[i + 1] != '\0')
 		i++;
 	while (str[i] != '\0')
 	{
@@ -73,8 +73,8 @@ static int	is_num(char *str)
 static int	check_value(long long number, int sign, char *str)
 {
 	number *= sign;
-	if (number > 0 && sign == RETURN_ERROR
-		|| number < 0 && sign == 1)
+	if ((number > 0 && sign == RETURN_ERROR)
+		|| (number < 0 && sign == 1))
 	{
 		exit_print_to_stderr(NULL, str);
 		return (RETURN_ERROR);

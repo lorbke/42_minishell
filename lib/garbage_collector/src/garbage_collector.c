@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:14:34 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/22 23:23:26 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 18:37:07 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_garbage	*create_garbage(void *alloc, void (*func_free)(void *))
 {
 	t_garbage	*new;
 
-	new = malloc(sizeof(t_garbage));	
+	new = malloc(sizeof(t_garbage));
 	if (new == NULL)
 	{
 		gc_free_all_garbage();
@@ -52,9 +52,11 @@ static t_garbage	*append_garbage(t_garbage *main, t_garbage *append)
 void	gc_add_garbage(void *alloc, void (*func_free)(void *))
 {
 	t_garbage	*new;
+	t_garbage	**garbage;
 
 	new = create_garbage(alloc, func_free);
-	*garbage_init() = append_garbage(*garbage_init(), new);
+	garbage = garbage_init();
+	*garbage = append_garbage(*garbage_init(), new);
 }
 
 void	*gc_malloc_and_add(size_t size, size_t count)

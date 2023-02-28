@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 16:40:25 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 18:41:57 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,13 @@ static t_ast	*digest_parsing(t_stack *tokstack)
 	return (ast);
 }
 
-static t_stack	*digest_lexing(char *input)
+static t_stack	*digest_lexing(char **input)
 {
 	t_stack		*tokstack;
 	t_status	exit_status;
 
-	tokstack = doccer_get_complete_tokstack(&input, &exit_status);
+	exit_status = ERR_SUCCESS;
+	tokstack = doccer_get_complete_tokstack(input, &exit_status);
 	if (tokstack)
 		gc_add_garbage(tokstack, &lexer_free_tokstack);
 	debug_lexer(tokstack);
@@ -70,9 +71,8 @@ char	*ms_digest_input(char *input)
 {
 	t_stack		*tokstack;
 	t_ast		*ast;
-	t_status	exit_status;
 
-	tokstack = digest_lexing(input);
+	tokstack = digest_lexing(&input);
 	if (!tokstack)
 		return (input);
 	ast = digest_parsing(tokstack);

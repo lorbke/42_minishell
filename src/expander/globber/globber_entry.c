@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   entry.c                                            :+:      :+:    :+:   */
+/*   globber_entry.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:20:36 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 13:48:00 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:21:06 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ char	**get_matching_entries(char *path, char *pattern, char **result)
 {
 	DIR				*dir;
 	struct dirent	*entry;
-	char			*entry_name;
 
 	if (path != NULL)
 		dir = opendir(path);

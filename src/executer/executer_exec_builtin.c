@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 17:05:34 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/27 17:27:49 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 19:04:44 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static pid_t	case_fork(t_cmd_table *cmd_table, int fd_pipe)
 			close(fd_pipe);
 		status = builtin_exec(cmd_table);
 		if (status != ERR_SUCCESS && status != ERR_GENERAL)
-			ms_print_errno(status, cmd_table->cmd[0]);
+			ms_print_errno(cmd_table->cmd[0]);
 		gc_free_all_garbage();
 		env_free_sym_tab(g_sym_table);
 		exit(status);
@@ -59,7 +59,7 @@ static pid_t	case_no_fork(t_cmd_table *cmd_table)
 	status = builtin_exec(cmd_table);
 	ms_exit_status_set(status);
 	if (status != ERR_SUCCESS && status != ERR_GENERAL)
-		ms_print_errno(status, cmd_table->cmd[0]);
+		ms_print_errno(cmd_table->cmd[0]);
 	dup2(fd_temp, STDOUT_FILENO);
 	exec_close_in_out_fds(cmd_table->fd_in, cmd_table->fd_out);
 	close(fd_temp);

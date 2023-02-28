@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:50:47 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 23:01:28 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:19:34 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static int	exec_cd(char *path, char *oldpwd)
 {
 	int	status;
 
+	status = 0;
 	if (ft_strcmp(path, "-") == 0)
 		status = handle_dash(oldpwd);
 	else if (ft_strcmp(path, "..") == 0)

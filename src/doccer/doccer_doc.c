@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 16:40:11 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 19:16:50 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	empty_fd(int fd)
 
 int	doc_heredoc(char *limiter, int fd_write)
 {
-	int		limiter_len;
+	size_t	limiter_len;
 	char	*line;
 
 	remove_quotes_from_string(limiter);
@@ -63,7 +63,7 @@ int	doc_heredoc(char *limiter, int fd_write)
 	return (ERR_SUCCESS);
 }
 
-int	doc_completingdoc(char *placeholder, int fd_write)
+int	doc_completingdoc(__attribute__((unused)) char *placeholder, int fd_write)
 {
 	char	*line;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   globber_outside_cwd.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 14:30:08 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:21:21 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	**globbing_outside_cwd(char *path, char *pattern, char **result)
 	return (result);
 }
 
-char	**expand_cwd_dir(char *path, char *pattern, char **result)
+char	**expand_cwd_dir(char *pattern, char **result)
 {
 	DIR				*dir;
 	struct dirent	*entry;

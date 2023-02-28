@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 13:17:06 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 14:26:48 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:23:30 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	find_closing_quote(char *str, int *i, char quote_type)
 	return (str_len);
 }
 
-int	in_closed_quotes(char *result, char *arg, int *i, int *result_i)
+int	in_closed_quotes(char *arg, int *i)
 {
 	int	j;
 	int	quote_count;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   globber.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:29:31 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 21:34:04 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:25:06 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static char	**check_for_path(char *pattern, char **result)
 		new_path = ft_substr(pattern, 0, i + 1);
 		new_pattern = ft_substr(pattern, i + 1, ft_strlen(pattern));
 		if (ft_strncmp(new_path, "*/", ft_strlen("*/")) == 0)
-			result = expand_cwd_dir(new_path, new_pattern, result);
+			result = expand_cwd_dir(new_path, result);
 		else if (stat(new_path, &buf) == 0)
 			result = globbing_outside_cwd(new_path, new_pattern, result);
 		free(new_path);

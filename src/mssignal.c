@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:37:35 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 02:30:39 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 19:00:47 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@
 /* This is bad practice, calling readline functions inside a signal handler
 can cause undefined behavior (see signal-safety). 
 Unfortunately, the 42_minishell subject does not allow another solution. */
-static void	handle_ctrlc_interactive(int signal)
+static void	handle_ctrlc_interactive()
 {
-	write(STDOUT_FILENO, "\n", 1); 	// will print a new line, so readline will start a new line
-	rl_on_new_line(); // will move the cursor to the beginning of the line
-	rl_replace_line("", 0); // will replace the line buffer with nothing, but won't change what's on the terminal
-	rl_redisplay();  // will display the line buffer on the terminal
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
-static void	handle_ctrlc_doc(int signal)
+static void	handle_ctrlc_doc()
 {
 	write(STDOUT_FILENO, "\n", 1);
 	gc_free_all_garbage();
@@ -53,10 +53,10 @@ static int	set_termios(bool interactive)
 	if (tcgetattr(STDIN_FILENO, &term_set) == RETURN_ERROR)
 		return (EXIT_FAILURE);
 	if (interactive)
-		term_set.c_lflag &= ~ECHOCTL; // this will prevent ^C from being printed (bitwise NOT)
+		term_set.c_lflag &= ~ECHOCTL;
 	else
-		term_set.c_lflag |= ECHOCTL; // restore ^C printing
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &term_set) == RETURN_ERROR) // TCSANOW: change attributes immediately
+		term_set.c_lflag |= ECHOCTL;
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &term_set) == RETURN_ERROR)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
