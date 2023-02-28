@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   globber.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:29:31 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 21:40:17 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/03/01 00:28:12 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ static char	**globbing(char *arg, int *i);
 static char	**check_for_path(char *pattern, char **result);
 
 /**
- * It takes an array of strings, and returns an array of 
+ * It takes an array of strings, and returns an array of
  * strings with the globbing characters expanded
- * 
+ *
  * @param argv The original argument vector.
- * 
+ *
  * @return a pointer to a pointer to a char.
  */
 char	**globber(char **argv)
@@ -58,13 +58,13 @@ char	**globber(char **argv)
 }
 
 /**
- * It takes a string and an index, finds the pattern in 
+ * It takes a string and an index, finds the pattern in
  * the string starting at the index, checks for a
  * path, and returns a list of matching entries
- * 
+ *
  * @param arg the argument to be globbed
  * @param i the index of the current argument
- * 
+ *
  * @return A list of files that match the pattern.
  */
 static char	**globbing(char *arg, int *i)
@@ -82,12 +82,12 @@ static char	**globbing(char *arg, int *i)
 }
 
 /**
- * It checks if the pattern contains a path, and if so, 
+ * It checks if the pattern contains a path, and if so,
  * it expands the pattern in the path
- * 
+ *
  * @param pattern the pattern to be expanded
  * @param result the array of strings that will be returned
- * 
+ *
  * @return The result of the globbing.
  */
 static char	**check_for_path(char *pattern, char **result)
@@ -105,7 +105,7 @@ static char	**check_for_path(char *pattern, char **result)
 		new_path = ft_substr(pattern, 0, i + 1);
 		new_pattern = ft_substr(pattern, i + 1, ft_strlen(pattern));
 		if (ft_strncmp(new_path, "*/", ft_strlen("*/")) == 0)
-			result = expand_cwd_dir(new_path, result);
+			result = expand_cwd_dir(new_pattern, result);
 		else if (stat(new_path, &buf) == 0)
 			result = globbing_outside_cwd(new_path, new_pattern, result);
 		free(new_path);
@@ -118,9 +118,9 @@ static char	**check_for_path(char *pattern, char **result)
  * It takes a filename,
  * globbers it, and returns the filename if there's only one match, or NULL if
  * there's more than one match
- * 
+ *
  * @param filename The filename to glob.
- * 
+ *
  * @return The filename is being returned.
  */
 char	*globber_redirection(char *filename)

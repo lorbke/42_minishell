@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   globber_outside_cwd.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 21:39:56 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/03/01 00:28:17 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ static char	**iterate_over_dir(char *path, char *pattern, char **result);
 static char	**expand_in_valid_path(char *path, char *pattern, char **result);
 
 /**
- * It takes a path and a pattern, and returns an array of 
+ * It takes a path and a pattern, and returns an array of
  * strings containing all the files in the path
  * that match the pattern
- * 
+ *
  * @param path the path to the directory we're currently in
  * @param pattern the pattern to be expanded
  * @param result the array of strings that will be returned
- * 
+ *
  * @return An array of strings.
  */
 char	**globbing_outside_cwd(char *path, char *pattern, char **result)
@@ -61,12 +61,12 @@ char	**globbing_outside_cwd(char *path, char *pattern, char **result)
 }
 
 /**
- * It takes a pattern and a list of matches, and returns a 
+ * It takes a pattern and a list of matches, and returns a
  * list of matches that match the pattern
- * 
+ *
  * @param pattern the pattern to match
  * @param result the array of strings that will be returned
- * 
+ *
  * @return an array of strings.
  */
 char	**expand_cwd_dir(char *pattern, char **result)
@@ -97,14 +97,14 @@ char	**expand_cwd_dir(char *pattern, char **result)
 }
 
 /**
- * It iterates over a directory, and if the entry is valid, it either 
+ * It iterates over a directory, and if the entry is valid, it either
  * adds it to the result array, or
  * it calls globbing_outside_cwd() on the entry
- * 
+ *
  * @param path the path to the directory we're iterating over
  * @param pattern the pattern to match
  * @param result the array of strings that will be returned
- * 
+ *
  * @return The result of the globbing.
  */
 char	*create_new_path(char *path, char *entry)
@@ -119,14 +119,14 @@ char	*create_new_path(char *path, char *entry)
 }
 
 /**
- * It iterates over a directory, and if the entry is valid, it either 
+ * It iterates over a directory, and if the entry is valid, it either
  * adds it to the result array, or
  * it calls globbing_outside_cwd() on the entry
- * 
+ *
  * @param path the path to the directory we're iterating over
  * @param pattern the pattern to match
  * @param result the array of strings that will be returned
- * 
+ *
  * @return The result of the globbing.
  */
 static char	**iterate_over_dir(char *path, char *pattern, char **result)
@@ -161,11 +161,11 @@ static char	**iterate_over_dir(char *path, char *pattern, char **result)
 /**
  * If the path is valid,
  * then globbing_outside_cwd() is called.
- * 
+ *
  * @param path the path to the directory we're currently in
  * @param pattern the pattern to be expanded
  * @param result the array of strings that will be returned
- * 
+ *
  * @return The result of the globbing_outside_cwd function.
  */
 static char	**expand_in_valid_path(char *path, char *pattern, char **result)
