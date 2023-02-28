@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 16:55:45 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:21:03 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,14 @@
 #include <fcntl.h> // STD*_FILENO defines
 #include <stdbool.h> // bool
 
-// @todo documentation with some kind of tool
-// @todo turn on wall werror wextra in every makefile
-// @todo fix norm
-// @todo standardization of file structure
-
+/**
+ * It returns true if the string is empty, false otherwise
+ * 
+ * @param str The string to check.
+ * 
+ * @return The function is_empty_str() returns true if the string is empty,
+ * false otherwise.
+ */
 static bool	is_empty_str(char *str)
 {
 	while (*str)
@@ -47,6 +50,10 @@ static bool	is_empty_str(char *str)
 	return (true);
 }
 
+/**
+ * It reads a line from the user,
+ * digests it, and then adds it to the history
+ */
 void	interactive_mode(void)
 {
 	char	*line;
@@ -69,6 +76,11 @@ void	interactive_mode(void)
 	rl_clear_history();
 }
 
+/**
+ * It reads a line from the standard input,
+ * digests it, frees the memory allocated for the line,
+ * and repeats the process until there's no more input
+ */
 void	non_interactive_mode(void)
 {
 	char	*line;
@@ -83,6 +95,17 @@ void	non_interactive_mode(void)
 	}
 }
 
+/**
+ * It initializes the symbol table, then it calls either 
+ * the interactive or non-interactive mode depending on whether 
+ * the shell is running in a terminal or not
+ * 
+ * @param argc The number of arguments passed to the program.
+ * @param argv The arguments passed to the program.
+ * @param envp The environment variables.
+ * 
+ * @return The exit status of the program.
+ */
 int	main(int argc, char **argv, char **envp)
 {
 	t_status	exit_status;

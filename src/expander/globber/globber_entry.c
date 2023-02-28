@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:20:36 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 19:21:06 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:25:05 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@ static char	**sort_entries(char **result, char *entry);
 static char	**add_first_entry(char *entry, char **result);
 static char	**add_match(char **result, char *entry, char *path, char *pattern);
 
+/**
+ * It adds a new entry to the list of matching entries, and sorts the list
+ * 
+ * @param result the array of strings that will be returned
+ * @param entry the entry to add to the array
+ * 
+ * @return A string array of all the matching entries.
+ */
 char	**add_matching_entry(char **result, char *entry)
 {
 	if (result == NULL)
@@ -30,6 +38,15 @@ char	**add_matching_entry(char **result, char *entry)
 	return (result);
 }
 
+/**
+ * It adds the first entry to the result array.
+ * 
+ * @param path The path to the directory.
+ * @param pattern The pattern to match against.
+ * @param result a pointer to a pointer to a char.
+ * 
+ * @return A pointer to a pointer to a char.
+ */
 char	**get_matching_entries(char *path, char *pattern, char **result)
 {
 	DIR				*dir;
@@ -52,6 +69,16 @@ char	**get_matching_entries(char *path, char *pattern, char **result)
 	return (result);
 }
 
+/**
+ * It adds the first entry to the result array.
+ * 
+ * @param result a pointer to a pointer to a char.
+ * @param entry the string to add to the array
+ * @param path the path to the directory
+ * @param pattern The pattern to match against.
+ * 
+ * @return A pointer to a pointer to a char.
+ */
 static char	**add_match(char **result, char *entry, char *path, char *pattern)
 {
 	char	*entry_name;
@@ -75,6 +102,14 @@ static char	**add_match(char **result, char *entry, char *path, char *pattern)
 	return (result);
 }
 
+/**
+ * It adds the first entry to the result array
+ * 
+ * @param entry the string to add to the array
+ * @param result the array of strings that will be returned
+ * 
+ * @return A pointer to a pointer to a char.
+ */
 static char	**add_first_entry(char *entry, char **result)
 {
 	result = malloc(sizeof(char *) * 2);
@@ -88,6 +123,16 @@ static char	**add_first_entry(char *entry, char **result)
 	return (result);
 }
 
+/**
+ * It takes a list of strings, and a new string, and inserts 
+ * the new string into the list in
+ * alphabetical order
+ * 
+ * @param result the array of strings that will be returned
+ * @param entry the name of the file/directory
+ * 
+ * @return A pointer to a char array.
+ */
 static char	**sort_entries(char **result, char *entry)
 {
 	int		i;

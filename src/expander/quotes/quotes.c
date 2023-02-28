@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:38:45 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 14:26:32 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:29:33 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 #include "../../quotes.h" // remove_quotes_from_string,
 // find_closing_quote, skip_quotes_in_quotes
 
+/**
+ * It removes quotes from a string
+ * 
+ * @param argv The array of strings to be modified.
+ * 
+ * @return the number of words in the string.
+ */
 void	quote_removal(char **argv)
 {
 	int	i;
@@ -29,6 +36,11 @@ void	quote_removal(char **argv)
 	}
 }
 
+/**
+ * It removes quotes from a string
+ * 
+ * @param str the string to remove quotes from
+ */
 void	remove_quotes_from_string(char *str)
 {
 	int	i;

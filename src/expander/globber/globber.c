@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:29:31 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 19:42:33 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:28:39 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@
 static char	**globbing(char *arg, int *i);
 static char	**check_for_path(char *pattern, char **result);
 
+/**
+ * It takes an array of strings, and returns an array of 
+ * strings with the globbing characters expanded
+ * 
+ * @param argv The original argument vector.
+ * 
+ * @return a pointer to a pointer to a char.
+ */
 char	**globber(char **argv)
 {
 	int		i;
@@ -49,6 +57,16 @@ char	**globber(char **argv)
 	return (exp_argv);
 }
 
+/**
+ * It takes a string and an index, finds the pattern in 
+ * the string starting at the index, checks for a
+ * path, and returns a list of matching entries
+ * 
+ * @param arg the argument to be globbed
+ * @param i the index of the current argument
+ * 
+ * @return A list of files that match the pattern.
+ */
 static char	**globbing(char *arg, int *i)
 {
 	char	*pattern;
@@ -63,6 +81,15 @@ static char	**globbing(char *arg, int *i)
 	return (result);
 }
 
+/**
+ * It checks if the pattern contains a path, and if so, 
+ * it expands the pattern in the path
+ * 
+ * @param pattern the pattern to be expanded
+ * @param result the array of strings that will be returned
+ * 
+ * @return The result of the globbing.
+ */
 static char	**check_for_path(char *pattern, char **result)
 {
 	int				i;
@@ -87,6 +114,15 @@ static char	**check_for_path(char *pattern, char **result)
 	return (result);
 }
 
+/**
+ * It takes a filename,
+ * globbers it, and returns the filename if there's only one match, or NULL if
+ * there's more than one match
+ * 
+ * @param filename The filename to glob.
+ * 
+ * @return The filename is being returned.
+ */
 char	*globber_redirection(char *filename)
 {
 	char	**result;

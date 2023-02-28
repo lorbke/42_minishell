@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:14:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 19:30:52 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:30:01 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@
 static char	**copy_argv(char **argv);
 static char	*eval_char(char *result, char *arg, int *i, int *result_i);
 
+/**
+ * It takes an array of strings, expands each string, 
+ * and returns a new array of strings
+ * 
+ * @param argv The original argument vector.
+ * 
+ * @return A new array of strings with the expanded strings.
+ */
 char	**expander(char **argv)
 {
 	int		i;
@@ -48,6 +56,13 @@ char	**expander(char **argv)
 	return (new_argv);
 }
 
+/**
+ * It takes a string, and returns a string with all the spaces removed
+ * 
+ * @param arg the string to be expanded
+ * 
+ * @return A string with all the spaces removed.
+ */
 char	*expand_str(char *arg)
 {
 	char	*result;
@@ -62,6 +77,17 @@ char	*expand_str(char *arg)
 	return (result);
 }
 
+/**
+ * It takes a string, a character, and two integers, 
+ * and returns a string with the character added to it
+ * 
+ * @param result the string that is being built
+ * @param c the character to add to the string
+ * @param i the index of the string being parsed
+ * @param result_i the index of the result string
+ * 
+ * @return A string with the character c added to it.
+ */
 char	*add_char_to_str(char *result, char c, int *i, int *result_i)
 {
 	char	*arg;
@@ -80,6 +106,13 @@ char	*add_char_to_str(char *result, char c, int *i, int *result_i)
 	return (arg);
 }
 
+/**
+ * It copies the array of strings pointed to by argv into a new array of strings
+ * 
+ * @param argv The array of arguments passed to the program.
+ * 
+ * @return A copy of the argv array.
+ */
 static char	**copy_argv(char **argv)
 {
 	int		len;
@@ -101,6 +134,17 @@ static char	**copy_argv(char **argv)
 	return (new_argv);
 }
 
+/**
+ * It handles the expansion of
+ * the argument passed to it
+ * 
+ * @param result the string that will be returned
+ * @param arg the string to be evaluated
+ * @param i the index of the current character in the argument
+ * @param result_i the index of the result string
+ * 
+ * @return A string
+ */
 static char	*eval_char(char *result, char *arg, int *i, int *result_i)
 {
 	static int	d_quotes;

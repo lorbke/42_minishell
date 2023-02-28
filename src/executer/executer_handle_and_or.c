@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:30:24 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 19:18:12 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:24:21 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@
 #include <string.h> // NULL
 #include <unistd.h> // close, pipe
 
+/**
+ * It executes the left side of the `&&` operation, and if it succeeds, 
+ * it executes the right side
+ * 
+ * @param ast the AST node that is being handled
+ * 
+ * @return A command table.
+ */
 t_cmd_table	*handle_and(t_ast *ast)
 {
 	t_cmd_table	*cmd_table_l;
@@ -42,6 +50,15 @@ t_cmd_table	*handle_and(t_ast *ast)
 	return (NULL);
 }
 
+/**
+ * It executes the left side of the AST, and if it returns an error, 
+ * it executes the right side of the
+ * AST
+ * 
+ * @param ast the ast node that is being handled
+ * 
+ * @return A command table.
+ */
 t_cmd_table	*handle_or(t_ast *ast)
 {
 	t_cmd_table	*cmd_table_l;

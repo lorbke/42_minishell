@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:37:54 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 15:47:51 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:17:00 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 #include "libft.h" // ft_strdup, ft_strchr
 #include <stdlib.h> // malloc
 
+/**
+ * It returns a pointer to the first character after the first occurrence of 
+ * the character c in the string str
+ * 
+ * @param str The string to search through.
+ * @param c The character to skip until after.
+ * 
+ * @return A pointer to the first character after the first occurence of 
+ * c in str.
+ */
 char	*skip_until_after_char(char *str, char c)
 {
 	while (*str && *str != c)
@@ -23,6 +33,14 @@ char	*skip_until_after_char(char *str, char c)
 	return (str);
 }
 
+/**
+ * It checks if there's an unclosed quote in a string
+ * 
+ * @param str The string to check.
+ * 
+ * @return The function is_unclosed_quote() returns the type of quote 
+ * that is unclosed.
+ */
 static int	is_unclosed_quote(char *str)
 {
 	char	quote;
@@ -48,6 +66,13 @@ static int	is_unclosed_quote(char *str)
 	return (0);
 }
 
+/**
+ * It returns the type of token that the given word is
+ * 
+ * @param word the word to be described
+ * 
+ * @return the type of token that is being passed in.
+ */
 unsigned char	desc_word(char *word)
 {
 	if (*word == '|' && *(word + 1) != '|')
@@ -75,6 +100,13 @@ unsigned char	desc_word(char *word)
 	return (TOK_WORD);
 }
 
+/**
+ * It creates a new token
+ * 
+ * @param word The word to be tokenized.
+ * 
+ * @return A pointer to a t_token struct.
+ */
 t_token	*create_token(char *word)
 {
 	t_token	*new;
@@ -87,6 +119,14 @@ t_token	*create_token(char *word)
 	return (new);
 }
 
+/**
+ * It creates a new stack node
+ * and returns a pointer to it
+ * 
+ * @param token The token to be added to the stack.
+ * 
+ * @return A pointer to a t_stack struct.
+ */
 t_stack	*create_stack_node(t_token *token)
 {
 	t_stack	*new;

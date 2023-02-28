@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:48:10 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 19:20:04 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:31:47 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@
 static int	cd_oldpwd(char *var, char *oldpwd);
 static int	cd_back(int count, int i, char *path, char *cwd);
 
+/**
+ * It handles the case where the user enters `cd -` as a command
+ * 
+ * @param oldpwd the oldpwd variable from the environment
+ * 
+ * @return The return value is the status of the cd command.
+ */
 int	handle_dash(char *oldpwd)
 {
 	t_sym_tab	*temp;
@@ -43,6 +50,15 @@ int	handle_dash(char *oldpwd)
 	return (1);
 }
 
+/**
+ * It checks for the presence of `..` in the path, and if it finds it, 
+ * it changes the current working
+ * directory to the parent directory of the current working directory
+ * 
+ * @param path The path to the directory we're trying to cd to.
+ * 
+ * @return The return value is the status of the cd_back function.
+ */
 int	handle_dots(char *path)
 {
 	int		i;
@@ -61,6 +77,16 @@ int	handle_dots(char *path)
 	return (status);
 }
 
+/**
+ * It changes the current working directory to the value of the OLDPWD 
+ * environment variable, and sets
+ * the OLDPWD environment variable to the current working directory
+ * 
+ * @param var the name of the environment variable to get the value of.
+ * @param oldpwd the current working directory
+ * 
+ * @return The return value of the function is the error number.
+ */
 static int	cd_oldpwd(char *var, char *oldpwd)
 {
 	char	*path;
@@ -83,6 +109,17 @@ static int	cd_oldpwd(char *var, char *oldpwd)
 	return (0);
 }
 
+/**
+ * It changes the current working directory to the previous directory, 
+ * and then changes it to the directory specified by the path
+ * 
+ * @param count the number of times we need to go back
+ * @param i the index of the path string
+ * @param path the path to the directory to change to
+ * @param cwd current working directory
+ * 
+ * @return The return value of the function.
+ */
 static int	cd_back(int count, int i, char *path, char *cwd)
 {
 	while (count != 0)
@@ -107,6 +144,12 @@ static int	cd_back(int count, int i, char *path, char *cwd)
 	return (0);
 }
 
+/**
+ * It changes the current working directory to the value of 
+ * the HOME environment variable
+ * 
+ * @return The return value is the error number.
+ */
 int	cd_home(void)
 {
 	t_sym_tab	*temp;

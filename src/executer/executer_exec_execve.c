@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 19:40:07 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:23:44 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,20 @@
 #include <stdlib.h> // free
 #include <sys/errno.h> // errno
 
+/**
+ * It forks, and if the child process is created, 
+ * it prepares the file descriptors for the execve call,
+ * and then calls execve
+ * 
+ * @param cmd_table a pointer to a t_cmd_table struct, 
+ * which contains all the information about the
+ * command to be executed.
+ * @param fd_pipe the file descriptor of the pipe to be used for the command.
+ * @param path the path to the executable
+ * @param env The environment variables.
+ * 
+ * @return The pid of the child process.
+ */
 static pid_t	fork_and_execve(
 	t_cmd_table *cmd_table, int fd_pipe, char *path, char **env)
 {
@@ -54,6 +68,16 @@ static pid_t	fork_and_execve(
 	return (pid);
 }
 
+/**
+ * It forks and execve's the command
+ * 
+ * @param cmd_table a pointer to a t_cmd_table struct, 
+ * which contains the command to be executed, the
+ * file descriptors for input and output, and the command's arguments.
+ * @param fd_pipe the file descriptor of the pipe to be used for the command.
+ * 
+ * @return The pid of the child process.
+ */
 pid_t	exec_execve(t_cmd_table *cmd_table, int fd_pipe)
 {
 	pid_t	pid;

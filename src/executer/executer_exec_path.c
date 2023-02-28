@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:44:52 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/27 17:39:37 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:31:24 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,16 @@
 
 #define PATH_ENV "PATH="
 
+/**
+ * It searches for a string in an array of strings
+ * 
+ * @param str_arr a NULL terminated array of strings
+ * @param needle the string to search for
+ * 
+ * @return A pointer to the first occurrence of the string needle 
+ * in the string haystack, or a null
+ * pointer if needle is not part of haystack.
+ */
 static char	*ft_strnstr_arr(char **str_arr, char *needle)
 {
 	int	needle_len;
@@ -30,6 +40,14 @@ static char	*ft_strnstr_arr(char **str_arr, char *needle)
 	return (NULL);
 }
 
+/**
+ * It takes an environment
+ * variable array and returns a string containing the PATH environment variable
+ * 
+ * @param env the environment variables
+ * 
+ * @return The pathset is being returned.
+ */
 static char	*get_pathset(char **env)
 {
 	char	*path_set;
@@ -43,6 +61,16 @@ static char	*get_pathset(char **env)
 	return (path_set);
 }
 
+/**
+ * It takes a list of paths and a command name, and returns the first 
+ * path that contains a valid
+ * executable file with the given name.
+ * 
+ * @param path_arr an array of strings, each string is a path to a directory
+ * @param cmd the command to be executed
+ * 
+ * @return A string that is the path to the command.
+ */
 static char	*get_valid_cmd_str(char **path_arr, char *cmd)
 {
 	char		*temp_str;
@@ -65,6 +93,15 @@ static char	*get_valid_cmd_str(char **path_arr, char *cmd)
 	return (NULL);
 }
 
+/**
+ * It takes a command name and an environment, and returns 
+ * the full path to the command if it exists, or NULL if it doesn't
+ * 
+ * @param env The environment variables.
+ * @param cmd the command to be executed
+ * 
+ * @return A string containing the path to the command to be executed.
+ */
 char	*exec_get_cmd_path(char **env, char *cmd)
 {
 	char		*path_str;

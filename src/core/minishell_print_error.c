@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 17:10:28 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 19:35:11 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:20:15 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@
 #define STR_CMDNOTFOUND ": command not found"
 #define STR_ERRDELIM ": "
 
+/**
+ * It prints a syntax error message to stderr
+ * 
+ * @param desc The description of the syntax error.
+ * @param error_loc The location of the error.
+ */
 void	ms_print_syntax_error(int desc, char *error_loc)
 {
 	if (!desc && !error_loc)
@@ -48,6 +54,13 @@ void	ms_print_syntax_error(int desc, char *error_loc)
 	}
 }
 
+/**
+ * It prints an error message to stderr when a command is not found 
+ * or when the user does not have permission to execute the command
+ * 
+ * @param exit_status The exit status of the command.
+ * @param error_loc The location of the error. 
+ */
 void	ms_print_exec_error(t_status exit_status, char *error_loc)
 {
 	if (exit_status == ERR_CMDNOTFOUND)
@@ -67,6 +80,12 @@ void	ms_print_exec_error(t_status exit_status, char *error_loc)
 	}
 }
 
+/**
+ * It prints the error message
+ * to the standard error output
+ * 
+ * @param error_loc The location of the error.
+ */
 void	ms_print_errno(char *error_loc)
 {
 	ft_putstr_fd(SHELL_NAME, STDERR_FILENO);

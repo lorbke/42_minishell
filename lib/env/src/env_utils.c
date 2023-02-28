@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:20:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 18:49:28 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:32:34 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 
 static int	check_value(t_sym_tab *node);
 
+/**
+ * It creates an array of strings from the linked list of environment variables
+ * 
+ * @param head The head of the linked list.
+ * 
+ * @return A list of environment variables.
+ */
 char	**create_env_list(t_sym_tab **head)
 {
 	int			i;
@@ -45,6 +52,14 @@ char	**create_env_list(t_sym_tab **head)
 	return (env_list);
 }
 
+/**
+ * It takes a string, finds the first '=' character, and returns a
+ * pointer to the character after the '=' character
+ * 
+ * @param var The variable to get the value from.
+ * 
+ * @return The value of the variable.
+ */
 char	*get_value(char *var)
 {
 	char	*value;
@@ -60,6 +75,15 @@ char	*get_value(char *var)
 	return (value);
 }
 
+/**
+ * It checks if the node is NULL, if it is, it returns 0, if it isn't,
+ * it checks if the node's var
+ * contains an equal sign, if it does, it returns 1, if it doesn't, it returns 0
+ * 
+ * @param node The node to check.
+ * 
+ * @return the value of the node.
+ */
 static int	check_value(t_sym_tab *node)
 {
 	if (node == NULL)
@@ -70,6 +94,12 @@ static int	check_value(t_sym_tab *node)
 		return (0);
 }
 
+/**
+ * It checks if a variable is set to a certain value
+ * 
+ * @param var The variable name to check for.
+ * @param value The value to check for.
+ */
 bool	env_is_var_value(char *var, char *value)
 {
 	t_sym_tab	*temp;

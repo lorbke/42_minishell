@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:47:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 19:18:53 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:30:21 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,16 @@
 #include "../utils.h" // check_naming_convention, ft_realloc
 #include "expander_private.h" // add_char_to_str
 
+/**
+ * It expands the tilde character to the user's home directory
+ * 
+ * @param result the string that will be returned
+ * @param arg the string to be expanded
+ * @param i the index of the current character in the argument
+ * @param result_i the index of the result string
+ * 
+ * @return a pointer to a string.
+ */
 char	*tilde_expansion(char *result, char *arg, int *i, int *result_i)
 {
 	char	*home;
@@ -34,6 +44,16 @@ char	*tilde_expansion(char *result, char *arg, int *i, int *result_i)
 	return (expanded_home);
 }
 
+/**
+ * It takes a string, a variable name, and a pointer to an integer, 
+ * and returns a string with the variable expanded
+ * 
+ * @param result the string that will be returned
+ * @param var the variable to be expanded
+ * @param result_i the index of the result string
+ * 
+ * @return A pointer to a string.
+ */
 char	*add_expanded_var(char *result, char *var, int *result_i)
 {
 	int		i;
@@ -51,6 +71,15 @@ char	*add_expanded_var(char *result, char *var, int *result_i)
 	return (arg);
 }
 
+/**
+ * It takes a string and an index, and returns a string containing 
+ * the variable name
+ * 
+ * @param arg The string that contains the variable name.
+ * @param i the index of the argument
+ * 
+ * @return a pointer to a string.
+ */
 char	*get_var(char *arg, int *i)
 {
 	int		j;
@@ -74,6 +103,13 @@ char	*get_var(char *arg, int *i)
 	return (var);
 }
 
+/**
+ * It takes a string as an argument, and returns a string
+ * 
+ * @param arg The argument to be expanded.
+ * 
+ * @return The value of the variable.
+ */
 char	*expand_var(char *arg)
 {
 	t_sym_tab	*temp;

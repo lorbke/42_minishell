@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 18:41:57 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:01:07 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@
 #include "garbage_collector.h" // gc_add_garbage etc.
 #include <stdlib.h> // NULL
 
+/**
+ * It executes the AST
+ * 
+ * @param ast The abstract syntax tree to execute.
+ */
 static void	digest_execution(t_ast *ast)
 {
 	t_status	exit_status;
@@ -32,6 +37,14 @@ static void	digest_execution(t_ast *ast)
 	debug_message("===========================\n", 0);
 }
 
+/**
+ * It takes a token stack,
+ * converts it to an abstract syntax tree, and returns the abstract syntax tree
+ * 
+ * @param tokstack a pointer to a pointer to a token stack.
+ * 
+ * @return The ast is being returned.
+ */
 static t_ast	*digest_parsing(t_stack *tokstack)
 {
 	t_ast	*ast;
@@ -49,6 +62,14 @@ static t_ast	*digest_parsing(t_stack *tokstack)
 	return (ast);
 }
 
+/**
+ * It takes a string,
+ * and returns a stack of tokens
+ * 
+ * @param input a pointer to a string that contains the input to be parsed.
+ * 
+ * @return A pointer to a t_stack struct.
+ */
 static t_stack	*digest_lexing(char **input)
 {
 	t_stack		*tokstack;
@@ -67,6 +88,14 @@ static t_stack	*digest_lexing(char **input)
 	return (tokstack);
 }
 
+/**
+ * It takes a string,
+ * lexes it, parses it, and executes it
+ * 
+ * @param input The input string.
+ * 
+ * @return The input string.
+ */
 char	*ms_digest_input(char *input)
 {
 	t_stack		*tokstack;

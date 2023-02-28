@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 17:22:41 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 18:33:21 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 20:21:59 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,6 @@ Backus-Naur-Form (BNF) grammar:
 	<simple_cmd> ::=  { ( <redirect> | <word> ) }
 	<redirect>   ::=  ( '<' | '>' | '<<' | '>>' ) <word>
 	<word>       ::=  ( any character except certain special characters )
-
-If a part of the token stack does not match the grammar, the parser will stop
-parsing and return the ast that was created so far.
-The token stack pointer will point to the first token that was not parsed.
 */
 
 #ifndef PARSER_H
