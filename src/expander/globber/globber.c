@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:29:31 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 21:34:04 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 18:22:49 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,30 @@ static char	**check_for_path(char *pattern, char **result)
 		free(new_pattern);
 	}
 	return (result);
+}
+
+char	*globber_redirection(char *filename)
+{
+	char	**result;
+	int		len;
+
+	result = malloc(sizeof(char *) * 2);
+	result[0] = ft_strdup(filename);
+	result[1] = NULL;
+	result = globber(result);
+	len = get_string_array_len(result);
+	if (len == 1)
+	{
+		free(filename);
+		filename = ft_strdup(result[0]);
+	}
+	else if (len > 1)
+	{
+		// @note should filename be freed here?
+		free(filename);
+		free_split(result);
+		return (NULL);
+	}
+	free_split(result);
+	return (filename);
 }
