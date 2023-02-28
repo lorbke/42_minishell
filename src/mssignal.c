@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mssignal.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:37:35 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 02:30:39 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 16:23:34 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 #include <stdbool.h> // bool
 
 /* This is bad practice, calling readline functions inside a signal handler
-can cause undefined behavior (see signal-safety). 
+can cause undefined behavior (see signal-safety).
 Unfortunately, the 42_minishell subject does not allow another solution. */
-static void	handle_ctrlc_interactive(int signal)
+static void	handle_ctrlc_interactive(void)
 {
 	write(STDOUT_FILENO, "\n", 1); 	// will print a new line, so readline will start a new line
 	rl_on_new_line(); // will move the cursor to the beginning of the line
@@ -35,7 +35,7 @@ static void	handle_ctrlc_interactive(int signal)
 	rl_redisplay();  // will display the line buffer on the terminal
 }
 
-static void	handle_ctrlc_doc(int signal)
+static void	handle_ctrlc_doc(void)
 {
 	write(STDOUT_FILENO, "\n", 1);
 	gc_free_all_garbage();
