@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 15:00:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 19:05:49 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 19:34:16 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 static char	*set_exit_status_var(int *i);
 static void	trim_whitespaces(char *expanded_var, char *result);
 
+#include <stdio.h>
 char	*try_expansion(char *result, char *arg, int *i, int *result_i)
 {
 	char	*var;

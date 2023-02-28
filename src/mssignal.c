@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:37:35 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 19:00:47 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 19:33:34 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 #include <stdbool.h> // bool
 
 /* This is bad practice, calling readline functions inside a signal handler
-can cause undefined behavior (see signal-safety). 
+can cause undefined behavior (see signal-safety).
 Unfortunately, the 42_minishell subject does not allow another solution. */
-static void	handle_ctrlc_interactive()
+static void	handle_ctrlc_interactive(void)
 {
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
@@ -35,7 +35,7 @@ static void	handle_ctrlc_interactive()
 	rl_redisplay();
 }
 
-static void	handle_ctrlc_doc()
+static void	handle_ctrlc_doc(void)
 {
 	write(STDOUT_FILENO, "\n", 1);
 	gc_free_all_garbage();

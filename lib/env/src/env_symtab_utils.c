@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:03:21 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 18:52:10 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 14:59:44 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char	*increase_shlvl(char *shlvl)
 	lvl_str = ft_itoa(lvl);
 	new_shlvl = ft_strjoin("SHLVL=", lvl_str);
 	free(lvl_str);
+	free(shlvl);
 	return (new_shlvl);
 }
 

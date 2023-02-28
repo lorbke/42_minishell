@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_handle_simple_command.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:27:13 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 16:01:20 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 19:09:52 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "../minishell.h" // ERR_* defines
 #include "../debugger.h" // debug functions
 #include "../expander.h" // expander
+#include "../globber.h" // globber
 #include "garbage_collector.h" // gc_add_garbage
 #include <sys/fcntl.h> // open
 #include <string.h> // NULL
@@ -70,6 +71,7 @@ t_cmd_table	*handle_redir_append(t_ast *ast)
 	int			fd;
 
 	debug_message("handling redirection append\n", 1);
+	ast->right->token->word = globber_redirection(ast->right->token->word);
 	fd = open(ast->right->token->word, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	cmd_table = redir_get_cmd_table(fd, ast);
 	if (!cmd_table)
@@ -85,6 +87,7 @@ t_cmd_table	*handle_redir_in(t_ast *ast)
 	int			fd;
 
 	debug_message("handling redirection in....\n", 1);
+	ast->right->token->word = globber_redirection(ast->right->token->word);
 	fd = open(ast->right->token->word, O_RDONLY);
 	cmd_table = redir_get_cmd_table(fd, ast);
 	if (!cmd_table)
@@ -100,6 +103,7 @@ t_cmd_table	*handle_redir_out(t_ast *ast)
 	int			fd;
 
 	debug_message("handling redirection out...\n", 1);
+	ast->right->token->word = globber_redirection(ast->right->token->word);
 	fd = open(ast->right->token->word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	cmd_table = redir_get_cmd_table(fd, ast);
 	if (!cmd_table)
