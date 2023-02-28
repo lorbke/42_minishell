@@ -1,5 +1,5 @@
 
-## Dependencies
+# Dependencies
 ### Install readline with [brew](https://brew.sh/)
 ```
 brew install readline
@@ -39,3 +39,6 @@ echo 'export LIBRARY_PATH="$HOME/.brew/lib:$LIBRARY_PATH"' >> ~/.zshrc
 ```
 source ~/.zshrc
 ```
+
+<br>
+<hr>
