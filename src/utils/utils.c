@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:17:47 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 16:53:13 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 13:59:25 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,6 @@ void	free_split(char **split)
 		i++;
 	}
 	free(temp);
-}
-
-void	env_free_sym_tab(t_sym_tab **head)
-{
-	t_sym_tab	*temp;
-
-	while (*head != NULL)
-	{
-		temp = *head;
-		*head = (*head)->next;
-		free(temp->var);
-		free(temp);
-	}
-	if (head == NULL)
-		return ;
-	free(head);
 }
 
 int	ft_strcmp(const char *s1, const char *s2)

@@ -6,12 +6,12 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:00:37 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 18:56:02 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 13:58:44 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // t_sym_tab, add_to_back, get_value, increase_shlvl
-#include "libft.h" // free, ft_strdup, ft_strlcpy, ft_strncmp
+#include "libft.h" // free, ft_strdup, ft_strlcpy, ft_strncmp. ft_strlen
 
 t_sym_tab	**init_sym_tab(char **envp)
 {
@@ -57,12 +57,28 @@ void	init_exit_status(t_sym_tab **head)
 	t_sym_tab	*node;
 	char		*var;
 
-	var = malloc(sizeof(char) * 6);
+	var = malloc(sizeof(char) * ft_strlen("?=0") + 1);
 	if (var == NULL)
 		return ;
-	ft_strlcpy(var, "?=0", 6);
+	ft_strlcpy(var, "?=0", ft_strlen("?=0") + 1);
 	node = new_sym_tab_node(var);
 	if (node && var)
 		free(var);
 	add_to_back(head, node);
+}
+
+void	env_free_sym_tab(t_sym_tab **head)
+{
+	t_sym_tab	*temp;
+
+	while (*head != NULL)
+	{
+		temp = *head;
+		*head = (*head)->next;
+		free(temp->var);
+		free(temp);
+	}
+	if (head == NULL)
+		return ;
+	free(head);
 }

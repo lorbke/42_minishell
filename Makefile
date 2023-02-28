@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/28 16:25:08 by lorbke           ###   ########.fr        #
+#    Updated: 2023/02/28 16:33:35 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,7 @@ GNL_LIB = gnl
 GNL_LINK = -L$(GNL_PATH) -l$(GNL_LIB)
 RDLN_LIB := readline
 GLBR_PATH := expander/globber
+QUOTE_PATH := expander/quotes
 
 # src and obj files macros
 SRC_PATH := src
@@ -65,7 +66,7 @@ SRC := $(wildcard $(SRC_PATH)/*.c) $(wildcard $(SRC_PATH)/*/*.c) $(wildcard $(SR
 OBJ := $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 
 # VPATH
-VPATH := $(SRC_PATH) $(SRC_PATH)/debugger $(SRC_PATH)/executer $(SRC_PATH)/doccer $(SRC_PATH)/builtins $(SRC_PATH)/builtins/cd $(SRC_PATH)/builtins/export $(SRC_PATH)/expander $(SRC_PATH)/utils $(SRC_PATH)/$(GLBR_PATH)
+VPATH := $(SRC_PATH) $(SRC_PATH)/debugger $(SRC_PATH)/executer $(SRC_PATH)/doccer $(SRC_PATH)/builtin $(SRC_PATH)/builtin/cd $(SRC_PATH)/builtin/export $(SRC_PATH)/expander $(SRC_PATH)/utils $(SRC_PATH)/$(GLBR_PATH) $(SRC_PATH)/$(QUOTE_PATH)
 
 # file targets
 $(NAME): $(OBJ_PATH) $(OBJ)

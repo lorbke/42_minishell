@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_private.h                                   :+:      :+:    :+:   */
+/*   quotes.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/15 17:37:28 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 15:14:05 by fyuzhyk          ###   ########.fr       */
+/*   Created: 2023/02/28 14:16:25 by fyuzhyk           #+#    #+#             */
+/*   Updated: 2023/02/28 14:28:04 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPORT_PRIVATE_H
-# define EXPORT_PRIVATE_H
+#ifndef QUOTES_H
+# define QUOTES_H
 
-# include "env.h"
+// quotes
+void	quote_removal(char **argv);
+void	remove_quotes_from_string(char *str);
 
-char	*init_var_name(char *var);
-char	*init_var_value(char *var, char *var_name);
-int		update_if_exists(char *var_name, char *var_value);
-int		check_if_var_exists(t_sym_tab *temp, char *var_name);
+// quotes_utils
+char	*handle_quotes(char *result, char *str, int *i, int *result_i);
+int		in_closed_quotes(char *result, char *arg, int *i, int *result_i);
+int		find_closing_quote(char *str, int *i, char quote_type);
+void	skip_quotes_in_quotes(char *str, int *i, int *j);
 
 #endif

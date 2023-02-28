@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 15:07:26 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 16:33:07 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "../mssignal.h" // mssignal_change_mode
 #include "../minishell.h" // exit_status functions
 #include "garbage_collector.h" // gc_free_all_garbage
-#include "../expander.h" // expander_remove_quotes
+#include "../quotes.h" // remove_quotes_from_string
 #include <stdio.h> // FILE
 #include <readline/readline.h> // readline
 #include <stdlib.h> // malloc, free
@@ -44,7 +44,7 @@ int	doc_heredoc(char *limiter, int fd_write)
 	int		limiter_len;
 	char	*line;
 
-	expander_remove_quotes(limiter);
+	remove_quotes_from_string(limiter);
 	limiter_len = ft_strlen(limiter);
 	while (1)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/27 18:48:12 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 14:07:38 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_status	exit_status;
 
+	(void)argc;
+	(void)argv;
 	g_sym_table = init_sym_tab(envp);
 	init_exit_status(g_sym_table);
 	if (isatty(STDIN_FILENO))

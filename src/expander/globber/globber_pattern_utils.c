@@ -6,14 +6,15 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:29:57 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 16:31:28 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 13:51:18 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // malloc, ft_strlen
 
-static void	set_match(char *pattern, int *i, char *match, int *quote_c);
 static int	is_match_valid(char *pattern, char *entry, int *i, int *p_i);
+static void	skip_and_set(char *pattern, int *i, char *match);
+static void	set_match(char *pattern, int *i, char *match, int *quote_c);
 static int	is_outside_quotes(int *i, int *quote_c);
 
 int	is_match(char *entry, char *pattern)

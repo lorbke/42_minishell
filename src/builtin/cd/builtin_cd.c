@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:50:47 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 17:12:25 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/27 23:01:28 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,7 @@ static int	exec_cd(char *path, char *oldpwd)
 	else
 	{
 		if (chdir(path) != 0)
-		{
-			ft_perror("cd", path);
 			return (errno);
-		}
 		set_path("OLDPWD", oldpwd);
 	}
 	if (status == 0)

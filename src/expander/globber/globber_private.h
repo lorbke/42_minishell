@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 10:44:19 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 16:43:30 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 14:10:50 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,24 @@
 # include <dirent.h> // opendir, readdir, closedir
 # include <sys/stat.h> // stat
 
-// globbing
-char	*create_new_path(char *path, char *entry);
+// globber_entry
 char	**add_matching_entry(char **result, char *entry);
-char	**add_vars(char **exp_argv, char **result, char **argv);
+char	**get_matching_entries(char *path, char *pattern, char **result);
+
+// globber_outside_cwd
 char	**globbing_outside_cwd(char *path, char *pattern, char **result);
 char	**expand_cwd_dir(char *path, char *pattern, char **result);
+char	*create_new_path(char *path, char *entry);
 
-// pattern
+// globber_utils
+char	**add_vars(char **exp_argv, char **result, char **argv);
+int		is_valid_entry(struct dirent *entry, char *pattern);
+
+// globber_pattern
 char	*find_pattern(char *arg, int *i);
 char	**pattern_over(char **result, char *entry, char *path);
-int		is_match(char *entry, char *pattern);
-int		ft_strcmp(const char *s1, const char *s2);
 
-// entries
-int		is_valid_entry(struct dirent *entry, char *pattern);
-char	**get_matching_entries(char *path, char *pattern, char **result);
+// globber_pattern_utils
+int		is_match(char *entry, char *pattern);
 
 #endif

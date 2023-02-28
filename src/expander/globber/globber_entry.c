@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:20:36 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 22:25:46 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 13:48:00 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 static char	**sort_entries(char **result, char *entry);
 static char	**add_first_entry(char *entry, char **result);
+static char	**add_match(char **result, char *entry, char *path, char *pattern);
 
 char	**add_matching_entry(char **result, char *entry)
 {
@@ -25,29 +26,6 @@ char	**add_matching_entry(char **result, char *entry)
 	{
 		result = realloc_string_array(result, 1);
 		result = sort_entries(result, entry);
-	}
-	return (result);
-}
-
-char	**add_if_match(char **result, char *entry, char *path, char *pattern)
-{
-	char	*entry_name;
-
-	if (is_match(entry, pattern))
-	{
-		if (path != NULL)
-		{
-			entry_name = ft_strjoin(path, entry);
-			result = add_matching_entry(result, entry_name);
-			free(entry_name);
-		}
-		else
-		{
-			entry_name = malloc(sizeof(char) * ft_strlen(entry) + 1);
-			ft_strlcpy(entry_name, entry, ft_strlen(entry) + 1);
-			result = add_matching_entry(result, entry_name);
-			free(entry_name);
-		}
 	}
 	return (result);
 }
@@ -68,10 +46,33 @@ char	**get_matching_entries(char *path, char *pattern, char **result)
 		if (entry == NULL)
 			break ;
 		if (entry->d_name[0] != '.' || ft_strcmp(pattern, ".*") == 0)
-			result = add_if_match(result, entry->d_name, path, pattern);
+			result = add_match(result, entry->d_name, path, pattern);
 	}
 	if (dir != NULL)
 		closedir(dir);
+	return (result);
+}
+
+static char	**add_match(char **result, char *entry, char *path, char *pattern)
+{
+	char	*entry_name;
+
+	if (is_match(entry, pattern))
+	{
+		if (path != NULL)
+		{
+			entry_name = ft_strjoin(path, entry);
+			result = add_matching_entry(result, entry_name);
+			free(entry_name);
+		}
+		else
+		{
+			entry_name = malloc(sizeof(char) * ft_strlen(entry) + 1);
+			ft_strlcpy(entry_name, entry, ft_strlen(entry) + 1);
+			result = add_matching_entry(result, entry_name);
+			free(entry_name);
+		}
+	}
 	return (result);
 }
 
