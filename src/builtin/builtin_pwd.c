@@ -6,12 +6,12 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:45:14 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 21:12:01 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:37:34 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // ft_strjoin
-#include "../utils.h" // ft_perror
+#include "../utils.h" // utils_ft_perror
 #include <stdio.h> // printf
 #include <errno.h> // errno
 #include <unistd.h> // getcwd
@@ -33,7 +33,7 @@ int	pwd_b(char **argv)
 		printf("%s\n", cwd);
 	else
 	{
-		ft_perror("pwd", cwd);
+		utils_ft_perror("pwd", cwd);
 		return (errno);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:20:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 21:32:34 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:36:32 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	check_value(t_sym_tab *node);
  * 
  * @return A list of environment variables.
  */
-char	**create_env_list(t_sym_tab **head)
+char	**env_create_env_list(t_sym_tab **head)
 {
 	int			i;
 	int			len;
@@ -60,7 +60,7 @@ char	**create_env_list(t_sym_tab **head)
  * 
  * @return The value of the variable.
  */
-char	*get_value(char *var)
+char	*env_get_value(char *var)
 {
 	char	*value;
 	char	*ptr_to_value;

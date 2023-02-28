@@ -6,11 +6,12 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:00:37 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 21:15:48 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:36:13 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h" // t_sym_tab, add_to_back, get_value, increase_shlvl
+#include "env.h" // t_sym_tab, env_add_to_back, env_get_value, increase_shlvl
+#include "env_private.h" // increase_shlvl
 #include "libft.h" // free, ft_strdup, ft_strlcpy, ft_strncmp. ft_strlen
 
 /**
@@ -22,7 +23,7 @@
  * 
  * @return A pointer to a pointer to a t_sym_tab struct.
  */
-t_sym_tab	**init_sym_tab(char **envp)
+t_sym_tab	**env_init_sym_tab(char **envp)
 {
 	t_sym_tab	**head;
 	char		*var;
@@ -36,10 +37,10 @@ t_sym_tab	**init_sym_tab(char **envp)
 	while (*envp != NULL)
 	{
 		if (ft_strncmp(*envp, "SHLVL=", ft_strlen("SHLVL=")) == 0)
-			var = increase_shlvl(get_value(*envp));
+			var = increase_shlvl(env_get_value(*envp));
 		else
 			var = ft_strdup(*envp);
-		add_to_back(head, new_sym_tab_node(var));
+		env_add_to_back(head, env_new_sym_tab_node(var));
 		free(var);
 		envp++;
 	}
@@ -53,7 +54,7 @@ t_sym_tab	**init_sym_tab(char **envp)
  * 
  * @return A pointer to a t_sym_tab struct.
  */
-t_sym_tab	*new_sym_tab_node(char *var)
+t_sym_tab	*env_new_sym_tab_node(char *var)
 {
 	t_sym_tab	*node;
 
@@ -76,7 +77,7 @@ t_sym_tab	*new_sym_tab_node(char *var)
  * 
  * @return A pointer to a new node.
  */
-void	init_exit_status(t_sym_tab **head)
+void	env_init_exit_status(t_sym_tab **head)
 {
 	t_sym_tab	*node;
 	char		*var;
@@ -85,10 +86,10 @@ void	init_exit_status(t_sym_tab **head)
 	if (var == NULL)
 		return ;
 	ft_strlcpy(var, "?=0", ft_strlen("?=0") + 1);
-	node = new_sym_tab_node(var);
+	node = env_new_sym_tab_node(var);
 	if (node && var)
 		free(var);
-	add_to_back(head, node);
+	env_add_to_back(head, node);
 }
 
 /**

@@ -6,13 +6,13 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:17:44 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 21:27:50 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:40:03 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // malloc, ft_strlen
 #include "globber_private.h" // create_new_path
-#include "../../utils.h" // realloc_string_array, get_string_array_len
+#include "../../utils.h" // utils_realloc_str_arr, utils_get_str_array_len
 
 static void	scan_char(char **arg, char **pattern, int *astrsk_c, int *quote_c);
 static void	set_char(char **arg, char **pattern, int *astrsk_c, int *quote_c);
@@ -70,8 +70,8 @@ char	**pattern_over(char **result, char *entry, char *path)
 	i = 0;
 	if (result != NULL)
 	{
-		i = get_string_array_len(result);
-		result = realloc_string_array(result, 2);
+		i = utils_get_str_array_len(result);
+		result = utils_realloc_str_arr(result, 2);
 	}
 	else
 	{

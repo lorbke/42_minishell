@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_private.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:33:05 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 19:30:33 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 20:30:58 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,14 @@ char	*get_var(char *arg, int *i);
 char	*expand_var(char *arg);
 
 // expander
-char	*add_char_to_str(char *result, char c, int *i, int *result_i);
+char	*expander_char_to_str(char *result, char c, int *i, int *result_i);
 
 // quotes
 void	quote_removal(char **argv);
 
 // quotes_utils
-char	*handle_quotes(char *result, char *str, int *i, int *result_i);
-int		find_closing_quote(char *str, int *i, char quote_type);
-void	skip_quotes_in_quotes(char *str, int *i, int *j);
-int		in_closed_quotes(char *arg, int *i);
+char	*quotes_handle_quotes(char *result, char *str, int *i, int *result_i);
+int		quotes_find_closing_quote(char *str, int *i, char quote_type);
+int		quotes_in_closed_quotes(char *arg, int *i);
 
 #endif

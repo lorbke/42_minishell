@@ -6,16 +6,17 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 14:17:47 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 13:59:25 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 20:40:41 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // t_sym_tab
 #include "libft.h" // free, ft_isalpha, ft_isalnum
-#include "../utils.h" // free_split, free_list, ft_perror, ft_strcmp
+#include "../utils.h" // utils_free_split, free_list, utils_ft_perror,
+// utils_ft_strcmp
 #include <stdio.h> // perror
 
-void	free_split(char **split)
+void	utils_free_split(char **split)
 {
 	int		i;
 	char	**temp;
@@ -32,7 +33,7 @@ void	free_split(char **split)
 	free(temp);
 }
 
-int	ft_strcmp(const char *s1, const char *s2)
+int	utils_ft_strcmp(const char *s1, const char *s2)
 {
 	int	i;
 
@@ -42,7 +43,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 	return (s1[i] - s2[i]);
 }
 
-int	check_naming_convention(char *var)
+int	utils_check_naming_convention(char *var)
 {
 	int	i;
 
@@ -57,7 +58,7 @@ int	check_naming_convention(char *var)
 	return (i);
 }
 
-int	get_string_array_len(char **array)
+int	utils_get_str_array_len(char **array)
 {
 	int	i;
 

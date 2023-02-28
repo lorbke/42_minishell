@@ -6,15 +6,15 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:47:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 21:30:21 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:39:18 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h" // g_sym_table, get_value
+#include "env.h" // g_sym_table, env_get_value
 #include "libft.h" // NULL, malloc, free, ft_isalpha, ft_isalnum, ft_strlen,
 // ft_strncmp, ft_strchr, ft_strlcat, ft_strlcpy
-#include "../utils.h" // check_naming_convention, ft_realloc
-#include "expander_private.h" // add_char_to_str
+#include "../utils.h" // utils_check_naming_convention, utils_ft_realloc
+#include "expander_private.h" // expander_char_to_str
 
 /**
  * It expands the tilde character to the user's home directory
@@ -33,14 +33,14 @@ char	*tilde_expansion(char *result, char *arg, int *i, int *result_i)
 
 	home = expand_var("HOME");
 	if ((result || arg[*i + 1] != '/') && ft_strlen(arg) > 1)
-		expanded_home = add_char_to_str(result, '~', &(*i), &(*result_i));
+		expanded_home = expander_char_to_str(result, '~', &(*i), &(*result_i));
 	else if (home != NULL)
 	{
 		expanded_home = add_expanded_var(result, home, &(*result_i));
 		(*i)++;
 	}
 	else
-		expanded_home = add_char_to_str(result, '~', &(*i), &(*result_i));
+		expanded_home = expander_char_to_str(result, '~', &(*i), &(*result_i));
 	return (expanded_home);
 }
 
@@ -64,7 +64,7 @@ char	*add_expanded_var(char *result, char *var, int *result_i)
 		arg = ft_strdup(var);
 	else
 	{
-		arg = ft_realloc(result, ft_strlen(result) + ft_strlen(var) + 1);
+		arg = utils_ft_realloc(result, ft_strlen(result) + ft_strlen(var) + 1);
 		ft_strlcat(arg, var, ft_strlen(arg) + ft_strlen(var) + 1);
 	}
 	*result_i = ft_strlen(arg);
@@ -85,7 +85,7 @@ char	*get_var(char *arg, int *i)
 	int		j;
 	char	*var;
 
-	j = check_naming_convention(arg);
+	j = utils_check_naming_convention(arg);
 	if (j == 0)
 	{
 		var = malloc(sizeof(char) * ft_strlen(arg) - 1);
@@ -128,7 +128,7 @@ char	*expand_var(char *arg)
 		if (ft_strncmp(arg, temp->var, len) == 0)
 		{
 			if (ft_strchr(temp->var, '=') != NULL)
-				value = get_value(temp->var);
+				value = env_get_value(temp->var);
 			else
 				value = NULL;
 			break ;

@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:27:02 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 16:54:39 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 20:25:19 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 
 # include "env.h" // t_sym_tab
 
-t_sym_tab	*copy_node(t_sym_tab *node);
+// env_symtab_utils
+t_sym_tab	*env_copy_node(t_sym_tab *node);
 t_sym_tab	*get_last_node(t_sym_tab *lst);
+char		*increase_shlvl(char *shlvl);
+int			get_list_len(t_sym_tab **head);
 
 #endif

@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:13:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 19:20:45 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 20:32:09 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h" // g_sym_table, add_to_back, new_sym_tab_node
+#include "env.h" // g_sym_table, env_add_to_back, env_new_sym_tab_node
 #include "libft.h" // ft_strchr, ft_strjoin, ft_strdup, ft_strlen, ft_strncmp
 #include "../../utils.h" // free_list
 #include "export_private.h" // init_var_name, init_var_value,
 // check_if_var_exists
-#include "../../../lib/env/src/env_private.h" // copy_node
+#include "../../../lib/env/src/env_private.h" // env_copy_node
 #include <stdio.h> // printf
 
 static int	export_var(char *var);
@@ -69,7 +69,7 @@ static int	export_var(char *var)
 		free(variable);
 		variable = ft_strjoin(var_name, var_value);
 	}
-	add_to_back(g_sym_table, new_sym_tab_node(variable));
+	env_add_to_back(g_sym_table, env_new_sym_tab_node(variable));
 	free(var_name);
 	free(var_value);
 	free(variable);
@@ -107,10 +107,10 @@ static void	insertion_sort(t_sym_tab **head, t_sym_tab *node)
 	t_sym_tab	*current;
 
 	i = 0;
-	temp = copy_node(node);
+	temp = env_copy_node(node);
 	if (temp == NULL)
 		return ;
-	if (*head == NULL || ft_strcmp((*head)->var, temp->var) >= 0)
+	if (*head == NULL || utils_ft_strcmp((*head)->var, temp->var) >= 0)
 	{
 		if (*head == NULL)
 			temp->next = NULL;
@@ -122,7 +122,7 @@ static void	insertion_sort(t_sym_tab **head, t_sym_tab *node)
 	{
 		current = *head;
 		while (current->next != NULL
-			&& ft_strcmp(current->next->var, temp->var) < 0)
+			&& utils_ft_strcmp(current->next->var, temp->var) < 0)
 			current = current->next;
 		temp->next = current->next;
 		current->next = temp;

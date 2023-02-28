@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 21:19:17 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:37:25 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	builtin_exit_b(char **argv)
 	long long	exit_code;
 
 	exit_code = ms_exit_status_get();
-	argc = get_string_array_len(argv);
+	argc = utils_get_str_array_len(argv);
 	ft_putstr_fd("exit\n", STDIN_FILENO);
 	if (argc >= 2)
 	{
@@ -47,7 +47,7 @@ int	builtin_exit_b(char **argv)
 			exit_code = ft_atoi_long(argv[1]) % 256;
 		else if (argc > 2)
 		{
-			exit_print_to_stderr("too many arguments\n", NULL);
+			utils_exit_print_to_stderr("too many arguments\n", NULL);
 			ms_exit_status_set(1);
 			exit_code = ms_exit_status_get();
 			return (exit_code);
@@ -98,7 +98,7 @@ static int	check_value(long long number, int sign, char *str)
 	if ((number > 0 && sign == RETURN_ERROR)
 		|| (number < 0 && sign == 1))
 	{
-		exit_print_to_stderr(NULL, str);
+		utils_exit_print_to_stderr(NULL, str);
 		return (RETURN_ERROR);
 	}
 	return (number);
@@ -149,7 +149,7 @@ static void	exit_non_numeric(char **argv)
 {
 	long long	exit_code;
 
-	exit_print_to_stderr(NULL, argv[1]);
+	utils_exit_print_to_stderr(NULL, argv[1]);
 	exit_code = ms_exit_status_get();
 	gc_free_all_garbage();
 	env_free_sym_tab(g_sym_table);

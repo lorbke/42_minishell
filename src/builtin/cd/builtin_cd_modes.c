@@ -6,13 +6,13 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:48:10 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 21:31:47 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:37:53 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // t_sym_tab, g_sym_table
 #include "libft.h" // free, ft_strncmp, ft_strlen, ft_putstr_fd
-#include "../../utils.h" // ft_perror, get_value
+#include "../../utils.h" // utils_ft_perror, env_get_value
 #include "cd_private.h" // check_for_dots, set_path, get_path
 #include <errno.h> // errno
 #include <unistd.h> // chdir, getcwd
@@ -91,7 +91,7 @@ static int	cd_oldpwd(char *var, char *oldpwd)
 {
 	char	*path;
 
-	path = get_value(var);
+	path = env_get_value(var);
 	if (path == NULL)
 	{
 		ft_putstr_fd("minishell: cd: OLDPWD not set\n", STDERR_FILENO);
@@ -99,7 +99,7 @@ static int	cd_oldpwd(char *var, char *oldpwd)
 	}
 	if (chdir(path) != 0)
 	{
-		ft_perror("cd", path);
+		utils_ft_perror("cd", path);
 		free(path);
 		return (errno);
 	}
@@ -126,7 +126,7 @@ static int	cd_back(int count, int i, char *path, char *cwd)
 	{
 		if (change_prev_dir() != 0)
 		{
-			ft_perror("cd", path);
+			utils_ft_perror("cd", path);
 			return (errno);
 		}
 		count--;
@@ -136,8 +136,8 @@ static int	cd_back(int count, int i, char *path, char *cwd)
 		if (chdir(&path[i]) != 0)
 		{
 			if (chdir(cwd) != 0)
-				ft_perror("cd", cwd);
-			ft_perror("cd", path);
+				utils_ft_perror("cd", cwd);
+			utils_ft_perror("cd", path);
 			return (errno);
 		}
 	}
@@ -160,7 +160,7 @@ int	cd_home(void)
 	{
 		if (ft_strncmp(temp->var, "HOME=", ft_strlen("HOME=")) == 0)
 		{
-			path = get_value(temp->var);
+			path = env_get_value(temp->var);
 			if (path == NULL)
 				break ;
 			if (chdir(path) != 0)

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 21:23:44 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:38:40 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static pid_t	fork_and_execve(
 			status = ERR_NOPERM;
 		ms_print_errno(cmd_table->cmd[0]);
 		free(path);
-		free_split(env);
+		utils_free_split(env);
 		gc_free_all_garbage();
 		env_free_sym_tab(g_sym_table);
 		exit(status);
@@ -84,7 +84,7 @@ pid_t	exec_execve(t_cmd_table *cmd_table, int fd_pipe)
 	char	*path;
 	char	**env;
 
-	env = create_env_list(g_sym_table);
+	env = env_create_env_list(g_sym_table);
 	if (!env || ft_strchr(cmd_table->cmd[0], '/'))
 	{
 		path = ft_strdup(cmd_table->cmd[0]);

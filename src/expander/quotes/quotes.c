@@ -6,14 +6,14 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:38:45 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 21:29:33 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:40:52 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // NULL, ft_strlen, malloc
-#include "../../utils.h" // ft_realloc
-#include "../../quotes.h" // remove_quotes_from_string,
-// find_closing_quote, skip_quotes_in_quotes
+#include "../../utils.h" // utils_ft_realloc
+#include "../../quotes.h" // quotes_rmv_quotes_from_str,
+// quotes_find_closing_quote, skip_quotes_in_quotes
 
 /**
  * It removes quotes from a string
@@ -31,7 +31,7 @@ void	quote_removal(char **argv)
 	i = 0;
 	while (argv[i] != NULL)
 	{
-		remove_quotes_from_string(argv[i]);
+		quotes_rmv_quotes_from_str(argv[i]);
 		i++;
 	}
 }
@@ -41,7 +41,7 @@ void	quote_removal(char **argv)
  * 
  * @param str the string to remove quotes from
  */
-void	remove_quotes_from_string(char *str)
+void	quotes_rmv_quotes_from_str(char *str)
 {
 	int	i;
 	int	j;

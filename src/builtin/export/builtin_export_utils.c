@@ -6,14 +6,14 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 17:36:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 15:13:35 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 20:32:33 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // t_sym_tab, g_sym_table
 #include "libft.h" // free, NULL, ft_strncmp, ft_strjoin, ft_substr,
 // ft_strlen, ft_putstr_fd
-#include "../../utils.h" // check_naming_convention
+#include "../../utils.h" // utils_check_naming_convention
 #include <stdio.h> // printf
 
 static void	print_error_msg(char *str);
@@ -62,7 +62,7 @@ char	*init_var_name(char *var)
 	while (var[i] != '\0' && var[i] != '=')
 		i++;
 	var_name = ft_substr(var, 0, i);
-	if (check_naming_convention(var_name) == 0)
+	if (utils_check_naming_convention(var_name) == 0)
 	{
 		print_error_msg(var);
 		free(var_name);

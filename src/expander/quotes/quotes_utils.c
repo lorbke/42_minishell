@@ -6,13 +6,13 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 13:17:06 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 21:29:14 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:40:37 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // NULL, malloc, ft_strlen
-#include "../../utils.h" // ft_realloc
-#include "../../quotes.h" // find_closing_quote, skip_quotes_in_quotes
+#include "../../utils.h" // utils_ft_realloc
+#include "../../quotes.h" // quotes_find_closing_quote, skip_quotes_in_quotes
 
 /**
  * It takes a string, finds the closing quote, 
@@ -25,7 +25,7 @@
  * 
  * @return A string
  */
-char	*handle_quotes(char *result, char *str, int *i, int *result_i)
+char	*quotes_handle_quotes(char *result, char *str, int *i, int *result_i)
 {
 	int		j;
 	int		str_len;
@@ -34,7 +34,7 @@ char	*handle_quotes(char *result, char *str, int *i, int *result_i)
 
 	quote_type = str[(*i)];
 	j = *i;
-	str_len = find_closing_quote(str, &(*i), quote_type);
+	str_len = quotes_find_closing_quote(str, &(*i), quote_type);
 	if (result == NULL)
 	{
 		arg = malloc(sizeof(char) * str_len + 2);
@@ -42,7 +42,7 @@ char	*handle_quotes(char *result, char *str, int *i, int *result_i)
 			return (NULL);
 	}
 	else
-		arg = ft_realloc(result, ft_strlen(result) + str_len + 2);
+		arg = utils_ft_realloc(result, ft_strlen(result) + str_len + 2);
 	(*i)++;
 	while (j < *i)
 	{
@@ -63,7 +63,7 @@ char	*handle_quotes(char *result, char *str, int *i, int *result_i)
  * 
  * @return The length of the string.
  */
-int	find_closing_quote(char *str, int *i, char quote_type)
+int	quotes_find_closing_quote(char *str, int *i, char quote_type)
 {
 	int	str_len;
 
@@ -87,7 +87,7 @@ int	find_closing_quote(char *str, int *i, char quote_type)
  * @param arg The string to be parsed.
  * @param i the index of the current character in the string
  */
-int	in_closed_quotes(char *arg, int *i)
+int	quotes_in_closed_quotes(char *arg, int *i)
 {
 	int	j;
 	int	quote_count;

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 21:21:03 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:38:24 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "debugger.h" // debug
 #include "garbage_collector.h" // gc_add_garbage
 #include "libft.h" // ft_strncmp
-#include "env.h" // global_var, init_exit_status, init_sym_tab
+#include "env.h" // global_var, env_init_exit_status, env_init_sym_tab
 #include "builtins.h" // builtin_exit
 #include "utils.h" // free_list
 #include "get_next_line.h" // get_next_line
@@ -112,8 +112,8 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	g_sym_table = init_sym_tab(envp);
-	init_exit_status(g_sym_table);
+	g_sym_table = env_init_sym_tab(envp);
+	env_init_exit_status(g_sym_table);
 	if (isatty(STDIN_FILENO))
 		interactive_mode();
 	else

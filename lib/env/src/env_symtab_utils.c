@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:03:21 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 21:15:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:35:51 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,7 @@ char	*increase_shlvl(char *shlvl)
 	return (new_shlvl);
 }
 
-/**
- * This function adds a new node to the end of the linked list
- * 
- * @param lst a pointer to a pointer to a t_sym_tab struct.
- * @param new_node The new node to be added to the list.
- */
-void	add_to_back(t_sym_tab **lst, t_sym_tab *new_node)
+void	env_add_to_back(t_sym_tab **lst, t_sym_tab *new_node)
 {
 	t_sym_tab	*temp;
 
@@ -95,7 +89,7 @@ void	add_to_back(t_sym_tab **lst, t_sym_tab *new_node)
 		*lst = new_node;
 }
 
-t_sym_tab	*copy_node(t_sym_tab *node)
+t_sym_tab	*env_copy_node(t_sym_tab *node)
 {
 	t_sym_tab	*new_node;
 

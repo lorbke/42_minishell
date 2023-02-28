@@ -6,16 +6,16 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:29:31 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 21:28:39 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:40:17 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // NULL, free, ft_substr
-#include "../../utils.h" // free_split, ft_strcmp
+#include "../../utils.h" // utils_free_split, utils_ft_strcmp
 #include "globber_private.h" // is_match, concatentate_entries,
 // add_matching_entries, find_pattern, opendir, readdir, closedir,
 // expand_cwd_dir, globbing_outside_cwd
-#include "../expander_private.h" // find_closing_quote, quote_removal
+#include "../expander_private.h" // quotes_find_closing_quote, quote_removal
 
 static char	**globbing(char *arg, int *i);
 static char	**check_for_path(char *pattern, char **result);
@@ -44,7 +44,7 @@ char	**globber(char **argv)
 		while (argv[i][j] != '\0')
 		{
 			if (argv[i][j] == '\'' || argv[i][j] == '\"')
-				find_closing_quote(argv[i], &j, argv[i][j]);
+				quotes_find_closing_quote(argv[i], &j, argv[i][j]);
 			else if (argv[i][j] == '*')
 				result = globbing(argv[i], &j);
 			j++;
@@ -53,7 +53,7 @@ char	**globber(char **argv)
 		i++;
 	}
 	quote_removal(exp_argv);
-	free_split(argv);
+	utils_free_split(argv);
 	return (exp_argv);
 }
 
@@ -132,7 +132,7 @@ char	*globber_redirection(char *filename)
 	result[0] = ft_strdup(filename);
 	result[1] = NULL;
 	result = globber(result);
-	len = get_string_array_len(result);
+	len = utils_get_str_array_len(result);
 	if (len == 1)
 	{
 		free(filename);
@@ -141,9 +141,9 @@ char	*globber_redirection(char *filename)
 	else if (len > 1)
 	{
 		free(filename);
-		free_split(result);
+		utils_free_split(result);
 		return (NULL);
 	}
-	free_split(result);
+	utils_free_split(result);
 	return (filename);
 }

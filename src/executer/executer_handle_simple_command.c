@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:27:13 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 21:24:47 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:38:58 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_cmd_table	*handle_redir_heredoc(t_ast *ast)
 	if (!executer_is_quoted(ast->right->token->desc))
 	{
 		gc_add_garbage(ast->right->token->word, NULL);
-		ast->right->token->word = expand_str(ast->right->token->word);
+		ast->right->token->word = expander_expand_str(ast->right->token->word);
 	}
 	if (ast->right->token->word)
 		write(fd[1], ast->right->token->word,
