@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 20:34:27 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:08:27 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ pid_t	exec_execve(t_cmd_table *cmd_table, int fd_pipe)
 	{
 		path = ft_strdup(cmd_table->cmd[0]);
 		if (!path)
-			utils_ft_perror_and_exit("exec_execve: ft_strup: malloc: ");
+			ft_perror_and_exit("exec_execve: ft_strup: malloc: ");
 	}
 	else
 	{

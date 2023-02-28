@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:12:31 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 20:34:27 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:09:04 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static char	**create_cmd_arr(t_ast *ast)
 	{
 		cmd_arr[i] = ft_strdup(ast->token->word);
 		if (!cmd_arr[i])
-			utils_ft_perror_and_exit("executer: ft_strdup: malloc: ");
+			ft_perror_and_exit("executer: ft_strdup: malloc: ");
 		i++;
 		ast = ast->left;
 	}

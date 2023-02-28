@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 14:44:52 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 20:34:27 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:09:04 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*get_pathset(char **env)
 		return (NULL);
 	path_set = ft_strtrim(path_set, PATH_ENV);
 	if (!path_set)
-		utils_ft_perror_and_exit("executer: ft_strtrim: malloc: ");
+		ft_perror_and_exit("executer: ft_strtrim: malloc: ");
 	return (path_set);
 }
 
@@ -54,7 +54,7 @@ static char	*get_valid_cmd_str(char **path_arr, char *cmd)
 	{
 		temp_str = ft_strjoin(*temp_arr, cmd);
 		if (!temp_str)
-			utils_ft_perror_and_exit("executer: ft_strjoin: malloc: ");
+			ft_perror_and_exit("executer: ft_strjoin: malloc: ");
 		if (access(temp_str, X_OK) == 0
 			&& (!stat(temp_str, &file_stats)
 				&& !S_ISDIR(file_stats.st_mode)))
@@ -76,16 +76,16 @@ char	*exec_get_cmd_path(char **env, char *cmd)
 	{
 		valid_cmd = ft_strdup(cmd);
 		if (!valid_cmd)
-			utils_ft_perror_and_exit("executer: ft_strdup: malloc: ");
+			ft_perror_and_exit("executer: ft_strdup: malloc: ");
 		return (valid_cmd);
 	}
 	path_arr = ft_split(path_str, ':');
 	free(path_str);
 	if (!path_arr)
-		utils_ft_perror_and_exit("executer: ft_split: malloc: ");
+		ft_perror_and_exit("executer: ft_split: malloc: ");
 	cmd = ft_strjoin("/", cmd);
 	if (!cmd)
-		utils_ft_perror_and_exit("executer: ft_strjoin: malloc: ");
+		ft_perror_and_exit("executer: ft_strjoin: malloc: ");
 	valid_cmd = get_valid_cmd_str(path_arr, cmd);
 	free(cmd);
 	gc_free_str_arr(path_arr);

@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 16:44:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 20:34:27 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:07:19 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int		ft_safemult(int a, int b);
 char	*ft_strsep(char **stringp, const char *delim);
 char	*ft_strdup_size(char *str, int size);
 int		ft_is_char_count_uneven(char *str, char c);
-void	utils_ft_perror_and_exit(char *msg);
+void	ft_perror_and_exit(char *msg);
 void	*ft_malloc_safe(size_t size, size_t count);
 
 #endif
