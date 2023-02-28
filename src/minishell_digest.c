@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/27 18:58:24 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/27 20:59:10 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,6 @@
 #include <unistd.h> // file descriptor macros
 #include <stdio.h> // printf
 #include <stdbool.h> // bool
-
-static bool	is_input_incomplete_print_error(t_stack *tokstack)
-{
-	while (tokstack && tokstack->next)
-		tokstack = tokstack->next;
-	if (tokstack && (tokstack->token->desc == TOK_PIPE
-			|| tokstack->token->desc == TOK_AND
-			|| tokstack->token->desc == TOK_OR
-			|| tokstack->token->word && tokstack->token->word[0] == ')'))
-	{
-		ms_exit_status_set(ERR_SYNTAX);
-		ms_print_syntax_error(0, NULL);
-		return (true);
-	}
-	if ((tokstack && tokstack->token->desc == TOK_UNCLOSED_DQUOTE
-			&& ft_is_char_count_uneven(tokstack->token->word, '\"'))
-		|| (tokstack->token->desc == TOK_UNCLOSED_SQUOTE
-			&& ft_is_char_count_uneven(tokstack->token->word, '\'')))
-	{
-		ms_exit_status_set(ERR_SYNTAX);
-		ms_print_syntax_error(0, NULL);
-		return (true);
-	}
-	return (false);
-}
 
 static bool	is_subshell_closed(char *str)
 {
@@ -66,6 +41,7 @@ static bool	is_subshell_closed(char *str)
 	return (false);
 }
 
+// do this during parsing
 static bool	check_subshell_syntax(t_stack *tokstack)
 {
 	while (tokstack)
@@ -107,38 +83,20 @@ static t_ast	*digest_parser(t_stack *tokstack)
 	return (ast);
 }
 
-static char	*digest_docs(t_stack *tokstack, char *input, t_status *exit_status)
-{
-	input = doccer_interpret_docs(tokstack, input, exit_status);
-	debug_lexer(tokstack);
-	if (*exit_status != ERR_SUCCESS)
-	{
-		ms_exit_status_set(*exit_status);
-		return (input);
-	}
-	return (input);
-}
-
 char	*ms_digest_input(char *input)
 {
 	t_stack		*tokstack;
 	t_ast		*ast;
 	t_status	exit_status;
 
-	tokstack = lexer_str_to_tokstack(input);
-	if (!tokstack)
-		return (input);
+	tokstack = doccer_get_complete_tokstack(&input, &exit_status);
 	gc_add_garbage(tokstack, &lexer_free_tokstack);
-	debug_lexer(tokstack);
-	input = doccer_interpret_docs(tokstack, input, &exit_status);
 	debug_lexer(tokstack);
 	if (exit_status != ERR_SUCCESS)
 	{
 		ms_exit_status_set(exit_status);
 		return (input);
 	}
-	if (is_input_incomplete_print_error(tokstack))
-		return (input);
 	ast = digest_parser(tokstack);
 	if (!ast)
 		return (input);

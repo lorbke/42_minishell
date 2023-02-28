@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 14:22:39 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 14:50:13 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,50 +67,15 @@ int	doc_completingdoc(char *placeholder, int fd_write)
 {
 	char	*line;
 
-	while (1)
-	{
-		write(fd_write, " ", 1);
-		if (isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, DOC_PROMPT, 2);
-		line = get_next_line(STDIN_FILENO);
-		if (!line)
-			break ;
-		line[ft_strlen(line) - 1] = 0;
-		write(fd_write, line, ft_strlen(line));
-		if (!is_only_whitespace(line))
-		{
-			free(line);
-			break ;
-		}
-		free(line);
-	}
-	get_next_line(GNL_ERR);
-	return (ERR_SUCCESS);
-}
-
-int	doc_quotedoc(char *quote, int fd_write)
-{
-	char	*line;
-	char	*temp;
-
-	while (1)
-	{
-		write(fd_write, "\n", 1);
-		if (isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, DOC_PROMPT, 2);
-		line = get_next_line(STDIN_FILENO);
-		if (!line)
-			break ;
-		line[ft_strlen(line) - 1] = 0;
-		write(fd_write, line, ft_strlen(line));
-		temp = ft_strchr(line, *quote);
-		if (temp && ft_is_char_count_uneven(line, *quote))
-		{
-			free(line);
-			break ;
-		}
-		free(line);
-	}
+	if (isatty(STDIN_FILENO))
+		write(STDOUT_FILENO, DOC_PROMPT, 2);
+	line = get_next_line(STDIN_FILENO);
+	if (!line)
+		return (ERR_SUCCESS);
+	write(fd_write, " ", 1);
+	line[ft_strlen(line) - 1] = 0;
+	write(fd_write, line, ft_strlen(line));
+	free(line);
 	get_next_line(GNL_ERR);
 	return (ERR_SUCCESS);
 }
@@ -119,6 +84,7 @@ static char	*case_parent(pid_t pid, int fd_pipe[2], t_status *exit_status)
 {
 	char	*doc;
 	int		status;
+	int		ret;
 
 	mssignal_change_mode(MSSIG_EXEC);
 	close(fd_pipe[1]);
@@ -135,7 +101,13 @@ static char	*case_parent(pid_t pid, int fd_pipe[2], t_status *exit_status)
 	doc = ft_calloc(sizeof(char), ARG_MAX + 1);
 	if (!doc)
 		ft_perror_and_exit("case_parent: ft_calloc: malloc:");
-	read(fd_pipe[0], doc, ARG_MAX);
+	ret = read(fd_pipe[0], doc, ARG_MAX);
+	if (ret == 0)
+	{
+		free(doc);
+		close(fd_pipe[0]);
+		return (NULL);
+	}
 	close(fd_pipe[0]);
 	return (doc);
 }
