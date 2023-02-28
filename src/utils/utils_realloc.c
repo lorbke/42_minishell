@@ -3,24 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   utils_realloc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:45:58 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 20:34:05 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 22:42:24 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // malloc, free, ft_strlen, ft_memcpy
 #include "../utils.h" // utils_get_str_array_len
+#include <string.h> // NULL
 
 char	*utils_ft_realloc(char *ptr, int len)
 {
 	char	*result;
 
-	result = malloc(sizeof(char) * len);
+	result = ft_calloc(sizeof(char), len + 1);
 	if (result == NULL)
 		return (NULL);
-	ft_memcpy(result, ptr, len - 1);
+	ft_memcpy(result, ptr, len);
 	free(ptr);
 	ptr = NULL;
 	return (result);

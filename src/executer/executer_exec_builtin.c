@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 17:05:34 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 19:40:02 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:23:33 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,17 @@
 #include <stdlib.h> // free
 #include <sys/errno.h> // errno
 
+/**
+ * It forks, sets up the file descriptors, and then executes the command
+ * 
+ * @param cmd_table a pointer to a t_cmd_table struct,
+ * which contains all the information about the
+ * command to be executed.
+ * @param fd_pipe This is the file descriptor of the 
+ * pipe that the current command will
+ * 
+ * @return The pid of the child process.
+ */
 static pid_t	case_fork(t_cmd_table *cmd_table, int fd_pipe)
 {
 	pid_t	pid;
@@ -49,6 +60,16 @@ static pid_t	case_fork(t_cmd_table *cmd_table, int fd_pipe)
 	return (pid);
 }
 
+/**
+ * It executes a command
+ * without forking
+ * 
+ * @param cmd_table a pointer to a t_cmd_table struct, which contains 
+ * the command to be executed, the
+ * file descriptors for input and output, and the number of pipes.
+ * 
+ * @return The return value of the function is the pid of the child process.
+ */
 static pid_t	case_no_fork(t_cmd_table *cmd_table)
 {
 	int		fd_temp;
@@ -73,6 +94,15 @@ This had to be done to fix incorrect order of buffer flushing when executing
 multiple commands in the same instance through noninteractive mode
 (forked commands will exit earlier than the parent and therefore
 flush earlier and thus display earlier). */
+/**
+ * It forks if the command is a builtin and the output is not a pipe
+ * 
+ * @param cmd_table a pointer to the command table
+ * @param fd_pipe the file descriptor of the pipe to be used for the builtin.
+ * @param builtin_id the id of the builtin to execute
+ * 
+ * @return pid_t
+ */
 pid_t	exec_builtin(t_cmd_table *cmd_table, int fd_pipe, int builtin_id)
 {
 	if (!isatty(STDOUT_FILENO) && builtin_id >= 1 && builtin_id <= 3)

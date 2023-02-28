@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_handle_simple_command.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:27:13 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 20:27:31 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:38:58 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@
 #include <stdio.h> // printf
 #include <stdlib.h> // malloc, free
 
+/**
+ * It creates a command table
+ * from the abstract syntax tree
+ * 
+ * @param ast The abstract syntax tree.
+ * 
+ * @return A pointer to a command table.
+ */
 t_cmd_table	*handle_cmd(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
@@ -37,6 +45,15 @@ t_cmd_table	*handle_cmd(t_ast *ast)
 	return (cmd_table);
 }
 
+/**
+ * It creates a pipe, writes the heredoc to the pipe, and then sets the 
+ * input file descriptor of the
+ * command table to the read end of the pipe
+ * 
+ * @param ast the AST node that represents the redirection
+ * 
+ * @return A pointer to a t_cmd_table struct.
+ */
 t_cmd_table	*handle_redir_heredoc(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
@@ -65,6 +82,14 @@ t_cmd_table	*handle_redir_heredoc(t_ast *ast)
 	return (cmd_table);
 }
 
+/**
+ * It opens a file in append mode, and then calls `redir_get_cmd_table` 
+ * to get the command table
+ * 
+ * @param ast the AST node that represents the redirection
+ * 
+ * @return A pointer to a t_cmd_table struct.
+ */
 t_cmd_table	*handle_redir_append(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
@@ -81,6 +106,14 @@ t_cmd_table	*handle_redir_append(t_ast *ast)
 	return (cmd_table);
 }
 
+/**
+ * It opens the file, creates a command table, and sets the file descriptor 
+ * to the command table
+ * 
+ * @param ast the ast node that contains the redirection
+ * 
+ * @return A pointer to a t_cmd_table struct.
+ */
 t_cmd_table	*handle_redir_in(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
@@ -97,6 +130,14 @@ t_cmd_table	*handle_redir_in(t_ast *ast)
 	return (cmd_table);
 }
 
+/**
+ * It opens a file, creates a command table, and sets the file descriptor 
+ * to the command table
+ * 
+ * @param ast the AST node that represents the redirection
+ * 
+ * @return A pointer to a t_cmd_table struct.
+ */
 t_cmd_table	*handle_redir_out(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;

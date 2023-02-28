@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:12:31 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 21:09:04 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:39:07 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,16 @@
 #include <string.h> // strerror
 #include <stdbool.h> // bool
 
+/**
+ * It gets the command table
+ * for the left side of the redirection
+ * 
+ * @param redir_fd The file descriptor that the redirection will 
+ * be performed on.
+ * @param ast The AST node that represents the redirection.
+ * 
+ * @return A pointer to a t_cmd_table struct.
+ */
 t_cmd_table	*redir_get_cmd_table(int redir_fd, t_ast *ast)
 {
 	t_cmd_table	*cmd_table;
@@ -39,6 +49,13 @@ t_cmd_table	*redir_get_cmd_table(int redir_fd, t_ast *ast)
 	return (cmd_table);
 }
 
+/**
+ * It returns true if the token is a word, a subshell, or a quoted string.
+ * 
+ * @param desc The token description.
+ * 
+ * @return A boolean value.
+ */
 bool	executer_is_quoted(char desc)
 {
 	if (desc == TOK_QUOTED
@@ -48,6 +65,14 @@ bool	executer_is_quoted(char desc)
 	return (false);
 }
 
+/**
+ * It returns true if the
+ * token is a word, a subshell, or a quoted string
+ * 
+ * @param desc The token description.
+ * 
+ * @return A boolean value.
+ */
 bool	executer_is_word(char desc)
 {
 	if (desc == TOK_WORD || desc == TOK_SUBSHELL
@@ -56,6 +81,13 @@ bool	executer_is_word(char desc)
 	return (false);
 }
 
+/**
+ * It creates an array of strings from the command name and arguments.
+ * 
+ * @param ast the ast node that represents the command
+ * 
+ * @return A char **
+ */
 static char	**create_cmd_arr(t_ast *ast)
 {
 	char	**cmd_arr;
@@ -83,6 +115,14 @@ static char	**create_cmd_arr(t_ast *ast)
 	return (cmd_arr);
 }
 
+/**
+ * It creates a command table
+ * from an AST
+ * 
+ * @param ast The AST node that represents the command.
+ * 
+ * @return A pointer to a t_cmd_table struct.
+ */
 t_cmd_table	*create_cmd_table(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:00:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 20:34:50 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:37:25 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,13 @@ static int			is_num(char *str);
 static void			exit_non_numeric(char **argv);
 static long long	ft_atoi_long(char *str);
 
+/**
+ * It exits the shell
+ * 
+ * @param argv The array of arguments passed to the builtin.
+ * 
+ * @return The exit code.
+ */
 int	builtin_exit_b(char **argv)
 {
 	int			argc;
@@ -51,6 +58,11 @@ int	builtin_exit_b(char **argv)
 	exit(exit_code);
 }
 
+/**
+ * It returns 1 if the string is a number, 0 otherwise
+ * 
+ * @param str The string to check.
+ */
 static int	is_num(char *str)
 {
 	int	i;
@@ -69,7 +81,17 @@ static int	is_num(char *str)
 	return (1);
 }
 
-// check for over- and underflow
+/**
+ * It checks if the number is
+ * within the range of an int, and if it is, it returns the number, otherwise it
+ * prints an error message and returns an error code.
+ * 
+ * @param number the number to be checked
+ * @param sign 1 or -1
+ * @param str The string to be converted to an integer.
+ * 
+ * @return the number.
+ */
 static int	check_value(long long number, int sign, char *str)
 {
 	number *= sign;
@@ -82,6 +104,13 @@ static int	check_value(long long number, int sign, char *str)
 	return (number);
 }
 
+/**
+ * It takes a string, and returns the number it represents
+ * 
+ * @param str The string to be converted.
+ * 
+ * @return the number that was converted from the string.
+ */
 static long long	ft_atoi_long(char *str)
 {
 	int			i;
@@ -110,6 +139,12 @@ static long long	ft_atoi_long(char *str)
 	return (number);
 }
 
+/**
+ * It prints the error message to stderr, gets the exit code, frees all 
+ * the garbage, frees the symbol table, and exits with the exit code
+ * 
+ * @param argv The arguments passed to the command.
+ */
 static void	exit_non_numeric(char **argv)
 {
 	long long	exit_code;

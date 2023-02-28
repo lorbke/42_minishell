@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_try_expansion.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 15:00:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 20:01:46 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:39:13 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,17 @@
 static char	*set_exit_status_var(int *i);
 static void	trim_whitespaces(char *expanded_var, char *result);
 
+/**
+ * It takes a string,
+ * expands any variables in it, and returns the expanded string
+ * 
+ * @param result the string that will be returned
+ * @param arg the argument to be expanded
+ * @param i the index of the current character in the argument
+ * @param result_i the index of the result string
+ * 
+ * @return The result of the expansion.
+ */
 char	*try_expansion(char *result, char *arg, int *i, int *result_i)
 {
 	char	*var;
@@ -45,6 +56,13 @@ char	*try_expansion(char *result, char *arg, int *i, int *result_i)
 	return (expanded_var);
 }
 
+/**
+ * It returns a string containing the exit status of the last command executed
+ * 
+ * @param i the index of the current character in the string
+ * 
+ * @return A pointer to a string containing the exit status of the last command.
+ */
 static char	*set_exit_status_var(int *i)
 {
 	char	*var;
@@ -57,6 +75,13 @@ static char	*set_exit_status_var(int *i)
 	return (var);
 }
 
+/**
+ * It removes all the whitespaces from the beginning of the string and 
+ * all the whitespaces that are next to each other
+ * 
+ * @param expanded_var The variable that has been expanded.
+ * @param result the result of the expansion
+ */
 static void	trim_whitespaces(char *expanded_var, char *result)
 {
 	int	i;

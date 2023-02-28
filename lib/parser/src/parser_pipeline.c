@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:38:26 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 15:25:02 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:17:19 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 #include "lexer.h" // t_token, t_stack, TOK_* macros
 #include <stdlib.h> // NULL
 
+/**
+ * It takes a pointer to a pointer to a stack of tokens, and returns 
+ * a pointer to an AST node
+ * 
+ * @param tokstack a pointer to a pointer to a token stack.
+ * 
+ * @return The right side of the pipe.
+ */
 static t_ast	*get_right(t_stack **tokstack)
 {
 	t_ast	*head;
@@ -34,6 +42,13 @@ static t_ast	*get_right(t_stack **tokstack)
 	return (head);
 }
 
+/**
+ * It creates a pipeline.
+ * 
+ * @param tokstack The token stack.
+ * 
+ * @return The left and right nodes of the tree.
+ */
 t_ast	*rule_pipeline(t_stack **tokstack)
 {
 	t_ast	*left;

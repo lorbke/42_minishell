@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 09:56:33 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 20:33:31 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 22:42:15 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*get_result(int fd, int j, char *buffer, char *result)
 		result[j++] = buffer[i++];
 		if (control == i)
 		{
-			result = utils_ft_realloc(result, ft_strlen(result) + BUFFER_SIZE);
+			result = utils_ft_realloc(result, j + BUFFER_SIZE);
 			control = read(fd, buffer, BUFFER_SIZE);
 			i = 0;
 		}

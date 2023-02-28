@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:17:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 20:31:41 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:37:14 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@
 
 static void	print_error_msg(char *str);
 
+/**
+ * It prints the environment variables
+ * 
+ * @param argv the arguments passed to the command
+ * 
+ * @return The return value of the last command executed.
+ */
 int	env_b(char **argv)
 {
 	int		i;
@@ -44,6 +51,11 @@ int	env_b(char **argv)
 	return (0);
 }
 
+/**
+ * It prints an error message to the standard error output
+ * 
+ * @param str The string to print
+ */
 static void	print_error_msg(char *str)
 {
 	ft_putstr_fd("env: ", 2);

@@ -3,16 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   env_symtab_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:03:21 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 20:25:19 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:35:51 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // malloc, NULL, ft_strdup
 #include "env.h" // t_sym_tab
 
+/**
+ * It gets the length of a linked list
+ * 
+ * @param head the head of the linked list
+ * 
+ * @return The length of the linked list.
+ */
 int	get_list_len(t_sym_tab **head)
 {
 	t_sym_tab	*temp;
@@ -28,6 +35,13 @@ int	get_list_len(t_sym_tab **head)
 	return (len);
 }
 
+/**
+ * It returns the last node of a linked list
+ * 
+ * @param lst The list to add the new node to.
+ * 
+ * @return The last node in the list.
+ */
 t_sym_tab	*get_last_node(t_sym_tab *lst)
 {
 	if (lst == NULL)
@@ -37,6 +51,14 @@ t_sym_tab	*get_last_node(t_sym_tab *lst)
 	return (lst);
 }
 
+/**
+ * It takes a string of the form "SHLVL=<number>" and returns a 
+ * string of the form "SHLVL=<number + 1>"
+ * 
+ * @param shlvl The current value of SHLVL.
+ * 
+ * @return A string that is the value of the SHLVL environment variable.
+ */
 char	*increase_shlvl(char *shlvl)
 {
 	int		lvl;

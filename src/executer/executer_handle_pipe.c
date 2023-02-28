@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:29:17 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/27 22:13:21 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:24:33 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@
 #include <string.h> // NULL
 #include <unistd.h> // close, pipe
 
+/**
+ * It sets the first pipe's file descriptor to the new file descriptor, 
+ * and closes the new file
+ * descriptor if the first pipe's file descriptor is already set
+ * 
+ * @param fd The array of file descriptors.
+ * @param fd_new The file descriptor to set.
+ */
 static void	set_fd(int fd[][2], int fd_new)
 {
 	if (fd[0][1] < FDLVL_PIPE)
@@ -30,6 +38,15 @@ static void	set_fd(int fd[][2], int fd_new)
 		close(fd_new);
 }
 
+/**
+ * It creates a pipe, forks, and executes the left side of the pipeline 
+ * in the child process, and then
+ * executes the right side of the pipeline in the parent process
+ * 
+ * @param ast the AST node that represents the pipeline
+ * 
+ * @return A pointer to a t_cmd_table struct.
+ */
 t_cmd_table	*handle_pipe(t_ast *ast)
 {
 	t_cmd_table	*cmd_table_l;

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 21:15:20 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/21 19:57:17 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 20:28:07 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define GARBAGE_COLLECTOR_H
 
 # include <sys/types.h> // size_t
+
+/* This set of functions will keep track of memory allocations which can
+be added as pointers. The allocations can then later be freed. */
 
 typedef struct s_garbage
 {

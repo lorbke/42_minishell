@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:57:59 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 20:32:09 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:37:09 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,14 @@
 
 static int	check_for_flag(char *arg);
 
+/**
+ * It prints out the arguments passed to it, with a space between each 
+ * argument, and a newline at the end, unless the -n flag is passed
+ * 
+ * @param argv The array of arguments passed to the program.
+ * 
+ * @return The return value is the exit status of the program.
+ */
 int	echo_b(char **argv)
 {
 	int	i;
@@ -45,6 +53,13 @@ int	echo_b(char **argv)
 	return (0);
 }
 
+/**
+ * It checks if the argument is a flag
+ * 
+ * @param arg The argument that is being checked.
+ * 
+ * @return the number of flags that are present in the argument.
+ */
 static int	check_for_flag(char *arg)
 {
 	int	i;

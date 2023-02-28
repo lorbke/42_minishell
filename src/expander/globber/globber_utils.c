@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   globber_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 19:04:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 20:34:05 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:40:10 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@
 static char	**add_globbed_vars(char **exp_argv, char **result);
 static char	**add_unglobbed_vars(char **exp_argv, char **argv);
 
+/**
+ * It checks if the entry is a directory, and if it is, 
+ * it checks if it's a hidden directory or if the
+ * pattern is ".*" (which means we want to display hidden directories).
+ * 
+ * @param entry the current directory entry
+ * @param pattern The pattern to match against.
+ */
 char	**add_vars(char **exp_argv, char **result, char **argv)
 {
 	if (result != NULL)
@@ -27,6 +35,14 @@ char	**add_vars(char **exp_argv, char **result, char **argv)
 	return (exp_argv);
 }
 
+/**
+ * It checks if the entry is a directory, and if it is, 
+ * it checks if it's a hidden directory or if the
+ * pattern is ".*" (which means we want to display hidden directories).
+ * 
+ * @param entry the current directory entry
+ * @param pattern The pattern to match against.
+ */
 int	is_valid_entry(struct dirent *entry, char *pattern)
 {
 	if ((entry->d_name[0] != '.' || utils_ft_strcmp(pattern, ".*") == 0)
@@ -37,6 +53,15 @@ int	is_valid_entry(struct dirent *entry, char *pattern)
 	return (0);
 }
 
+/**
+ * It adds the unglobbed
+ * arguments to the array of expanded arguments.
+ * 
+ * @param exp_argv The array of strings that will be returned.
+ * @param argv The argument vector to be expanded.
+ * 
+ * @return A string array of the unglobbed arguments.
+ */
 static char	**add_unglobbed_vars(char **exp_argv, char **argv)
 {
 	int	i;
@@ -55,6 +80,14 @@ static char	**add_unglobbed_vars(char **exp_argv, char **argv)
 	return (exp_argv);
 }
 
+/**
+ * It adds the globbed variables to the array of expanded arguments
+ * 
+ * @param exp_argv the array of arguments that we're building up
+ * @param result the array of strings that were globbed
+ * 
+ * @return The expanded argument vector.
+ */
 static char	**add_globbed_vars(char **exp_argv, char **result)
 {
 	int	i;

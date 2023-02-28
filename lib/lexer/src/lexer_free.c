@@ -6,13 +6,20 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 18:52:53 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 14:48:45 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 20:46:46 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h" // t_stack, t_token
 #include <stdlib.h> // free
 
+/**
+ * It frees a token
+ * 
+ * @param token The token to free.
+ * 
+ * @return A pointer to a t_token struct.
+ */
 void	lexer_free_token(t_token *token)
 {
 	if (!token)
@@ -22,6 +29,11 @@ void	lexer_free_token(t_token *token)
 	free(token);
 }
 
+/**
+ * It frees the memory allocated for the token stack
+ * 
+ * @param tokstack_void This is the pointer to the stack of tokens.
+ */
 void	lexer_free_tokstack(void *tokstack_void)
 {
 	t_stack	*tokstack;

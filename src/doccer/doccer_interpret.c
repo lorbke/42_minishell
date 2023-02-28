@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:25:39 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 19:17:31 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:23:16 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,17 @@
 #include "libft.h" // ft_strjoin
 #include <stdlib.h> // free
 
+/**
+ * It iterates through the
+ * token stack, and if it finds a heredoc token, it gets the heredoc and replaces
+ * the next token with it
+ * 
+ * @param tokstack a pointer to the first token in the stack
+ * @param exit_status This is a pointer to a t_status variable. 
+ * This is the variable that
+ * 
+ * @return The last element in the stack.
+ */
 static t_stack	*iterate_to_end_and_interpret_heredocs(
 	t_stack *tokstack, t_status *exit_status)
 {
@@ -42,6 +53,17 @@ static t_stack	*iterate_to_end_and_interpret_heredocs(
 	return (temp_stack);
 }
 
+/**
+ * If the input is incomplete, then we get the rest of the 
+ * input and add it to the token stack
+ * 
+ * @param tokstack the token stack that we're currently working on
+ * @param exit_status This is a pointer to the exit status of the shell.
+ * @param input the input string
+ * @param doc the string that is being read from the file
+ * 
+ * @return A t_stack
+ */
 t_stack	*doccer_get_complete_tokstack(char **input, t_status *exit_status);
 
 static void	get_tail_stack(
@@ -71,6 +93,15 @@ static void	get_tail_stack(
 	free(doc);
 }
 
+/**
+ * It takes a string of input,
+ * and returns a stack of tokens
+ * 
+ * @param input the input string
+ * @param exit_status This is the exit status of the shell.
+ * 
+ * @return A t_stack of tokens.
+ */
 t_stack	*doccer_get_complete_tokstack(char **input, t_status *exit_status)
 {
 	t_stack	*tokstack;

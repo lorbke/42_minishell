@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:45:14 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 20:34:27 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:37:34 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 #include <unistd.h> // getcwd
 #include <limits.h> // PATH_MAX
 
+/**
+ * It prints the current working directory
+ * 
+ * @param argv The arguments passed to the command.
+ * 
+ * @return The current working directory.
+ */
 int	pwd_b(char **argv)
 {
 	char	cwd[PATH_MAX];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 14:57:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/27 18:59:40 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:00:41 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@
 #include <sys/wait.h> // waitpid, WIFEXITED, WEXITSTATUS, WIFSIGNALED, WTERMSIG
 #include <stdio.h> // printf
 
+/**
+ * It executes the ast, and returns the exit status
+ * 
+ * @param ast The AST node to execute.
+ * 
+ * @return The exit status of the last command executed.
+ */
 t_status	executer_exec_ast(t_ast *ast)
 {
 	t_cmd_table	*cmd_table;

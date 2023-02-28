@@ -6,16 +6,16 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:05:04 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 14:48:37 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 20:25:13 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-//
-// wildcards and variables are identified as words and not handled in the parser
-//
+/* This lexer iterates over a string and breaks it up into a specific set of 
+tokens that closely resemble the bash grammar.*/
+
 /* I have decided to use this format for the token identifiers instead of a 
 bitmask like in the original bash. The benefits of a bitmask only apply if a
 token can have multiple properties, which isn't the case in this implementation.

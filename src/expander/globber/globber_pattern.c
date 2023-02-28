@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   globber_pattern.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:17:44 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 20:34:05 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:40:03 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@ static void	scan_char(char **arg, char **pattern, int *astrsk_c, int *quote_c);
 static void	set_char(char **arg, char **pattern, int *astrsk_c, int *quote_c);
 static void	set_literal_astrsk(char **pattern);
 
+/**
+ * It scans the string and copies it to a new string, 
+ * while replacing the '*' character with '.*' and
+ * the '?' character with '.'
+ * 
+ * @param arg the argument to be scanned
+ * @param i the number of characters in the pattern
+ * 
+ * @return a pointer to the first character of the pattern.
+ */
 char	*find_pattern(char *arg, int *i)
 {
 	char	*tmp;
@@ -44,6 +54,15 @@ char	*find_pattern(char *arg, int *i)
 	return (pattern);
 }
 
+/**
+ * It takes a string array, a string, and a string, and returns a string array
+ * 
+ * @param result The array of strings that will be returned.
+ * @param entry the name of the file/directory
+ * @param path The path to the directory we're currently in.
+ * 
+ * @return A string array of all the files in the directory.
+ */
 char	**pattern_over(char **result, char *entry, char *path)
 {
 	int	i;
@@ -65,6 +84,14 @@ char	**pattern_over(char **result, char *entry, char *path)
 	return (result);
 }
 
+/**
+ * It takes a string and converts it into a pattern string
+ * 
+ * @param arg The argument string.
+ * @param pattern the address of the pointer to the pattern string
+ * @param astrsk_c This is a counter for the number of asterisks in a row.
+ * @param quote_c This is a counter for the number of quotes.
+ */
 static void	set_char(char **arg, char **pattern, int *astrsk_c, int *quote_c)
 {
 	if (**arg == '*' && *astrsk_c == 0)
@@ -90,6 +117,16 @@ static void	set_char(char **arg, char **pattern, int *astrsk_c, int *quote_c)
 	(*arg)++;
 }
 
+/**
+ * It scans the input string for characters and sets the pattern 
+ * string accordingly
+ * 
+ * @param arg the string to be scanned
+ * @param pattern the pattern to be matched
+ * @param astrsk_c This is a counter for the number of asterisks in a row.
+ * @param quote_c This is a flag that indicates whether 
+ * we are in a quoted string or not.
+ */
 static void	scan_char(char **arg, char **pattern, int *astrsk_c, int *quote_c)
 {
 	if (**arg == '\'' || **arg == '\"')
@@ -105,6 +142,12 @@ static void	scan_char(char **arg, char **pattern, int *astrsk_c, int *quote_c)
 		set_char(arg, pattern, astrsk_c, quote_c);
 }
 
+/**
+ * It sets the asterix inside the pattern string 
+ * to a literal asterix
+ * 
+ * @param pattern The pattern to be parsed.
+ */
 static void	set_literal_astrsk(char **pattern)
 {
 	**pattern = '\'';

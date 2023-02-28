@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:23:41 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/22 22:02:31 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:19:25 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 
 static void	remove_node(char *var);
 
+/**
+ * It removes the node from the linked list that corresponds 
+ * to the variable name passed in as an argument
+ * 
+ * @param argv The array of arguments passed to the command.
+ * 
+ * @return The status of the unset_b function.
+ */
 int	unset_b(char **argv)
 {
 	int	i;
@@ -38,6 +46,11 @@ int	unset_b(char **argv)
 	return (status);
 }
 
+/**
+ * It removes the first node in the linked list
+ * 
+ * @param first The first node in the linked list.
+ */
 static void	remove_first_node(t_sym_tab	*first)
 {
 	t_sym_tab	*temp;
@@ -48,6 +61,14 @@ static void	remove_first_node(t_sym_tab	*first)
 	free(first);
 }
 
+/**
+ * It finds the variable in the linked list and removes it
+ * 
+ * @param var The variable name to be removed.
+ * @param temp a pointer to the current node in the linked list
+ * 
+ * @return Nothing.
+ */
 static void	find_and_remove(char *var, t_sym_tab *temp)
 {
 	int			key_len;
@@ -73,6 +94,13 @@ static void	find_and_remove(char *var, t_sym_tab *temp)
 	}
 }
 
+/**
+ * It removes a node from the linked list
+ * 
+ * @param var The variable to be removed from the symbol table.
+ * 
+ * @return the value of the variable.
+ */
 static void	remove_node(char *var)
 {
 	t_sym_tab	*temp;

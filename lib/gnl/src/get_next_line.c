@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 13:29:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/24 20:17:17 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 22:41:15 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_next_line(int fd)
 		free(buffer);
 		return (NULL);
 	}
-	result = malloc(BUFFER_SIZE);
+	result = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 	if (result == NULL)
 		return (NULL);
 	if (buffer == NULL)

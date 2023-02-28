@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:57:12 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 15:57:58 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 20:54:07 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 #include <stdlib.h> // NULL
 #include <stdbool.h> // bool, true, false
 
+/**
+ * It checks if the subshell is closed
+ * 
+ * @param str The string to check.
+ * 
+ * @return A boolean value.
+ */
 static bool	is_subshell_closed(char *str)
 {
 	int		depth;
@@ -35,6 +42,11 @@ static bool	is_subshell_closed(char *str)
 	return (false);
 }
 
+/**
+ * It checks if the subshell syntax is correct
+ * 
+ * @param token the token to check
+ */
 static bool	check_subshell_syntax(t_token *token)
 {
 	if (token->desc == TOK_SUBSHELL)
@@ -51,6 +63,15 @@ static bool	check_subshell_syntax(t_token *token)
 	return (false);
 }
 
+/**
+ * It creates a new ast node
+ * from the token on the top of the stack, and then removes that token from the
+ * stack
+ * 
+ * @param tokstack a pointer to a pointer to a token stack.
+ * 
+ * @return A pointer to a new ast node.
+ */
 t_ast	*handle_subshell(t_stack **tokstack)
 {
 	t_ast	*new;

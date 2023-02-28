@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:43:53 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 15:28:29 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 20:47:23 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 #include "lexer.h" // t_token, t_stack, TOK_* macros
 #include <stdlib.h> // NULL
 
+/**
+ * It takes a stack of tokens,
+ * and returns an AST node representing the right side of a logical AND or OR
+ * operator
+ * 
+ * @param tokstack a pointer to a pointer to a token stack.
+ * 
+ * @return The head of the ast.
+ */
 static t_ast	*get_right(t_stack **tokstack)
 {
 	t_ast	*head;
@@ -36,6 +45,16 @@ static t_ast	*get_right(t_stack **tokstack)
 	return (head);
 }
 
+/**
+ * It takes a token stack,
+ * creates an AST node from the top of the stack, and then checks if there's
+ * another token on the stack. If there is, it creates another AST node from the
+ * top of the stack, and then appends the first AST node to the second
+ * 
+ * @param tokstack The token stack.
+ * 
+ * @return The left and right nodes of the tree.
+ */
 t_ast	*rule_and_or(t_stack **tokstack)
 {
 	t_ast	*left;

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:37:35 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 19:37:00 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:22:03 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@
 /* This is bad practice, calling readline functions inside a signal handler
 can cause undefined behavior (see signal-safety).
 Unfortunately, the 42_minishell subject does not allow another solution. */
+/**
+ * It handles the Ctrl+C signal
+ * when the shell is in interactive mode
+ * 
+ * @param unused This is a GCC attribute that tells the compiler 
+ * that the parameter is unused
+ */
 static void	handle_ctrlc_interactive(__attribute__((unused)) int signal)
 {
 	write(STDOUT_FILENO, "\n", 1);
@@ -35,6 +42,14 @@ static void	handle_ctrlc_interactive(__attribute__((unused)) int signal)
 	rl_redisplay();
 }
 
+/**
+ * It handles the Ctrl+C
+ * signal by freeing all the memory allocated by the program, exiting 
+ * the program and printing an error message
+ * 
+ * @param unused This is a GCC attribute that tells the compiler 
+ * that the parameter is unused
+ */
 static void	handle_ctrlc_doc(__attribute__((unused)) int signal)
 {
 	write(STDOUT_FILENO, "\n", 1);
@@ -45,7 +60,14 @@ static void	handle_ctrlc_doc(__attribute__((unused)) int signal)
 	exit(ERR_GENERAL);
 }
 
-/* Initializes the terminal settings according to interactive parameter. */
+/**
+ * It sets the terminal to echo control characters or not
+ * 
+ * @param interactive If true, the function will disable the echo of 
+ * control characters.
+ * 
+ * @return The return value of the function.
+ */
 static int	set_termios(bool interactive)
 {
 	struct termios	term_set;
@@ -61,6 +83,13 @@ static int	set_termios(bool interactive)
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * It sets the terminal to
+ * canonical mode (line buffered) or non-canonical mode (character buffered)
+ * depending on the value of the parameter
+ * 
+ * @param mode The mode to change to.
+ */
 void	mssignal_change_mode(char mode)
 {
 	if (mode == MSSIG_NINTER)

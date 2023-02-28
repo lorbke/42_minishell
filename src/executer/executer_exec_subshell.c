@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 23:54:19 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/27 14:39:47 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:30:37 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@
 #include <stdlib.h> // free
 #include <sys/errno.h> // errno
 
+/**
+ * It forks a child process,
+ * and in the child process, it prepares the file descriptors for the execve()
+ * system call, and then it executes the command
+ * 
+ * @param cmd_table The command table.
+ * @param fd_pipe the file descriptor of the pipe to be used 
+ * for the child process.
+ */
 static void	case_child(t_cmd_table *cmd_table, int fd_pipe)
 {
 	int		status;
@@ -37,6 +46,19 @@ static void	case_child(t_cmd_table *cmd_table, int fd_pipe)
 	exit(status);
 }
 
+/**
+ * It forks, and if it's the child, it executes the command, 
+ * and if it's the parent, it closes the
+ * input and output file descriptors
+ * 
+ * @param cmd_table This is a pointer to a t_cmd_table structure. 
+ * This structure contains all the
+ * information about the command that is being executed.
+ * @param fd_pipe the file descriptor of the pipe that will be used 
+ * to communicate with the child process.
+ * 
+ * @return The pid of the child process.
+ */
 pid_t	exec_subshell(t_cmd_table *cmd_table, int fd_pipe)
 {
 	pid_t	pid;

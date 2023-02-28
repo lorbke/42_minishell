@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_exit_status.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 14:29:45 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 20:39:48 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:38:13 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@
 #include <unistd.h> // STDIN_FILENO, STDOUT_FILENO, write, read
 #include <sys/wait.h> // waitpid, WIFEXITED, WEXITSTATUS, WIFSIGNALED, WTERMSIG
 
+/**
+ * It sets the exit status of the shell
+ * 
+ * @param exit_status The exit status of the last command executed.
+ * 
+ * @return The exit status of the last command executed.
+ */
 void	ms_exit_status_set(t_status exit_status)
 {
 	t_sym_tab	*tmp;
@@ -43,6 +50,11 @@ void	ms_exit_status_set(t_status exit_status)
 	}
 }
 
+/**
+ * It gets the exit status of the last command executed
+ * 
+ * @return The exit status of the last command executed.
+ */
 t_status	ms_exit_status_get(void)
 {
 	t_sym_tab	*tmp;
@@ -61,6 +73,14 @@ t_status	ms_exit_status_get(void)
 	return (ERR_SUCCESS);
 }
 
+/**
+ * It waits for a process to finish, and sets the exit status to
+ * the exit status of the process
+ * 
+ * @param pid The pid of the process to wait for.
+ * 
+ * @return The exit status of the process.
+ */
 void	ms_wait_pid_and_set_exit(pid_t pid)
 {
 	int	status;

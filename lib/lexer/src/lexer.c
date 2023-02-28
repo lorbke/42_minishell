@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:04:01 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 21:07:45 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 21:16:48 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@
 #include <unistd.h> // free
 #include <stdio.h> // printf
 
+/**
+ * It returns the number of characters in the string that are 
+ * special characters
+ * 
+ * @param str The string to be parsed.
+ * 
+ * @return The number of characters in the special character.
+ */
 static int	is_special_char(char *str)
 {
 	if (*str == '<' && *(str + 1) == '<')
@@ -40,6 +48,15 @@ static int	is_special_char(char *str)
 	return (0);
 }
 
+/**
+ * It skips over a string until it finds a space, a special character, 
+ * or a parenthesis
+ * 
+ * @param str The string to be parsed.
+ * 
+ * @return A pointer to the first character after the last character 
+ * of the last word.
+ */
 static char	*skip_quotes(char *str)
 {
 	while (*str)
@@ -56,6 +73,13 @@ static char	*skip_quotes(char *str)
 	return (str);
 }
 
+/**
+ * It skips over a subshell
+ * 
+ * @param str The string to be parsed.
+ * 
+ * @return The address of the character after the closing parenthesis.
+ */
 static char	*skip_subshell(char *str)
 {
 	int		depth;
@@ -73,6 +97,13 @@ static char	*skip_subshell(char *str)
 	return (str);
 }
 
+/**
+ * It takes a string and returns the next word in the string
+ * 
+ * @param str the string to be parsed
+ * 
+ * @return A string that is a word.
+ */
 static char	*get_next_word(char **str)
 {
 	char	*temp;
@@ -94,6 +125,13 @@ static char	*get_next_word(char **str)
 	return (ft_strdup_size(temp, *str - temp + 1));
 }
 
+/**
+ * It takes a string, and returns a stack of tokens
+ * 
+ * @param str The string to be tokenized.
+ * 
+ * @return A pointer to a stack node.
+ */
 t_stack	*lexer_str_to_tokstack(char *str)
 {
 	t_stack	*head;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:50:47 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 20:34:27 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:38:05 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@
 
 static int	exec_cd(char *path, char *oldpwd);
 
+/**
+ * It changes the current working directory to the directory specified by 
+ * the first argument, or to the home directory if no argument is given
+ * 
+ * @param argv The arguments passed to the command.
+ * 
+ * @return The return value of the function is the status of the cd command.
+ */
 int	cd_b(char **argv)
 {
 	int			status;
@@ -42,6 +50,14 @@ int	cd_b(char **argv)
 	return (status);
 }
 
+/**
+ * It changes the current working directory to the one specified by the user
+ * 
+ * @param path the path to change to
+ * @param oldpwd the old working directory
+ * 
+ * @return The return value of the function is the status of the function.
+ */
 static int	exec_cd(char *path, char *oldpwd)
 {
 	int	status;

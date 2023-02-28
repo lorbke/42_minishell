@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doccer_doc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 21:08:02 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 21:38:31 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@
 
 #define DOC_PROMPT "> "
 
+/**
+ * It reads all the lines from a file descriptor and discards them
+ * 
+ * @param fd the file descriptor to read from
+ */
 static void	empty_fd(int fd)
 {
 	char	*line;
@@ -39,6 +44,17 @@ static void	empty_fd(int fd)
 	}
 }
 
+/**
+ * It reads lines from stdin until it finds a line that matches 
+ * the given limiter, and writes all the
+ * lines it reads to the given file descriptor
+ * 
+ * @param limiter the string that will be used to determine when 
+ * the heredoc is over.
+ * @param fd_write the file descriptor to write to.
+ * 
+ * @return the number of bytes written to the file descriptor.
+ */
 int	doc_heredoc(char *limiter, int fd_write)
 {
 	size_t	limiter_len;
@@ -63,6 +79,17 @@ int	doc_heredoc(char *limiter, int fd_write)
 	return (ERR_SUCCESS);
 }
 
+/**
+ * It reads a line from stdin,
+ * and writes it to the given file descriptor
+ * 
+ * @param unused the placeholder string that was passed to 
+ * the completion function
+ * @param fd_write the file descriptor to write to
+ * 
+ * @return The return value of the function is the return value 
+ * of the last command executed.
+ */
 int	doc_completingdoc(__attribute__((unused)) char *placeholder, int fd_write)
 {
 	char	*line;
@@ -80,6 +107,17 @@ int	doc_completingdoc(__attribute__((unused)) char *placeholder, int fd_write)
 	return (ERR_SUCCESS);
 }
 
+/**
+ * It forks, and the child
+ * executes the command, and the parent waits for the child to finish, and then
+ * reads the output of the command from the pipe
+ * 
+ * @param pid the pid of the child process
+ * @param fd_pipe the pipe file descriptors
+ * @param exit_status the exit status of the child process
+ * 
+ * @return the documentation of the command.
+ */
 static char	*case_parent(pid_t pid, int fd_pipe[2], t_status *exit_status)
 {
 	char	*doc;
@@ -107,6 +145,19 @@ static char	*case_parent(pid_t pid, int fd_pipe[2], t_status *exit_status)
 	return (doc);
 }
 
+/**
+ * It forks, and in the child process it calls the function 
+ * passed as an argument, and in the parent
+ * process it reads the output of the child process
+ * 
+ * @param doc_func a function that takes a string and a file descriptor, 
+ * and writes the
+ * @param lim the limit of the command, i.e. the first word of the command.
+ * @param exit_status This is a pointer to a t_status variable. 
+ * This variable will be set to ERR_GENERAL if there is an error.
+ * 
+ * @return A string containing the documentation for the command.
+ */
 char	*get_doc(
 	int (*doc_func)(char *, int), char *lim, t_status *exit_status)
 {
