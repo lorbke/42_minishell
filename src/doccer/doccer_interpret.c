@@ -15,58 +15,22 @@
 #include "libft.h" // ft_strjoin
 #include "../minishell.h" // CMD_SEPS, CMD_ESCS
 #include <stdlib.h> // free
+#include <stdbool.h> // bool
 
-static char	*handle_unclosed_quote(
-	char quote, char *input, t_stack *tokstack, t_status *exit_status)
+
+static bool	is_incomplete_input(t_stack *tokstack)
 {
-	char	*temp;
-	char	*doc;
-
-	if ((tokstack && tokstack->token->desc == TOK_UNCLOSED_DQUOTE
-			&& !ft_is_char_count_uneven(tokstack->token->word, '\"'))
-		|| (tokstack->token->desc == TOK_UNCLOSED_SQUOTE
-			&& !ft_is_char_count_uneven(tokstack->token->word, '\'')))
-		tokstack->token->desc = TOK_QUOTED;
-	temp = tokstack->token->word;
-	doc = get_doc(doc_quotedoc, &quote, exit_status);
-	if (*exit_status != ERR_SUCCESS)
-	{
-		free(doc);
-		return (input);
-	}
-	tokstack->token->word
-		= ft_strjoin(tokstack->token->word, doc);
-	free(temp);
-	temp = input;
-	input = ft_strjoin(input, doc);
-	if (!input || !tokstack->token->word)
-		ft_perror_and_exit("doccer: ft_strjoin: malloc: ");
-	free(doc);
-	free(temp);
-	return (input);
+	if ((tokstack->token->desc == TOK_PIPE
+			|| tokstack->token->desc == TOK_AND
+		 	|| tokstack->token->desc == TOK_OR)
+		&& tokstack->next == NULL)
+		return (true);
+	if (tokstack->token->desc == TOK_UNCLOSED_DQUOTE
+		|| tokstack->token->desc == TOK_UNCLOSED_SQUOTE)
+		return (true);
+	return (false);
 }
 
-static char	*handle_incomplete_input(
-	char *input, t_stack *tokstack, t_status *exit_status)
-{
-	char	*temp_str;
-	char	*doc;
-
-	doc = get_doc(doc_completingdoc, NULL, exit_status);
-	if (*exit_status != ERR_SUCCESS)
-	{
-		free(doc);
-		return (input);
-	}
-	tokstack->next = lexer_str_to_tokstack(doc);
-	temp_str = input;
-	input = ft_strjoin(input, doc);
-	if (!input)
-		ft_perror_and_exit("doccer: ft_strjoin: malloc: ");
-	free(doc);
-	free(temp_str);
-	return (input);
-}
 
 static t_stack	*iterate_to_end_and_interpret_heredocs(
 	t_stack *tokstack, char *input, t_status *exit_status)
@@ -95,25 +59,28 @@ static t_stack	*iterate_to_end_and_interpret_heredocs(
 	return (temp_stack);
 }
 
-char	*doccer_interpret_docs(
-			t_stack *tokstack, char *input, t_status *exit_status)
+t_stack	*doccer_get_complete_tokstack(char **input, t_status *exit_status)
 {
-	t_stack	*temp_stack;
+	t_stack *tokstack;
+	t_stack *temp_stack;
+	char	*temp_str;
+	char	*doc;
 
-	*exit_status = ERR_SUCCESS;
-	temp_stack
-		= iterate_to_end_and_interpret_heredocs(tokstack, input, exit_status);
+	tokstack = lexer_str_to_tokstack(*input);
+	if (!tokstack)
+		return (NULL);
+	temp_stack = iterate_to_end_and_interpret_heredocs(tokstack, *input, exit_status);
 	if (!temp_stack)
-		return (input);
-	if (temp_stack->token->desc == TOK_UNCLOSED_SQUOTE)
-		input = handle_unclosed_quote('\'', input, temp_stack, exit_status);
-	else if (temp_stack->token->desc == TOK_UNCLOSED_DQUOTE)
-		input = handle_unclosed_quote('\"', input, temp_stack, exit_status);
-	else if (temp_stack->token->desc == TOK_PIPE
-		|| temp_stack->token->desc == TOK_AND
-		|| temp_stack->token->desc == TOK_OR)
-		input = handle_incomplete_input(input, temp_stack, exit_status);
-	if (temp_stack->next)
-		input = doccer_interpret_docs(temp_stack->next, input, exit_status);
-	return (input);
+		return (NULL);
+	if (!is_incomplete_input(temp_stack))
+		return (tokstack);
+	doc = get_doc(doc_completingdoc, NULL, exit_status);
+	if (!doc)
+		return (NULL);
+	temp_str = *input;
+	*input = ft_strjoin(*input, doc);
+	free(temp_str);
+	tokstack->next = doccer_get_complete_tokstack(input, exit_status);
+	free(doc);
+	return (tokstack);
 }

@@ -16,7 +16,6 @@
 # include "lexer.h" // t_stack
 # include "minishell.h" // t_status
 
-char	*doccer_interpret_docs(
-			t_stack *tokstack, char *input, t_status *exit_status);
+t_stack	*doccer_get_complete_tokstack(char **input, t_status *exit_status);
 
 #endif
