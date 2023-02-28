@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 19:34:03 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 19:40:07 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static pid_t	fork_and_execve(
 			status = ERR_CMDNOTFOUND;
 		else
 			status = ERR_NOPERM;
-		ms_print_errno(cmd_table->cmd[0]);
 		ms_print_errno(cmd_table->cmd[0]);
 		free(path);
 		free_split(env);

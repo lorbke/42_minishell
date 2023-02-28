@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 15:37:35 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 19:33:34 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 19:37:00 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 /* This is bad practice, calling readline functions inside a signal handler
 can cause undefined behavior (see signal-safety).
 Unfortunately, the 42_minishell subject does not allow another solution. */
-static void	handle_ctrlc_interactive(void)
+static void	handle_ctrlc_interactive(__attribute__((unused)) int signal)
 {
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
@@ -35,7 +35,7 @@ static void	handle_ctrlc_interactive(void)
 	rl_redisplay();
 }
 
-static void	handle_ctrlc_doc(void)
+static void	handle_ctrlc_doc(__attribute__((unused)) int signal)
 {
 	write(STDOUT_FILENO, "\n", 1);
 	gc_free_all_garbage();
@@ -73,13 +73,13 @@ void	mssignal_change_mode(char mode)
 	{
 		set_termios(true);
 		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, handle_ctrlc_interactive);
+		signal(SIGINT, &handle_ctrlc_interactive);
 	}
 	else if (mode == MSSIG_DOC)
 	{
 		set_termios(true);
 		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, handle_ctrlc_doc);
+		signal(SIGINT, &handle_ctrlc_doc);
 	}
 	else if (mode == MSSIG_EXEC)
 	{

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 17:10:28 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 19:32:23 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 19:35:11 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	ms_print_exec_error(t_status exit_status, char *error_loc)
 	}
 }
 
-void	ms_print_errno(char *error_loc)
 void	ms_print_errno(char *error_loc)
 {
 	ft_putstr_fd(SHELL_NAME, STDERR_FILENO);

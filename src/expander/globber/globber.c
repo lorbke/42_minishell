@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:29:31 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 19:34:28 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 19:42:33 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ char	*globber_redirection(char *filename)
 	}
 	else if (len > 1)
 	{
-		// @note should filename be freed here?
 		free(filename);
 		free_split(result);
 		return (NULL);
