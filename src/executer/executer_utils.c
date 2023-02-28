@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:12:31 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/27 13:45:52 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 16:30:49 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_cmd_table	*redir_get_cmd_table(int redir_fd, t_ast *ast)
 	if (redir_fd == RETURN_ERROR)
 	{
 		ms_exit_status_set(ERR_GENERAL);
-		ms_print_errno(0, ast->right->token->word);
+		ms_print_errno(ast->right->token->word);
 		return (NULL);
 	}
 	if (!ast->left)

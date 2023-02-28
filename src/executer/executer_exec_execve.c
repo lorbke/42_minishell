@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_exec_execve.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/27 17:30:41 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 16:27:01 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static pid_t	fork_and_execve(
 			status = ERR_CMDNOTFOUND;
 		else
 			status = ERR_NOPERM;
-		ms_print_errno(status, cmd_table->cmd[0]);
+		ms_print_errno(cmd_table->cmd[0]);
 		free(path);
 		free_split(env);
 		gc_free_all_garbage();
