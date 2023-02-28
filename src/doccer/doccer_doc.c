@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/27 21:04:40 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 15:07:26 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,8 @@ static char	*case_parent(pid_t pid, int fd_pipe[2], t_status *exit_status)
 	if (!doc)
 		ft_perror_and_exit("case_parent: ft_calloc: malloc:");
 	ret = read(fd_pipe[0], doc, ARG_MAX);
-	if (ret == 0)
-	{
-		free(doc);
-		close(fd_pipe[0]);
-		return (NULL);
-	}
+	if (ret == RETURN_ERROR)
+		ft_perror_and_exit("case_parent: read:");
 	close(fd_pipe[0]);
 	return (doc);
 }

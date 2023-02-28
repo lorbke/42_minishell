@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/27 21:37:48 by lorbke           ###   ########.fr        #
+#    Updated: 2023/02/28 16:25:08 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ NAME := minishell
 CC := gcc
 AR := ar rcs
 RM := rm -f
-CFLAGS := -g #-fsanitize=address,undefined #-Wall -Wextra -Werror
+CFLAGS := -g -fsanitize=address,undefined #-Wall -Wextra -Werror
 
 # leak sanitizer
 LEAKFLAGS := -Wno-gnu-include-next

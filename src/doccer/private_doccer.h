@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 15:30:19 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/23 01:46:03 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 15:20:32 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include "../minishell.h" // t_status
 
 // utils
-int		is_only_whitespace(char *str);
-int		is_closed(char *str);
+bool	doccer_is_word(char desc);
+int		is_incomplete_input(t_stack *tokstack);
 
 // doc
 int		doc_heredoc(char *limiter, int fd_write);

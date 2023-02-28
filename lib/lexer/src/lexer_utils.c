@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:37:54 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 02:27:38 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 15:47:51 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ unsigned char	desc_word(char *word)
 		return (TOK_UNCLOSED_SQUOTE);
 	else if ((is_unclosed_quote(word) == 2))
 		return (TOK_UNCLOSED_DQUOTE);
-	else if (*word == '(')
+	else if (*word == '(' || *word == ')')
 		return (TOK_SUBSHELL);
 	else if (*word == '&' && *(word + 1) == '&')
 		return (TOK_AND);

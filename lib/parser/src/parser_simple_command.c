@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:53:34 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 02:26:38 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 15:58:14 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,6 @@
 #include "lexer.h" // t_token, t_stack, TOK_* macros
 #include <stdlib.h> // NULL
 #include <stdbool.h> // bool, true, false
-
-static bool	is_word(t_stack *token)
-{
-	if (!token)
-		return (false);
-	if (token->token->desc == TOK_WORD
-		|| token->token->desc == TOK_UNCLOSED_SQUOTE
-		|| token->token->desc == TOK_UNCLOSED_DQUOTE
-		|| token->token->desc == TOK_QUOTED)
-		return (true);
-	return (false);
-}
-
-static bool	is_redirect(t_stack *token)
-{
-	if (!token)
-		return (false);
-	if (token->token->desc == TOK_REDIR_IN
-		|| token->token->desc == TOK_REDIR_OUT
-		|| token->token->desc == TOK_REDIR_APPEND
-		|| token->token->desc == TOK_REDIR_HEREDOC)
-		return (true);
-	return (false);
-}
 
 static t_ast	*rule_word(t_stack **tokstack)
 {

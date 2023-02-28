@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:14:20 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/27 00:21:01 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 16:02:45 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ t_cmd_table	*handle_redir_out(t_ast *ast);
 t_cmd_table	*handle_cmd(t_ast *ast);
 
 // utils
-bool		is_quoted(char desc);
-bool		is_word(char desc);
+bool		executer_is_quoted(char desc);
+bool		executer_is_word(char desc);
 t_cmd_table	*redir_get_cmd_table(int redir_fd, t_ast *ast);
 t_cmd_table	*create_cmd_table(t_ast *ast);
 
@@ -50,6 +50,7 @@ void		exec_close_in_out_fds(int fd_in[2], int fd_out[2]);
 void		exec_prepare_fds_for_exec(t_cmd_table *cmd_table, int fd_pipe);
 pid_t		exec_fork_error(pid_t pid, t_cmd_table *cmd_table);
 
+// handle func array
 static const t_func_handle	g_func_handle_arr[]
 	= {
 [TOK_WORD] = &handle_cmd,
