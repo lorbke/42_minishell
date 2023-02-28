@@ -6,13 +6,14 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:25:39 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 21:23:16 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/03/01 00:27:32 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "private_doccer.h" // get_doc
 #include "lexer.h" // lexer_str_to_tokstack
 #include "libft.h" // ft_strjoin
+#include "garbage_collector.h" // gc_add_garbage
 #include <stdlib.h> // free
 
 /**

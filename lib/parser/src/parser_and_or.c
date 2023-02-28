@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 18:43:53 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 20:47:23 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/03/01 00:46:54 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,12 @@ static t_ast	*get_right(t_stack **tokstack)
 			&& (*tokstack)->token->desc != TOK_OR))
 		return (NULL);
 	head = create_ast_node((*tokstack)->token);
-	head->right = rule_pipeline(&(*tokstack)->next);
+	if (!(*tokstack)->next)
+		return (head);
+	*tokstack = (*tokstack)->next;
+	head->right = rule_pipeline(tokstack);
 	if (!head->right)
 		return (NULL);
-	*tokstack = (*tokstack)->next;
 	next_andor = get_right(tokstack);
 	if (!next_andor)
 		return (head);
