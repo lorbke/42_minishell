@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/02/28 19:32:07 by lorbke           ###   ########.fr        #
+#    Updated: 2023/02/28 19:53:47 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ CC := gcc
 AR := ar rcs
 RM := rm -f
 CFLAGS := -Wall -Wextra -Werror
+ADD_FLAGS := #-g -fsanitize=address,undefined
 
 # leak sanitizer
 LEAKFLAGS := -Wno-gnu-include-next
@@ -65,8 +66,11 @@ OBJ_PATH := obj
 SRC := $(wildcard $(SRC_PATH)/*.c) $(wildcard $(SRC_PATH)/*/*.c) $(wildcard $(SRC_PATH)/*/*/*.c)
 OBJ := $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 
+# include
+INC_PATH := src/
+
 # VPATH
-VPATH := $(SRC_PATH) $(SRC_PATH)/debugger $(SRC_PATH)/executer $(SRC_PATH)/doccer $(SRC_PATH)/builtin $(SRC_PATH)/builtin/cd $(SRC_PATH)/builtin/export $(SRC_PATH)/expander $(SRC_PATH)/utils $(SRC_PATH)/$(GLBR_PATH) $(SRC_PATH)/$(QUOTE_PATH)
+VPATH := $(SRC_PATH)/core $(SRC_PATH)/debugger $(SRC_PATH)/executer $(SRC_PATH)/doccer $(SRC_PATH)/builtin $(SRC_PATH)/builtin/cd $(SRC_PATH)/builtin/export $(SRC_PATH)/expander $(SRC_PATH)/utils $(SRC_PATH)/$(GLBR_PATH) $(SRC_PATH)/$(QUOTE_PATH)
 
 # file targets
 $(NAME): $(OBJ_PATH) $(OBJ)
@@ -77,19 +81,15 @@ $(NAME): $(OBJ_PATH) $(OBJ)
 	@$(MAKE) -C $(ENV_PATH)
 	@$(MAKE) -C $(GNL_PATH)
 	@echo -e -n "$(BLUE)Creating: minishell executable: $(RESET)"
-	$(CC) $(CFLAGS) $(OBJ) $(GCOLL_LINK) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(EXECUTER_LINK) $(ENV_LINK) $(GNL_LINK) -l$(RDLN_LIB) -o $(NAME)
+	$(CC) $(CFLAGS) $(ADD_FLAGS) $(OBJ) -I$(INC_PATH) $(GCOLL_LINK) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(EXECUTER_LINK) $(ENV_LINK) $(GNL_LINK) -l$(RDLN_LIB) -o $(NAME)
 	@echo -e "$(GREEN)make: minishell success!$(RESET)"
-# inc when on macbook
-# -L/opt/homebrew/Cellar/readline/8.2.1/lib
-# Leak Sanitizer
-# -L/Users/fyuzhyk/LeakSanitizer -llsan -lc++
 
 $(OBJ_PATH):
 	@mkdir -p $(OBJ_PATH)
 
 $(OBJ_PATH)/%.o: %.c Makefile $(SRC_PATH)/minishell.h $(SRC_PATH)/debugger.h $(SRC_PATH)/executer.h $(SRC_PATH)/doccer.h
 	@echo -e -n "$(YELLOW)Compiling: $(RESET)"
-	$(CC) $(CFLAGS) -I$(GCOLL_PATH) -I$(LFT_PATH) -I$(LEXER_PATH) -I$(PARSER_PATH) -I$(ENV_PATH) -I$(GNL_PATH) -c $< -o $@
+	$(CC) $(CFLAGS) $(ADD_FLAGS) -I$(INC_PATH) -I$(GCOLL_PATH) -I$(LFT_PATH) -I$(LEXER_PATH) -I$(PARSER_PATH) -I$(ENV_PATH) -I$(GNL_PATH) -c $< -o $@
 
 # phony targets
 all: $(NAME)
