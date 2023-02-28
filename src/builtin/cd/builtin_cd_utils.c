@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:43:00 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 19:20:14 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 20:32:09 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // t_sym_tab
 #include "libft.h" // ft_strncmp, ft_strlen, ft_strdup, ft_strjoin
-#include "../../utils.h" // ft_strcmp
+#include "../../utils.h" // utils_ft_strcmp
 #include <errno.h> // errno
 #include <stdio.h> // perror
 
@@ -76,7 +76,7 @@ void	set_path(char *var, char *value)
 	if (value != NULL)
 	{
 		new_var = concat_var(var, value);
-		add_to_back(g_sym_table, new_sym_tab_node(new_var));
+		env_add_to_back(g_sym_table, env_new_sym_tab_node(new_var));
 		free(new_var);
 	}
 }

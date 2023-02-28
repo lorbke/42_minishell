@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:50:47 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 19:19:34 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 20:34:27 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // t_sym_tab
 #include "libft.h" // ft_strncmp, ft_strlen
 #include "cd_private.h" // handle_dash, handle_dots, set_path, cd_home
-#include "../../utils.h" // ft_strcmp, ft_perror
+#include "../../utils.h" // utils_ft_strcmp, utils_ft_perror
 #include <stdio.h> // printf, perror
 #include <unistd.h> // chdir, getcwd
 #include <errno.h> // errno
@@ -47,9 +47,9 @@ static int	exec_cd(char *path, char *oldpwd)
 	int	status;
 
 	status = 0;
-	if (ft_strcmp(path, "-") == 0)
+	if (utils_ft_strcmp(path, "-") == 0)
 		status = handle_dash(oldpwd);
-	else if (ft_strcmp(path, "..") == 0)
+	else if (utils_ft_strcmp(path, "..") == 0)
 		status = handle_dots(path);
 	else
 	{

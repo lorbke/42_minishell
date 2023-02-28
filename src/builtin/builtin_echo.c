@@ -6,12 +6,12 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:57:59 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 16:11:12 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 20:32:09 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // ft_strncmp, ft_strlen
-#include "../utils.h" // ft_strcmp
+#include "../utils.h" // utils_ft_strcmp
 #include <stdio.h> // printf
 
 static int	check_for_flag(char *arg);

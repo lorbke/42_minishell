@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_malloc_safe.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 23:58:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/25 00:17:35 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 20:34:27 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h" // ft_perror_and_exit
+#include "libft.h" // utils_ft_perror_and_exit
 #include <stdlib.h> // malloc, exit, size_t
 
 /* Wrapper function for malloc that checks if allocation size is above zero and
@@ -23,6 +23,6 @@ void	*ft_malloc_safe(size_t size, size_t count)
 		return (NULL);
 	ptr = malloc(size * count);
 	if (ptr == NULL)
-		ft_perror_and_exit("malloc: ");
+		utils_ft_perror_and_exit("malloc: ");
 	return (ptr);
 }

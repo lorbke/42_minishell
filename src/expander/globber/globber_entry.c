@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   globber_entry.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:20:36 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 19:21:06 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 20:34:05 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // NULL, malloc, free, ft_strlen, ft_strlcpy, ft_strjoin
 #include "globber_private.h" // is_match, opendir, readdir, closedir
-#include "../../utils.h" // realloc_string_array, ft_strcmp
+#include "../../utils.h" // utils_realloc_str_arr, utils_ft_strcmp
 
 static char	**sort_entries(char **result, char *entry);
 static char	**add_first_entry(char *entry, char **result);
@@ -24,7 +24,7 @@ char	**add_matching_entry(char **result, char *entry)
 		result = add_first_entry(entry, result);
 	else
 	{
-		result = realloc_string_array(result, 1);
+		result = utils_realloc_str_arr(result, 1);
 		result = sort_entries(result, entry);
 	}
 	return (result);
@@ -44,7 +44,7 @@ char	**get_matching_entries(char *path, char *pattern, char **result)
 		entry = readdir(dir);
 		if (entry == NULL)
 			break ;
-		if (entry->d_name[0] != '.' || ft_strcmp(pattern, ".*") == 0)
+		if (entry->d_name[0] != '.' || utils_ft_strcmp(pattern, ".*") == 0)
 			result = add_match(result, entry->d_name, path, pattern);
 	}
 	if (dir != NULL)
@@ -100,7 +100,7 @@ static char	**sort_entries(char **result, char *entry)
 	result[len + 1] = NULL;
 	while (result[i] != NULL)
 	{
-		if (ft_strcmp(entry, result[i]) < 0)
+		if (utils_ft_strcmp(entry, result[i]) < 0)
 			break ;
 		i++;
 	}

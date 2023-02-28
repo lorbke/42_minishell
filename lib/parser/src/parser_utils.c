@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 12:30:50 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 15:58:22 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 20:34:27 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static t_token	*dup_token(t_token *token)
 	{
 		new->word = ft_strdup(token->word);
 		if (!new->word)
-			ft_perror_and_exit("parser: ft_strdup: malloc: ");
+			utils_ft_perror_and_exit("parser: ft_strdup: malloc: ");
 	}
 	else
 		new->word = NULL;

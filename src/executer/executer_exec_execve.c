@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_exec_execve.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 19:40:07 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 20:34:27 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static pid_t	fork_and_execve(
 			status = ERR_NOPERM;
 		ms_print_errno(cmd_table->cmd[0]);
 		free(path);
-		free_split(env);
+		utils_free_split(env);
 		gc_free_all_garbage();
 		env_free_sym_tab(g_sym_table);
 		exit(status);
@@ -60,12 +60,12 @@ pid_t	exec_execve(t_cmd_table *cmd_table, int fd_pipe)
 	char	*path;
 	char	**env;
 
-	env = create_env_list(g_sym_table);
+	env = env_create_env_list(g_sym_table);
 	if (!env || ft_strchr(cmd_table->cmd[0], '/'))
 	{
 		path = ft_strdup(cmd_table->cmd[0]);
 		if (!path)
-			ft_perror_and_exit("exec_execve: ft_strup: malloc: ");
+			utils_ft_perror_and_exit("exec_execve: ft_strup: malloc: ");
 	}
 	else
 	{

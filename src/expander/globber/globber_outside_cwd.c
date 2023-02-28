@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   globber_outside_cwd.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 19:21:21 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 20:32:09 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 // ft_strjoin, ft_substr
 #include "globber_private.h" // stat, opendir, readdir, closedir,
 // get_matching_entries, create_new_path, pattern_over, is_valid_entry
-#include "../expander_private.h" // find_closing_quote, quote_removal
-#include "../../utils.h" // ft_strcmp
+#include "../expander_private.h" // quotes_find_closing_quote, quote_removal
+#include "../../utils.h" // utils_ft_strcmp
 
 static char	**iterate_over_dir(char *path, char *pattern, char **result);
 static char	**expand_in_valid_path(char *path, char *pattern, char **result);
@@ -33,7 +33,7 @@ char	**globbing_outside_cwd(char *path, char *pattern, char **result)
 	{
 		new_path = ft_substr(pattern, 0, i + 1);
 		new_pattern = ft_substr(pattern, i + 1, ft_strlen(pattern));
-		if (ft_strcmp(new_path, "*/") == 0)
+		if (utils_ft_strcmp(new_path, "*/") == 0)
 			result = iterate_over_dir(path, new_pattern, result);
 		else
 		{
@@ -61,7 +61,7 @@ char	**expand_cwd_dir(char *pattern, char **result)
 		entry = readdir(dir);
 		if (entry == NULL)
 			break ;
-		if (entry->d_name[0] != '.' || ft_strcmp(pattern, ".*") == 0)
+		if (entry->d_name[0] != '.' || utils_ft_strcmp(pattern, ".*") == 0)
 		{
 			new_path = ft_strjoin(entry->d_name, "/");
 			if (entry->d_type == DT_DIR && pattern[0] != '\0')

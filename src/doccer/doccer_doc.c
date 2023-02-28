@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doccer_doc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 19:16:50 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 20:34:27 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "../mssignal.h" // mssignal_change_mode
 #include "../minishell.h" // exit_status functions
 #include "garbage_collector.h" // gc_free_all_garbage
-#include "../quotes.h" // remove_quotes_from_string
+#include "../quotes.h" // quotes_rmv_quotes_from_str
 #include <stdio.h> // FILE
 #include <readline/readline.h> // readline
 #include <stdlib.h> // malloc, free
@@ -44,7 +44,7 @@ int	doc_heredoc(char *limiter, int fd_write)
 	size_t	limiter_len;
 	char	*line;
 
-	remove_quotes_from_string(limiter);
+	quotes_rmv_quotes_from_str(limiter);
 	limiter_len = ft_strlen(limiter);
 	while (1)
 	{
@@ -101,7 +101,7 @@ static char	*case_parent(pid_t pid, int fd_pipe[2], t_status *exit_status)
 		empty_fd(STDIN_FILENO);
 	doc = ft_calloc(sizeof(char), ARG_MAX + 1);
 	if (!doc)
-		ft_perror_and_exit("case_parent: ft_calloc: malloc:");
+		utils_ft_perror_and_exit("case_parent: ft_calloc: malloc:");
 	read(fd_pipe[0], doc, ARG_MAX);
 	close(fd_pipe[0]);
 	return (doc);

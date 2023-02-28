@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:03:21 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 14:59:44 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 20:25:19 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*increase_shlvl(char *shlvl)
 	return (new_shlvl);
 }
 
-void	add_to_back(t_sym_tab **lst, t_sym_tab *new_node)
+void	env_add_to_back(t_sym_tab **lst, t_sym_tab *new_node)
 {
 	t_sym_tab	*temp;
 
@@ -67,7 +67,7 @@ void	add_to_back(t_sym_tab **lst, t_sym_tab *new_node)
 		*lst = new_node;
 }
 
-t_sym_tab	*copy_node(t_sym_tab *node)
+t_sym_tab	*env_copy_node(t_sym_tab *node)
 {
 	t_sym_tab	*new_node;
 
