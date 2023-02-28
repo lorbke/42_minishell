@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:05:55 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 16:31:20 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 16:40:25 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ char	*ms_digest_input(char *input)
 	t_ast		*ast;
 	t_status	exit_status;
 
-	exit_status = ERR_SUCCESS;
 	tokstack = digest_lexing(input);
 	if (!tokstack)
 		return (input);

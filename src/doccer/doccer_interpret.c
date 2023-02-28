@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:25:39 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 16:24:47 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/02/28 16:52:56 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ static void	get_tail_stack(
 	temp_str += len;
 	temp_str2 = *input;
 	*input = ft_strjoin(*input, temp_str);
-	free(temp_str2);
 	free(doc);
 }
 
