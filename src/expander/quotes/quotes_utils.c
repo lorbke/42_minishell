@@ -6,13 +6,13 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 13:17:06 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 20:38:05 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 14:26:48 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // NULL, malloc, ft_strlen
-#include "../utils.h" // ft_realloc
-#include "expander_private.h" // find_closing_quote, skip_quotes_in_quotes
+#include "../../utils.h" // ft_realloc
+#include "../../quotes.h" // find_closing_quote, skip_quotes_in_quotes
 
 char	*handle_quotes(char *result, char *str, int *i, int *result_i)
 {

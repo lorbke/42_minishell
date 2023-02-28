@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   cd_private.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/06 14:33:34 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 13:40:15 by fyuzhyk          ###   ########.fr       */
+/*   Created: 2023/02/08 11:39:44 by fyuzhyk           #+#    #+#             */
+/*   Updated: 2023/02/28 13:37:47 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#ifndef CD_PRIVATE_H
+# define CD_PRIVATE_H
 
-#include "executer.h" // t_cmd_table
+// builtin_cd_utils
+void	set_path(char *var, char *value);
+int		change_prev_dir(void);
+int		check_for_dots(char *path, int *i);
 
-int	cd_b(char **argv);
-int	pwd_b(char **argv);
-int	env_b(char **argv);
-int	echo_b(char **argv);
-int	builtin_exit_b(char **argv);
-int	unset_b(char **argv);
-int	export_b(char **argv);
-
-// builtins_utils
-int	builtin_is_builtin(char *cmd);
-int	builtin_exec(t_cmd_table *cmd_table);
+// builtin_cd_modes
+int		cd_home(void);
+int		handle_dots(char *path);
+int		handle_dash(char *oldpwd);
 
 #endif

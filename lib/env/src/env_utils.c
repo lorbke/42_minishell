@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:20:30 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 18:40:32 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/27 22:49:18 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ char	*get_value(char *var)
 	char	*ptr_to_value;
 
 	ptr_to_value = ft_strchr(var, '=');
+	if (ptr_to_value == NULL)
+		return (NULL);
 	value = malloc(sizeof(char) * (ft_strlen(ptr_to_value) + 1));
 	if (value == NULL)
 		return (NULL);

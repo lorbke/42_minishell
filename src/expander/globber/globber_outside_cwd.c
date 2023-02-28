@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 19:23:25 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 16:41:21 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 14:30:08 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "globber_private.h" // stat, opendir, readdir, closedir,
 // get_matching_entries, create_new_path, pattern_over, is_valid_entry
 #include "../expander_private.h" // find_closing_quote, quote_removal
+#include "../../utils.h" // ft_strcmp
 
 static char	**iterate_over_dir(char *path, char *pattern, char **result);
 static char	**expand_in_valid_path(char *path, char *pattern, char **result);
@@ -45,44 +46,6 @@ char	**globbing_outside_cwd(char *path, char *pattern, char **result)
 	}
 	else if (access(path, R_OK) == 0)
 		result = get_matching_entries(path, pattern, result);
-	return (result);
-}
-
-static char	**iterate_over_dir(char *path, char *pattern, char **result)
-{
-	DIR				*dir;
-	struct dirent	*entry;
-	char			*new_path;
-
-	dir = opendir(path);
-	while (dir != NULL)
-	{
-		entry = readdir(dir);
-		if (entry == NULL)
-			break ;
-		if (is_valid_entry(entry, pattern))
-		{
-			if (pattern[0] == '\0')
-				result = pattern_over(result, entry->d_name, path);
-			else
-			{
-				new_path = create_new_path(path, entry->d_name);
-				result = globbing_outside_cwd(new_path, pattern, result);
-				free(new_path);
-			}
-		}
-	}
-	if (dir != NULL)
-		closedir(dir);
-	return (result);
-}
-
-static char	**expand_in_valid_path(char *path, char *pattern, char **result)
-{
-	struct stat	buf;
-
-	if (stat(path, &buf) == 0)
-		result = globbing_outside_cwd(path, pattern, result);
 	return (result);
 }
 
@@ -122,4 +85,42 @@ char	*create_new_path(char *path, char *entry)
 	new_path = ft_strjoin(sub_path, "/");
 	free(sub_path);
 	return (new_path);
+}
+
+static char	**iterate_over_dir(char *path, char *pattern, char **result)
+{
+	DIR				*dir;
+	struct dirent	*entry;
+	char			*new_path;
+
+	dir = opendir(path);
+	while (dir != NULL)
+	{
+		entry = readdir(dir);
+		if (entry == NULL)
+			break ;
+		if (is_valid_entry(entry, pattern))
+		{
+			if (pattern[0] == '\0')
+				result = pattern_over(result, entry->d_name, path);
+			else
+			{
+				new_path = create_new_path(path, entry->d_name);
+				result = globbing_outside_cwd(new_path, pattern, result);
+				free(new_path);
+			}
+		}
+	}
+	if (dir != NULL)
+		closedir(dir);
+	return (result);
+}
+
+static char	**expand_in_valid_path(char *path, char *pattern, char **result)
+{
+	struct stat	buf;
+
+	if (stat(path, &buf) == 0)
+		result = globbing_outside_cwd(path, pattern, result);
+	return (result);
 }

@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd_private.h                                       :+:      :+:    :+:   */
+/*   export_private.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/08 11:39:44 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 15:10:42 by fyuzhyk          ###   ########.fr       */
+/*   Created: 2023/02/15 17:37:28 by fyuzhyk           #+#    #+#             */
+/*   Updated: 2023/02/28 13:38:53 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CD_PRIVATE_H
-# define CD_PRIVATE_H
+#ifndef EXPORT_PRIVATE_H
+# define EXPORT_PRIVATE_H
 
-// utils
-void	set_path(char *var, char *value);
-char	*get_path(char *var);
-int		change_prev_dir(void);
-int		check_for_dots(char *path, int *i);
+# include "env.h"
 
-// modes
-int		cd_home(void);
-int		handle_dots(char *path);
-int		handle_dash(char *oldpwd);
+// builtin_export_utils
+char	*init_var_name(char *var);
+char	*init_var_value(char *var, char *var_name);
+int		update_if_exists(char *var_name, char *var_value);
+int		check_if_var_exists(t_sym_tab *temp, char *var_name);
 
 #endif

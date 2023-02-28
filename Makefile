@@ -3,14 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
+#    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2023/02/27 20:16:57 by fyuzhyk          ###   ########.fr        #
-=======
-#    Updated: 2023/02/27 19:01:43 by lorbke           ###   ########.fr        #
->>>>>>> ac46261ef94eb0fcd2a1f67376968268f2b90a78
+#    Updated: 2023/02/28 14:24:03 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +27,7 @@ NAME := minishell
 CC := gcc
 AR := ar rcs
 RM := rm -f
-CFLAGS := -g #-fsanitize=address,undefined #-Wall -Wextra -Werror
+CFLAGS := #-Wall -Wextra -Werror
 
 # leak sanitizer
 LEAKFLAGS := -Wno-gnu-include-next
@@ -61,6 +57,7 @@ GNL_LIB = gnl
 GNL_LINK = -L$(GNL_PATH) -l$(GNL_LIB)
 RDLN_LIB := readline
 GLBR_PATH := expander/globber
+QUOTE_PATH := expander/quotes
 
 # src and obj files macros
 SRC_PATH := src
@@ -69,7 +66,7 @@ SRC := $(wildcard $(SRC_PATH)/*.c) $(wildcard $(SRC_PATH)/*/*.c) $(wildcard $(SR
 OBJ := $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 
 # VPATH
-VPATH := $(SRC_PATH) $(SRC_PATH)/debugger $(SRC_PATH)/executer $(SRC_PATH)/doccer $(SRC_PATH)/builtins $(SRC_PATH)/builtins/cd $(SRC_PATH)/builtins/export $(SRC_PATH)/expander $(SRC_PATH)/utils $(SRC_PATH)/$(GLBR_PATH)
+VPATH := $(SRC_PATH) $(SRC_PATH)/debugger $(SRC_PATH)/executer $(SRC_PATH)/doccer $(SRC_PATH)/builtin $(SRC_PATH)/builtin/cd $(SRC_PATH)/builtin/export $(SRC_PATH)/expander $(SRC_PATH)/utils $(SRC_PATH)/$(GLBR_PATH) $(SRC_PATH)/$(QUOTE_PATH)
 
 # file targets
 $(NAME): $(OBJ_PATH) $(OBJ)

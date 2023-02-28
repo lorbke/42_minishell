@@ -6,7 +6,7 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:43:00 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 20:36:11 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/27 22:28:22 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,6 @@ int	change_prev_dir(void)
 	}
 	free(cwd);
 	return (0);
-}
-
-char	*get_path(char *var)
-{
-	char	**split;
-
-	split = ft_split(var, '=');
-	if (split == NULL)
-		return (NULL);
-	if (split[1] == NULL)
-		return (NULL);
-	else
-		return (split[1]);
 }
 
 void	set_path(char *var, char *value)

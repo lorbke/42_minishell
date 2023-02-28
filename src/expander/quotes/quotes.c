@@ -6,14 +6,14 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:38:45 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/23 15:09:06 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 14:26:32 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" // NULL, ft_strlen, malloc
-#include "../utils.h" // ft_realloc
-#include "../expander.h" // expander_remove_quotes
-#include "expander_private.h" // find_closing_quote, skip_quotes_in_quotes
+#include "../../utils.h" // ft_realloc
+#include "../../quotes.h" // remove_quotes_from_string,
+// find_closing_quote, skip_quotes_in_quotes
 
 void	quote_removal(char **argv)
 {
@@ -24,12 +24,12 @@ void	quote_removal(char **argv)
 	i = 0;
 	while (argv[i] != NULL)
 	{
-		expander_remove_quotes(argv[i]);
+		remove_quotes_from_string(argv[i]);
 		i++;
 	}
 }
 
-void	expander_remove_quotes(char *str)
+void	remove_quotes_from_string(char *str)
 {
 	int	i;
 	int	j;

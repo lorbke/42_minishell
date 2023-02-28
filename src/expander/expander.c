@@ -6,14 +6,14 @@
 /*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:14:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/27 17:28:19 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/02/28 14:23:06 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h" // g_sym_table
 #include "libft.h" // NULL, malloc, free, ft_strlen, ft_strdup
 #include "../expander.h" // expander, expand_str
-#include "globber/globber.h" // globber
+#include "../globber.h" // globber
 #include "../utils.h" // ft_realloc
 #include "expander_private.h" // handle_quotes, try_expansion, tilde_expansion,
 // add_char_to_str, in_closed_quotes
