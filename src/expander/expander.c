@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 14:14:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 21:39:42 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/03/01 16:17:15 by fyuzhyk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static char	**expander_copy_argv(char **argv);
 static char	*expander_eval_char(char *result, char *arg, int *i, int *result_i);
 
 /**
- * It takes an array of strings, expands each string, 
+ * It takes an array of strings, expands each string,
  * and returns a new array of strings
- * 
- * @param argv The original argument vector.
+ *
+ * @param argv The original argument string.
  * 
  * @return A new array of strings with the expanded strings.
  */
@@ -58,9 +58,9 @@ char	**expander(char **argv)
 
 /**
  * It takes a string, and returns a string with all the spaces removed
- * 
+ *
  * @param arg the string to be expanded
- * 
+ *
  * @return A string with all the spaces removed.
  */
 char	*expander_expand_str(char *arg)
@@ -78,14 +78,14 @@ char	*expander_expand_str(char *arg)
 }
 
 /**
- * It takes a string, a character, and two integers, 
+ * It takes a string, a character, and two integers,
  * and returns a string with the character added to it
- * 
+ *
  * @param result the string that is being built
  * @param c the character to add to the string
  * @param i the index of the string being parsed
  * @param result_i the index of the result string
- * 
+ *
  * @return A string with the character c added to it.
  */
 char	*expander_char_to_str(char *result, char c, int *i, int *result_i)
@@ -108,9 +108,9 @@ char	*expander_char_to_str(char *result, char c, int *i, int *result_i)
 
 /**
  * It copies the array of strings pointed to by argv into a new array of strings
- * 
+ *
  * @param argv The array of arguments passed to the program.
- * 
+ *
  * @return A copy of the argv array.
  */
 static char	**expander_copy_argv(char **argv)
@@ -137,12 +137,12 @@ static char	**expander_copy_argv(char **argv)
 /**
  * It handles the expansion of
  * the argument passed to it
- * 
+ *
  * @param result the string that will be returned
  * @param arg the string to be evaluated
  * @param i the index of the current character in the argument
  * @param result_i the index of the result string
- * 
+ *
  * @return A string
  */
 static char	*expander_eval_char(char *result, char *arg, int *i, int *result_i)
