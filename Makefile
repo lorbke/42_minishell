@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/03/01 01:33:10 by lorbke           ###   ########.fr        #
+#    Updated: 2023/03/01 01:37:16 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,12 +29,6 @@ AR := ar rcs
 RM := rm -f
 ADD_FLAGS := #-g -fsanitize=address,undefined
 CFLAGS := -Wall -Wextra -Werror
-
-# leak sanitizer
-LEAKFLAGS := -Wno-gnu-include-next
-LEAK_PATH := /Users/lorbke/Coding/TOOLS/LeakSanitizer
-LEAK_LINK := -L$(LEAK_PATH) -llsan -lc++
-LEAK := $(LEAKFLAGS) $(LEAK_LINK)
 
 # library macros
 LIB_PATH := lib
@@ -108,9 +102,5 @@ fclean: clean
 	@echo -e "$(RED)make: minishell cleaned!$(RESET)"
 
 re: fclean all
-
-leak: CFLAGS += $(LEAK)
-leak: clean all
-	@$(MAKE) clean
 
 .PHONY: all clean fclean re
