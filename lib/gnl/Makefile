@@ -3,44 +3,56 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
+#    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/18 18:44:15 by fyuzhyk           #+#    #+#              #
-#    Updated: 2023/02/28 22:45:44 by lorbke           ###   ########.fr        #
+#    Updated: 2023/03/01 16:07:34 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # SHELL macro
-SHELL := /bin/bash
+SHELL  := /bin/bash
 
 # colors
-RED := \033[0;31m
-GREEN := \033[0;32m
+RED    := \033[0;31m
+GREEN  := \033[0;32m
 YELLOW := \033[0;33m
-BLUE := \033[0;34m
-RESET := \033[0m
+BLUE   := \033[0;34m
+RESET  := \033[0m
 
 # name macro
-NAME := libgnl.a
+NAME   := libgnl.a
 
 # command macros
-CC := cc
-AR := ar rcs
-RM := rm -f
+CC        := cc
+AR        := ar rcs
+RM        := rm -f
 ADD_FLAGS := #-g -fsanitize=address,undefined
-FLAGS := -Wall -Wextra -Werror
+CFLAGS    := -Wall -Wextra -Werror
 
 # header macros
-LFT_INC := ../libft
-
-# src and obj files macros
-OBJ_PATH := obj
-SRC_PATH := src
-SRC := $(wildcard $(SRC_PATH)/*.c)
-OBJ := $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
+LFT_INC   := ../libft
 
 # VPATH
-VPATH := $(SRC_PATH)
+VPATH     := src
+
+# src and obj files macros
+SRC_PATH  := src
+OBJ_PATH  := obj
+SRC       := get_next_line.c get_next_line_utils.c
+OBJ       := $(SRC:%.c=$(OBJ_PATH)/%.o)
+
+###################################
+#	SYSTEM SPECIFIC SETTINGS	  #
+###################################
+
+ifeq ($(shell uname -s), Linux)
+	CFLAGS += -D LINUX -Wno-unused-result
+endif
+
+###################################
+#	RULES						  #
+###################################
 
 # file targets
 $(NAME): $(OBJ_PATH) $(OBJ)
