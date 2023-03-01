@@ -6,12 +6,12 @@
 #    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/12 16:30:49 by lorbke            #+#    #+#              #
-#    Updated: 2023/03/01 16:10:54 by fyuzhyk          ###   ########.fr        #
+#    Updated: 2023/03/01 16:12:27 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # SHELL macro
-SHELL := /bin/bash
+SHELL  := /bin/bash
 
 # colors
 RED    := \033[0;31m
@@ -21,7 +21,7 @@ BLUE   := \033[0;34m
 RESET  := \033[0m
 
 # name macro
-NAME := libft.a
+NAME   := libft.a
 
 # command macros
 CC        := cc

@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 17:12:53 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/26 17:15:44 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/03/01 00:13:53 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../executer/private_executer.h" // t_cmd_table
 #include "lexer.h" // lexer functions
 #include "parser.h" // parser functions
+#include "libft.h" // ft_strlen
 #include <stdio.h> // printf
 #include <string.h> // strlen
 #include <termios.h> // termios struct
@@ -34,7 +35,8 @@ void	print_tokstack(t_stack *head)
 	printf("ident: ");
 	while (temp)
 	{
-		printf("[ %*i ]->", (int)strlen(temp->token->word), temp->token->desc);
+		printf("[ %*i ]->",
+			(int)ft_strlen(temp->token->word), temp->token->desc);
 		temp = temp->next;
 	}
 }

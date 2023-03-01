@@ -6,7 +6,7 @@
 #    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/03/01 16:10:23 by fyuzhyk          ###   ########.fr        #
+#    Updated: 2023/03/01 16:12:57 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -155,20 +155,5 @@ fclean: clean
 	@echo -e "$(RED)make: minishell cleaned!$(RESET)"
 
 re: fclean all
-
-leak: CFLAGS += $(LEAK)
-leak: clean all
-	@$(MAKE) clean
-
-test:
-	@rm -f tester
-	@$(MAKE) -C $(GCOLL_PATH)
-	@$(MAKE) -C $(LFT_PATH)
-	@$(MAKE) -C $(LEXER_PATH)
-	@$(MAKE) -C $(PARSER_PATH)
-	@$(MAKE) -C $(ENV_PATH)
-	@$(MAKE) -C $(GNL_PATH)
-	$(CC) -g tester_gc.c -I$(GCOLL_PATH) -I$(SRC_PATH) -I$(LFT_PATH) \
-	-I$(LEXER_PATH) -I$(PARSER_PATH) -I$(ENV_PATH) -I$(GNL_PATH) $(GCOLL_LINK) $(LFT_LINK) $(LEXER_LINK) $(PARSER_LINK) $(ENV_LINK) $(GNL_LINK) -l$(RDLN_LIB) -o tester
 
 .PHONY: all clean fclean re
