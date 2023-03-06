@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:47:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/03/01 00:28:23 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/03/04 20:42:44 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,8 @@ char	*tilde_expansion(char *result, char *arg, int *i, int *result_i)
  */
 char	*add_expanded_var(char *result, char *var, int *result_i)
 {
-	int		i;
 	char	*arg;
 
-	i = 0;
 	if (result == NULL)
 		arg = ft_strdup(var);
 	else

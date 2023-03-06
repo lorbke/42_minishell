@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 00:27:27 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 21:38:31 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/03/06 14:40:58 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@
 #include <readline/readline.h> // readline
 #include <stdlib.h> // malloc, free
 #include <unistd.h> // write, read, pipe, fork
+#include <sys/wait.h> // waitpid
 
+#define DOC_ARG_MAX 262144
 #define DOC_PROMPT "> "
 
 /**
@@ -137,10 +139,10 @@ static char	*case_parent(pid_t pid, int fd_pipe[2], t_status *exit_status)
 		*exit_status = ERR_SUCCESS;
 	if (!isatty(STDIN_FILENO))
 		empty_fd(STDIN_FILENO);
-	doc = ft_calloc(sizeof(char), ARG_MAX + 1);
+	doc = ft_calloc(sizeof(char), DOC_ARG_MAX + 1);
 	if (!doc)
 		ft_perror_and_exit("case_parent: ft_calloc: malloc:");
-	read(fd_pipe[0], doc, ARG_MAX);
+	read(fd_pipe[0], doc, DOC_ARG_MAX);
 	close(fd_pipe[0]);
 	return (doc);
 }

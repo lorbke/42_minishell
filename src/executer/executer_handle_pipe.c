@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 15:29:17 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 21:24:33 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/03/04 20:37:43 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ t_cmd_table	*handle_pipe(t_ast *ast)
 	t_cmd_table	*cmd_table_l;
 	t_cmd_table	*cmd_table_r;
 	int			fd_pipe[2];
-	pid_t		pid_l;
 
 	debug_message("handling pipeline..........\n", 1);
 	cmd_table_l = g_func_handle_arr[ast->left->token->desc](ast->left);
@@ -64,7 +63,7 @@ t_cmd_table	*handle_pipe(t_ast *ast)
 	if (cmd_table_l)
 	{
 		set_fd(&cmd_table_l->fd_out, fd_pipe[1]);
-		pid_l = exec_cmd(cmd_table_l, fd_pipe[0]);
+		exec_cmd(cmd_table_l, fd_pipe[0]);
 	}
 	else
 		close(fd_pipe[1]);

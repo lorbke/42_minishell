@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 18:13:32 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/02/28 20:32:09 by fyuzhyk          ###   ########.fr       */
+/*   Updated: 2023/03/04 20:24:11 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,9 @@ static void	print_sorted_list(t_sym_tab *head)
 
 static void	insertion_sort(t_sym_tab **head, t_sym_tab *node)
 {
-	int			i;
 	t_sym_tab	*temp;
 	t_sym_tab	*current;
 
-	i = 0;
 	temp = env_copy_node(node);
 	if (temp == NULL)
 		return ;
