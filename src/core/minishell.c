@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:50:40 by lorbke            #+#    #+#             */
-/*   Updated: 2023/02/28 21:38:24 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/03/08 18:56:35 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,6 @@
 #include <stdbool.h> // bool
 
 /**
- * It returns true if the string is empty, false otherwise
- * 
- * @param str The string to check.
- * 
- * @return The function is_empty_str() returns true if the string is empty,
- * false otherwise.
- */
-static bool	is_empty_str(char *str)
-{
-	while (*str)
-	{
-		if (!ft_isspace(*str))
-			return (false);
-		str++;
-	}
-	return (true);
-}
-
-/**
  * It reads a line from the user,
  * digests it, and then adds it to the history
  */
@@ -68,8 +49,7 @@ void	interactive_mode(void)
 		{
 			line = ms_digest_input(line);
 			gc_free_all_garbage();
-			if (!is_empty_str(line))
-				add_history(line);
+			add_history(line);
 		}
 		free(line);
 	}
