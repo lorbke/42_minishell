@@ -6,7 +6,7 @@
 /*   By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:47:22 by fyuzhyk           #+#    #+#             */
-/*   Updated: 2023/03/04 20:42:44 by lorbke           ###   ########.fr       */
+/*   Updated: 2023/03/09 13:28:42 by lorbke           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char	*tilde_expansion(char *result, char *arg, int *i, int *result_i)
 	}
 	else
 		expanded_home = expander_char_to_str(result, '~', &(*i), &(*result_i));
+	free(home);
 	return (expanded_home);
 }
 
