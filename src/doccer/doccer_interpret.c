@@ -78,8 +78,9 @@ static void	get_tail_stack(
 	{
 		temp_str = *input;
 		*input = ft_strjoin(*input, doc);
+		temp_str2 = doc;
 		tokstack->next->next = doccer_get_complete_tokstack(&doc, exit_status);
-		free(doc);
+		free(temp_str2);
 		return ;
 	}
 	temp_str2 = tokstack->next->token->word;
@@ -87,10 +88,11 @@ static void	get_tail_stack(
 	temp_str = ft_strjoin(tokstack->next->token->word, doc);
 	lexer_free_token(tokstack->next->token);
 	free(tokstack->next);
+	temp_str2 = temp_str;
 	tokstack->next = doccer_get_complete_tokstack(&temp_str, exit_status);
 	temp_str += len;
-	temp_str2 = *input;
 	*input = ft_strjoin(*input, temp_str);
+	free(temp_str2);
 	free(doc);
 }
 

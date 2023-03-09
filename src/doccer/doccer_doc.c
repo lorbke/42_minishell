@@ -140,7 +140,7 @@ static char	*case_parent(pid_t pid, int fd_pipe[2], t_status *exit_status)
 	if (!isatty(STDIN_FILENO))
 		empty_fd(STDIN_FILENO);
 	doc = ft_calloc(sizeof(char), DOC_ARG_MAX + 1);
-	if (!doc)
+	if (doc == NULL)
 		ft_perror_and_exit("case_parent: ft_calloc: malloc:");
 	read(fd_pipe[0], doc, DOC_ARG_MAX);
 	close(fd_pipe[0]);
