@@ -17,7 +17,7 @@
 # include <sys/types.h> // pid_t
 
 # define SHELL_NAME "minishell"
-# define PROMPT "mini🐚~ "
+# define PROMPT "minishell> "
 # define CMD_SEPS " \t\n\r"
 # define CMD_ESCS "\'\"()"
 
