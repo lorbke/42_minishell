@@ -6,7 +6,7 @@
 #    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/18 13:54:25 by lorbke            #+#    #+#              #
-#    Updated: 2023/03/01 16:12:43 by fyuzhyk          ###   ########.fr        #
+#    Updated: 2023/03/11 19:57:44 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ $(OBJ_PATH):
 
 $(OBJ_PATH)/%.o: %.c Makefile garbage_collector.h
 	@echo -e -n "$(YELLOW)Compiling: $(RESET)"
-	$(CC) $(FLAGS) $(ADD_FLAGS) -I. -c $< -o $@
+	$(CC) $(CFLAGS) $(ADD_FLAGS) -I. -c $< -o $@
 
 # phony targets
 all: $(NAME)

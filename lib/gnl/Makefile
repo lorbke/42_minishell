@@ -6,7 +6,7 @@
 #    By: fyuzhyk <fyuzhyk@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/18 18:44:15 by fyuzhyk           #+#    #+#              #
-#    Updated: 2023/03/01 16:12:37 by fyuzhyk          ###   ########.fr        #
+#    Updated: 2023/03/11 19:57:51 by fyuzhyk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,7 @@ $(OBJ_PATH):
 
 $(OBJ_PATH)/%.o: %.c Makefile get_next_line.h
 	@echo -e -n "$(YELLOW)Compiling: $(RESET)"
-	$(CC) $(FLAGS) $(ADD_FLAGS) -I$(LFT_INC) -I. -c $< -o $@
+	$(CC) $(CFLAGS) $(ADD_FLAGS) -I$(LFT_INC) -I. -c $< -o $@
 
 # phony targets
 all: $(NAME)
