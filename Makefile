@@ -6,7 +6,7 @@
 #    By: lorbke <lorbke@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/09 16:41:09 by lorbke            #+#    #+#              #
-#    Updated: 2023/03/04 21:02:47 by lorbke           ###   ########.fr        #
+#    Updated: 2023/03/11 20:33:36 by lorbke           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ RESET	:= \033[0m
 NAME	:= minishell
 
 # command macros
-CC			:= gcc
+CC			:= cc
 AR			:= ar rcs
 RM			:= rm -f
 CFLAGS		:= -Wall -Wextra -Werror
